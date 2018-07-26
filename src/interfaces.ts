@@ -11,3 +11,20 @@ export interface Sveltei18n {
   upper: TranslationGetter
   lower: TranslationGetter
 }
+export interface SvelteEventListener {
+  cancel(): void
+}
+
+export interface SvelteStore {
+  on: (event: string, callback: Function) => SvelteEventListener
+  set: (newState: Object) => void
+  fire: (event: string, value: any) => void
+  [prop: string]: any
+}
+
+export interface Locale {
+  [id: string | number]: string
+}
+export interface Locales {
+  [locale: string]: Locale
+}
