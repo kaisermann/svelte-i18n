@@ -7,7 +7,10 @@ const locales = {
   'pt-br': {
     test: 'teste',
     phrase: 'Adoro banana',
-    phrases: ['Frase 1', 'Frase 2']
+    phrases: ['Frase 1', 'Frase 2'],
+    obj: {
+      a: 'a'
+    }
   },
   po: {
     test: 'prøve',
@@ -16,7 +19,16 @@ const locales = {
   }
 }
 
-i18n(store, locales)
+i18n(store, [
+  locales,
+  {
+    'pt-br': {
+      obj: {
+        b: 'b'
+      }
+    }
+  }
+])
 
 /**
  * Dummy test
@@ -38,6 +50,7 @@ describe('Dummy test', () => {
     expect(store.get()._).toBeInstanceOf(Function)
     expect(store.get()._('non-existent')).toBe('non-existent')
     expect(store.get()._('test')).toBe(locales['pt-br'].test)
+    expect(store.get()._('obj.b')).toBe('b')
     store.fire('locale', 'po')
     expect(store.get()._('test')).not.toBe(locales['pt-br'].test)
     expect(store.get()._('test')).toBe(locales.po.test)

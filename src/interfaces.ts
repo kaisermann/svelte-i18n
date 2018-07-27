@@ -22,9 +22,9 @@ export interface SvelteStore {
   [prop: string]: any
 }
 
-export interface Locale {
-  [id: string | number]: string
+export interface LocaleDictionary {
+  [id: string]: string | Array<string> | LocaleDictionary
 }
 export interface Locales {
-  [locale: string]: Locale
+  [locale: string]: LocaleDictionary
 }

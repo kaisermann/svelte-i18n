@@ -1,10 +1,13 @@
-import { InterpolationObj, Sveltei18n, SvelteStore, Locale, Locales } from './interfaces'
+import { InterpolationObj, Sveltei18n, SvelteStore, LocaleDictionary, Locales } from './interfaces'
 import { capitalize, titlelize, upper, lower, getNestedProp } from './utils'
+import deepmerge from 'deepmerge'
 
-export default function(store: SvelteStore, locales: Locales) {
+export default function(store: SvelteStore, localesList: Array<Locales>) {
+  const locales: Locales = deepmerge.all(localesList)
+
   store.locale = (locale: string) => store.fire('locale', locale)
   store.on('locale', function(locale: string) {
-    const localeDict: Locale = locales[locale]
+    const localeDict: LocaleDictionary = locales[locale]
     const _ = <Sveltei18n>function(id, values) {
       return getNestedProp(localeDict, id) || id
     }
