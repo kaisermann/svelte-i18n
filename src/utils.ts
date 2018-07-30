@@ -3,16 +3,13 @@ export const titlelize = (str: string) => str.replace(/(^|\s)\S/g, l => l.toUppe
 export const upper = (str: string) => str.toLocaleUpperCase()
 export const lower = (str: string) => str.toLocaleLowerCase()
 
-export const getNestedProp = (obj: { [prop: string]: any }, path: string) => {
-  try {
-    return path
-      .replace('[', '.')
-      .replace(']', '')
-      .split('.')
-      .reduce(function(o, property) {
-        return o[property]
-      }, obj)
-  } catch (err) {
-    return undefined
+export const isObject = (obj: any) => obj !== null && typeof obj === 'object'
+
+export function warn(msg: string, err?: Error): void {
+  if (typeof console !== 'undefined') {
+    console.warn(`[svelte-i18n] ${msg}`)
+    if (err) {
+      console.warn(err.stack)
+    }
   }
 }

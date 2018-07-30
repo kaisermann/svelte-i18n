@@ -111,6 +111,7 @@
     "validate-commit-msg": "^2.12.2"
   },
   "dependencies": {
-    "deepmerge": "^2.1.1"
+    "deepmerge": "^2.1.1",
+    "object-resolve-path": "^1.1.1"
   }
 }
