@@ -1,6 +1,6 @@
-import i18n from '../src/svelte-i18n'
+import { i18n } from '../src/svelte-i18n'
 import { Store } from 'svelte/store.umd'
-import { capitalize, titlelize, upper, lower, isObject } from '../src/utils'
+import { capital, title, upper, lower, isObject } from '../src/utils'
 
 const store = new Store()
 const locales = {
@@ -8,6 +8,7 @@ const locales = {
     test: 'teste',
     phrase: 'adoro banana',
     phrases: ['Frase 1', 'Frase 2'],
+    pluralization: 'Zero | Um | Muito!',
     interpolation: {
       key: 'Olá, {0}! Como está {1}?',
       named: 'Olá, {name}! Como está {time}?'
@@ -117,34 +118,46 @@ describe('Localization', () => {
       })
     ).toBe('Olá, Chris! Como está o dia?')
   })
+
+  it('should handle pluralization with _.plural()', () => {
+    store.setLocale('pt-br')
+    const { locale, _ } = store.get()
+
+    expect(_.plural('pluralization', 0)).toBe('Zero')
+    expect(_.plural('pluralization', 1)).toBe('Um')
+    expect(_.plural('pluralization', -1)).toBe('Um')
+    expect(_.plural('pluralization', -1000)).toBe('Muito!')
+    expect(_.plural('pluralization', 2)).toBe('Muito!')
+    expect(_.plural('pluralization', 100)).toBe('Muito!')
+  })
 })
 
 describe('Localization utilities', () => {
-  it('should capitalize a translated message', () => {
+  it('should capital a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(_.capitalize('phrase')).toBe('Adoro banana')
+    expect(capital(_('phrase'))).toBe('Adoro banana')
   })
 
-  it('should titlelize a translated message', () => {
+  it('should title a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(_.titlelize('phrase')).toBe('Adoro Banana')
+    expect(title(_('phrase'))).toBe('Adoro Banana')
   })
 
   it('should lowercase a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(_.lower('phrase')).toBe('adoro banana')
+    expect(lower(_('phrase'))).toBe('adoro banana')
   })
 
   it('should uppercase a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(_.upper('phrase')).toBe('ADORO BANANA')
+    expect(upper(_('phrase'))).toBe('ADORO BANANA')
   })
 })

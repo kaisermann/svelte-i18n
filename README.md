@@ -53,10 +53,23 @@ i18n(store, [
 ### On `templates`
 
 ```html
+
 <div>
-  {$_('message')}: {$_.upper('messages.success')}
+  {$_('message')}: {upper($_('messages.success'))}
 </div>
 
-<!-- Will render for en-US -->
+<script>
+  import { upper } from 'svelte-i18n';
+  export default {
+    helpers: {
+      upper,
+    }
+  }
+</script>
+```
+
+Renders:
+
+```html
 Message: SUCCESS
 ```

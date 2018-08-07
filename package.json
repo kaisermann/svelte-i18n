@@ -1,114 +1,34 @@
 {
   "name": "svelte-i18n",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
-  "main": "dist/svelte-i18n.umd.js",
-  "module": "dist/svelte-i18n.es5.js",
-  "typings": "dist/types/svelte-i18n.d.ts",
-  "files": [
-    "dist"
-  ],
-  "author": "Christian Kaisermann <christian@kaisermann.me>",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
   "license": "MIT",
-  "engines": {
-    "node": ">=6.0.0"
-  },
+  "main": "dist/i18n.js",
+  "types": "src/index.d.ts",
+  "description": "",
+  "author": "Christian Kaisermann <christian@kaisermann.me>",
+  "repository": "https://github.com/kaisermann",
+  "keywords": [],
   "scripts": {
-    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
-    "start": "rollup -c rollup.config.ts -w",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
-    "deploy-docs": "ts-node tools/gh-pages-publish",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "commit": "git-cz",
-    "semantic-release": "semantic-release",
-    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "{src,test}/**/*.ts": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    },
-    "validate-commit-msg": {
-      "types": "conventional-commit-types",
-      "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
-    }
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
-      }
-    },
-    "collectCoverage": true
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
+    "build": "microbundle --name='svelte-i18n'",
+    "start": "microbundle watch --name='svelte-i18n'",
+    "test": "jest --no-cache --verbose",
+    "test:watch": "jest --no-cache --verbose --watchAll",
+    "lint": "eslint \"*.js\" \"src/**/*.js\"",
+    "format": "prettier --loglevel silent --write \"*.js\" \"src/**/*.js\" && eslint --fix \"*.js\" \"src/**/*.js\"",
+    "prepublishOnly": "npm run format && npm run test"
   },
   "devDependencies": {
-    "@types/deepmerge": "^2.1.0",
-    "@types/jest": "^22.0.0",
-    "@types/node": "^10.0.3",
-    "colors": "^1.1.2",
-    "commitizen": "^2.9.6",
-    "coveralls": "^3.0.0",
-    "cross-env": "^5.0.1",
-    "cz-conventional-changelog": "^2.0.0",
-    "husky": "^0.14.0",
-    "jest": "^22.0.2",
-    "lint-staged": "^7.1.3",
-    "lodash.camelcase": "^4.3.0",
-    "prettier": "^1.13.4",
-    "prompt": "^1.0.0",
-    "replace-in-file": "^3.0.0-beta.2",
-    "rimraf": "^2.6.1",
-    "rollup": "^0.59.2",
-    "rollup-plugin-commonjs": "^9.0.0",
-    "rollup-plugin-json": "^3.0.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.11.1",
-    "semantic-release": "^15.0.0",
-    "svelte": "^2.9.7",
-    "ts-jest": "^22.0.0",
-    "ts-node": "^6.0.0",
-    "tslint": "^5.8.0",
-    "tslint-config-prettier": "^1.1.0",
-    "tslint-config-standard": "^7.0.0",
-    "typedoc": "^0.11.0",
-    "typescript": "^2.6.2",
-    "validate-commit-msg": "^2.12.2"
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "jest": "^22.4.3",
+    "microbundle": "^0.4.4",
+    "prettier": "^1.12.1"
   },
   "dependencies": {
     "deepmerge": "^2.1.1",

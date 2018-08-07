@@ -4,27 +4,20 @@
  **/
 import { isObject, warn } from './utils'
 
-const RE_TOKEN_LIST_VALUE: RegExp = /^(\d)+/
-const RE_TOKEN_NAMED_VALUE: RegExp = /^(\w)+/
-
-type Token = {
-  type: 'text' | 'named' | 'list' | 'unknown'
-  value: string
-}
+const RE_TOKEN_LIST_VALUE = /^(\d)+/
+const RE_TOKEN_NAMED_VALUE = /^(\w)+/
 
 export default class Formatter {
-  _caches: { [key: string]: Array<Token> }
-
   constructor() {
     this._caches = Object.create(null)
   }
 
-  interpolate(message: string, values: any): Array<any> {
+  interpolate(message, values) {
     if (!values) {
       return [message]
     }
 
-    let tokens: Array<Token> = this._caches[message]
+    let tokens = this._caches[message]
     if (!tokens) {
       tokens = parse(message)
       this._caches[message] = tokens
@@ -35,13 +28,13 @@ export default class Formatter {
 }
 
 /** Parse a identification string into cached Tokens */
-export function parse(format: string): Array<Token> {
-  const tokens: Array<Token> = []
-  let position: number = 0
-  let currentText: string = ''
+export function parse(format){
+  const tokens = []
+  let position = 0
+  let currentText = ''
 
   while (position < format.length) {
-    let char: string = format[position++]
+    let char = format[position++]
 
     /** If found any character that's not a '{' (does not include '\{'), assume text */
     if (char !== '{' || (position > 0 && char[position - 1] === '\\')) {
@@ -56,7 +49,7 @@ export function parse(format: string): Array<Token> {
       currentText = ''
 
       /** Key name */
-      let namedKey: string = ''
+      let namedKey = ''
       char = format[position++]
 
       while (char !== '}') {
@@ -82,18 +75,18 @@ export function parse(format: string): Array<Token> {
   return tokens
 }
 
-export function compile(tokens: Array<Token>, values: { [id: string]: any }): Array<any> {
-  const compiled: Array<any> = []
-  let index: number = 0
+export function compile(tokens, values) {
+  const compiled = []
+  let index  = 0
 
-  const mode: string = Array.isArray(values) ? 'list' : isObject(values) ? 'named' : 'unknown'
+  const mode = Array.isArray(values) ? 'list' : isObject(values) ? 'named' : 'unknown'
 
   if (mode === 'unknown') {
     return compiled
   }
 
   while (index < tokens.length) {
-    const token: Token = tokens[index++]
+    const token = tokens[index++]
     switch (token.type) {
       case 'text':
         compiled.push(token.value)
