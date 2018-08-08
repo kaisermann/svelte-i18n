@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/i18n.js",
   "types": "src/index.d.ts",
@@ -13,9 +13,9 @@
     "start": "microbundle watch --name='svelte-i18n'",
     "test": "jest --no-cache --verbose",
     "test:watch": "jest --no-cache --verbose --watchAll",
-    "lint": "eslint \"*.js\" \"src/**/*.js\"",
-    "format": "prettier --loglevel silent --write \"*.js\" \"src/**/*.js\" && eslint --fix \"*.js\" \"src/**/*.js\"",
-    "prepublishOnly": "npm run format && npm run test"
+    "lint": "eslint \"src/**/*.js\"",
+    "format": "prettier --loglevel silent --write \"src/**/*.js\" && eslint --fix \"src/**/*.js\"",
+    "prepublishOnly": "npm run format && npm run test && npm run build"
   },
   "jest": {
     "verbose": true,
@@ -29,7 +29,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/test/"
+      "/test/",
+      "/src/formatter.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -43,26 +44,26 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.56",
+    "@babel/preset-env": "^7.0.0-beta.56",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
-    "eslint": "^4.19.1",
+    "eslint": "^5.3.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "jest": "^22.4.3",
-    "microbundle": "^0.4.4",
-    "prettier": "^1.12.1",
-    "svelte": "^2.9.10"
+    "jest": "^23.4.2",
+    "microbundle": "^0.6.0",
+    "prettier": "^1.14.1",
+    "svelte": "^2.9.11"
   },
   "peerDependencies": {
-    "svelte": "^2.9.10"
+    "svelte": "^2.9.11"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.0.0-beta.56",
     "deepmerge": "^2.1.1",
     "object-resolve-path": "^1.1.1"
   }

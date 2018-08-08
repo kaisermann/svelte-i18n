@@ -1,6 +1,8 @@
+// TODO: A more serious test
+
 import { i18n } from '../src/index'
 import { Store } from 'svelte/store.umd'
-import { capital, title, upper, lower, isObject } from '../src/utils'
+import { capital, title, upper, lower, isObject, warn } from '../src/utils'
 
 const store = new Store()
 const locales = {
@@ -11,31 +13,23 @@ const locales = {
     pluralization: 'Zero | Um | Muito!',
     interpolation: {
       key: 'Olá, {0}! Como está {1}?',
-      named: 'Olá, {name}! Como está {time}?'
+      named: 'Olá, {name}! Como está {time}?',
     },
     wow: {
       much: {
         deep: {
-          list: ['Muito', 'muito profundo']
-        }
-      }
+          list: ['Muito', 'muito profundo'],
+        },
+      },
     },
     obj: {
-      a: 'a'
-    }
-  }
+      a: 'a',
+      b: 'b',
+    },
+  },
 }
 
-i18n(store, [
-  locales,
-  {
-    'pt-br': {
-      obj: {
-        b: 'b'
-      }
-    }
-  }
-])
+i18n(store, { dictionary: locales })
 
 /**
  * Dummy test
@@ -62,18 +56,18 @@ describe('Localization', () => {
     expect(_).toBeInstanceOf(Function)
   })
 
-  it('should have a .setLocale() method', () => {
-    expect(store.setLocale).toBeInstanceOf(Function)
+  it('should have a .i18n.setLocale() method', () => {
+    expect(store.i18n.setLocale).toBeInstanceOf(Function)
 
-    store.setLocale('pt-br')
+    store.i18n.setLocale('pt-br')
     const { locale } = store.get()
 
     expect(locale).toBe('pt-br')
   })
 
   it('should return the message id when no message identified by it was found', () => {
-    store.setLocale('pt-br')
-    const { locale, _ } = store.get()
+    store.i18n.setLocale('pt-br')
+    const { _ } = store.get()
 
     expect(_('non.existent')).toBe('non.existent')
   })
@@ -84,15 +78,15 @@ describe('Localization', () => {
   })
 
   it('should get a deep nested message by its string path', () => {
-    store.setLocale('pt-br')
-    const { locale, _ } = store.get()
+    store.i18n.setLocale('pt-br')
+    const { _ } = store.get()
 
     expect(_('obj.b')).toBe('b')
   })
 
   it('should get a message within an array by its index', () => {
-    store.setLocale('pt-br')
-    const { locale, _ } = store.get()
+    store.i18n.setLocale('pt-br')
+    const { _ } = store.get()
 
     expect(_('phrases[1]')).toBe(locales['pt-br'].phrases[1])
 
@@ -101,28 +95,31 @@ describe('Localization', () => {
   })
 
   it('should interpolate with {numeric} placeholders', () => {
-    store.setLocale('pt-br')
-    const { locale, _ } = store.get()
+    store.i18n.setLocale('pt-br')
+    const { _ } = store.get()
 
-    expect(_('interpolation.key', ['Chris', 'o dia'])).toBe('Olá, Chris! Como está o dia?')
+    expect(_('interpolation.key', ['Chris', 'o dia'])).toBe(
+      'Olá, Chris! Como está o dia?',
+    )
   })
 
   it('should interpolate with {named} placeholders', () => {
-    store.setLocale('pt-br')
-    const { locale, _ } = store.get()
+    store.i18n.setLocale('pt-br')
+    const { _ } = store.get()
 
     expect(
       _('interpolation.named', {
         name: 'Chris',
-        time: 'o dia'
-      })
+        time: 'o dia',
+      }),
     ).toBe('Olá, Chris! Como está o dia?')
   })
 
   it('should handle pluralization with _.plural()', () => {
-    store.setLocale('pt-br')
-    const { locale, _ } = store.get()
+    store.i18n.setLocale('pt-br')
+    const { _ } = store.get()
 
+    expect(_.plural('pluralization')).toBe('Zero')
     expect(_.plural('pluralization', 0)).toBe('Zero')
     expect(_.plural('pluralization', 1)).toBe('Um')
     expect(_.plural('pluralization', -1)).toBe('Um')
@@ -134,7 +131,7 @@ describe('Localization', () => {
 
 describe('Localization utilities', () => {
   it('should capital a translated message', () => {
-    store.setLocale('pt-br')
+    store.i18n.setLocale('pt-br')
     const { _ } = store.get()
 
     expect(capital('Adoro banana')).toBe('Adoro banana')
@@ -142,7 +139,7 @@ describe('Localization utilities', () => {
   })
 
   it('should title a translated message', () => {
-    store.setLocale('pt-br')
+    store.i18n.setLocale('pt-br')
     const { _ } = store.get()
 
     expect(title('Adoro Banana')).toBe('Adoro Banana')
@@ -150,7 +147,7 @@ describe('Localization utilities', () => {
   })
 
   it('should lowercase a translated message', () => {
-    store.setLocale('pt-br')
+    store.i18n.setLocale('pt-br')
     const { _ } = store.get()
 
     expect(lower('adoro banana')).toBe('adoro banana')
@@ -158,7 +155,7 @@ describe('Localization utilities', () => {
   })
 
   it('should uppercase a translated message', () => {
-    store.setLocale('pt-br')
+    store.i18n.setLocale('pt-br')
     const { _ } = store.get()
 
     expect(upper('ADORO BANANA')).toBe('ADORO BANANA')

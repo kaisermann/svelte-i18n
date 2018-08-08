@@ -1,12 +1,11 @@
-
+import deepmerge from 'deepmerge'
+import resolvePath from 'object-resolve-path'
 import { capital, title, upper, lower } from './utils'
 import Formatter from './formatter'
 
-const resolvePath = a => a
-
-export function i18n(store, localesList) {
+export function i18n(store, { dictionary }) {
   const formatter = new Formatter()
-  const locales = {} // deepmerge.all(localesList)
+  let dictionaries = {}
   let currentLocale
 
   const getLocalizedMessage = (
@@ -15,7 +14,7 @@ export function i18n(store, localesList) {
     locale = currentLocale,
     transformers = undefined,
   ) => {
-    let message = resolvePath(locales[locale], path)
+    let message = resolvePath(dictionaries[locale], path)
 
     if (!message) return path
 
@@ -47,17 +46,32 @@ export function i18n(store, localesList) {
     },
     plural(path, counter, interpolations, locale) {
       return getLocalizedMessage(path, interpolations, locale, [
-        message => message.split('|')[Math.min(Math.abs(counter), 2)],
+        message => {
+          const choice =
+            typeof counter === 'number' ? Math.min(Math.abs(counter), 2) : 0
+          return message.split('|')[choice]
+        },
       ])
     },
   }
 
-  store.setLocale = locale => store.fire('locale', locale)
+  store.i18n = {
+    setLocale(locale) {
+      store.fire('locale', locale)
+    },
+    extendDictionary(...list) {
+      dictionaries = deepmerge.all([dictionaries, ...list])
+    },
+  }
+
+  store.i18n.extendDictionary(dictionary)
+
   store.on('locale', newLocale => {
     currentLocale = newLocale
     const _ = getLocalizedMessage
 
     Object.assign(_, utilities)
+
     store.set({ locale: newLocale, _ })
   })
 

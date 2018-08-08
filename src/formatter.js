@@ -1,8 +1,9 @@
+/* istanbul ignore */
 /**
  * Adapted from 'https://github.com/kazupon/vue-i18n/blob/dev/src/format.js'
  * Copyright (c) 2016 kazuya kawaguchi
  **/
-import { isObject, warn } from './utils'
+import { isObject } from './utils'
 
 const RE_TOKEN_LIST_VALUE = /^(\d)+/
 const RE_TOKEN_NAMED_VALUE = /^(\w)+/
@@ -28,7 +29,7 @@ export default class Formatter {
 }
 
 /** Parse a identification string into cached Tokens */
-export function parse(format){
+export function parse(format) {
   const tokens = []
   let position = 0
   let currentText = ''
@@ -77,9 +78,13 @@ export function parse(format){
 
 export function compile(tokens, values) {
   const compiled = []
-  let index  = 0
+  let index = 0
 
-  const mode = Array.isArray(values) ? 'list' : isObject(values) ? 'named' : 'unknown'
+  const mode = Array.isArray(values)
+    ? 'list'
+    : isObject(values)
+      ? 'named'
+      : 'unknown'
 
   if (mode === 'unknown') {
     return compiled
@@ -99,14 +104,18 @@ export function compile(tokens, values) {
           compiled.push(values[token.value])
         } else {
           if (process.env.NODE_ENV !== 'production') {
-            warn(`Type of token '${token.type}' and format of value '${mode}' don't match!`)
+            console.warn(
+              `[svelte-i18n] Type of token '${
+                token.type
+              }' and format of value '${mode}' don't match!`,
+            )
           }
         }
         break
 
       case 'unknown':
         if (process.env.NODE_ENV !== 'production') {
-          warn(`Detect 'unknown' type of token!`)
+          console.warn(`[svelte-i18n] Detect 'unknown' type of token!`)
         }
         break
     }
