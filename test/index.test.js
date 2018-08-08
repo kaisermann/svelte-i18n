@@ -1,4 +1,4 @@
-import { i18n } from '../src/svelte-i18n'
+import { i18n } from '../src/index'
 import { Store } from 'svelte/store.umd'
 import { capital, title, upper, lower, isObject } from '../src/utils'
 
@@ -16,7 +16,7 @@ const locales = {
     wow: {
       much: {
         deep: {
-          list: [, 'muito profundo']
+          list: ['Muito', 'muito profundo']
         }
       }
     },
@@ -137,27 +137,31 @@ describe('Localization utilities', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(capital(_('phrase'))).toBe('Adoro banana')
+    expect(capital('Adoro banana')).toBe('Adoro banana')
+    expect(_.capital('phrase')).toBe('Adoro banana')
   })
 
   it('should title a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(title(_('phrase'))).toBe('Adoro Banana')
+    expect(title('Adoro Banana')).toBe('Adoro Banana')
+    expect(_.title('phrase')).toBe('Adoro Banana')
   })
 
   it('should lowercase a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(lower(_('phrase'))).toBe('adoro banana')
+    expect(lower('adoro banana')).toBe('adoro banana')
+    expect(_.lower('phrase')).toBe('adoro banana')
   })
 
   it('should uppercase a translated message', () => {
     store.setLocale('pt-br')
     const { _ } = store.get()
 
-    expect(upper(_('phrase'))).toBe('ADORO BANANA')
+    expect(upper('ADORO BANANA')).toBe('ADORO BANANA')
+    expect(_.upper('phrase')).toBe('ADORO BANANA')
   })
 })

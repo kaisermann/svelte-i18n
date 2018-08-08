@@ -1,56 +1,65 @@
-import deepmerge from 'deepmerge'
-import resolvePath from 'object-resolve-path'
 
+import { capital, title, upper, lower } from './utils'
 import Formatter from './formatter'
+
+const resolvePath = a => a
 
 export function i18n(store, localesList) {
   const formatter = new Formatter()
-  const locales = deepmerge.all(localesList)
-  let currentLocale: string
+  const locales = {} // deepmerge.all(localesList)
+  let currentLocale
 
-  const plural = (
+  const getLocalizedMessage = (
     path,
-    counter,
     interpolations,
-    locale = currentLocale
+    locale = currentLocale,
+    transformers = undefined,
   ) => {
     let message = resolvePath(locales[locale], path)
 
     if (!message) return path
 
-    const choice = Math.min(Math.abs(counter), 2)
-    message = message.split('|')[choice]
+    if (transformers) {
+      for (let i = 0, len = transformers.length; i < len; i++) {
+        message = transformers[i](message)
+      }
+    }
 
-    if (!message) return path
-
-    message = formatter.interpolate(message, interpolations).join('')
+    if (interpolations) {
+      message = formatter.interpolate(message, interpolations).join('')
+    }
 
     return message.trim()
   }
 
-  const changeLocale = (newLocale) => {
-    currentLocale = newLocale
-    const _ = (
-      function(path, interpolations, locale = currentLocale) {
-        let message = resolvePath(locales[locale], path)
-
-        if (!message) return path
-
-        message = formatter.interpolate(message, interpolations).join('')
-
-        return message
-      }
-    )
-
-    _.plural = plural
-
-    store.set({ locale: newLocale, _ })
+  const utilities = {
+    capital(...args) {
+      return capital(getLocalizedMessage(...args))
+    },
+    title(...args) {
+      return title(getLocalizedMessage(...args))
+    },
+    upper(...args) {
+      return upper(getLocalizedMessage(...args))
+    },
+    lower(...args) {
+      return lower(getLocalizedMessage(...args))
+    },
+    plural(path, counter, interpolations, locale) {
+      return getLocalizedMessage(path, interpolations, locale, [
+        message => message.split('|')[Math.min(Math.abs(counter), 2)],
+      ])
+    },
   }
 
-  store.setLocale = (locale) => store.fire('locale', locale)
-  store.on('locale', changeLocale)
+  store.setLocale = locale => store.fire('locale', locale)
+  store.on('locale', newLocale => {
+    currentLocale = newLocale
+    const _ = getLocalizedMessage
+
+    Object.assign(_, utilities)
+    store.set({ locale: newLocale, _ })
+  })
 
   return store
 }
-
-export { capital, title, upper, lower } from './utils'

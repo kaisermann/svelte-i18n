@@ -17,7 +17,34 @@
     "format": "prettier --loglevel silent --write \"*.js\" \"src/**/*.js\" && eslint --fix \"*.js\" \"src/**/*.js\"",
     "prepublishOnly": "npm run format && npm run test"
   },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testRegex": "(/test/.*|\\.(test|spec))\\.js$",
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverage": true
+  },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.56",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0",
@@ -28,9 +55,14 @@
     "eslint-plugin-standard": "^3.1.0",
     "jest": "^22.4.3",
     "microbundle": "^0.4.4",
-    "prettier": "^1.12.1"
+    "prettier": "^1.12.1",
+    "svelte": "^2.9.10"
+  },
+  "peerDependencies": {
+    "svelte": "^2.9.10"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.0.0-beta.56",
     "deepmerge": "^2.1.1",
     "object-resolve-path": "^1.1.1"
   }
