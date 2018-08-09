@@ -42,6 +42,14 @@ describe('Utilities', () => {
 })
 
 describe('Localization', () => {
+  beforeEach(() => {
+    console.error = jest.fn()
+  })
+
+  afterEach(() => {
+    console.error.mockRestore()
+  })
+
   it('should start with a clean store', () => {
     const { _, locale } = store.get()
     expect(locale).toBeFalsy()
@@ -49,10 +57,10 @@ describe('Localization', () => {
   })
 
   it('should change the locale after a "locale" store event', () => {
-    store.fire('locale', 'en')
+    store.fire('locale', 'pt-br')
     const { locale, _ } = store.get()
 
-    expect(locale).toBe('en')
+    expect(locale).toBe('pt-br')
     expect(_).toBeInstanceOf(Function)
   })
 
@@ -63,6 +71,11 @@ describe('Localization', () => {
     const { locale } = store.get()
 
     expect(locale).toBe('pt-br')
+  })
+
+  it('should handle nonexistent locale', () => {
+    expect(store.i18n.setLocale('foo'))
+    expect(console.error).toHaveBeenCalledTimes(1)
   })
 
   it('should return the message id when no message identified by it was found', () => {

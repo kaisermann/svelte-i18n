@@ -5,9 +5,9 @@ import Formatter from './formatter'
 
 export { capital, title, upper, lower }
 
-export function i18n(store, { dictionary }) {
+export function i18n(store, { dictionary: initialDictionary }) {
   const formatter = new Formatter()
-  let dictionaries = {}
+  let dictionary = {}
   let currentLocale
 
   const getLocalizedMessage = (
@@ -16,7 +16,7 @@ export function i18n(store, { dictionary }) {
     locale = currentLocale,
     transformers = undefined,
   ) => {
-    let message = resolvePath(dictionaries[locale], path)
+    let message = resolvePath(dictionary[locale], path)
 
     if (!message) return path
 
@@ -57,25 +57,33 @@ export function i18n(store, { dictionary }) {
     },
   }
 
+  store.on('locale', newLocale => {
+    if (!Object.keys(dictionary).includes(newLocale)) {
+      console.error(`[svelte-i18n] Couldn't find the "${newLocale}" locale.`)
+      return
+    }
+    currentLocale = newLocale
+    const _ = getLocalizedMessage
+
+    _.upper = utilities.upper
+    _.lower = utilities.lower
+    _.title = utilities.title
+    _.capital = utilities.capital
+    _.plural = utilities.plural
+
+    store.set({ locale: newLocale, _ })
+  })
+
   store.i18n = {
     setLocale(locale) {
       store.fire('locale', locale)
     },
     extendDictionary(...list) {
-      dictionaries = deepmerge.all([dictionaries, ...list])
+      dictionary = deepmerge.all([dictionary, ...list])
     },
   }
 
-  store.i18n.extendDictionary(dictionary)
-
-  store.on('locale', newLocale => {
-    currentLocale = newLocale
-    const _ = getLocalizedMessage
-
-    Object.assign(_, utilities)
-
-    store.set({ locale: newLocale, _ })
-  })
+  store.i18n.extendDictionary(initialDictionary)
 
   return store
 }
