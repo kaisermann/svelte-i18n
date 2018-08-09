@@ -3,6 +3,8 @@ import resolvePath from 'object-resolve-path'
 import { capital, title, upper, lower } from './utils'
 import Formatter from './formatter'
 
+export { capital, title, upper, lower }
+
 export function i18n(store, { dictionary }) {
   const formatter = new Formatter()
   let dictionaries = {}
@@ -32,17 +34,17 @@ export function i18n(store, { dictionary }) {
   }
 
   const utilities = {
-    capital(...args) {
-      return capital(getLocalizedMessage(...args))
+    capital(path, interpolations, locale) {
+      return capital(getLocalizedMessage(path, interpolations, locale))
     },
-    title(...args) {
-      return title(getLocalizedMessage(...args))
+    title(path, interpolations, locale) {
+      return title(getLocalizedMessage(path, interpolations, locale))
     },
-    upper(...args) {
-      return upper(getLocalizedMessage(...args))
+    upper(path, interpolations, locale) {
+      return upper(getLocalizedMessage(path, interpolations, locale))
     },
-    lower(...args) {
-      return lower(getLocalizedMessage(...args))
+    lower(path, interpolations, locale) {
+      return lower(getLocalizedMessage(path, interpolations, locale))
     },
     plural(path, counter, interpolations, locale) {
       return getLocalizedMessage(path, interpolations, locale, [

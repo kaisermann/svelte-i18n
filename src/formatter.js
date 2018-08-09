@@ -1,4 +1,3 @@
-/* istanbul ignore */
 /**
  * Adapted from 'https://github.com/kazupon/vue-i18n/blob/dev/src/format.js'
  * Copyright (c) 2016 kazuya kawaguchi
