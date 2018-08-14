@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "main": "dist/i18n.js",
   "module": "dist/i18n.m.js",
