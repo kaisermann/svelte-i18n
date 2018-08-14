@@ -4,7 +4,7 @@ import { i18n } from '../src/index'
 import { Store } from 'svelte/store.umd'
 import { capital, title, upper, lower, isObject } from '../src/utils'
 
-const store = new Store()
+let store = new Store()
 const locales = {
   'pt-br': {
     test: 'teste',
@@ -30,11 +30,8 @@ const locales = {
   },
 }
 
-i18n(store, { dictionary: locales })
+i18n(store, { dictionary: [locales] })
 
-/**
- * Dummy test
- */
 describe('Utilities', () => {
   it('should check if a variable is an object', () => {
     expect(isObject({})).toBe(true)

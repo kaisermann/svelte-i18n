@@ -7,7 +7,7 @@ export { capital, title, upper, lower }
 
 export function i18n(store, { dictionary: initialDictionary }) {
   const formatter = new Formatter()
-  let dictionary = {}
+  let dictionary
   let currentLocale
 
   const getLocalizedMessage = (
@@ -94,7 +94,11 @@ export function i18n(store, { dictionary: initialDictionary }) {
     },
   }
 
-  store.i18n.extendDictionary(initialDictionary)
+  if (Array.isArray(initialDictionary)) {
+    dictionary = deepmerge.all(initialDictionary)
+  } else {
+    initialDictionary = dictionary
+  }
 
   return store
 }
