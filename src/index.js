@@ -49,9 +49,20 @@ export function i18n(store, { dictionary: initialDictionary }) {
     plural(path, counter, interpolations, locale) {
       return getLocalizedMessage(path, interpolations, locale, [
         message => {
-          const choice =
-            typeof counter === 'number' ? Math.min(Math.abs(counter), 2) : 0
-          return message.split('|')[choice]
+          const parts = message.split('|')
+
+          /** Check for 'singular|plural' or 'zero|one|multiple' pluralization */
+          const isSimplePluralization = parts.length === 2
+          let choice = isSimplePluralization ? 1 : 0
+
+          if (typeof counter === 'number') {
+            choice = Math.min(
+              Math.abs(counter) - (isSimplePluralization ? 1 : 0),
+              parts.length - 1,
+            )
+          }
+
+          return parts[choice]
         },
       ])
     },

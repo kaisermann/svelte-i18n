@@ -2,7 +2,7 @@
 
 import { i18n } from '../src/index'
 import { Store } from 'svelte/store.umd'
-import { capital, title, upper, lower, isObject, warn } from '../src/utils'
+import { capital, title, upper, lower, isObject } from '../src/utils'
 
 const store = new Store()
 const locales = {
@@ -11,6 +11,7 @@ const locales = {
     phrase: 'adoro banana',
     phrases: ['Frase 1', 'Frase 2'],
     pluralization: 'Zero | Um | Muito!',
+    simplePluralization: 'Singular | Plural',
     interpolation: {
       key: 'Olá, {0}! Como está {1}?',
       named: 'Olá, {name}! Como está {time}?',
@@ -132,6 +133,10 @@ describe('Localization', () => {
     store.i18n.setLocale('pt-br')
     const { _ } = store.get()
 
+    expect(_.plural('simplePluralization')).toBe('Plural')
+    expect(_.plural('simplePluralization', 1)).toBe('Singular')
+    expect(_.plural('simplePluralization', 3)).toBe('Plural')
+    expect(_.plural('simplePluralization', -23)).toBe('Plural')
     expect(_.plural('pluralization')).toBe('Zero')
     expect(_.plural('pluralization', 0)).toBe('Zero')
     expect(_.plural('pluralization', 1)).toBe('Um')
