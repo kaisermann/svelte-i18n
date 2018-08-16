@@ -104,6 +104,9 @@ store.i18n.setLocale('en-US')
   0 {$_.plural('book', 0))}
   <!-- 0 books -->
 
+  1 {$_.plural('book', 1))}
+  <!-- 1 book -->
+
   10 {$_.plural('book', 10))}
   <!-- 10 books -->
 </div>
