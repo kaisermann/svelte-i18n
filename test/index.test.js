@@ -16,6 +16,7 @@ const locales = {
       key: 'Olá, {0}! Como está {1}?',
       named: 'Olá, {name}! Como está {time}?',
     },
+    interpolationPluralization: 'One thingie | {0} thingies',
     wow: {
       much: {
         deep: {
@@ -141,6 +142,8 @@ describe('Localization', () => {
     expect(_.plural('pluralization', -1000)).toBe('Muito!')
     expect(_.plural('pluralization', 2)).toBe('Muito!')
     expect(_.plural('pluralization', 100)).toBe('Muito!')
+    expect(_.plural('interpolationPluralization', 1)).toBe('One thingie')
+    expect(_.plural('interpolationPluralization', 10, [10])).toBe('10 thingies')
   })
 })
 
