@@ -74,6 +74,10 @@ store.i18n.setLocale('en-US')
 </div>
 ```
 
+#### Current locale
+
+The current locale is available via `this.store.get().locale`.
+
 #### Interpolation
 
 ```html
