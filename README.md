@@ -69,7 +69,7 @@ store.i18n.setLocale('en-US')
 
 ```html
 <div>
-  {$_('message')}: {$_('messages.success'))}
+  {$_('message')}: {$_('messages.success')}
   <!-- Message: SUCCESS-->
 </div>
 ```
@@ -83,11 +83,11 @@ The current locale is available via `this.store.get().locale`.
 ```html
 <div>
   <!-- Named interpolation -->
-  {$_('greeting', { name: 'John' }))}
+  {$_('greeting', { name: 'John' })}
   <!-- Hello John, how are you?-->
 
   <!-- List interpolation -->
-  {$_('greetingIndex', ['John']))}
+  {$_('greetingIndex', ['John'])}
   <!-- Hello John, how are you?-->
 </div>
 ```
@@ -96,22 +96,22 @@ The current locale is available via `this.store.get().locale`.
 
 ```html
 <div>
-  0 {$_.plural('meter', 0))}
+  0 {$_.plural('meter', 0)}
   <!-- 0 meters -->
 
-  1 {$_.plural('meter', 1))}
+  1 {$_.plural('meter', 1)}
   <!-- 1 meter -->
 
-  100 {$_.plural('meter', 100))}
+  100 {$_.plural('meter', 100)}
   <!-- 100 meters -->
 
-  0 {$_.plural('book', 0))}
+  0 {$_.plural('book', 0)}
   <!-- 0 books -->
 
-  1 {$_.plural('book', 1))}
+  1 {$_.plural('book', 1)}
   <!-- 1 book -->
 
-  10 {$_.plural('book', 10))}
+  10 {$_.plural('book', 10)}
   <!-- 10 books -->
 </div>
 ```
@@ -120,16 +120,16 @@ The current locale is available via `this.store.get().locale`.
 
 ```html
 <div>
-  {$_.upper('message'))}
+  {$_.upper('message')}
   <!-- MESSAGE -->
 
-  {$_.lower('message'))}
+  {$_.lower('message')}
   <!-- message -->
 
-  {$_.capital('message'))}
+  {$_.capital('message')}
   <!-- Message -->
 
-  {$_.title('greeting', { name: 'John' }))}
+  {$_.title('greeting', { name: 'John' })}
   <!-- Hello John, How Are You?-->
 </div>
 ```
