@@ -7,7 +7,7 @@
 ### On the `store`
 
 ```js
-import i18n from 'svelte-i18n'
+import { i18n } from 'svelte-i18n'
 import { Store } from 'svelte/store'
 
 /** i18n(svelteStore, { dictionary }) */
