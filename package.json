@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "license": "MIT",
   "main": "dist/i18n.js",
-  "module": "dist/i18n.m.js",
+  "module": "src/index.js",
   "types": "src/index.d.ts",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -50,28 +50,31 @@
     "collectCoverage": true
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.56",
-    "@babel/preset-env": "^7.0.0-beta.56",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.4.2",
-    "eslint": "^5.3.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-prettier": "^2.6.2",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "jest": "^23.4.2",
-    "microbundle": "^0.6.0",
-    "prettier": "^1.14.1",
-    "svelte": "^2.9.11"
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^24.8.0",
+    "microbundle": "^0.11.0",
+    "prettier": "^1.17.1",
+    "svelte": "^3.4.1"
   },
   "peerDependencies": {
-    "svelte": "^2.9.11"
+    "svelte": "^3.4.1"
   },
   "dependencies": {
-    "deepmerge": "^2.1.1",
+    "deepmerge": "^3.2.0",
+    "intl-format-cache": "^2.1.0",
+    "intl-messageformat": "^2.2.0",
+    "micro-memoize": "^3.0.1",
     "object-resolve-path": "^1.1.1"
   }
 }

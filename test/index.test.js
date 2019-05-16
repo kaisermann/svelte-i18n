@@ -1,11 +1,9 @@
 // TODO: A more serious test
 
-import { i18n } from '../src/index'
-import { Store } from 'svelte/store.umd'
-import { capital, title, upper, lower, isObject } from '../src/utils'
+import { dictionary, locale } from '../src/index'
+import { capital, title, upper, lower } from '../src/utils'
 
-let store = new Store()
-const locales = {
+dictionary.set({
   'pt-br': {
     test: 'teste',
     phrase: 'adoro banana',
@@ -29,16 +27,10 @@ const locales = {
       b: 'b',
     },
   },
-}
-
-i18n(store, { dictionary: [locales] })
-
-describe('Utilities', () => {
-  it('should check if a variable is an object', () => {
-    expect(isObject({})).toBe(true)
-    expect(isObject(1)).toBe(false)
-  })
 })
+
+locale.set('pt-br')
+
 
 describe('Localization', () => {
   beforeEach(() => {
