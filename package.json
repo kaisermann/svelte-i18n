@@ -1,9 +1,9 @@
 {
   "name": "svelte-i18n",
-  "version": "1.0.0-beta",
+  "version": "1.0.1-beta",
   "license": "MIT",
   "main": "dist/i18n.js",
-  "module": "dist/index.mjs",
+  "module": "dist/i18n.mjs",
   "types": "src/index.d.ts",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -16,7 +16,7 @@
     "translation"
   ],
   "scripts": {
-    "build": "microbundle --format=cjs,es",
+    "build": "microbundle --format=cjs,es --no-sourcemap",
     "start": "microbundle watch --format=cjs,es",
     "test": "jest --no-cache --verbose",
     "test:watch": "jest --no-cache --verbose --watchAll",
