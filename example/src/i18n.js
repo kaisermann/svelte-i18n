@@ -26,6 +26,6 @@ dictionary.set({
       message: 'Hello {name}, how are you?',
     },
     photos: 'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
-    cats: '{n,plural,one{gato}other{gatos}}'
+    cats: 'I have {n, number} {n,plural,one{cat}other{cats}}'
   },
 })
