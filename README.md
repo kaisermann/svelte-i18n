@@ -4,132 +4,224 @@
 
 ## Usage
 
-### On the `store`
+`svelte-i18n` utilizes svelte `stores` for keeping track of the current locale, dictionary of messages and the main format function. This way, we keep everything neat, in sync and easy to use on your svelte files.
+
+---
+
+### Locale
+
+The `locale` store defines what is the current locale.
 
 ```js
-import { i18n } from 'svelte-i18n'
-import { Store } from 'svelte/store'
+import { locale, dictionary } from 'svelte-i18n'
 
-/** i18n(svelteStore, { dictionary }) */
-let store = new Store()
+// Set the current locale to en-US
+locale.set('en-US')
 
-store = i18n(store, {
-  dictionary: {
-    'pt-BR': {
-      message: 'Mensagem',
-      greeting: 'Olá {name}, como vai?',
-      greetingIndex: 'Olá {0}, como vai?',
-      meter: 'metros | metro | metros',
-      book: 'livro | livros',
-      messages: {
-        alert: 'Alerta',
-        error: 'Erro',
-      },
+// This is a store, so we can subscribe to its changes
+locale.subscribe(() => {
+  console.log('locale change')
+})
+```
+
+---
+
+### The dictionary
+
+The `dictionary` store defines the dictionary of messages of all locales.
+
+```js
+import { locale, dictionary } from 'svelte-i18n'
+
+// Define a locale dictionary
+dictionary.set({
+  pt: {
+    message: 'Mensagem',
+    'switch.lang': 'Trocar idioma',
+    greeting: {
+      ask: 'Por favor, digite seu nome',
+      message: 'Olá {name}, como vai?',
     },
-    'en-US': {
-      message: 'Message',
-      greeting: 'Hello {name}, how are you?',
-      greetingIndex: 'Hello {0}, how are you?',
-      meter: 'meters | meter | meters',
-      book: 'book | books',
-      messages: {
-        alert: 'Alert',
-        error: 'Error',
-      },
+    photos:
+      'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
+    cats: 'Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}',
+  },
+  en: {
+    message: 'Message',
+    'switch.lang': 'Switch language',
+    greeting: {
+      ask: 'Please type your name',
+      message: 'Hello {name}, how are you?',
     },
+    photos:
+      'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
+    cats: 'I have {n, number} {n,plural,one{cat}other{cats}}',
   },
 })
 
-/**
- * Extend the initial dictionary.
- * Dictionaries are deeply merged.
- * */
-store.i18n.extendDictionary({
-  'pt-BR': {
-    messages: {
-      warn: 'Aviso',
-      success: 'Sucesso',
-    },
-  },
-  'en-US': {
-    messages: {
-      warn: 'Warn',
-      success: 'Success',
-    },
-  },
+// It's also possible to merge the current dictionary
+// with other objets
+dictionary.update(dict => {
+  dict.fr = {
+    // ...french messages
+  }
+  return dict
 })
-
-/** Set the initial locale */
-store.i18n.setLocale('en-US')
 ```
 
-### On `templates`
+Each language message dictionary can be as deep as you want. Messages can also be looked up by a string represetation of it's path on the dictionary (i.e `greeting.message`).
 
-#### Basic usage
+---
+
+### Formatting
+
+The `_`/`format` store is the actual formatter method. To use it, it's simple as any other svelte store.
+
+```html
+<script>
+  // locale is en
+  import { _ } from 'svelte-i18n'
+</script>
+
+<input placeholder="{$_('greeting.ask')}" />
+```
+
+`svelte-i18n` uses `formatjs` behind the scenes, which means it supports the [ICU message format](http://userguide.icu-project.org/formatparse/messages) for interpolation, pluralization and much more.
 
 ```html
 <div>
-  {$_('message')}: {$_('messages.success')}
-  <!-- Message: SUCCESS-->
+  {$_('greeting.message', { name: 'John' })}
+  <!-- Hello John, how are you? -->
+
+  {$_('photos', { n: 0 })}
+  <!-- You have no photos. -->
+
+  {$_('photos', { n: 12 })}
+  <!-- You have 12 photos. -->
 </div>
 ```
 
-#### Current locale
+### Formatting methods
 
-The current locale is available via `this.store.get().locale`.
+#### `_` / `format`
 
-#### Interpolation
+`function(messageId: string, locale:? string): string`
+
+`function(messageId: string, interpolations?: object, locale:? string): string`
+
+Main formatting method that formats a localized message by its id.
 
 ```html
-<div>
-  <!-- Named interpolation -->
-  {$_('greeting', { name: 'John' })}
-  <!-- Hello John, how are you?-->
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
 
-  <!-- List interpolation -->
-  {$_('greetingIndex', ['John'])}
-  <!-- Hello John, how are you?-->
-</div>
+<div>{$_('greeting.ask')}</div>
+<!-- Please type your name -->
 ```
 
-#### Pluralization
+#### `_.upper`
+
+Transforms a localized message into uppercase.
 
 ```html
-<div>
-  0 {$_.plural('meter', 0)}
-  <!-- 0 meters -->
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
 
-  1 {$_.plural('meter', 1)}
-  <!-- 1 meter -->
-
-  100 {$_.plural('meter', 100)}
-  <!-- 100 meters -->
-
-  0 {$_.plural('book', 0)}
-  <!-- 0 books -->
-
-  1 {$_.plural('book', 1)}
-  <!-- 1 book -->
-
-  10 {$_.plural('book', 10)}
-  <!-- 10 books -->
-</div>
+<div>{$_.upper('greeting.ask')}</div>
+<!-- PLEASE TYPE YOUR NAME -->
 ```
 
-#### Utilities
+#### `_.lower`
+
+Transforms a localized message into lowercase.
 
 ```html
-<div>
-  {$_.upper('message')}
-  <!-- MESSAGE -->
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
 
-  {$_.lower('message')}
-  <!-- message -->
+<div>{$_.lower('greeting.ask')}</div>
+<!-- PLEASE TYPE YOUR NAME -->
+```
 
-  {$_.capital('message')}
-  <!-- Message -->
+#### `_.capital`
 
-  {$_.title('greeting', { name: 'John' })}
-  <!-- Hello John, How Are You?-->
-</div>
+Capitalize a localized message.
+
+```html
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
+
+<div>{$_.capital('greeting.ask')}</div>
+<!-- Please type your name -->
+```
+
+#### `_.title`
+
+Transform the message into title case.
+
+```html
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
+
+<div>{$_.capital('greeting.ask')}</div>
+<!-- Please Type Your Name -->
+```
+
+#### `_.time`
+
+`function(time: Date, format?: string, locale?: string)`
+
+Formats a date object into a time string with the specified format (`short`, `medium`, `long`, `full`). Please refer to the [ICU message format](http://userguide.icu-project.org/formatparse/messages) documentation for all available. formats
+
+```html
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
+
+<div>{$_.time(new Date(2019, 3, 24, 23, 45))}</div>
+<!-- 11:45 PM -->
+
+<div>{$_.time(new Date(2019, 3, 24, 23, 45), 'medium')}</div>
+<!-- 11:45:00 PM -->
+```
+
+#### `_.date`
+
+`function(date: Date, format?: string, locale?: string)`
+
+Formats a date object into a string with the specified format (`short`, `medium`, `long`, `full`). Please refer to the [ICU message format](http://userguide.icu-project.org/formatparse/messages) documentation for all available. formats
+
+```html
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
+
+<div>{$_.date(new Date(2019, 3, 24, 23, 45))}</div>
+<!-- 4/24/19 -->
+
+<div>{$_.date(new Date(2019, 3, 24, 23, 45), 'medium')}</div>
+<!-- Apr 24, 2019 -->
+```
+
+#### `_.number`
+
+`function(number: Number, locale?: string)`
+
+Formats a number with the specified locale
+
+```html
+<script>
+  import { _ } from 'svelte-i18n'
+</script>
+
+<div>{$_.number(100000000)}</div>
+<!-- 100,000,000 -->
+
+<div>{$_.number(100000000, 'pt')}</div>
+<!-- 100.000.000 -->
 ```
