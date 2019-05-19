@@ -1,174 +1,110 @@
-// TODO: A more serious test
-
-import { dictionary, locale } from '../src/index'
+import { dictionary, locale, format } from '../src/index'
 import { capital, title, upper, lower } from '../src/utils'
 
-dictionary.set({
-  'pt-br': {
-    test: 'teste',
-    phrase: 'adoro banana',
-    phrases: ['Frase 1', 'Frase 2'],
-    pluralization: 'Zero | Um | Muito!',
-    simplePluralization: 'Singular | Plural',
-    interpolation: {
-      key: 'Olá, {0}! Como está {1}?',
-      named: 'Olá, {name}! Como está {time}?',
+let _
+let currentLocale
+
+const dict = {
+  pt: {
+    hi: 'olá você',
+    'switch.lang': 'Trocar idioma',
+    greeting: {
+      ask: 'Por favor, digite seu nome',
+      message: 'Olá {name}, como vai?',
     },
-    interpolationPluralization: 'One thingie | {0} thingies',
-    wow: {
-      much: {
-        deep: {
-          list: ['Muito', 'muito profundo'],
-        },
-      },
-    },
-    obj: {
-      a: 'a',
-      b: 'b',
-    },
+    photos:
+      'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
+    cats: 'Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}',
   },
+  en: {
+    hi: 'hi yo',
+    'switch.lang': 'Switch language',
+    greeting: {
+      ask: 'Please type your name',
+      message: 'Hello {name}, how are you?',
+    },
+    photos:
+      'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
+    cats: 'I have {n, number} {n,plural,one{cat}other{cats}}',
+  },
+}
+
+format.subscribe(formatFn => {
+  _ = formatFn
+})
+dictionary.set(dict)
+locale.subscribe(l => (currentLocale = l))
+locale.set('pt')
+
+it('should change locale', () => {
+  locale.set('pt')
+  expect(currentLocale).toBe('pt')
+  locale.set('en')
+  expect(currentLocale).toBe('en')
 })
 
-locale.set('pt-br')
-
-
-describe('Localization', () => {
-  beforeEach(() => {
-    console.error = jest.fn()
-  })
-
-  afterEach(() => {
-    console.error.mockRestore()
-  })
-
-  it('should start with a clean store', () => {
-    const { _, locale } = store.get()
-    expect(locale).toBeFalsy()
-    expect(_).toBeFalsy()
-  })
-
-  it('should change the locale after a "locale" store event', () => {
-    store.fire('locale', 'pt-br')
-    const { locale, _ } = store.get()
-
-    expect(locale).toBe('pt-br')
-    expect(_).toBeInstanceOf(Function)
-  })
-
-  it('should have a .i18n.setLocale() method', () => {
-    expect(store.i18n.setLocale).toBeInstanceOf(Function)
-
-    store.i18n.setLocale('pt-br')
-    const { locale } = store.get()
-
-    expect(locale).toBe('pt-br')
-  })
-
-  it('should handle nonexistent locale', () => {
-    expect(store.i18n.setLocale('foo'))
-    expect(console.error).toHaveBeenCalledTimes(1)
-  })
-
-  it('should return the message id when no message identified by it was found', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(_('non.existent')).toBe('non.existent')
-  })
-
-  it('should get a message by its id', () => {
-    const { _ } = store.get()
-    expect(_('test')).toBe(locales['pt-br'].test)
-  })
-
-  it('should get a deep nested message by its string path', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(_('obj.b')).toBe('b')
-  })
-
-  it('should get a message within an array by its index', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(_('phrases[1]')).toBe(locales['pt-br'].phrases[1])
-
-    /** Not found */
-    expect(_('phrases[2]')).toBe('phrases[2]')
-  })
-
-  it('should interpolate with {numeric} placeholders', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(_('interpolation.key', ['Chris', 'o dia'])).toBe(
-      'Olá, Chris! Como está o dia?',
-    )
-  })
-
-  it('should interpolate with {named} placeholders', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(
-      _('interpolation.named', {
-        name: 'Chris',
-        time: 'o dia',
-      }),
-    ).toBe('Olá, Chris! Como está o dia?')
-  })
-
-  it('should handle pluralization with _.plural()', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(_.plural('simplePluralization')).toBe('Plural')
-    expect(_.plural('simplePluralization', 1)).toBe('Singular')
-    expect(_.plural('simplePluralization', 3)).toBe('Plural')
-    expect(_.plural('simplePluralization', -23)).toBe('Plural')
-    expect(_.plural('pluralization')).toBe('Zero')
-    expect(_.plural('pluralization', 0)).toBe('Zero')
-    expect(_.plural('pluralization', 1)).toBe('Um')
-    expect(_.plural('pluralization', -1)).toBe('Um')
-    expect(_.plural('pluralization', -1000)).toBe('Muito!')
-    expect(_.plural('pluralization', 2)).toBe('Muito!')
-    expect(_.plural('pluralization', 100)).toBe('Muito!')
-    expect(_.plural('interpolationPluralization', 1)).toBe('One thingie')
-    expect(_.plural('interpolationPluralization', 10, [10])).toBe('10 thingies')
-  })
+it('should fallback to message id if id is not found', () =>  {
+  expect(_('batatinha')).toBe('batatinha')
 })
 
-describe('Localization utilities', () => {
+it('should translate to current locale', () => {
+  locale.set('pt')
+  expect(_('switch.lang')).toBe('Trocar idioma')
+  locale.set('en')
+  expect(_('switch.lang')).toBe('Switch language')
+})
+
+it('should translate to passed locale', () => {
+  expect(_('switch.lang', 'pt')).toBe('Trocar idioma')
+  expect(_('switch.lang', 'en')).toBe('Switch language')
+})
+
+it('should interpolate message with variables', () => {
+  expect(_('greeting.message', { name: 'Chris' })).toBe(
+    'Hello Chris, how are you?',
+  )
+})
+
+it('should interpolate message with variables according to passed locale', () => {
+  expect(_('greeting.message', { name: 'Chris' }, 'pt')).toBe(
+    'Olá Chris, como vai?',
+  )
+})
+
+describe('utilities', () => {
+  beforeAll(() => {
+    locale.set('en')
+  })
+
   it('should capital a translated message', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(capital('Adoro banana')).toBe('Adoro banana')
-    expect(_.capital('phrase')).toBe('Adoro banana')
+    expect(_.capital('hi')).toBe('Hi yo')
   })
 
   it('should title a translated message', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(title('Adoro Banana')).toBe('Adoro Banana')
-    expect(_.title('phrase')).toBe('Adoro Banana')
+    expect(_.title('hi')).toBe('Hi Yo')
   })
 
   it('should lowercase a translated message', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(lower('adoro banana')).toBe('adoro banana')
-    expect(_.lower('phrase')).toBe('adoro banana')
+    expect(_.lower('hi')).toBe('hi yo')
   })
 
   it('should uppercase a translated message', () => {
-    store.i18n.setLocale('pt-br')
-    const { _ } = store.get()
-
-    expect(upper('ADORO BANANA')).toBe('ADORO BANANA')
-    expect(_.upper('phrase')).toBe('ADORO BANANA')
+    expect(_.upper('hi')).toBe('HI YO')
   })
+
+  const date = new Date(2019, 3, 24, 23, 45)
+  it('should format a time value', () => {
+    locale.set('en')
+    expect(_.time(date)).toBe('11:45 PM')
+    expect(_.time(date, 'medium')).toBe('11:45:00 PM')
+  })
+
+  it('should format a date value', () => {
+    expect(_.date(date)).toBe('4/24/19')
+    expect(_.date(date, 'medium')).toBe('Apr 24, 2019')
+  })
+  // number
+    it('should format a date value', () => {
+      expect(_.number(123123123)).toBe('123,123,123')
+    })
 })

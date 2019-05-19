@@ -1,31 +1,32 @@
 import { writable, derived } from 'svelte/store'
 import resolvePath from 'object-resolve-path'
 import IntlMessageFormat from 'intl-messageformat'
-import memoizeConstructor from 'intl-format-cache'
-
-const capital = str => str.replace(/(^|\s)\S/, l => l.toUpperCase())
-const title = str => str.replace(/(^|\s)\S/g, l => l.toUpperCase())
-const upper = str => str.toLocaleUpperCase()
-const lower = str => str.toLocaleLowerCase()
+import memoize from 'micro-memoize'
+import { capital, title, upper, lower } from './utils.js'
 
 let currentLocale
 let currentDictionary
 
-const getMessageFormatter = memoizeConstructor(IntlMessageFormat)
+const getMessageFormatter = memoize(
+  (message, locale, formats) => new IntlMessageFormat(message, locale, formats),
+)
 
-function lookupMessage(path, locale) {
-  // TODO improve perf here
+const lookupMessage = memoize((path, locale) => {
   return (
     currentDictionary[locale][path] ||
     resolvePath(currentDictionary[locale], path)
   )
-}
+})
 
-function formatMessage(message, interpolations, locale = currentLocale) {
+const formatMessage = (message, interpolations, locale = currentLocale) => {
   return getMessageFormatter(message, locale).format(interpolations)
 }
 
-function getLocalizedMessage(path, interpolations, locale = currentLocale) {
+const getLocalizedMessage = (path, interpolations, locale = currentLocale) => {
+  if (typeof interpolations === 'string') {
+    locale = interpolations
+    interpolations = undefined
+  }
   const message = lookupMessage(path, locale)
 
   if (!message) return path
