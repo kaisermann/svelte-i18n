@@ -1,6 +1,8 @@
 # svelte-i18n
 
-> Internationalization for Svelte
+> Internationalization for Svelte.
+
+[See Demo](https://svelte-i18n.netlify.com/)
 
 ## Usage
 
