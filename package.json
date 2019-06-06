@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
@@ -21,7 +21,8 @@
     "test": "jest --no-cache --verbose",
     "test:watch": "jest --no-cache --verbose --watchAll",
     "lint": "eslint \"src/**/*.js\"",
-    "format": "prettier --loglevel silent --write \"src/**/*.js\" && eslint --fix \"src/**/*.js\""
+    "format": "prettier --loglevel silent --write \"src/**/*.js\" && eslint --fix \"src/**/*.js\"",
+    "prepublishOnly": "npm run format && npm run test && npm run build"
   },
   "jest": {
     "verbose": true,
