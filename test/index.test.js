@@ -1,5 +1,4 @@
 import { dictionary, locale, format } from '../src/index'
-import { capital, title, upper, lower } from '../src/utils'
 
 let _
 let currentLocale
