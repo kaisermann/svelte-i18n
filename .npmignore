@@ -1,7 +1,0 @@
-/test/
-/.*
-/yarn.lock
-/package-lock.json
-/src
-/coverage
-/example
