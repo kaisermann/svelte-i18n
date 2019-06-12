@@ -27,7 +27,7 @@
     "prepublishOnly": "npm run format && npm run test && npm run build"
   },
   "files": [
-    "./dist"
+    "dist/"
   ],
   "jest": {
     "verbose": true,
