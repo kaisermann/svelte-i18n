@@ -20,6 +20,6 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "svelte-i18n": "^1.0.3"
+    "svelte-i18n": "^1.0.4"
   }
 }
