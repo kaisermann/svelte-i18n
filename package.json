@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "1.0.6-beta",
+  "version": "1.0.7-beta",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
   "browser": "dist/i18n.umd.js",
