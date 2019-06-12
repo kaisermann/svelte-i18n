@@ -3,8 +3,8 @@
   "version": "1.0.5-beta",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
+  "browser": "dist/i18n.umd.js",
   "types": "src/index.d.ts",
-  "source": "src/index.js",
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -17,8 +17,9 @@
     "translation"
   ],
   "scripts": {
-    "build": "microbundle --format=cjs,es",
-    "start": "microbundle watch --format=cjs,es",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "pretest": "npm run build",
     "test": "jest --no-cache --verbose",
     "test:watch": "jest --no-cache --verbose --watchAll",
     "lint": "eslint \"src/**/*.js\"",
@@ -67,8 +68,12 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "jest": "^24.8.0",
-    "microbundle": "^0.11.0",
     "prettier": "^1.18.2",
+    "rollup": "^1.15.1",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-terser": "^5.0.0",
     "svelte": "^3.5.1"
   },
   "peerDependencies": {
