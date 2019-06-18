@@ -1,12 +1,4 @@
-import { locale, dictionary } from 'svelte-i18n'
-
-// setting the locale
-locale.set('pt')
-
-// subscribe to locale changes
-locale.subscribe(() => {
-  console.log('locale change')
-})
+import { locale, dictionary, getClientLocale } from 'svelte-i18n'
 
 // defining a locale dictionary
 dictionary.set({
@@ -16,7 +8,8 @@ dictionary.set({
       ask: 'Por favor, digite seu nome',
       message: 'Olá {name}, como vai?',
     },
-    photos: 'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
+    photos:
+      'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
     cats: 'Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}',
   },
   en: {
@@ -25,7 +18,20 @@ dictionary.set({
       ask: 'Please type your name',
       message: 'Hello {name}, how are you?',
     },
-    photos: 'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
-    cats: 'I have {n, number} {n,plural,one{cat}other{cats}}'
+    photos:
+      'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
+    cats: 'I have {n, number} {n,plural,one{cat}other{cats}}',
   },
+})
+
+locale.set(
+  getClientLocale({
+    navigator: true,
+    hash: 'lang',
+    default: 'pt',
+  }),
+)
+
+locale.subscribe(l => {
+  console.log('locale change', l)
 })

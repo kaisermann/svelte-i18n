@@ -1,4 +1,4 @@
-import { dictionary, locale, format } from '../src/index'
+import { dictionary, locale, format, getClientLocale } from '../src/index'
 
 let _
 let currentLocale
@@ -42,7 +42,19 @@ it('should change locale', () => {
   expect(currentLocale).toBe('en')
 })
 
-it('should fallback to message id if id is not found', () =>  {
+it('should fallback to existing locale', () => {
+  locale.set('pt-BR')
+  expect(currentLocale).toBe('pt')
+
+  locale.set('en-US')
+  expect(currentLocale).toBe('en')
+
+  locale.set('non-existent')
+  expect(currentLocale).toBe('non-existent')
+})
+
+it('should fallback to message id if id is not found', () => {
+  locale.set('en')
   expect(_('batatinha')).toBe('batatinha')
 })
 
@@ -71,39 +83,74 @@ it('should interpolate message with variables according to passed locale', () =>
 })
 
 describe('utilities', () => {
-  beforeAll(() => {
-    locale.set('en')
+  describe('get locale', () => {
+    beforeEach(() => {
+      delete window.location
+      window.location = {
+        hash: '',
+        search: '',
+      }
+    })
+
+    it('should get the locale based on the passed hash parameter', () => {
+      window.location.hash = '#locale=en-US&lang=pt-BR'
+      expect(getClientLocale({ hash: 'locale' })).toBe('en-US')
+      expect(getClientLocale({ hash: 'lang' })).toBe('pt-BR')
+    })
+
+    it('should get the locale based on the passed search parameter', () => {
+      window.location.search = '?locale=en-US&lang=pt-BR'
+      expect(getClientLocale({ search: 'locale' })).toBe('en-US')
+      expect(getClientLocale({ search: 'lang' })).toBe('pt-BR')
+    })
+
+    it('should get the locale based on the navigator language', () => {
+      expect(getClientLocale({ navigator: true })).toBe(
+        window.navigator.language,
+      )
+    })
+
+    it('should get the fallback locale', () => {
+      expect(getClientLocale({ navigator: false, fallback: 'pt' })).toBe('pt')
+      expect(getClientLocale({ hash: 'locale', fallback: 'pt' })).toBe('pt')
+    })
   })
 
-  it('should capital a translated message', () => {
-    expect(_.capital('hi')).toBe('Hi yo')
-  })
+  describe('format utils', () => {
+    beforeAll(() => {
+      locale.set('en')
+    })
 
-  it('should title a translated message', () => {
-    expect(_.title('hi')).toBe('Hi Yo')
-  })
+    it('should capital a translated message', () => {
+      expect(_.capital('hi')).toBe('Hi yo')
+    })
 
-  it('should lowercase a translated message', () => {
-    expect(_.lower('hi')).toBe('hi yo')
-  })
+    it('should title a translated message', () => {
+      expect(_.title('hi')).toBe('Hi Yo')
+    })
 
-  it('should uppercase a translated message', () => {
-    expect(_.upper('hi')).toBe('HI YO')
-  })
+    it('should lowercase a translated message', () => {
+      expect(_.lower('hi')).toBe('hi yo')
+    })
 
-  const date = new Date(2019, 3, 24, 23, 45)
-  it('should format a time value', () => {
-    locale.set('en')
-    expect(_.time(date)).toBe('11:45 PM')
-    expect(_.time(date, 'medium')).toBe('11:45:00 PM')
-  })
+    it('should uppercase a translated message', () => {
+      expect(_.upper('hi')).toBe('HI YO')
+    })
 
-  it('should format a date value', () => {
-    expect(_.date(date)).toBe('4/24/19')
-    expect(_.date(date, 'medium')).toBe('Apr 24, 2019')
-  })
-  // number
+    const date = new Date(2019, 3, 24, 23, 45)
+    it('should format a time value', () => {
+      locale.set('en')
+      expect(_.time(date)).toBe('11:45 PM')
+      expect(_.time(date, 'medium')).toBe('11:45:00 PM')
+    })
+
+    it('should format a date value', () => {
+      expect(_.date(date)).toBe('4/24/19')
+      expect(_.date(date, 'medium')).toBe('Apr 24, 2019')
+    })
+    // number
     it('should format a date value', () => {
       expect(_.number(123123123)).toBe('123,123,123')
     })
+  })
 })

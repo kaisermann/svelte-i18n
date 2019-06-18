@@ -15,7 +15,7 @@
 The `locale` store defines what is the current locale.
 
 ```js
-import { locale, dictionary } from 'svelte-i18n'
+import { locale, dictionary, getClientLocale } from 'svelte-i18n'
 
 // Set the current locale to en-US
 locale.set('en-US')
@@ -24,7 +24,25 @@ locale.set('en-US')
 locale.subscribe(() => {
   console.log('locale change')
 })
+
+// svelte-i18n exports a method to help getting the current client locale
+locale.set(
+  getClientLocale({
+    // the fallback locale, if didn't find any
+    fallback: 'en-US',
+    // set to 'true' to check the 'window.navigator.language'
+    navigator: true,
+    // set the key name to look for a locale on 'window.location.search'
+    // 'example.com?locale=en-US'
+    search: 'lang',
+    // set the key name to look for a locale on 'window.location.hash'
+    // 'example.com#locale=en-US'
+    hash: 'locale',
+  }),
+)
 ```
+
+If a locale with the format `xx-YY` is not found, `svelte-i18n` looks for the locale `xx` as well.
 
 ---
 
