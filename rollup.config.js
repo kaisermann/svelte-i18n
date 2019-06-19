@@ -11,6 +11,7 @@ export default [
     input: 'src/index.js',
     external: [...Object.keys(pkg.dependencies), 'svelte/store'],
     output: [
+      { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
     ],
     plugins,

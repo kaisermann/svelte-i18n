@@ -1,8 +1,8 @@
 {
   "name": "svelte-i18n",
   "version": "1.1.2-beta",
-  "main": "dist/i18n.cjs.js",
-  "module": "src/index.js",
+  "main": "dist/i18n.js",
+  "module": "dist/i18n.mjs",
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
