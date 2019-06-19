@@ -1,7 +1,7 @@
 {
   "name": "svelte-i18n",
-  "version": "1.1.0",
-  "main": "dist/i18n.js",
+  "version": "1.1.1-beta",
+  "main": "dist/i18n.cjs.js",
   "module": "src/index.js",
   "license": "MIT",
   "description": "Internationalization library for Svelte",
@@ -39,8 +39,7 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/test/",
-      "/src/formatter.js"
+      "/test/"
     ],
     "coverageThreshold": {
       "global": {
