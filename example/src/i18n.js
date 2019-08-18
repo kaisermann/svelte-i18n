@@ -28,7 +28,7 @@ locale.set(
   getClientLocale({
     navigator: true,
     hash: 'lang',
-    default: 'pt',
+    fallback: 'pt',
   }),
 )
 
