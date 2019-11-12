@@ -1,4 +1,4 @@
-import { writable, derived } from 'svelte/store.mjs'
+import { writable, derived } from 'svelte/store/index.js'
 import resolvePath from 'object-resolve-path'
 import IntlMessageFormat from 'intl-messageformat'
 import memoize from 'micro-memoize'
@@ -8,7 +8,22 @@ import { capital, title, upper, lower, getClientLocale } from './utils.js'
 let currentLocale
 let currentDictionary
 
-const getAvailableLocale = newLocale => {
+const customFormats = {
+  number: {
+    scientific: { notation: 'scientific' },
+    engineering: { notation: 'engineering' },
+    compactLong: { notation: 'compact', compactDisplay: 'long' },
+    compactShort: { notation: 'compact', compactDisplay: 'short' },
+  },
+}
+
+function addCustomFormats(formats) {
+  if ('number' in formats) Object.assign(customFormats.number, formats.number)
+  if ('date' in formats) Object.assign(customFormats.date, formats.date)
+  if ('time' in formats) Object.assign(customFormats.time, formats.time)
+}
+
+function getAvailableLocale(newLocale) {
   if (currentDictionary[newLocale]) return newLocale
 
   // istanbul ignore else
@@ -24,7 +39,7 @@ const getAvailableLocale = newLocale => {
 }
 
 const getMessageFormatter = memoize(
-  (message, locale, formats) => new IntlMessageFormat(message, locale, formats),
+  (message, locale) => new IntlMessageFormat(message, locale, customFormats),
 )
 
 const lookupMessage = memoize((path, locale) => {
@@ -34,37 +49,41 @@ const lookupMessage = memoize((path, locale) => {
   )
 })
 
-const formatMessage = (message, interpolations, locale = currentLocale) => {
-  return getMessageFormatter(message, locale).format(interpolations)
+function formatString(string, { values, locale = currentLocale } = {}) {
+  return getMessageFormatter(string, locale).format(values)
 }
 
-const getLocalizedMessage = (path, interpolations, locale = currentLocale) => {
-  if (typeof interpolations === 'string') {
-    locale = interpolations
-    interpolations = undefined
-  }
+function formatMessage(path, { values, locale = currentLocale } = {}) {
   const message = lookupMessage(path, locale)
 
-  if (!message) return path
-  if (!interpolations) return message
+  if (!message) {
+    console.warn(
+      `[svelte-i18n] The message "${path}" was not found in the locale "${locale}".`,
+    )
+    return path
+  }
 
-  return getMessageFormatter(message, locale).format(interpolations)
+  if (!values) return message
+
+  return getMessageFormatter(message, locale).format(values)
 }
 
-getLocalizedMessage.time = (t, format = 'short', locale) =>
-  formatMessage(`{t,time,${format}}`, { t }, locale)
-getLocalizedMessage.date = (d, format = 'short', locale) =>
-  formatMessage(`{d,date,${format}}`, { d }, locale)
-getLocalizedMessage.number = (n, locale) =>
-  formatMessage('{n,number}', { n }, locale)
-getLocalizedMessage.capital = (path, interpolations, locale) =>
-  capital(getLocalizedMessage(path, interpolations, locale))
-getLocalizedMessage.title = (path, interpolations, locale) =>
-  title(getLocalizedMessage(path, interpolations, locale))
-getLocalizedMessage.upper = (path, interpolations, locale) =>
-  upper(getLocalizedMessage(path, interpolations, locale))
-getLocalizedMessage.lower = (path, interpolations, locale) =>
-  lower(getLocalizedMessage(path, interpolations, locale))
+formatMessage.time = (t, { format = 'short' } = {}) =>
+  formatString(`{t,time,${format}}`, { values: { t } })
+
+formatMessage.date = (d, { format = 'short' } = {}) =>
+  formatString(`{d,date,${format}}`, { values: { d } })
+
+formatMessage.number = (n, { format } = {}) =>
+  formatString(`{n,number,${format}}`, { values: { n } })
+
+formatMessage.capital = (path, options) => capital(formatMessage(path, options))
+
+formatMessage.title = (path, options) => title(formatMessage(path, options))
+
+formatMessage.upper = (path, options) => upper(formatMessage(path, options))
+
+formatMessage.lower = (path, options) => lower(formatMessage(path, options))
 
 const dictionary = writable({})
 dictionary.subscribe(newDictionary => {
@@ -79,14 +98,22 @@ locale.set = newLocale => {
     return localeSet(availableLocale)
   }
 
-  console.warn(`[svelte-i18n] Locale "${newLocale}" not found.`)
-  return localeSet(newLocale)
+  throw Error(`[svelte-i18n] Locale "${newLocale}" not found.`)
 }
 locale.update = fn => localeSet(fn(currentLocale))
 locale.subscribe(newLocale => {
   currentLocale = newLocale
 })
 
-const format = derived([locale, dictionary], () => getLocalizedMessage)
+const format = derived([locale, dictionary], () => formatMessage)
 
-export { locale, format as _, format, dictionary, getClientLocale }
+export {
+  locale,
+  format as _,
+  format,
+  formatString,
+  dictionary,
+  getClientLocale,
+  customFormats,
+  addCustomFormats,
+}
