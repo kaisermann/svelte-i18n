@@ -1,4 +1,18 @@
-import { locale, dictionary, getClientLocale } from 'svelte-i18n'
+import {
+  locale,
+  dictionary,
+  getClientLocale,
+  addCustomFormats,
+} from '../../src/index.js'
+
+addCustomFormats({
+  number: {
+    compact: {
+      notation: 'compact',
+      compactDisplay: 'long',
+    },
+  },
+})
 
 // defining a locale dictionary
 dictionary.set({
