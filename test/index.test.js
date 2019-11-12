@@ -1,4 +1,11 @@
-import { dictionary, locale, format, getClientLocale } from '../src/index'
+import {
+  dictionary,
+  locale,
+  format,
+  getClientLocale,
+  addCustomFormats,
+  customFormats,
+} from '../src/index.js'
 
 let _
 let currentLocale
@@ -48,9 +55,10 @@ it('should fallback to existing locale', () => {
 
   locale.set('en-US')
   expect(currentLocale).toBe('en')
+})
 
-  locale.set('non-existent')
-  expect(currentLocale).toBe('non-existent')
+it("should throw an error if locale doesn't exist", () => {
+  expect(() => locale.set('FOO')).toThrow()
 })
 
 it('should fallback to message id if id is not found', () => {
@@ -66,20 +74,20 @@ it('should translate to current locale', () => {
 })
 
 it('should translate to passed locale', () => {
-  expect(_('switch.lang', 'pt')).toBe('Trocar idioma')
-  expect(_('switch.lang', 'en')).toBe('Switch language')
+  expect(_('switch.lang', { locale: 'pt' })).toBe('Trocar idioma')
+  expect(_('switch.lang', { locale: 'en' })).toBe('Switch language')
 })
 
 it('should interpolate message with variables', () => {
-  expect(_('greeting.message', { name: 'Chris' })).toBe(
+  expect(_('greeting.message', { values: { name: 'Chris' } })).toBe(
     'Hello Chris, how are you?',
   )
 })
 
 it('should interpolate message with variables according to passed locale', () => {
-  expect(_('greeting.message', { name: 'Chris' }, 'pt')).toBe(
-    'Olá Chris, como vai?',
-  )
+  expect(
+    _('greeting.message', { values: { name: 'Chris' }, locale: 'pt' }),
+  ).toBe('Olá Chris, como vai?')
 })
 
 describe('utilities', () => {
@@ -141,16 +149,58 @@ describe('utilities', () => {
     it('should format a time value', () => {
       locale.set('en')
       expect(_.time(date)).toBe('11:45 PM')
-      expect(_.time(date, 'medium')).toBe('11:45:00 PM')
+      expect(_.time(date, { format: 'medium' })).toBe('11:45:00 PM')
     })
 
     it('should format a date value', () => {
       expect(_.date(date)).toBe('4/24/19')
-      expect(_.date(date, 'medium')).toBe('Apr 24, 2019')
+      expect(_.date(date, { format: 'medium' })).toBe('Apr 24, 2019')
     })
     // number
     it('should format a date value', () => {
       expect(_.number(123123123)).toBe('123,123,123')
     })
+  })
+})
+
+describe('custom formats', () => {
+  beforeAll(() => {
+    locale.set('pt-BR')
+  })
+
+  it('should have default number custom formats', () => {
+    expect(customFormats.number).toMatchObject({
+      scientific: { notation: 'scientific' },
+      engineering: { notation: 'engineering' },
+      compactLong: { notation: 'compact', compactDisplay: 'long' },
+      compactShort: { notation: 'compact', compactDisplay: 'short' },
+    })
+  })
+
+  it('should allow to add custom formats', () => {
+    addCustomFormats({
+      number: {
+        usd: { style: 'currency', currency: 'USD' },
+      },
+    })
+
+    expect(customFormats.number).toMatchObject({
+      usd: { style: 'currency', currency: 'USD' },
+    })
+  })
+
+  it('should format messages with custom formats', () => {
+    addCustomFormats({
+      number: {
+        usd: { style: 'currency', currency: 'USD' },
+        brl: { style: 'currency', currency: 'BRL' },
+      },
+    })
+
+    expect(_.number(123123123, { format: 'usd' })).toContain('US$')
+    expect(_.number(123123123, { format: 'usd' })).toContain('123,123,123.00')
+
+    expect(_.number(123123123, { format: 'brl' })).toContain('R$')
+    expect(_.number(123123123, { format: 'brl' })).toContain('123,123,123.00')
   })
 })
