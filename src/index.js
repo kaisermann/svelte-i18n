@@ -1,7 +1,8 @@
-import { writable, derived } from 'svelte/store'
+import { writable, derived } from 'svelte/store.mjs'
 import resolvePath from 'object-resolve-path'
 import IntlMessageFormat from 'intl-messageformat'
 import memoize from 'micro-memoize'
+
 import { capital, title, upper, lower, getClientLocale } from './utils.js'
 
 let currentLocale

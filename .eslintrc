@@ -1,13 +1,10 @@
 {
-  "root": true,
-  "extends": ["standard", "prettier", "prettier/standard"],
+  "extends": ["kaisermann"],
   "env": {
     "browser": true,
     "jest": true
   },
   "parserOptions": {
-    "ecmaFeatures": {
-      "modules": true
-    }
+    "sourceType": "module"
   }
 }
