@@ -3,6 +3,9 @@
   "version": "1.1.2-beta",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
+  "bin": {
+    "svelte-i18n": "dist/cli.js"
+  },
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -72,8 +75,13 @@
     "svelte": "^3.14.0"
   },
   "dependencies": {
+    "code-red": "0.0.21",
+    "commander": "^4.0.1",
     "intl-messageformat": "^7.5.2",
+    "magic-string": "^0.25.4",
     "micro-memoize": "^4.0.8",
-    "object-resolve-path": "^1.1.1"
+    "object-resolve-path": "^1.1.1",
+    "svelte-markup-walker": "0.0.2",
+    "tiny-glob": "^0.2.6"
   }
 }

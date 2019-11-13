@@ -15,6 +15,8 @@ const customFormats = {
     compactLong: { notation: 'compact', compactDisplay: 'long' },
     compactShort: { notation: 'compact', compactDisplay: 'short' },
   },
+  date: {},
+  time: {},
 }
 
 function addCustomFormats(formats) {
@@ -53,14 +55,22 @@ function formatString(string, { values, locale = currentLocale } = {}) {
   return getMessageFormatter(string, locale).format(values)
 }
 
-function formatMessage(path, { values, locale = currentLocale } = {}) {
-  const message = lookupMessage(path, locale)
+function formatMessage(id, options = {}) {
+  if (typeof id === 'object') {
+    options = id
+    id = options.id
+  }
+
+  const { values, locale = currentLocale, default: defaultValue } = options
+
+  const message = lookupMessage(id, locale)
 
   if (!message) {
     console.warn(
-      `[svelte-i18n] The message "${path}" was not found in the locale "${locale}".`,
+      `[svelte-i18n] The message "${id}" was not found in the locale "${locale}".`,
     )
-    return path
+    if (defaultValue != null) return defaultValue
+    return id
   }
 
   if (!values) return message
@@ -109,10 +119,9 @@ const format = derived([locale, dictionary], () => formatMessage)
 
 export {
   locale,
+  dictionary,
   format as _,
   format,
-  formatString,
-  dictionary,
   getClientLocale,
   customFormats,
   addCustomFormats,

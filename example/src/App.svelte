@@ -1,5 +1,5 @@
 <script>
-  import { locale, _ } from '../../src/index.js'
+  import { locale, _ } from 'svelte-i18n'
 
   let name = ''
   let pluralN = 2

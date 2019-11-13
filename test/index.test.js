@@ -63,7 +63,12 @@ it("should throw an error if locale doesn't exist", () => {
 
 it('should fallback to message id if id is not found', () => {
   locale.set('en')
-  expect(_('batatinha')).toBe('batatinha')
+  expect(_('batatinha.quente')).toBe('batatinha.quente')
+})
+
+it('should fallback to default value if id is not found', () => {
+  locale.set('en')
+  expect(_('batatinha.quente', { default: 'Hot Potato' })).toBe('Hot Potato')
 })
 
 it('should translate to current locale', () => {
@@ -73,8 +78,15 @@ it('should translate to current locale', () => {
   expect(_('switch.lang')).toBe('Switch language')
 })
 
+it('should accept single object with id prop as the message path', () => {
+  locale.set('pt')
+  expect(_({ id: 'switch.lang' })).toBe('Trocar idioma')
+  locale.set('en')
+  expect(_({ id: 'switch.lang' })).toBe('Switch language')
+})
+
 it('should translate to passed locale', () => {
-  expect(_('switch.lang', { locale: 'pt' })).toBe('Trocar idioma')
+  expect(_({ id: 'switch.lang', locale: 'pt' })).toBe('Trocar idioma')
   expect(_('switch.lang', { locale: 'en' })).toBe('Switch language')
 })
 
@@ -197,8 +209,7 @@ describe('custom formats', () => {
       },
     })
 
-    expect(_.number(123123123, { format: 'usd' })).toContain('US$')
-    expect(_.number(123123123, { format: 'usd' })).toContain('123,123,123.00')
+    expect(_.number(123123123, { format: 'usd' })).toContain('$123,123,123.00')
 
     expect(_.number(123123123, { format: 'brl' })).toContain('R$')
     expect(_.number(123123123, { format: 'brl' })).toContain('123,123,123.00')

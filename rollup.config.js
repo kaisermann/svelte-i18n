@@ -9,11 +9,25 @@ const plugins = [resolve(), commonjs(), terser()]
 export default [
   {
     input: 'src/index.js',
-    external: [...Object.keys(pkg.dependencies), 'svelte/store'],
+    external: [
+      ...Object.keys(pkg.dependencies),
+      ...Object.keys(pkg.peerDependencies),
+      'svelte/store',
+    ],
     output: [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
     ],
+    plugins,
+  },
+  {
+    input: 'src/cli/index.js',
+    external: [
+      ...Object.keys(pkg.dependencies),
+      ...Object.keys(pkg.peerDependencies),
+      'svelte/store',
+    ],
+    output: [{ file: pkg.bin['svelte-i18n'], name: 'cli.js', format: 'cjs' }],
     plugins,
   },
 ]
