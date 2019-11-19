@@ -1,8 +1,9 @@
 <script context="module">
   import { locale, locales, getClientLocale } from 'svelte-i18n'
+  import Lang from 'svelte-i18n/Lang.svelte'
 
   export async function preload() {
-    return locale.set(getClientLocale({ default: 'en-US', navigator: true }))
+    return locale.set(getClientLocale({ default: 'pt-BR', navigator: true }))
   }
 </script>
 
@@ -28,6 +29,10 @@
     box-sizing: border-box;
   }
 </style>
+
+<Lang let:loading>
+  {loading}
+</Lang>
 
 <Nav {segment} />
 
