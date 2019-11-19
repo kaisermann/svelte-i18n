@@ -1,3 +1,4 @@
+import { Formatter } from '../../src/client/types'
 import {
   dictionary,
   locale,
@@ -5,89 +6,101 @@ import {
   getClientLocale,
   addCustomFormats,
   customFormats,
-} from '../src/index.js'
+} from '../../src/client'
 
-let _
-let currentLocale
+global.Intl = require('intl')
+
+let _: Formatter
+let currentLocale: string
 
 const dict = {
-  pt: {
-    hi: 'olá você',
-    'switch.lang': 'Trocar idioma',
-    greeting: {
-      ask: 'Por favor, digite seu nome',
-      message: 'Olá {name}, como vai?',
-    },
-    photos:
-      'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
-    cats: 'Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}',
-  },
-  en: {
-    hi: 'hi yo',
-    'switch.lang': 'Switch language',
-    greeting: {
-      ask: 'Please type your name',
-      message: 'Hello {name}, how are you?',
-    },
-    photos:
-      'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
-    cats: 'I have {n, number} {n,plural,one{cat}other{cats}}',
-  },
+  pt: require('../fixtures/pt.json'),
+  en: require('../fixtures/en.json'),
 }
 
 format.subscribe(formatFn => {
   _ = formatFn
 })
 dictionary.set(dict)
-locale.subscribe(l => (currentLocale = l))
+locale.subscribe((l: string) => {
+  currentLocale = l
+})
 locale.set('pt')
 
-it('should change locale', () => {
-  locale.set('pt')
-  expect(currentLocale).toBe('pt')
-  locale.set('en')
-  expect(currentLocale).toBe('en')
+describe('locale', () => {
+  it('should change locale', () => {
+    locale.set('pt')
+    expect(currentLocale).toBe('pt')
+    locale.set('en')
+    expect(currentLocale).toBe('en')
+  })
+
+  it('should fallback to existing locale', () => {
+    locale.set('pt-BR')
+    expect(currentLocale).toBe('pt')
+
+    locale.set('en-US')
+    expect(currentLocale).toBe('en')
+  })
+
+  it("should throw an error if locale doesn't exist", () => {
+    expect(() => locale.set('FOO')).toThrow()
+  })
 })
 
-it('should fallback to existing locale', () => {
-  locale.set('pt-BR')
-  expect(currentLocale).toBe('pt')
-
-  locale.set('en-US')
-  expect(currentLocale).toBe('en')
+describe('dictionary', () => {
+  // todo test this better
+  it('allows to dynamically import a dictionary', async () => {
+    dictionary.update((dict: any) => {
+      dict.es = () => import('../fixtures/es.json')
+      return dict
+    })
+    await locale.set('es')
+    expect(currentLocale).toBe('es')
+  })
 })
 
-it("should throw an error if locale doesn't exist", () => {
-  expect(() => locale.set('FOO')).toThrow()
-})
+describe('formatting', () => {
+  it('should fallback to message id if id is not found', () => {
+    locale.set('en')
+    expect(_('batatinha.quente')).toBe('batatinha.quente')
+  })
 
-it('should fallback to message id if id is not found', () => {
-  locale.set('en')
-  expect(_('batatinha')).toBe('batatinha')
-})
+  it('should fallback to default value if id is not found', () => {
+    locale.set('en')
+    expect(_('batatinha.quente', { default: 'Hot Potato' })).toBe('Hot Potato')
+  })
 
-it('should translate to current locale', () => {
-  locale.set('pt')
-  expect(_('switch.lang')).toBe('Trocar idioma')
-  locale.set('en')
-  expect(_('switch.lang')).toBe('Switch language')
-})
+  it('should translate to current locale', () => {
+    locale.set('pt')
+    expect(_('switch.lang')).toBe('Trocar idioma')
+    locale.set('en')
+    expect(_('switch.lang')).toBe('Switch language')
+  })
 
-it('should translate to passed locale', () => {
-  expect(_('switch.lang', { locale: 'pt' })).toBe('Trocar idioma')
-  expect(_('switch.lang', { locale: 'en' })).toBe('Switch language')
-})
+  it('should accept single object with id prop as the message path', () => {
+    locale.set('pt')
+    expect(_({ id: 'switch.lang' })).toBe('Trocar idioma')
+    locale.set('en')
+    expect(_({ id: 'switch.lang' })).toBe('Switch language')
+  })
 
-it('should interpolate message with variables', () => {
-  expect(_('greeting.message', { values: { name: 'Chris' } })).toBe(
-    'Hello Chris, how are you?',
-  )
-})
+  it('should translate to passed locale', () => {
+    expect(_({ id: 'switch.lang', locale: 'pt' })).toBe('Trocar idioma')
+    expect(_('switch.lang', { locale: 'en' })).toBe('Switch language')
+  })
 
-it('should interpolate message with variables according to passed locale', () => {
-  expect(
-    _('greeting.message', { values: { name: 'Chris' }, locale: 'pt' }),
-  ).toBe('Olá Chris, como vai?')
+  it('should interpolate message with variables', () => {
+    expect(_('greeting.message', { values: { name: 'Chris' } })).toBe(
+      'Hello Chris, how are you?',
+    )
+  })
+
+  it('should interpolate message with variables according to passed locale', () => {
+    expect(
+      _('greeting.message', { values: { name: 'Chris' }, locale: 'pt' }),
+    ).toBe('Olá Chris, como vai?')
+  })
 })
 
 describe('utilities', () => {
@@ -97,7 +110,7 @@ describe('utilities', () => {
       window.location = {
         hash: '',
         search: '',
-      }
+      } as any
     })
 
     it('should get the locale based on the passed hash parameter', () => {
@@ -150,6 +163,9 @@ describe('utilities', () => {
       locale.set('en')
       expect(_.time(date)).toBe('11:45 PM')
       expect(_.time(date, { format: 'medium' })).toBe('11:45:00 PM')
+      expect(_.time(date, { format: 'medium', locale: 'pt-BR' })).toBe(
+        '23:45:00',
+      )
     })
 
     it('should format a date value', () => {
@@ -195,12 +211,25 @@ describe('custom formats', () => {
         usd: { style: 'currency', currency: 'USD' },
         brl: { style: 'currency', currency: 'BRL' },
       },
+      date: {
+        customDate: { year: 'numeric', era: 'short' },
+      },
+      time: {
+        customTime: { hour: '2-digit', month: 'narrow' },
+      },
     })
 
-    expect(_.number(123123123, { format: 'usd' })).toContain('US$')
-    expect(_.number(123123123, { format: 'usd' })).toContain('123,123,123.00')
+    locale.set('en-US')
 
-    expect(_.number(123123123, { format: 'brl' })).toContain('R$')
-    expect(_.number(123123123, { format: 'brl' })).toContain('123,123,123.00')
+    expect(_.number(123123123, { format: 'usd' })).toContain('$123,123,123.00')
+    expect(_.number(123123123, { format: 'brl' })).toContain('R$123,123,123.00')
+
+    expect(_.date(new Date(2019, 0, 1), { format: 'customDate' })).toEqual(
+      '2019 AD',
+    )
+
+    expect(
+      _.time(new Date(2019, 0, 1, 2, 0, 0), { format: 'customTime' }),
+    ).toEqual('Jan, 02')
   })
 })

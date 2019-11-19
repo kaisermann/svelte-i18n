@@ -1,5 +1,5 @@
 {
-  "extends": ["kaisermann"],
+  "extends": ["kaisermann/typescript"],
   "env": {
     "browser": true,
     "jest": true
