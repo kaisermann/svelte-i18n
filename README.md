@@ -8,6 +8,7 @@
 
 <!-- code_chunk_output -->
 
+- [TODO - WIP](#todo-wip)
 - [Usage](#usage)
   - [Locale](#locale)
   - [The dictionary](#the-dictionary)
@@ -18,6 +19,12 @@
   - [Options](#options)
 
 <!-- /code_chunk_output -->
+
+## TODO - WIP
+
+- [ ] Maybe locale can be a promise so we can await for it on the template;
+- [ ] Wiki on github;
+- [ ] Find a more flexible way to preload dictionaries so it's possible to preload partial dictionaries.
 
 ## Usage
 
@@ -75,8 +82,7 @@ dictionary.set({
       ask: 'Por favor, digite seu nome',
       message: 'Olá {name}, como vai?',
     },
-    photos:
-      'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
+    photos: 'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
     cats: 'Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}',
   },
   en: {
@@ -86,8 +92,7 @@ dictionary.set({
       ask: 'Please type your name',
       message: 'Hello {name}, how are you?',
     },
-    photos:
-      'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
+    photos: 'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
     cats: 'I have {n, number} {n,plural,one{cat}other{cats}}',
   },
 })
