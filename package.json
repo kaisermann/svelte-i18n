@@ -1,8 +1,11 @@
 {
   "name": "svelte-i18n",
-  "version": "1.1.2-beta",
+  "version": "2.0.0-alpha.2",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
+  "bin": {
+    "svelte-i18n": "dist/cli.js"
+  },
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -14,66 +17,67 @@
     "localization",
     "translation"
   ],
+  "engines": {
+    "node": ">= 11.15.0"
+  },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "pretest": "npm run build",
-    "test": "jest --no-cache --verbose",
+    "test": "jest --no-cache",
     "test:watch": "jest --no-cache --verbose --watchAll",
-    "lint": "eslint \"src/**/*.js\"",
-    "format": "prettier --loglevel silent --write \"src/**/*.js\" && eslint --fix \"src/**/*.js\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --loglevel silent --write \"src/**/*.ts\" && eslint --fix \"src/**/*.ts\"",
     "prepublishOnly": "npm run format && npm run test && npm run build"
   },
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
   "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/",
+    "collectCoverage": true,
+    "testMatch": [
+      "<rootDir>/test/**/*.test.ts"
+    ],
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.ts"
+    ],
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "testRegex": "(/test/.*|\\.(test|spec))\\.js$",
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
-      }
-    },
-    "collectCoverage": true
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "peerDependencies": {
+    "svelte": "^3.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
+    "@types/estree": "0.0.39",
+    "@types/intl": "^1.2.0",
+    "@types/jest": "^24.0.23",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "eslint": "^6.6.0",
     "eslint-config-kaisermann": "0.0.3",
+    "intl": "^1.2.5",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "rollup": "^1.26.5",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.14.0"
-  },
-  "peerDependencies": {
-    "svelte": "^3.14.0"
+    "rollup-plugin-typescript2": "^0.25.2",
+    "sass": "^1.23.6",
+    "svelte": "^3.14.1",
+    "svelte-preprocess": "^3.2.6",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.7.2"
   },
   "dependencies": {
+    "commander": "^4.0.1",
+    "estree-walker": "^0.9.0",
     "intl-messageformat": "^7.5.2",
     "micro-memoize": "^4.0.8",
-    "object-resolve-path": "^1.1.1"
+    "object-resolve-path": "^1.1.1",
+    "tiny-glob": "^0.2.6"
   }
 }

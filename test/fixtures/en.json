@@ -1,0 +1,10 @@
+{
+  "hi": "hi yo",
+  "switch.lang": "Switch language",
+  "greeting": {
+    "ask": "Please type your name",
+    "message": "Hello {name}, how are you?"
+  },
+  "photos": "You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}",
+  "cats": "I have {n, number} {n,plural,one{cat}other{cats}}"
+}

@@ -1,0 +1,13 @@
+{
+  "title": {
+    "about": "Acerca de",
+    "index": " Plantilla de proyecto Sapper!"
+  },
+  "about_this_site": " Acerca de este sitio",
+  "about_content": ["Esta es la página 'acerca de'. No hay mucho aquí."],
+  "messages": {
+    "success": "Gran éxito!",
+    "high_five": "Cinco altos",
+    "try_editing": " Intente editar este archivo (src/routes/index.svelte) para probar la recarga en vivo."
+  }
+}

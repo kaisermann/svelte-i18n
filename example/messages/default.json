@@ -1,0 +1,13 @@
+{
+  "title": {
+    "about": "About",
+    "index": "Sapper project template!"
+  },
+  "about_this_site": "About this site",
+  "about_content": ["This is the 'about' page. There's not much here."],
+  "messages": {
+    "success": "Great success!",
+    "high_five": "High five",
+    "try_editing": "Try editing this file (src/routes/index.svelte) to test live reloading."
+  }
+}
