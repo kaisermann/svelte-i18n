@@ -1,5 +1,3 @@
-// todo maybe locale can be a promise so we can await for it on the template?
-
 import { writable, derived } from 'svelte/store'
 import resolvePath from 'object-resolve-path'
 import memoize from 'micro-memoize'
@@ -36,10 +34,10 @@ function getAvailableLocale(locale: string) {
 }
 
 const lookupMessage = memoize((path: string, locale: string) => {
-  return (
-    (currentDictionary[locale] as any)[path] ||
-    resolvePath(currentDictionary[locale], path)
-  )
+  if (path in currentDictionary[locale]) {
+    return currentDictionary[locale][path]
+  }
+  return resolvePath(currentDictionary[locale], path)
 })
 
 const formatMessage: Formatter = (id, options = {}) => {
@@ -52,9 +50,7 @@ const formatMessage: Formatter = (id, options = {}) => {
   const message = lookupMessage(id, locale)
 
   if (!message) {
-    console.warn(
-      `[svelte-i18n] The message "${id}" was not found in the locale "${locale}".`,
-    )
+    console.warn(`[svelte-i18n] The message "${id}" was not found in the locale "${locale}".`)
     if (defaultValue != null) return defaultValue
     return id
   }
@@ -64,26 +60,20 @@ const formatMessage: Formatter = (id, options = {}) => {
   return getMessageFormatter(message, locale).format(values)
 }
 
-formatMessage.time = (t, options) =>
-  getTimeFormatter(currentLocale, options).format(t)
-formatMessage.date = (d, options) =>
-  getDateFormatter(currentLocale, options).format(d)
-formatMessage.number = (n, options) =>
-  getNumberFormatter(currentLocale, options).format(n)
+formatMessage.time = (t, options) => getTimeFormatter(currentLocale, options).format(t)
+formatMessage.date = (d, options) => getDateFormatter(currentLocale, options).format(d)
+formatMessage.number = (n, options) => getNumberFormatter(currentLocale, options).format(n)
+formatMessage.capital = (id, options) => capital(formatMessage(id, options))
+formatMessage.title = (id, options) => title(formatMessage(id, options))
+formatMessage.upper = (id, options) => upper(formatMessage(id, options))
+formatMessage.lower = (id, options) => lower(formatMessage(id, options))
 
-formatMessage.capital = (path, options) => capital(formatMessage(path, options))
-formatMessage.title = (path, options) => title(formatMessage(path, options))
-formatMessage.upper = (path, options) => upper(formatMessage(path, options))
-formatMessage.lower = (path, options) => lower(formatMessage(path, options))
+const $dictionary = writable({})
+$dictionary.subscribe((newDictionary: any) => (currentDictionary = newDictionary))
 
-const dictionary = writable({})
-dictionary.subscribe(
-  (newDictionary: any) => (currentDictionary = newDictionary),
-)
-
-const locale = writable(null)
-const localeSet = locale.set
-locale.set = (newLocale: string) => {
+const $locale = writable(null)
+const localeSet = $locale.set
+$locale.set = (newLocale: string): void | Promise<void> => {
   const { locale, loader } = getAvailableLocale(newLocale)
   if (typeof loader === 'function') {
     return loader()
@@ -100,17 +90,20 @@ locale.set = (newLocale: string) => {
 
   throw Error(`[svelte-i18n] Locale "${newLocale}" not found.`)
 }
-locale.update = (fn: (locale: string) => string) => localeSet(fn(currentLocale))
-locale.subscribe((newLocale: string) => (currentLocale = newLocale))
+$locale.update = (fn: (locale: string) => void | Promise<void>) => localeSet(fn(currentLocale))
+$locale.subscribe((newLocale: string) => (currentLocale = newLocale))
 
-const format = derived([locale, dictionary], () => formatMessage)
+const format = derived([$locale, $dictionary], () => formatMessage)
+const locales = derived([$dictionary], ([$dictionary]) => Object.keys($dictionary))
+
 // defineMessages allow us to define and extract dynamic message ids
 const defineMessages = (i: Record<string, MessageObject>) => i
 
 export { customFormats, addCustomFormats } from './formatters'
 export {
-  locale,
-  dictionary,
+  $locale as locale,
+  $dictionary as dictionary,
+  locales,
   getClientLocale,
   defineMessages,
   format as _,
