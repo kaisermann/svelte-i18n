@@ -31,7 +31,8 @@
     "prepublishOnly": "npm run format && npm run test && npm run build"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "Lang.svelte"
   ],
   "jest": {
     "collectCoverage": true,

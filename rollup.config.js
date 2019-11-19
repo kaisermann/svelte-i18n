@@ -7,13 +7,6 @@ import pkg from './package.json'
 
 const PROD = !process.env.ROLLUP_WATCH
 
-// const externals = new Set([
-//   ...Object.keys(pkg.dependencies),
-//   ...Object.keys(pkg.peerDependencies),
-//   'fs',
-//   'path',
-// ])
-
 export default [
   {
     input: 'src/client/index.ts',
