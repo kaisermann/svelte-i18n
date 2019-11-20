@@ -25,6 +25,7 @@
     "dev": "rollup -c -w",
     "pretest": "npm run build",
     "test": "jest --no-cache",
+    "test:ci": "jest --silent --no-cache",
     "test:watch": "jest --no-cache --verbose --watchAll",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --loglevel silent --write \"src/**/*.ts\" && eslint --fix \"src/**/*.ts\"",
