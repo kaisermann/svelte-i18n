@@ -1,3 +1,4 @@
+// todo this is a mess
 import { Formatter } from '../../src/client/types'
 import {
   dictionary,
@@ -7,8 +8,8 @@ import {
   addCustomFormats,
   customFormats,
   preloadLocale,
-  registerLocaleLoader,
-  flushLocaleQueue,
+  register,
+  waitLocale,
 } from '../../src/client'
 
 global.Intl = require('intl')
@@ -20,10 +21,10 @@ const dict = {
   en: require('../fixtures/en.json'),
 }
 
-registerLocaleLoader('en-GB', () => import('../fixtures/en-GB.json'))
-registerLocaleLoader('pt', () => import('../fixtures/pt.json'))
-registerLocaleLoader('pt-BR', () => import('../fixtures/pt-BR.json'))
-registerLocaleLoader('pt-PT', () => import('../fixtures/pt-PT.json'))
+register('en-GB', () => import('../fixtures/en-GB.json'))
+register('pt', () => import('../fixtures/pt.json'))
+register('pt-BR', () => import('../fixtures/pt-BR.json'))
+register('pt-PT', () => import('../fixtures/pt-PT.json'))
 
 format.subscribe(formatFn => {
   _ = formatFn
@@ -34,11 +35,11 @@ locale.subscribe((l: string) => {
 })
 
 describe('locale', () => {
-  it('should change locale', () => {
-    locale.set('en')
+  it('should change locale', async () => {
+    await locale.set('en')
     expect(currentLocale).toBe('en')
 
-    locale.set('en-US')
+    await locale.set('en-US')
     expect(currentLocale).toBe('en-US')
   })
 
@@ -48,16 +49,6 @@ describe('locale', () => {
 })
 
 describe('dictionary', () => {
-  // todo test this better
-  it('allows to dynamically import a dictionary', async () => {
-    dictionary.update((dict: any) => {
-      dict.es = () => import('../fixtures/es.json')
-      return dict
-    })
-    await locale.set('es')
-    expect(currentLocale).toBe('es')
-  })
-
   it('load a locale and its derived locales if dictionary is a loader', async () => {
     const loaded = await preloadLocale('pt-PT')
     expect(loaded[0][0]).toEqual('pt')
@@ -65,28 +56,28 @@ describe('dictionary', () => {
   })
 
   it('load a partial dictionary and merge it with the existing one', async () => {
-    locale.set('en')
-    registerLocaleLoader('en', () => import('../fixtures/partials/en.json'))
+    await locale.set('en')
+    register('en', () => import('../fixtures/partials/en.json'))
     expect(_('page.title_about')).toBe('page.title_about')
 
-    await flushLocaleQueue('en')
+    await waitLocale('en')
     expect(_('page.title_about')).toBe('About')
   })
 })
 
 describe('formatting', () => {
-  it('should translate to current locale', () => {
-    locale.set('en')
+  it('should translate to current locale', async () => {
+    await locale.set('en')
     expect(_('switch.lang')).toBe('Switch language')
   })
 
-  it('should fallback to message id if id is not found', () => {
-    locale.set('en')
+  it('should fallback to message id if id is not found', async () => {
+    await locale.set('en')
     expect(_('batatinha.quente')).toBe('batatinha.quente')
   })
 
-  it('should fallback to default value if id is not found', () => {
-    locale.set('en')
+  it('should fallback to default value if id is not found', async () => {
+    await locale.set('en')
     expect(_('batatinha.quente', { default: 'Hot Potato' })).toBe('Hot Potato')
   })
 
@@ -95,23 +86,25 @@ describe('formatting', () => {
     expect(_('sneakers', { locale: 'en-GB' })).toBe('trainers')
   })
 
-  it('should fallback to generic locale XX if id not found in XX-YY', () => {
-    locale.set('en-GB')
+  it('should fallback to generic locale XX if id not found in XX-YY', async () => {
+    await locale.set('en-GB')
     expect(_('switch.lang')).toBe('Switch language')
   })
 
-  it('should accept single object with id prop as the message path', () => {
-    locale.set('en')
+  it('should accept single object with id prop as the message path', async () => {
+    await locale.set('en')
     expect(_({ id: 'switch.lang' })).toBe('Switch language')
   })
 
   it('should translate to passed locale', () => {
-    expect(_('switch.lang', { locale: 'en' })).toBe('Switch language')
+    expect(_('switch.lang', { locale: 'pt' })).toBe('Trocar idioma')
   })
 
-  it('should interpolate message with variables', () => {
-    locale.set('en')
-    expect(_('greeting.message', { values: { name: 'Chris' } })).toBe('Hello Chris, how are you?')
+  it('should interpolate message with variables', async () => {
+    await locale.set('en')
+    expect(_('greeting.message', { values: { name: 'Chris' } })).toBe(
+      'Hello Chris, how are you?'
+    )
   })
 })
 
@@ -138,7 +131,9 @@ describe('utilities', () => {
     })
 
     it('should get the locale based on the navigator language', () => {
-      expect(getClientLocale({ navigator: true })).toBe(window.navigator.language)
+      expect(getClientLocale({ navigator: true })).toBe(
+        window.navigator.language
+      )
     })
 
     it('should get the fallback locale', () => {
@@ -148,8 +143,8 @@ describe('utilities', () => {
   })
 
   describe('format utils', () => {
-    beforeAll(() => {
-      locale.set('en')
+    beforeAll(async () => {
+      await locale.set('en')
     })
 
     it('should capital a translated message', () => {
@@ -169,11 +164,13 @@ describe('utilities', () => {
     })
 
     const date = new Date(2019, 3, 24, 23, 45)
-    it('should format a time value', () => {
-      locale.set('en')
+    it('should format a time value', async () => {
+      await locale.set('en')
       expect(_.time(date)).toBe('11:45 PM')
       expect(_.time(date, { format: 'medium' })).toBe('11:45:00 PM')
-      expect(_.time(date, { format: 'medium', locale: 'pt-BR' })).toBe('23:45:00')
+      expect(_.time(date, { format: 'medium', locale: 'pt-BR' })).toBe(
+        '23:45:00'
+      )
     })
 
     it('should format a date value', () => {
@@ -188,8 +185,8 @@ describe('utilities', () => {
 })
 
 describe('custom formats', () => {
-  beforeAll(() => {
-    locale.set('pt-BR')
+  beforeAll(async () => {
+    await locale.set('pt-BR')
   })
 
   it('should have default number custom formats', () => {
@@ -213,7 +210,7 @@ describe('custom formats', () => {
     })
   })
 
-  it('should format messages with custom formats', () => {
+  it('should format messages with custom formats', async () => {
     addCustomFormats({
       number: {
         usd: { style: 'currency', currency: 'USD' },
@@ -227,12 +224,16 @@ describe('custom formats', () => {
       },
     })
 
-    locale.set('en-US')
+    await locale.set('en-US')
 
     expect(_.number(123123123, { format: 'usd' })).toContain('$123,123,123.00')
 
-    expect(_.date(new Date(2019, 0, 1), { format: 'customDate' })).toEqual('2019 AD')
+    expect(_.date(new Date(2019, 0, 1), { format: 'customDate' })).toEqual(
+      '2019 AD'
+    )
 
-    expect(_.time(new Date(2019, 0, 1, 2, 0, 0), { format: 'customTime' })).toEqual('Jan, 02')
+    expect(
+      _.time(new Date(2019, 0, 1, 2, 0, 0), { format: 'customTime' })
+    ).toEqual('Jan, 02')
   })
 })

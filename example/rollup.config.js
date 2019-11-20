@@ -40,7 +40,6 @@ export default {
       }),
       commonjs(),
       json(),
-
       legacy &&
         babel({
           extensions: ['.js', '.mjs', '.html', '.svelte'],
@@ -73,7 +72,6 @@ export default {
 
     onwarn,
   },
-
   server: {
     input: config.server.input(),
     output: config.server.output(),
@@ -94,9 +92,8 @@ export default {
     ],
     external: Object.keys(pkg.dependencies).concat(
       require('module').builtinModules ||
-        Object.keys(process.binding('natives')),
+        Object.keys(process.binding('natives'))
     ),
-
     onwarn,
   },
 

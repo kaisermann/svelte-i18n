@@ -74,7 +74,7 @@ function getLibImportDeclarations(ast: Ast) {
   return (ast.instance
     ? ast.instance.content.body.filter(
         node =>
-          node.type === 'ImportDeclaration' && node.source.value === LIB_NAME,
+          node.type === 'ImportDeclaration' && node.source.value === LIB_NAME
       )
     : []) as ImportDeclaration[]
 }
@@ -82,13 +82,13 @@ function getLibImportDeclarations(ast: Ast) {
 function getDefineMessagesSpecifier(decl: ImportDeclaration) {
   return decl.specifiers.find(
     spec =>
-      'imported' in spec && spec.imported.name === DEFINE_MESSAGES_METHOD_NAME,
+      'imported' in spec && spec.imported.name === DEFINE_MESSAGES_METHOD_NAME
   ) as ImportSpecifier
 }
 
 function getFormatSpecifiers(decl: ImportDeclaration) {
   return decl.specifiers.filter(
-    spec => 'imported' in spec && FORMAT_METHOD_NAMES.has(spec.imported.name),
+    spec => 'imported' in spec && FORMAT_METHOD_NAMES.has(spec.imported.name)
   ) as ImportSpecifier[]
 }
 
@@ -104,7 +104,7 @@ function getObjFromExpression(exprNode: Node | ObjectExpression) {
       }
       return acc
     },
-    { node: exprNode, meta: {} },
+    { node: exprNode, meta: {} }
   )
 }
 
@@ -115,8 +115,8 @@ export function collectFormatCalls(ast: Ast) {
 
   const imports = new Set(
     importDecls.flatMap(decl =>
-      getFormatSpecifiers(decl).map(n => n.local.name),
-    ),
+      getFormatSpecifiers(decl).map(n => n.local.name)
+    )
   )
 
   if (imports.size === 0) return []
@@ -137,7 +137,7 @@ export function collectFormatCalls(ast: Ast) {
 export function collectMessageDefinitions(ast: Ast) {
   const definitions: ObjectExpression[] = []
   const defineImportDecl = getLibImportDeclarations(ast).find(
-    getDefineMessagesSpecifier,
+    getDefineMessagesSpecifier
   )
 
   if (defineImportDecl == null) return []
@@ -157,7 +157,7 @@ export function collectMessageDefinitions(ast: Ast) {
   })
 
   return definitions.flatMap(definitionDict =>
-    definitionDict.properties.map(propNode => propNode.value),
+    definitionDict.properties.map(propNode => propNode.value)
   )
 }
 
@@ -193,7 +193,7 @@ export function collectMessages(markup: string): Message[] {
 
 export function extractMessages(
   markup: string,
-  { accumulator = {}, shallow = false, overwrite = false } = {} as any,
+  { accumulator = {}, shallow = false, overwrite = false } = {} as any
 ) {
   collectMessages(markup).forEach(message => {
     let defaultValue = message.meta.default
