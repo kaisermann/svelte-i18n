@@ -8,7 +8,7 @@ export function getGenericLocaleFrom(locale: string) {
   return index > 0 ? locale.slice(0, index) : null
 }
 
-export function getGenericLocalesFrom(locale: string) {
+export function getLocalesFrom(locale: string) {
   return locale.split('-').map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 }
 

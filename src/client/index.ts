@@ -9,7 +9,7 @@ import {
   lower,
   getClientLocale,
   getGenericLocaleFrom,
-  getGenericLocalesFrom,
+  getLocalesFrom,
 } from './utils'
 import { MessageObject, Formatter } from './types'
 import {
@@ -19,9 +19,11 @@ import {
   getTimeFormatter,
 } from './formatters'
 
+const $loading = writable(false)
+
 let currentLocale: string
 let currentDictionary: Record<string, Record<string, any>>
-const dictQueue: Record<string, any[]> = {}
+const dictQueue: Record<string, (() => Promise<any>)[]> = {}
 
 const hasLocale = (locale: string) => locale in currentDictionary
 
@@ -36,7 +38,7 @@ async function registerLocaleLoader(locale: string, loader: any) {
   dictQueue[locale].push(loader)
 }
 function getAvailableLocale(locale: string): string | null {
-  if (locale in currentDictionary || locale in dictQueue || locale == null) return locale
+  if (locale in currentDictionary || locale == null) return locale
   return getAvailableLocale(getGenericLocaleFrom(locale))
 }
 
@@ -83,9 +85,7 @@ const formatMessage: Formatter = (id, options = {}) => {
 
   if (!message) {
     console.warn(
-      `[svelte-i18n] The message "${id}" was not found in "${getGenericLocalesFrom(locale).join(
-        '", "'
-      )}".`
+      `[svelte-i18n] The message "${id}" was not found in "${getLocalesFrom(locale).join('", "')}".`
     )
     return defaultValue || id
   }
@@ -107,7 +107,7 @@ $dictionary.subscribe(newDictionary => (currentDictionary = newDictionary))
 
 function loadLocale(localeToLoad: string) {
   return Promise.all(
-    getGenericLocalesFrom(localeToLoad).map(localeItem =>
+    getLocalesFrom(localeToLoad).map(localeItem =>
       flushLocaleQueue(localeItem)
         .then(() => [localeItem, { err: undefined }])
         .catch(e => [localeItem, { err: e }])
@@ -117,16 +117,21 @@ function loadLocale(localeToLoad: string) {
 
 async function flushLocaleQueue(locale: string = currentLocale) {
   if (!(locale in dictQueue)) return
-  return Promise.all(dictQueue[locale].map((loader: any) => loader())).then(partials => {
-    dictQueue[locale] = []
 
-    partials = partials.map(partial => partial.default || partial)
-    invalidateLookupCache(locale)
-    $dictionary.update(d => {
-      d[locale] = merge.all<any>([d[locale] || {}].concat(partials))
-      return d
+  $loading.set(true)
+
+  return Promise.all(dictQueue[locale].map((loader: any) => loader()))
+    .then(partials => {
+      dictQueue[locale] = []
+
+      partials = partials.map(partial => partial.default || partial)
+      invalidateLookupCache(locale)
+      $dictionary.update(d => {
+        d[locale] = merge.all<any>([d[locale] || {}].concat(partials))
+        return d
+      })
     })
-  })
+    .then(() => $loading.set(false))
 }
 
 const $locale = writable(null)
@@ -134,10 +139,7 @@ const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
   const locale = getAvailableLocale(newLocale)
   if (locale) {
-    if (locale in dictQueue && dictQueue[locale].length > 0) {
-      return flushLocaleQueue(locale).then(() => localeSet(newLocale))
-    }
-    return localeSet(newLocale)
+    return flushLocaleQueue(newLocale).then(() => localeSet(newLocale))
   }
 
   throw Error(`[svelte-i18n] Locale "${newLocale}" not found.`)
@@ -153,6 +155,7 @@ const defineMessages = (i: Record<string, MessageObject>) => i
 
 export { customFormats, addCustomFormats } from './formatters'
 export {
+  $loading as loading,
   $locale as locale,
   $dictionary as dictionary,
   $format as _,
@@ -161,6 +164,7 @@ export {
   getClientLocale,
   defineMessages,
   loadLocale as preloadLocale,
-  registerLocaleLoader,
-  flushLocaleQueue,
+  registerLocaleLoader as register,
+  flushLocaleQueue as waitLocale,
+  merge,
 }
