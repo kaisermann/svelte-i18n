@@ -1,7 +1,8 @@
 import IntlMessageFormat, { Formats } from 'intl-messageformat'
-import memoize from 'micro-memoize'
+import memoize from 'fast-memoize'
 
-import { MemoizedIntlFormatter } from './types'
+import { MemoizedIntlFormatter } from '../types'
+import { getCurrentLocale } from '../stores/locale'
 
 export const customFormats: any = {
   number: {
@@ -22,7 +23,7 @@ export function addCustomFormats(formats: Partial<Formats>) {
 
 const getIntlFormatterOptions = (
   type: 'time' | 'number' | 'date',
-  name: string,
+  name: string
 ): any => {
   if (type in customFormats && name in customFormats[type]) {
     return customFormats[type][name]
@@ -41,8 +42,8 @@ const getIntlFormatterOptions = (
 export const getNumberFormatter: MemoizedIntlFormatter<
   Intl.NumberFormat,
   Intl.NumberFormatOptions
-> = memoize((locale, options = {}) => {
-  if (options.locale) locale = options.locale
+> = memoize((options = {}) => {
+  const locale = options.locale || getCurrentLocale()
   if (options.format) {
     const format = getIntlFormatterOptions('number', options.format)
     if (format) options = format
@@ -53,28 +54,28 @@ export const getNumberFormatter: MemoizedIntlFormatter<
 export const getDateFormatter: MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
-> = memoize((locale, options = { format: 'short' }) => {
-  if (options.locale) locale = options.locale
-  if (options.format) {
-    const format = getIntlFormatterOptions('date', options.format)
-    if (format) options = format
-  }
+> = memoize((options = { format: 'short' }) => {
+  const locale = options.locale || getCurrentLocale()
+
+  const format = getIntlFormatterOptions('date', options.format)
+  if (format) options = format
+
   return new Intl.DateTimeFormat(locale, options)
 })
 
 export const getTimeFormatter: MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
-> = memoize((locale, options = { format: 'short' }) => {
-  if (options.locale) locale = options.locale
-  if (options.format) {
-    const format = getIntlFormatterOptions('time', options.format)
-    if (format) options = format
-  }
+> = memoize((options = { format: 'short' }) => {
+  const locale = options.locale || getCurrentLocale()
+
+  const format = getIntlFormatterOptions('time', options.format)
+  if (format) options = format
+
   return new Intl.DateTimeFormat(locale, options)
 })
 
 export const getMessageFormatter = memoize(
   (message: string, locale: string) =>
-    new IntlMessageFormat(message, locale, customFormats),
+    new IntlMessageFormat(message, locale, customFormats)
 )

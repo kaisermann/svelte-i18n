@@ -1,7 +1,18 @@
-export const capital = (str: string) => str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
-export const title = (str: string) => str.replace(/(^|\s)\S/g, l => l.toLocaleUpperCase())
-export const upper = (str: string) => str.toLocaleUpperCase()
-export const lower = (str: string) => str.toLocaleLowerCase()
+export function capital(str: string) {
+  return str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
+}
+
+export function title(str: string) {
+  return str.replace(/(^|\s)\S/g, l => l.toLocaleUpperCase())
+}
+
+export function upper(str: string) {
+  return str.toLocaleUpperCase()
+}
+
+export function lower(str: string) {
+  return str.toLocaleLowerCase()
+}
 
 export function getGenericLocaleFrom(locale: string) {
   const index = locale.lastIndexOf('-')
@@ -12,6 +23,7 @@ export function getLocalesFrom(locale: string) {
   return locale.split('-').map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 }
 
+// todo add a urlPattern method/regexp
 export const getClientLocale = ({
   navigator,
   hash,

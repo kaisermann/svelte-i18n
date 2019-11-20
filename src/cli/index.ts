@@ -20,21 +20,21 @@ program
   .option(
     '-s, --shallow',
     'extract to a shallow dictionary (ids with dots interpreted as strings, not paths)',
-    false,
+    false
   )
   .option(
     '--overwrite',
     'overwrite the content of the output file instead of just appending new properties',
-    false,
+    false
   )
   .option(
     '-c, --config <dir>',
     'path to the "svelte.config.js" file',
-    process.cwd(),
+    process.cwd()
   )
   .action(async (globStr, output, { shallow, overwrite, config }) => {
     const filesToExtract = (await glob(globStr)).filter(file =>
-      file.match(/\.html|svelte$/i),
+      file.match(/\.html|svelte$/i)
     )
     const svelteConfig = await import(
       resolve(config, 'svelte.config.js')

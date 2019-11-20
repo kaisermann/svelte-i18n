@@ -16,24 +16,28 @@ type IntlFormatterOptions<T> = T & {
 }
 
 export interface MemoizedIntlFormatter<T, U> {
-  (locale: string, options: IntlFormatterOptions<U>): T
+  (options: IntlFormatterOptions<U>): T
 }
 
 export interface Formatter extends FormatterFn {
   time: (
     d: Date | number,
-    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>,
+    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
   ) => string
   date: (
     d: Date | number,
-    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>,
+    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
   ) => string
   number: (
     d: number,
-    options?: IntlFormatterOptions<Intl.NumberFormatOptions>,
+    options?: IntlFormatterOptions<Intl.NumberFormatOptions>
   ) => string
   capital: FormatterFn
   title: FormatterFn
   upper: FormatterFn
   lower: FormatterFn
+}
+
+export interface LocaleLoader {
+  (): Promise<any>
 }
