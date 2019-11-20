@@ -1,12 +1,12 @@
 <script context="module">
-  // import { partial } from 'svelte-i18n'
+  import { registerLocaleLoader, flushLocaleQueue } from 'svelte-i18n'
+
+  registerLocaleLoader('en-US', () => import('./_locales/en-US.json'))
+  registerLocaleLoader('pt-BR', () => import('./_locales/pt-BR.json'))
+  registerLocaleLoader('es-ES', () => import('./_locales/es-ES.json'))
 
   export async function preload() {
-    // return partial({
-    //   'en-US': () => import('./_locales/en-US.json'),
-    //   'pt-BR': () => import('./_locales/pt-BR.json'),
-    //   'es-ES': () => import('./_locales/es-ES.json'),
-    // })
+    return flushLocaleQueue()
   }
 </script>
 
@@ -20,8 +20,4 @@
 
 <h1>{$_('about_this_site', { default: 'About this site' })}</h1>
 
-<p>
-  {$_('about_content[0]', {
-    default: "This is the 'about' page. There's not much here.",
-  })}
-</p>
+<p>{$_('about_content[0]', { default: "This is the 'about' page. There's not much here." })}</p>
