@@ -58,7 +58,11 @@ locale.set(
     // set the key name to look for a locale on 'window.location.hash'
     // 'example.com#locale=en-US'
     hash: 'locale',
-  }),
+    // define a pattern to look in the window.location.pathname. It returns the first capturing group.
+    pathname: /^\/(.*?)\//,
+    // define a pattern to look in the window.location.hostname. It returns the first capturing group.
+    hostname: /^\/(.*?)\//,
+  })
 )
 ```
 
@@ -82,7 +86,8 @@ dictionary.set({
       ask: 'Por favor, digite seu nome',
       message: 'Olá {name}, como vai?',
     },
-    photos: 'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
+    photos:
+      'Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}',
     cats: 'Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}',
   },
   en: {
@@ -92,7 +97,8 @@ dictionary.set({
       ask: 'Please type your name',
       message: 'Hello {name}, how are you?',
     },
-    photos: 'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
+    photos:
+      'You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}',
     cats: 'I have {n, number} {n,plural,one{cat}other{cats}}',
   },
 })
