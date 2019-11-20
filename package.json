@@ -76,9 +76,9 @@
   },
   "dependencies": {
     "commander": "^4.0.1",
+    "deepmerge": "^4.2.2",
     "estree-walker": "^0.9.0",
     "intl-messageformat": "^7.5.2",
-    "micro-memoize": "^4.0.8",
     "object-resolve-path": "^1.1.1",
     "tiny-glob": "^0.2.6"
   }
