@@ -6,12 +6,9 @@ import { getCurrentLocale } from '../stores/locale'
 import { $loading } from '../stores/loading'
 
 import { removeFromLookupCache } from './lookup'
+import { getLocalesFrom } from './utils'
 
 const loaderQueue: Record<string, Set<LocaleLoader>> = {}
-
-function getLocaleQueue(locale: string) {
-  return loaderQueue[locale]
-}
 
 function createLocaleQueue(locale: string) {
   loaderQueue[locale] = new Set()
@@ -21,15 +18,44 @@ function removeLocaleFromQueue(locale: string) {
   delete loaderQueue[locale]
 }
 
+function getLocaleQueue(locale: string) {
+  return loaderQueue[locale]
+}
+
+function getLocalesQueue(locale: string) {
+  return getLocalesFrom(locale)
+    .reverse()
+    .reduce(
+      (acc, localeItem) =>
+        getLocaleQueue(localeItem)
+          ? acc.concat([...getLocaleQueue(localeItem)])
+          : acc,
+      []
+    )
+}
+
+export function hasLocaleQueue(locale: string) {
+  return getLocalesFrom(locale)
+    .reverse()
+    .some(getLocaleQueue)
+}
+
 export function addLoaderToQueue(locale: string, loader: LocaleLoader) {
   loaderQueue[locale].add(loader)
 }
 
 export async function flushQueue(locale: string = getCurrentLocale()) {
-  if (!getLocaleQueue(locale)) return
+  if (locale == null) {
+    throw new Error(
+      `[svelte-i18n] Invalid locale into "waitLocale": ${JSON.stringify(
+        locale
+      )}`
+    )
+  }
+  if (!hasLocaleQueue(locale)) return
 
-  const queue = [...getLocaleQueue(locale)]
-
+  // get queue of XX-YY and XX locales
+  const queue = getLocalesQueue(locale)
   if (queue.length === 0) return
 
   removeLocaleFromQueue(locale)
@@ -54,7 +80,7 @@ export function registerLocaleLoader(locale: string, loader: LocaleLoader) {
   if (!getLocaleQueue(locale)) createLocaleQueue(locale)
 
   const queue = getLocaleQueue(locale)
-  if (queue.has(loader)) return
+  if (getLocaleQueue(locale).has(loader)) return
 
   if (!hasLocaleDictionary(locale)) {
     $dictionary.update(d => {

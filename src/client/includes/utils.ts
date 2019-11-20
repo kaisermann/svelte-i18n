@@ -34,13 +34,12 @@ const getFromURL = (urlPart: string, key: string) => {
   }
 }
 
-const getMatch = (base: string, pattern: RegExp) => {
+const getFirstMatch = (base: string, pattern: RegExp) => {
   const match = pattern.exec(base)
   if (!match) return null
   return match[1] || null
 }
 
-// todo add a urlPattern method/regexp
 export const getClientLocale = ({
   navigator,
   hash,
@@ -64,12 +63,12 @@ export const getClientLocale = ({
   }
 
   if (hostname) {
-    locale = getMatch(window.location.hostname, hostname)
+    locale = getFirstMatch(window.location.hostname, hostname)
     if (locale) return locale
   }
 
   if (pathname) {
-    locale = getMatch(window.location.pathname, pathname)
+    locale = getFirstMatch(window.location.pathname, pathname)
     if (locale) return locale
   }
 
@@ -83,7 +82,7 @@ export const getClientLocale = ({
     locale =
       typeof search === 'string'
         ? getFromURL(window.location.search, search)
-        : getMatch(window.location.search, search)
+        : getFirstMatch(window.location.search, search)
     if (locale) return locale
   }
 
@@ -91,7 +90,7 @@ export const getClientLocale = ({
     locale =
       typeof hash === 'string'
         ? getFromURL(window.location.hash, hash)
-        : getMatch(window.location.hash, hash)
+        : getFirstMatch(window.location.hash, hash)
     if (locale) return locale
   }
 

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store'
 
 import { getGenericLocaleFrom, getLocalesFrom } from '../includes/utils'
-import { flushQueue } from '../includes/loaderQueue'
+import { flushQueue, hasLocaleQueue } from '../includes/loaderQueue'
 
 import { getDictionary } from './dictionary'
 
@@ -34,7 +34,10 @@ $locale.subscribe((newLocale: string) => {
 const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
   if (getAvailableLocale(newLocale)) {
-    return flushQueue(newLocale).then(() => localeSet(newLocale))
+    if (hasLocaleQueue(newLocale)) {
+      return flushQueue(newLocale).then(() => localeSet(newLocale))
+    }
+    return localeSet(newLocale)
   }
 
   throw Error(`[svelte-i18n] Locale "${newLocale}" not found.`)
