@@ -1,7 +1,5 @@
 <script>
-  import { locale } from './dist/i18n.mjs'
-
-  let loading = false
+  import { locale, loading } from './dist/i18n.mjs'
 
   $: {
     if (typeof window !== 'undefined') {
@@ -10,4 +8,4 @@
   }
 </script>
 
-<slot {loading} />
+<slot loading={$loading} locale={$locale} />
