@@ -113,6 +113,8 @@ describe('utilities', () => {
     beforeEach(() => {
       delete window.location
       window.location = {
+        pathname: '/',
+        hostname: 'example.com',
         hash: '',
         search: '',
       } as any
@@ -120,13 +122,11 @@ describe('utilities', () => {
 
     it('should get the locale based on the passed hash parameter', () => {
       window.location.hash = '#locale=en-US&lang=pt-BR'
-      expect(getClientLocale({ hash: 'locale' })).toBe('en-US')
       expect(getClientLocale({ hash: 'lang' })).toBe('pt-BR')
     })
 
     it('should get the locale based on the passed search parameter', () => {
       window.location.search = '?locale=en-US&lang=pt-BR'
-      expect(getClientLocale({ search: 'locale' })).toBe('en-US')
       expect(getClientLocale({ search: 'lang' })).toBe('pt-BR')
     })
 
@@ -136,9 +136,18 @@ describe('utilities', () => {
       )
     })
 
+    it('should get the default locale', () => {
+      expect(getClientLocale({ default: 'pt' })).toBe('pt')
+    })
+
     it('should get the fallback locale', () => {
-      expect(getClientLocale({ navigator: false, default: 'pt' })).toBe('pt')
-      expect(getClientLocale({ hash: 'locale', default: 'pt' })).toBe('pt')
+      window.location.pathname = '/en-US/foo/'
+      expect(getClientLocale({ pathname: /^\/(.*?)\// })).toBe('en-US')
+    })
+
+    it('should get the fallback locale', () => {
+      window.location.hostname = 'pt.example.com'
+      expect(getClientLocale({ hostname: /^.*?\./ })).toBe('pt')
     })
   })
 

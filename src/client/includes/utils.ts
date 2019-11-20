@@ -23,47 +23,77 @@ export function getLocalesFrom(locale: string) {
   return locale.split('-').map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 }
 
+const getFromURL = (urlPart: string, key: string) => {
+  const keyVal = urlPart
+    .substr(1)
+    .split('&')
+    .find(i => i.indexOf(key) === 0)
+
+  if (keyVal) {
+    return keyVal.split('=').pop()
+  }
+}
+
+const getMatch = (base: string, pattern: RegExp) => {
+  const match = pattern.exec(base)
+  if (!match) return null
+  return match[1] || null
+}
+
 // todo add a urlPattern method/regexp
 export const getClientLocale = ({
   navigator,
   hash,
   search,
+  pathname,
+  hostname,
   default: defaultLocale,
 }: {
   navigator?: boolean
-  hash?: string
-  search?: string
+  hash?: string | RegExp
+  search?: string | RegExp
   fallback?: string
   default?: string
+  pathname?: RegExp
+  hostname?: RegExp
 }) => {
   let locale
 
-  const getFromURL = (urlPart: string, key: string) => {
-    const keyVal = urlPart
-      .substr(1)
-      .split('&')
-      .find(i => i.indexOf(key) === 0)
-
-    if (keyVal) {
-      return keyVal.split('=').pop()
-    }
+  if (typeof window === 'undefined') {
+    return defaultLocale
   }
 
-  // istanbul ignore else
-  if (typeof window !== 'undefined') {
-    if (navigator) {
-      // istanbul ignore next
-      locale = window.navigator.language || window.navigator.languages[0]
-    }
-
-    if (search && !locale) {
-      locale = getFromURL(window.location.search, search)
-    }
-
-    if (hash && !locale) {
-      locale = getFromURL(window.location.hash, hash)
-    }
+  if (hostname) {
+    locale = getMatch(window.location.hostname, hostname)
+    if (locale) return locale
   }
 
-  return locale || defaultLocale
+  if (pathname) {
+    locale = getMatch(window.location.pathname, pathname)
+    if (locale) return locale
+  }
+
+  if (navigator) {
+    // istanbul ignore else
+    locale = window.navigator.language || window.navigator.languages[0]
+    if (locale) return locale
+  }
+
+  if (search) {
+    locale =
+      typeof search === 'string'
+        ? getFromURL(window.location.search, search)
+        : getMatch(window.location.search, search)
+    if (locale) return locale
+  }
+
+  if (hash) {
+    locale =
+      typeof hash === 'string'
+        ? getFromURL(window.location.hash, hash)
+        : getMatch(window.location.hash, hash)
+    if (locale) return locale
+  }
+
+  return defaultLocale
 }
