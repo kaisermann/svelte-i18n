@@ -1,12 +1,12 @@
 <script context="module">
-  import { registerLocaleLoader, flushLocaleQueue } from 'svelte-i18n'
+  import { register, waitLocale } from 'svelte-i18n'
 
-  registerLocaleLoader('en-US', () => import('./_locales/en-US.json'))
-  registerLocaleLoader('pt-BR', () => import('./_locales/pt-BR.json'))
-  registerLocaleLoader('es-ES', () => import('./_locales/es-ES.json'))
+  register('en-US', () => import('./_locales/en-US.json'))
+  register('pt-BR', () => import('./_locales/pt-BR.json'))
+  register('es-ES', () => import('./_locales/es-ES.json'))
 
   export async function preload() {
-    return flushLocaleQueue()
+    return waitLocale()
   }
 </script>
 

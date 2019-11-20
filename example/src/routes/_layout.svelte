@@ -1,5 +1,5 @@
 <script context="module">
-  import { locale, locales, getClientLocale } from 'svelte-i18n'
+  import { locale, locales, getClientLocale, waitLocale } from 'svelte-i18n'
   import Lang from 'svelte-i18n/Lang.svelte'
 
   export async function preload() {
