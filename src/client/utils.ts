@@ -1,12 +1,15 @@
-export const capital = (str: string) =>
-  str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
-export const title = (str: string) =>
-  str.replace(/(^|\s)\S/g, l => l.toLocaleUpperCase())
+export const capital = (str: string) => str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
+export const title = (str: string) => str.replace(/(^|\s)\S/g, l => l.toLocaleUpperCase())
 export const upper = (str: string) => str.toLocaleUpperCase()
 export const lower = (str: string) => str.toLocaleLowerCase()
 
 export function getGenericLocaleFrom(locale: string) {
-  return locale.length > 2 ? locale.split('-').shift() : null
+  const index = locale.lastIndexOf('-')
+  return index > 0 ? locale.slice(0, index) : null
+}
+
+export function getGenericLocalesFrom(locale: string) {
+  return locale.split('-').map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 }
 
 export const getClientLocale = ({

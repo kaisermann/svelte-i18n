@@ -2,7 +2,15 @@ import { writable, derived } from 'svelte/store'
 import resolvePath from 'object-resolve-path'
 import memoize from 'micro-memoize'
 
-import { capital, title, upper, lower, getClientLocale, getGenericLocaleFrom } from './utils'
+import {
+  capital,
+  title,
+  upper,
+  lower,
+  getClientLocale,
+  getGenericLocaleFrom,
+  getGenericLocalesFrom,
+} from './utils'
 import { MessageObject, Formatter } from './types'
 import {
   getMessageFormatter,
@@ -12,41 +20,24 @@ import {
 } from './formatters'
 
 let currentLocale: string
-let currentDictionary: Record<string, any>
+let currentDictionary: Record<string, Record<string, any>>
 
 const hasLocale = (locale: string) => locale in currentDictionary
 
-function getAvailableLocale(locale: string): { locale: string; loader?: () => Promise<any> } {
-  if (currentDictionary[locale]) {
-    if (typeof currentDictionary[locale] === 'function') {
-      return { locale, loader: currentDictionary[locale] }
-    }
-    return { locale }
-  }
-
-  locale = getGenericLocaleFrom(locale)
-  if (locale != null) {
-    return getAvailableLocale(locale)
-  }
-
-  return { locale: null }
+function getAvailableLocale(locale: string): string | null {
+  if (locale in currentDictionary || locale == null) return locale
+  return getAvailableLocale(getGenericLocaleFrom(locale))
 }
 
 const lookupMessage = memoize((path: string, locale: string): string => {
-  if (path in currentDictionary[locale]) {
-    return currentDictionary[locale][path]
+  if (locale == null) return null
+  if (hasLocale(locale)) {
+    if (path in currentDictionary[locale]) return currentDictionary[locale][path]
+    const message = resolvePath(currentDictionary[locale], path)
+    if (message) return message
   }
 
-  const message = resolvePath(currentDictionary[locale], path)
-  if (message == null) {
-    const genericLocale = getGenericLocaleFrom(locale)
-    if (genericLocale != null && hasLocale(genericLocale)) {
-      return lookupMessage(path, genericLocale)
-    }
-    return null
-  }
-
-  return message
+  return lookupMessage(path, getGenericLocaleFrom(locale))
 })
 
 const formatMessage: Formatter = (id, options = {}) => {
@@ -60,18 +51,14 @@ const formatMessage: Formatter = (id, options = {}) => {
 
   if (!message) {
     console.warn(
-      `[svelte-i18n] The message "${id}" was not found in "${locale
-        .split('-')
-        .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
-        .reverse()
-        .join('", "')}".`,
+      `[svelte-i18n] The message "${id}" was not found in "${getGenericLocalesFrom(locale).join(
+        '", "',
+      )}".`,
     )
-    if (defaultValue != null) return defaultValue
-    return id
+    return defaultValue || id
   }
 
   if (!values) return message
-
   return getMessageFormatter(message, locale).format(values)
 }
 
@@ -83,33 +70,62 @@ formatMessage.title = (id, options) => title(formatMessage(id, options))
 formatMessage.upper = (id, options) => upper(formatMessage(id, options))
 formatMessage.lower = (id, options) => lower(formatMessage(id, options))
 
-const $dictionary = writable({})
-$dictionary.subscribe((newDictionary: any) => (currentDictionary = newDictionary))
+const $dictionary = writable<Record<string, Record<string, any>>>({})
+$dictionary.subscribe(newDictionary => (currentDictionary = newDictionary))
+
+const loadLocale = (localeToLoad: string) => {
+  return Promise.all(
+    getGenericLocalesFrom(localeToLoad)
+      .map(localeItem => {
+        const loader = currentDictionary[localeItem]
+        if (loader == null && localeItem !== localeToLoad) {
+          console.warn(
+            `[svelte-i18n] No dictionary or loader were found for the locale "${localeItem}". It's the fallback locale of "${localeToLoad}."`,
+          )
+          return
+        }
+        if (typeof loader !== 'function') return
+        return loader().then((dict: any) => [localeItem, dict.default || dict])
+      })
+      .filter(Boolean),
+  )
+    .then(updates => {
+      if (updates.length > 0) {
+        // update dictionary only once
+        $dictionary.update(d => {
+          updates.forEach(([localeItem, localeDict]) => {
+            d[localeItem] = localeDict
+          })
+          return d
+        })
+      }
+      return updates
+    })
+    .catch((e: Error) => {
+      throw e
+    })
+}
 
 const $locale = writable(null)
 const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
-  const { locale, loader } = getAvailableLocale(newLocale)
-  if (typeof loader === 'function') {
-    return loader()
-      .then((dict: any) => {
-        currentDictionary[locale] = dict.default || dict
-        if (locale) return localeSet(locale)
-      })
-      .catch((e: Error) => {
-        throw e
-      })
+  const locale = getAvailableLocale(newLocale)
+  if (locale) {
+    if (typeof currentDictionary[locale] === 'function') {
+      // load all locales related to the passed locale
+      // i.e en-GB loads en, but en doesn't load en-GB
+      return loadLocale(locale).then(() => localeSet(newLocale))
+    }
+    return localeSet(newLocale)
   }
-
-  if (locale) return localeSet(locale)
 
   throw Error(`[svelte-i18n] Locale "${newLocale}" not found.`)
 }
 $locale.update = (fn: (locale: string) => void | Promise<void>) => localeSet(fn(currentLocale))
 $locale.subscribe((newLocale: string) => (currentLocale = newLocale))
 
-const format = derived([$locale, $dictionary], () => formatMessage)
-const locales = derived([$dictionary], ([$dictionary]) => Object.keys($dictionary))
+const $format = derived([$locale, $dictionary], () => formatMessage)
+const $locales = derived([$dictionary], ([$dictionary]) => Object.keys($dictionary))
 
 // defineMessages allow us to define and extract dynamic message ids
 const defineMessages = (i: Record<string, MessageObject>) => i
@@ -118,9 +134,10 @@ export { customFormats, addCustomFormats } from './formatters'
 export {
   $locale as locale,
   $dictionary as dictionary,
-  locales,
+  $format as _,
+  $format as format,
+  $locales,
   getClientLocale,
   defineMessages,
-  format as _,
-  format,
+  loadLocale as preloadLocale,
 }

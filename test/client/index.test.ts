@@ -6,6 +6,7 @@ import {
   getClientLocale,
   addCustomFormats,
   customFormats,
+  preloadLocale,
 } from '../../src/client'
 
 global.Intl = require('intl')
@@ -14,9 +15,11 @@ let _: Formatter
 let currentLocale: string
 
 const dict = {
-  pt: require('../fixtures/pt.json'),
   en: require('../fixtures/en.json'),
-  'en-GB': require('../fixtures/en-GB.json'),
+  'en-GB': () => import('../fixtures/en-GB.json'),
+  pt: () => import('../fixtures/pt.json'),
+  'pt-BR': () => import('../fixtures/pt-BR.json'),
+  'pt-PT': () => import('../fixtures/pt-PT.json'),
 }
 
 format.subscribe(formatFn => {
@@ -26,22 +29,15 @@ dictionary.set(dict)
 locale.subscribe((l: string) => {
   currentLocale = l
 })
-locale.set('pt')
+locale.set('en')
 
 describe('locale', () => {
   it('should change locale', () => {
-    locale.set('pt')
-    expect(currentLocale).toBe('pt')
     locale.set('en')
     expect(currentLocale).toBe('en')
-  })
-
-  it('should fallback to existing locale', () => {
-    locale.set('pt-BR')
-    expect(currentLocale).toBe('pt')
 
     locale.set('en-US')
-    expect(currentLocale).toBe('en')
+    expect(currentLocale).toBe('en-US')
   })
 
   it("should throw an error if locale doesn't exist", () => {
@@ -59,12 +55,16 @@ describe('dictionary', () => {
     await locale.set('es')
     expect(currentLocale).toBe('es')
   })
+
+  it('load a locale and its derived locales if dictionary is a loader', async () => {
+    const loaded = await preloadLocale('pt-PT')
+    expect(loaded[0][0]).toEqual('pt')
+    expect(loaded[1][0]).toEqual('pt-PT')
+  })
 })
 
 describe('formatting', () => {
   it('should translate to current locale', () => {
-    locale.set('pt')
-    expect(_('switch.lang')).toBe('Trocar idioma')
     locale.set('en')
     expect(_('switch.lang')).toBe('Switch language')
   })
@@ -79,34 +79,28 @@ describe('formatting', () => {
     expect(_('batatinha.quente', { default: 'Hot Potato' })).toBe('Hot Potato')
   })
 
+  it('should fallback to generic locale XX if id not found in XX-YY', async () => {
+    await locale.set('en-GB')
+    expect(_('sneakers', { locale: 'en-GB' })).toBe('trainers')
+  })
+
   it('should fallback to generic locale XX if id not found in XX-YY', () => {
     locale.set('en-GB')
-    expect(_('sneakers')).toBe('trainers')
     expect(_('switch.lang')).toBe('Switch language')
   })
 
   it('should accept single object with id prop as the message path', () => {
-    locale.set('pt')
-    expect(_({ id: 'switch.lang' })).toBe('Trocar idioma')
     locale.set('en')
     expect(_({ id: 'switch.lang' })).toBe('Switch language')
   })
 
   it('should translate to passed locale', () => {
-    expect(_({ id: 'switch.lang', locale: 'pt' })).toBe('Trocar idioma')
     expect(_('switch.lang', { locale: 'en' })).toBe('Switch language')
   })
 
   it('should interpolate message with variables', () => {
     locale.set('en')
     expect(_('greeting.message', { values: { name: 'Chris' } })).toBe('Hello Chris, how are you?')
-  })
-
-  it('should interpolate message with variables according to passed locale', () => {
-    locale.set('en')
-    expect(_('greeting.message', { values: { name: 'Chris' }, locale: 'pt' })).toBe(
-      'Olá Chris, como vai?',
-    )
   })
 })
 
