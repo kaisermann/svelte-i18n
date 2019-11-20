@@ -1,4 +1,6 @@
 <script>
+  import { _ } from 'svelte-i18n'
+
 	export let segment;
 </script>
 
@@ -50,11 +52,11 @@
 
 <nav>
 	<ul>
-		<li><a class:selected='{segment === undefined}' href='.'>home</a></li>
-		<li><a class:selected='{segment === "about"}' href='about'>about</a></li>
+		<li><a class:selected='{segment === undefined}' href='.'>{$_('nav.home')}</a></li>
+		<li><a class:selected='{segment === "about"}' href='about'>{$_('nav.about')}</a></li>
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch class:selected='{segment === "blog"}' href='blog'>blog</a></li>
+		<li><a rel=prefetch class:selected='{segment === "blog"}' href='blog'>{$_('nav.blog')}</a></li>
 	</ul>
 </nav>

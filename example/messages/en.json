@@ -2,6 +2,11 @@
   "title": {
     "index": "Sapper project template!"
   },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog"
+  },
   "messages": {
     "success": "Great success!",
     "high_five": "High five",

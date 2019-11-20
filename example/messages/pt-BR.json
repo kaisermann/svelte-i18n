@@ -2,6 +2,11 @@
   "title": {
     "index": "Modelo de projeto em Sapper!"
   },
+  "nav": {
+    "home": "Home",
+    "about": "Sobre",
+    "blog": "Blog"
+  },
   "messages": {
     "success": "Suuuucesso!",
     "high_five": "Toca aqui",

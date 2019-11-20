@@ -2,6 +2,11 @@
   "title": {
     "index": " Plantilla de proyecto Sapper!"
   },
+  "nav": {
+    "home": "Inicio",
+    "about": "Acerca",
+    "blog": "Blog"
+  },
   "messages": {
     "success": "Gran éxito!",
     "high_five": "Cinco altos",

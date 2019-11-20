@@ -1,9 +1,13 @@
 <script context="module">
-  import { locale, locales, getClientLocale, waitLocale } from 'svelte-i18n'
+  import { locales, locale, waitLocale,getClientLocale } from 'svelte-i18n'
   import Lang from 'svelte-i18n/Lang.svelte'
 
   export async function preload() {
-    return locale.set(getClientLocale({ default: 'pt-BR', navigator: true }))
+    const initialLocale = getClientLocale({
+      default: 'pt-BR',
+      navigator: true
+    })
+    return locale.set(initialLocale)
   }
 </script>
 
@@ -12,7 +16,8 @@
 
   const localeLabels = {
     'pt-BR': 'Português',
-    'en-US': 'English',
+    'en': 'English',
+    'en-US': 'English US',
     'es-ES': 'Espanõl',
   }
 

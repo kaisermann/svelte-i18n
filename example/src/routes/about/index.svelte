@@ -1,7 +1,7 @@
 <script context="module">
   import { register, waitLocale } from 'svelte-i18n'
 
-  register('en-US', () => import('./_locales/en-US.json'))
+  register('en', () => import('./_locales/en.json'))
   register('pt-BR', () => import('./_locales/pt-BR.json'))
   register('es-ES', () => import('./_locales/es-ES.json'))
 
