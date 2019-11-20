@@ -147,7 +147,7 @@ describe('utilities', () => {
 
     it('should get the fallback locale', () => {
       window.location.hostname = 'pt.example.com'
-      expect(getClientLocale({ hostname: /^.*?\./ })).toBe('pt')
+      expect(getClientLocale({ hostname: /^(.*?)\./ })).toBe('pt')
     })
   })
 
