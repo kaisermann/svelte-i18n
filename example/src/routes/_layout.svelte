@@ -30,16 +30,16 @@
   }
 </style>
 
-<Lang let:loading>
-  {loading}
-</Lang>
+<Lang let:loading>{loading}</Lang>
 
 <Nav {segment} />
 
 <main>
   <select bind:value={$locale}>
     {#each $locales as locale}
-      <option value={locale}>{localeLabels[locale]}</option>
+      {#if locale in localeLabels}
+        <option value={locale}>{localeLabels[locale]}</option>
+      {/if}
     {/each}
   </select>
   <slot />

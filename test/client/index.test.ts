@@ -7,6 +7,8 @@ import {
   addCustomFormats,
   customFormats,
   preloadLocale,
+  registerLocaleLoader,
+  flushLocaleQueue,
 } from '../../src/client'
 
 global.Intl = require('intl')
@@ -16,11 +18,12 @@ let currentLocale: string
 
 const dict = {
   en: require('../fixtures/en.json'),
-  'en-GB': () => import('../fixtures/en-GB.json'),
-  pt: () => import('../fixtures/pt.json'),
-  'pt-BR': () => import('../fixtures/pt-BR.json'),
-  'pt-PT': () => import('../fixtures/pt-PT.json'),
 }
+
+registerLocaleLoader('en-GB', () => import('../fixtures/en-GB.json'))
+registerLocaleLoader('pt', () => import('../fixtures/pt.json'))
+registerLocaleLoader('pt-BR', () => import('../fixtures/pt-BR.json'))
+registerLocaleLoader('pt-PT', () => import('../fixtures/pt-PT.json'))
 
 format.subscribe(formatFn => {
   _ = formatFn
@@ -29,7 +32,6 @@ dictionary.set(dict)
 locale.subscribe((l: string) => {
   currentLocale = l
 })
-locale.set('en')
 
 describe('locale', () => {
   it('should change locale', () => {
@@ -60,6 +62,15 @@ describe('dictionary', () => {
     const loaded = await preloadLocale('pt-PT')
     expect(loaded[0][0]).toEqual('pt')
     expect(loaded[1][0]).toEqual('pt-PT')
+  })
+
+  it('load a partial dictionary and merge it with the existing one', async () => {
+    locale.set('en')
+    registerLocaleLoader('en', () => import('../fixtures/partials/en.json'))
+    expect(_('page.title_about')).toBe('page.title_about')
+
+    await flushLocaleQueue('en')
+    expect(_('page.title_about')).toBe('About')
   })
 })
 
@@ -219,7 +230,6 @@ describe('custom formats', () => {
     locale.set('en-US')
 
     expect(_.number(123123123, { format: 'usd' })).toContain('$123,123,123.00')
-    expect(_.number(123123123, { format: 'brl' })).toContain('R$123,123,123.00')
 
     expect(_.date(new Date(2019, 0, 1), { format: 'customDate' })).toEqual('2019 AD')
 

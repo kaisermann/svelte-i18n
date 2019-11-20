@@ -1,6 +1,9 @@
 {
   "hi": "hi yo",
   "switch.lang": "Switch language",
+  "page": {
+    "title_home": "Home"
+  },
   "greeting": {
     "ask": "Please type your name",
     "message": "Hello {name}, how are you?"

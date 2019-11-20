@@ -1,7 +1,6 @@
-import { dictionary } from 'svelte-i18n'
+import { registerLocaleLoader } from 'svelte-i18n'
 
-dictionary.set({
-  'pt-BR': () => import('../messages/pt-BR.json'),
-  'en-US': () => import('../messages/en-US.json'),
-  'es-ES': () => import('../messages/es-ES.json'),
-})
+registerLocaleLoader('en', () => import('../messages/en.json'))
+registerLocaleLoader('pt-BR', () => import('../messages/pt-BR.json'))
+registerLocaleLoader('en-US', () => import('../messages/en-US.json'))
+registerLocaleLoader('es-ES', () => import('../messages/es-ES.json'))
