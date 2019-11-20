@@ -137,8 +137,8 @@ describe('utilities', () => {
     })
 
     it('should get the fallback locale', () => {
-      expect(getClientLocale({ navigator: false, fallback: 'pt' })).toBe('pt')
-      expect(getClientLocale({ hash: 'locale', fallback: 'pt' })).toBe('pt')
+      expect(getClientLocale({ navigator: false, default: 'pt' })).toBe('pt')
+      expect(getClientLocale({ hash: 'locale', default: 'pt' })).toBe('pt')
     })
   })
 
