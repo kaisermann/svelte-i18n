@@ -22,9 +22,9 @@
 
 ## TODO - WIP
 
-- [ ] Maybe locale can be a promise so we can await for it on the template;
+- [x] Maybe locale can be a promise so we can await for it on the template;
 - [ ] Wiki on github;
-- [ ] Find a more flexible way to preload dictionaries so it's possible to preload partial dictionaries.
+- [x] Find a more flexible way to preload dictionaries so it's possible to preload partial dictionaries.
 
 ## Usage
 

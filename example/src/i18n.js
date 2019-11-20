@@ -1,6 +1,6 @@
-import { registerLocaleLoader } from 'svelte-i18n'
+import { register } from 'svelte-i18n'
 
-registerLocaleLoader('en', () => import('../messages/en.json'))
-registerLocaleLoader('pt-BR', () => import('../messages/pt-BR.json'))
-registerLocaleLoader('en-US', () => import('../messages/en-US.json'))
-registerLocaleLoader('es-ES', () => import('../messages/es-ES.json'))
+register('en', () => import('../messages/en.json'))
+register('pt-BR', () => import('../messages/pt-BR.json'))
+register('en-US', () => import('../messages/en-US.json'))
+register('es-ES', () => import('../messages/es-ES.json'))
