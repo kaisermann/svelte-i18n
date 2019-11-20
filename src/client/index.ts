@@ -59,7 +59,13 @@ const formatMessage: Formatter = (id, options = {}) => {
   const message = lookupMessage(id, locale)
 
   if (!message) {
-    console.warn(`[svelte-i18n] The message "${id}" was not found in the locale "${locale}".`)
+    console.warn(
+      `[svelte-i18n] The message "${id}" was not found in "${locale
+        .split('-')
+        .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
+        .reverse()
+        .join('", "')}".`,
+    )
     if (defaultValue != null) return defaultValue
     return id
   }
