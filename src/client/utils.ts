@@ -5,12 +5,15 @@ export const title = (str: string) =>
 export const upper = (str: string) => str.toLocaleUpperCase()
 export const lower = (str: string) => str.toLocaleLowerCase()
 
+export function getGenericLocaleFrom(locale: string) {
+  return locale.length > 2 ? locale.split('-').shift() : null
+}
+
 export const getClientLocale = ({
   navigator,
   hash,
   search,
   default: defaultLocale,
-  fallback = defaultLocale,
 }: {
   navigator?: boolean
   hash?: string
@@ -47,28 +50,5 @@ export const getClientLocale = ({
     }
   }
 
-  return locale || defaultLocale || fallback
+  return locale || defaultLocale
 }
-
-// function mergeDeep(target: any, source: any) {
-//   const isObject = (obj: any) => obj && typeof obj === 'object'
-
-//   if (!isObject(target) || !isObject(source)) {
-//     return source
-//   }
-
-//   Object.keys(source).forEach(key => {
-//     const targetValue = target[key]
-//     const sourceValue = source[key]
-
-//     if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-//       target[key] = targetValue.concat(sourceValue)
-//     } else if (isObject(targetValue) && isObject(sourceValue)) {
-//       target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue)
-//     } else {
-//       target[key] = sourceValue
-//     }
-//   })
-
-//   return target
-// }

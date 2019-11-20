@@ -2,7 +2,7 @@ import { writable, derived } from 'svelte/store'
 import resolvePath from 'object-resolve-path'
 import memoize from 'micro-memoize'
 
-import { capital, title, upper, lower, getClientLocale } from './utils'
+import { capital, title, upper, lower, getClientLocale, getGenericLocaleFrom } from './utils'
 import { MessageObject, Formatter } from './types'
 import {
   getMessageFormatter,
@@ -14,7 +14,9 @@ import {
 let currentLocale: string
 let currentDictionary: Record<string, any>
 
-function getAvailableLocale(locale: string) {
+const hasLocale = (locale: string) => locale in currentDictionary
+
+function getAvailableLocale(locale: string): { locale: string; loader?: () => Promise<any> } {
   if (currentDictionary[locale]) {
     if (typeof currentDictionary[locale] === 'function') {
       return { locale, loader: currentDictionary[locale] }
@@ -22,22 +24,29 @@ function getAvailableLocale(locale: string) {
     return { locale }
   }
 
-  locale = locale.split('-').shift() //
-  if (currentDictionary[locale]) {
-    if (typeof currentDictionary[locale] === 'function') {
-      return { locale, loader: currentDictionary[locale] }
-    }
-    return { locale }
+  locale = getGenericLocaleFrom(locale)
+  if (locale != null) {
+    return getAvailableLocale(locale)
   }
 
   return { locale: null }
 }
 
-const lookupMessage = memoize((path: string, locale: string) => {
+const lookupMessage = memoize((path: string, locale: string): string => {
   if (path in currentDictionary[locale]) {
     return currentDictionary[locale][path]
   }
-  return resolvePath(currentDictionary[locale], path)
+
+  const message = resolvePath(currentDictionary[locale], path)
+  if (message == null) {
+    const genericLocale = getGenericLocaleFrom(locale)
+    if (genericLocale != null && hasLocale(genericLocale)) {
+      return lookupMessage(path, genericLocale)
+    }
+    return null
+  }
+
+  return message
 })
 
 const formatMessage: Formatter = (id, options = {}) => {
