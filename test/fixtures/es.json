@@ -6,5 +6,6 @@
     "message": "Hola {name}, cómo estás?"
   },
   "photos": "Tienes {n, plural, =0 {0 fotos.} =1 {una foto.} other {# fotos.}}",
-  "cats": "Yo tengo {n, number} {n,plural,one{gato}other{gatos}}"
+  "cats": "Yo tengo {n, number} {n,plural,one{gato}other{gatos}}",
+  "sneakers": "zapatillas"
 }

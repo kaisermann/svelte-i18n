@@ -16,6 +16,7 @@ let currentLocale: string
 const dict = {
   pt: require('../fixtures/pt.json'),
   en: require('../fixtures/en.json'),
+  'en-GB': require('../fixtures/en-GB.json'),
 }
 
 format.subscribe(formatFn => {
@@ -61,6 +62,13 @@ describe('dictionary', () => {
 })
 
 describe('formatting', () => {
+  it('should translate to current locale', () => {
+    locale.set('pt')
+    expect(_('switch.lang')).toBe('Trocar idioma')
+    locale.set('en')
+    expect(_('switch.lang')).toBe('Switch language')
+  })
+
   it('should fallback to message id if id is not found', () => {
     locale.set('en')
     expect(_('batatinha.quente')).toBe('batatinha.quente')
@@ -71,10 +79,9 @@ describe('formatting', () => {
     expect(_('batatinha.quente', { default: 'Hot Potato' })).toBe('Hot Potato')
   })
 
-  it('should translate to current locale', () => {
-    locale.set('pt')
-    expect(_('switch.lang')).toBe('Trocar idioma')
-    locale.set('en')
+  it('should fallback to generic locale XX if id not found in XX-YY', () => {
+    locale.set('en-GB')
+    expect(_('sneakers')).toBe('trainers')
     expect(_('switch.lang')).toBe('Switch language')
   })
 
@@ -91,15 +98,15 @@ describe('formatting', () => {
   })
 
   it('should interpolate message with variables', () => {
-    expect(_('greeting.message', { values: { name: 'Chris' } })).toBe(
-      'Hello Chris, how are you?',
-    )
+    locale.set('en')
+    expect(_('greeting.message', { values: { name: 'Chris' } })).toBe('Hello Chris, how are you?')
   })
 
   it('should interpolate message with variables according to passed locale', () => {
-    expect(
-      _('greeting.message', { values: { name: 'Chris' }, locale: 'pt' }),
-    ).toBe('Olá Chris, como vai?')
+    locale.set('en')
+    expect(_('greeting.message', { values: { name: 'Chris' }, locale: 'pt' })).toBe(
+      'Olá Chris, como vai?',
+    )
   })
 })
 
@@ -126,9 +133,7 @@ describe('utilities', () => {
     })
 
     it('should get the locale based on the navigator language', () => {
-      expect(getClientLocale({ navigator: true })).toBe(
-        window.navigator.language,
-      )
+      expect(getClientLocale({ navigator: true })).toBe(window.navigator.language)
     })
 
     it('should get the fallback locale', () => {
@@ -163,9 +168,7 @@ describe('utilities', () => {
       locale.set('en')
       expect(_.time(date)).toBe('11:45 PM')
       expect(_.time(date, { format: 'medium' })).toBe('11:45:00 PM')
-      expect(_.time(date, { format: 'medium', locale: 'pt-BR' })).toBe(
-        '23:45:00',
-      )
+      expect(_.time(date, { format: 'medium', locale: 'pt-BR' })).toBe('23:45:00')
     })
 
     it('should format a date value', () => {
@@ -224,12 +227,8 @@ describe('custom formats', () => {
     expect(_.number(123123123, { format: 'usd' })).toContain('$123,123,123.00')
     expect(_.number(123123123, { format: 'brl' })).toContain('R$123,123,123.00')
 
-    expect(_.date(new Date(2019, 0, 1), { format: 'customDate' })).toEqual(
-      '2019 AD',
-    )
+    expect(_.date(new Date(2019, 0, 1), { format: 'customDate' })).toEqual('2019 AD')
 
-    expect(
-      _.time(new Date(2019, 0, 1, 2, 0, 0), { format: 'customTime' }),
-    ).toEqual('Jan, 02')
+    expect(_.time(new Date(2019, 0, 1, 2, 0, 0), { format: 'customTime' })).toEqual('Jan, 02')
   })
 })

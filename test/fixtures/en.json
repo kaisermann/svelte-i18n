@@ -6,5 +6,6 @@
     "message": "Hello {name}, how are you?"
   },
   "photos": "You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}",
-  "cats": "I have {n, number} {n,plural,one{cat}other{cats}}"
+  "cats": "I have {n, number} {n,plural,one{cat}other{cats}}",
+  "sneakers": "sneakers"
 }
