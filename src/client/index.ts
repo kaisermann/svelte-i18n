@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store'
 import resolvePath from 'object-resolve-path'
-import memoize from 'micro-memoize'
+import merge from 'deepmerge'
 
 import {
   capital,
@@ -21,24 +21,49 @@ import {
 
 let currentLocale: string
 let currentDictionary: Record<string, Record<string, any>>
+const dictQueue: Record<string, any[]> = {}
 
 const hasLocale = (locale: string) => locale in currentDictionary
 
+async function registerLocaleLoader(locale: string, loader: any) {
+  if (!(locale in currentDictionary)) {
+    $dictionary.update(d => {
+      d[locale] = {}
+      return d
+    })
+  }
+  if (!(locale in dictQueue)) dictQueue[locale] = []
+  dictQueue[locale].push(loader)
+}
 function getAvailableLocale(locale: string): string | null {
-  if (locale in currentDictionary || locale == null) return locale
+  if (locale in currentDictionary || locale in dictQueue || locale == null) return locale
   return getAvailableLocale(getGenericLocaleFrom(locale))
 }
 
-const lookupMessage = memoize((path: string, locale: string): string => {
+const lookupCache: Record<string, Record<string, string>> = {}
+const addToCache = (path: string, locale: string, message: string) => {
+  if (!(locale in lookupCache)) lookupCache[locale] = {}
+  if (!(path in lookupCache[locale])) lookupCache[locale][path] = message
+  return message
+}
+const invalidateLookupCache = (locale: string) => {
+  delete lookupCache[locale]
+}
+const lookupMessage = (path: string, locale: string): string => {
   if (locale == null) return null
+  if (locale in lookupCache && path in lookupCache[locale]) {
+    return lookupCache[locale][path]
+  }
   if (hasLocale(locale)) {
-    if (path in currentDictionary[locale]) return currentDictionary[locale][path]
+    if (path in currentDictionary[locale]) {
+      return addToCache(path, locale, currentDictionary[locale][path])
+    }
     const message = resolvePath(currentDictionary[locale], path)
-    if (message) return message
+    if (message) return addToCache(path, locale, message)
   }
 
   return lookupMessage(path, getGenericLocaleFrom(locale))
-})
+}
 
 const formatMessage: Formatter = (id, options = {}) => {
   if (typeof id === 'object') {
@@ -47,13 +72,20 @@ const formatMessage: Formatter = (id, options = {}) => {
   }
 
   const { values, locale = currentLocale, default: defaultValue } = options
+
+  if (locale == null) {
+    throw new Error(
+      '[svelte-i18n] Cannot format a message without first setting the initial locale.'
+    )
+  }
+
   const message = lookupMessage(id, locale)
 
   if (!message) {
     console.warn(
       `[svelte-i18n] The message "${id}" was not found in "${getGenericLocalesFrom(locale).join(
-        '", "',
-      )}".`,
+        '", "'
+      )}".`
     )
     return defaultValue || id
   }
@@ -73,37 +105,28 @@ formatMessage.lower = (id, options) => lower(formatMessage(id, options))
 const $dictionary = writable<Record<string, Record<string, any>>>({})
 $dictionary.subscribe(newDictionary => (currentDictionary = newDictionary))
 
-const loadLocale = (localeToLoad: string) => {
+function loadLocale(localeToLoad: string) {
   return Promise.all(
-    getGenericLocalesFrom(localeToLoad)
-      .map(localeItem => {
-        const loader = currentDictionary[localeItem]
-        if (loader == null && localeItem !== localeToLoad) {
-          console.warn(
-            `[svelte-i18n] No dictionary or loader were found for the locale "${localeItem}". It's the fallback locale of "${localeToLoad}."`,
-          )
-          return
-        }
-        if (typeof loader !== 'function') return
-        return loader().then((dict: any) => [localeItem, dict.default || dict])
-      })
-      .filter(Boolean),
+    getGenericLocalesFrom(localeToLoad).map(localeItem =>
+      flushLocaleQueue(localeItem)
+        .then(() => [localeItem, { err: undefined }])
+        .catch(e => [localeItem, { err: e }])
+    )
   )
-    .then(updates => {
-      if (updates.length > 0) {
-        // update dictionary only once
-        $dictionary.update(d => {
-          updates.forEach(([localeItem, localeDict]) => {
-            d[localeItem] = localeDict
-          })
-          return d
-        })
-      }
-      return updates
+}
+
+async function flushLocaleQueue(locale: string = currentLocale) {
+  if (!(locale in dictQueue)) return
+  return Promise.all(dictQueue[locale].map((loader: any) => loader())).then(partials => {
+    dictQueue[locale] = []
+
+    partials = partials.map(partial => partial.default || partial)
+    invalidateLookupCache(locale)
+    $dictionary.update(d => {
+      d[locale] = merge.all<any>([d[locale] || {}].concat(partials))
+      return d
     })
-    .catch((e: Error) => {
-      throw e
-    })
+  })
 }
 
 const $locale = writable(null)
@@ -111,10 +134,8 @@ const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
   const locale = getAvailableLocale(newLocale)
   if (locale) {
-    if (typeof currentDictionary[locale] === 'function') {
-      // load all locales related to the passed locale
-      // i.e en-GB loads en, but en doesn't load en-GB
-      return loadLocale(locale).then(() => localeSet(newLocale))
+    if (locale in dictQueue && dictQueue[locale].length > 0) {
+      return flushLocaleQueue(locale).then(() => localeSet(newLocale))
     }
     return localeSet(newLocale)
   }
@@ -136,8 +157,10 @@ export {
   $dictionary as dictionary,
   $format as _,
   $format as format,
-  $locales,
+  $locales as locales,
   getClientLocale,
   defineMessages,
   loadLocale as preloadLocale,
+  registerLocaleLoader,
+  flushLocaleQueue,
 }
