@@ -1,4 +1,4 @@
-import { register, getClientLocale, locale } from 'svelte-i18n'
+import { register } from 'svelte-i18n'
 
 register('en', () => import('../messages/en.json'))
 register('pt-BR', () => import('../messages/pt-BR.json'))

@@ -39,28 +39,19 @@ export default {
         dedupe,
       }),
       commonjs(),
-      json(),
+      json({
+        namedExports: false,
+        compact: !dev,
+      }),
       legacy &&
         babel({
           extensions: ['.js', '.mjs', '.html', '.svelte'],
           runtimeHelpers: true,
           exclude: ['node_modules/@babel/**'],
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                targets: '> 0.25%, not dead',
-              },
-            ],
-          ],
+          presets: [['@babel/preset-env', { targets: '> 0.25%, not dead' }]],
           plugins: [
             '@babel/plugin-syntax-dynamic-import',
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                useESModules: true,
-              },
-            ],
+            ['@babel/plugin-transform-runtime', { useESModules: true }],
           ],
         }),
 
@@ -88,7 +79,10 @@ export default {
         dedupe,
       }),
       commonjs(),
-      json(),
+      json({
+        namedExports: false,
+        compact: !dev,
+      }),
     ],
     external: Object.keys(pkg.dependencies).concat(
       require('module').builtinModules ||
