@@ -1,6 +1,7 @@
-import { LocaleDictionary } from './../types/index'
-import { writable, derived } from 'svelte/store'
 import merge from 'deepmerge'
+import { writable, derived } from 'svelte/store'
+
+import { LocaleDictionary } from '../types/index'
 
 let dictionary: LocaleDictionary
 

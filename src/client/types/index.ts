@@ -42,6 +42,6 @@ export interface Formatter extends FormatterFn {
   lower: FormatterFn
 }
 
-export interface LocaleLoader {
+export interface MessagesLoader {
   (): Promise<any>
 }

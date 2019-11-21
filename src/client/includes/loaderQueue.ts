@@ -1,6 +1,4 @@
-import merge from 'deepmerge'
-
-import { LocaleLoader } from '../types'
+import { MessagesLoader } from '../types'
 import {
   hasLocaleDictionary,
   $dictionary,
@@ -12,7 +10,7 @@ import { $loading } from '../stores/loading'
 import { removeFromLookupCache } from './lookup'
 import { getLocalesFrom } from './utils'
 
-const loaderQueue: Record<string, Set<LocaleLoader>> = {}
+const loaderQueue: Record<string, Set<MessagesLoader>> = {}
 
 function createLocaleQueue(locale: string) {
   loaderQueue[locale] = new Set()
@@ -44,7 +42,7 @@ export function hasLocaleQueue(locale: string) {
     .some(getLocaleQueue)
 }
 
-export function addLoaderToQueue(locale: string, loader: LocaleLoader) {
+export function addLoaderToQueue(locale: string, loader: MessagesLoader) {
   loaderQueue[locale].add(loader)
 }
 
@@ -72,7 +70,7 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
     })
 }
 
-export function registerLocaleLoader(locale: string, loader: LocaleLoader) {
+export function registerLocaleLoader(locale: string, loader: MessagesLoader) {
   if (!getLocaleQueue(locale)) createLocaleQueue(locale)
 
   const queue = getLocaleQueue(locale)
