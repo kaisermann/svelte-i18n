@@ -1,10 +1,10 @@
 <script context="module">
   import { locales, locale, waitLocale,getClientLocale } from 'svelte-i18n'
-  import Lang from 'svelte-i18n/Lang.svelte'
+  import Intl from 'svelte-i18n/Intl.svelte'
 
   export async function preload() {
     const initialLocale = getClientLocale({
-      default: 'pt-BR',
+      default: 'en-US',
       navigator: true
     })
     return locale.set(initialLocale)
@@ -33,19 +33,40 @@
     margin: 0 auto;
     box-sizing: border-box;
   }
+
+  .loading {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    color: #fff;
+    font-family: monospace;
+    font-size: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
 </style>
 
-<Lang let:loading>{loading}</Lang>
+<Intl let:loading>
+  {#if loading}
+    <div class="loading">Loading...</div>
+  {/if}
 
-<Nav {segment} />
-
-<main>
-  <select bind:value={$locale}>
-    {#each $locales as locale}
-      {#if locale in localeLabels}
-        <option value={locale}>{localeLabels[locale]}</option>
-      {/if}
-    {/each}
-  </select>
-  <slot />
-</main>
+  <Nav {segment} />
+  <main>
+    <select bind:value={$locale}>
+      {#each $locales as locale}
+        {#if locale in localeLabels}
+          <option value={locale}>{localeLabels[locale]}</option>
+        {/if}
+      {/each}
+    </select>
+    <slot />
+  </main>
+</Intl>
