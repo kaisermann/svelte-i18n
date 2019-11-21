@@ -1,7 +1,11 @@
 import merge from 'deepmerge'
 
 import { LocaleLoader } from '../types'
-import { hasLocaleDictionary, $dictionary } from '../stores/dictionary'
+import {
+  hasLocaleDictionary,
+  $dictionary,
+  addMessagesTo,
+} from '../stores/dictionary'
 import { getCurrentLocale } from '../stores/locale'
 import { $loading } from '../stores/loading'
 
@@ -45,13 +49,6 @@ export function addLoaderToQueue(locale: string, loader: LocaleLoader) {
 }
 
 export async function flushQueue(locale: string = getCurrentLocale()) {
-  if (locale == null) {
-    throw new Error(
-      `[svelte-i18n] Invalid locale into "waitLocale": ${JSON.stringify(
-        locale
-      )}`
-    )
-  }
   if (!hasLocaleQueue(locale)) return
 
   // get queue of XX-YY and XX locales
@@ -59,7 +56,7 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
   if (queue.length === 0) return
 
   removeLocaleFromQueue(locale)
-  $loading.set(true)
+  const loadingDelay = setTimeout(() => $loading.set(true), 200)
 
   // todo what happens if some loader fails?
   return Promise.all(queue.map(loader => loader()))
@@ -67,13 +64,12 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
       partials = partials.map(partial => partial.default || partial)
 
       removeFromLookupCache(locale)
-
-      $dictionary.update(d => {
-        d[locale] = merge.all<any>([d[locale] || {}].concat(partials))
-        return d
-      })
+      addMessagesTo(locale, ...partials)
     })
-    .then(() => $loading.set(false))
+    .then(() => {
+      clearTimeout(loadingDelay)
+      $loading.set(false)
+    })
 }
 
 export function registerLocaleLoader(locale: string, loader: LocaleLoader) {
