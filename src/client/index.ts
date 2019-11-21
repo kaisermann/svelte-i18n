@@ -9,6 +9,7 @@ export { $locale as locale, loadLocale as preloadLocale } from './stores/locale'
 export {
   $dictionary as dictionary,
   $locales as locales,
+  addMessagesTo,
 } from './stores/dictionary'
 export { $loading as loading } from './stores/loading'
 export { $format as format, $format as _, $format as t } from './stores/format'
