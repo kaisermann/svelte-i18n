@@ -1,9 +1,10 @@
+import { LocaleDictionary } from './../types/index'
 import { writable, derived } from 'svelte/store'
 import merge from 'deepmerge'
 
-let dictionary: Record<string, Record<string, any>>
+let dictionary: LocaleDictionary
 
-const $dictionary = writable<typeof dictionary>({})
+const $dictionary = writable<LocaleDictionary>({})
 $dictionary.subscribe(newDictionary => {
   dictionary = newDictionary
 })
@@ -16,11 +17,9 @@ function hasLocaleDictionary(locale: string) {
   return locale in dictionary
 }
 
-function addMessagesTo(locale: string, ...partials: any[]) {
+function addMessagesTo(locale: string, ...partials: LocaleDictionary[]) {
   $dictionary.update(d => {
-    dictionary[locale] = merge.all<any>(
-      [dictionary[locale] || {}].concat(partials)
-    )
+    dictionary[locale] = merge.all([dictionary[locale] || {}].concat(partials))
     return d
   })
 }
