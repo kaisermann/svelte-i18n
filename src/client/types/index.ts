@@ -1,3 +1,7 @@
+export interface LocaleDictionary {
+  [key: string]: LocaleDictionary | LocaleDictionary[] | string | object
+}
+
 export interface MessageObject {
   id?: string
   locale?: string
