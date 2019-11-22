@@ -1,6 +1,5 @@
 <script context="module">
-  import { locales, locale, waitInitialLocale } from 'svelte-i18n'
-  import Intl from 'svelte-i18n/Intl.svelte'
+  import { locales, locale, isLoading, waitInitialLocale } from 'svelte-i18n'
 
   export async function preload() {
     return waitInitialLocale({
@@ -50,20 +49,18 @@
   }
 </style>
 
-<Intl let:isLoading>
-  {#if isLoading}
-    <div class="loading">Loading...</div>
-  {/if}
+{#if $isLoading}
+  <div class="loading">Loading...</div>
+{/if}
 
-  <Nav {segment} />
-  <main>
-    <select bind:value={$locale}>
-      {#each $locales as locale}
-        {#if locale in localeLabels}
-          <option value={locale}>{localeLabels[locale]}</option>
-        {/if}
-      {/each}
-    </select>
-    <slot />
-  </main>
-</Intl>
+<Nav {segment} />
+<main>
+  <select bind:value={$locale}>
+    {#each $locales as locale}
+      {#if locale in localeLabels}
+        <option value={locale}>{localeLabels[locale]}</option>
+      {/if}
+    {/each}
+  </select>
+  <slot />
+</main>
