@@ -18,7 +18,7 @@ function hasLocaleDictionary(locale: string) {
   return locale in dictionary
 }
 
-function addMessagesTo(locale: string, ...partials: LocaleDictionary[]) {
+function addMessages(locale: string, ...partials: LocaleDictionary[]) {
   $dictionary.update(d => {
     dictionary[locale] = merge.all([dictionary[locale] || {}].concat(partials))
     return d
@@ -34,5 +34,5 @@ export {
   $locales,
   getDictionary,
   hasLocaleDictionary,
-  addMessagesTo,
+  addMessages,
 }
