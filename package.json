@@ -33,7 +33,7 @@
   },
   "files": [
     "dist/",
-    "Lang.svelte"
+    "Intl.svelte"
   ],
   "jest": {
     "collectCoverage": true,
