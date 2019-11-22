@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
   "bin": {
@@ -9,7 +9,7 @@
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
-  "repository": "https://github.com/kaisermann",
+  "repository": "https://github.com/kaisermann/svelte-i18n",
   "keywords": [
     "svelte",
     "i18n",
@@ -24,16 +24,18 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "pretest": "npm run build",
-    "test": "jest --no-cache",
-    "test:ci": "jest --silent --no-cache",
-    "test:watch": "jest --no-cache --verbose --watchAll",
+    "test": "jest",
+    "test:ci": "jest --silent",
+    "test:watch": "jest --verbose --watchAll",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --loglevel silent --write \"src/**/*.ts\" && eslint --fix \"src/**/*.ts\"",
-    "prepublishOnly": "npm run format && npm run test && npm run build"
+    "prerelease": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
+    "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
+    "postrelease": "git tag -a v$npm_package_version -m 'Release v$npm_package_version'",
+    "prepublishOnly": "npx run-s test:ci build release"
   },
   "files": [
-    "dist/",
-    "Intl.svelte"
+    "dist/"
   ],
   "jest": {
     "collectCoverage": true,
@@ -58,6 +60,7 @@
     "@types/jest": "^24.0.23",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
+    "conventional-changelog-cli": "^2.0.28",
     "eslint": "^6.6.0",
     "eslint-config-kaisermann": "0.0.3",
     "intl": "^1.2.5",
@@ -81,7 +84,6 @@
     "fast-memoize": "^2.5.1",
     "intl-messageformat": "^7.5.2",
     "messageformat": "^2.3.0",
-    "nano-memoize": "^1.1.7",
     "object-resolve-path": "^1.1.1",
     "tiny-glob": "^0.2.6"
   }
