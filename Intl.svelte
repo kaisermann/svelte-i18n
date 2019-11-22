@@ -7,9 +7,9 @@
 </script>
 
 <script>
-  import { locale, locales, loading } from './dist/i18n.mjs'
+  import { locale, locales, isLoading } from './dist/i18n.mjs'
 
   $: updateLangAttr($locale)
 </script>
 
-<slot loading={$loading} locale={$locale} locales={$locales} />
+<slot isLoading={$isLoading} locale={$locale} locales={$locales} />

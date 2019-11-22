@@ -1,13 +1,12 @@
 <script context="module">
-  import { locales, locale, waitLocale,getClientLocale } from 'svelte-i18n'
+  import { locales, locale, waitInitialLocale } from 'svelte-i18n'
   import Intl from 'svelte-i18n/Intl.svelte'
 
   export async function preload() {
-    const initialLocale = getClientLocale({
+    return waitInitialLocale({
       default: 'en-US',
-      navigator: true
+      navigator: true,
     })
-    return locale.set(initialLocale)
   }
 </script>
 
@@ -16,7 +15,7 @@
 
   const localeLabels = {
     'pt-BR': 'Português',
-    'en': 'English',
+    en: 'English',
     'en-US': 'English US',
     'es-ES': 'Espanõl',
   }
@@ -41,7 +40,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     font-family: monospace;
     font-size: 4rem;
@@ -49,12 +48,10 @@
     justify-content: center;
     align-items: center;
   }
-
-
 </style>
 
-<Intl let:loading>
-  {#if loading}
+<Intl let:isLoading>
+  {#if isLoading}
     <div class="loading">Loading...</div>
   {/if}
 
