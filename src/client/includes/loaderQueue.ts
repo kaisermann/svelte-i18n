@@ -7,10 +7,10 @@ import {
 import { getCurrentLocale } from '../stores/locale'
 import { $isLoading } from '../stores/loading'
 
-import { removeFromLookupCache } from './lookup'
-import { getLocalesFrom } from './utils'
+import { getAllFallbackLocales } from './utils'
 
-const loaderQueue: Record<string, Set<MessagesLoader>> = {}
+type Queue = Set<MessagesLoader>
+const loaderQueue: Record<string, Queue> = {}
 
 function createLocaleQueue(locale: string) {
   loaderQueue[locale] = new Set()
@@ -24,20 +24,18 @@ function getLocaleQueue(locale: string) {
   return loaderQueue[locale]
 }
 
-function getLocalesQueue(locale: string) {
-  return getLocalesFrom(locale)
+function getLocalesQueues(locale: string) {
+  return getAllFallbackLocales(locale)
     .reverse()
-    .reduce(
-      (acc, localeItem) =>
-        getLocaleQueue(localeItem)
-          ? acc.concat([...getLocaleQueue(localeItem)])
-          : acc,
-      []
-    )
+    .map<[string, MessagesLoader[]]>(localeItem => {
+      const queue = getLocaleQueue(localeItem)
+      return [localeItem, queue ? [...queue] : []]
+    })
+    .filter(([, queue]) => queue.length > 0)
 }
 
 export function hasLocaleQueue(locale: string) {
-  return getLocalesFrom(locale)
+  return getAllFallbackLocales(locale)
     .reverse()
     .some(getLocaleQueue)
 }
@@ -46,28 +44,33 @@ export function addLoaderToQueue(locale: string, loader: MessagesLoader) {
   loaderQueue[locale].add(loader)
 }
 
+const activeLocaleFlushes: { [key: string]: Promise<void> } = {}
 export async function flushQueue(locale: string = getCurrentLocale()) {
   if (!hasLocaleQueue(locale)) return
+  if (activeLocaleFlushes[locale]) return activeLocaleFlushes[locale]
 
   // get queue of XX-YY and XX locales
-  const queue = getLocalesQueue(locale)
-  if (queue.length === 0) return
+  const queues = getLocalesQueues(locale)
+  if (queues.length === 0) return
 
   removeLocaleFromQueue(locale)
   const loadingDelay = setTimeout(() => $isLoading.set(true), 200)
 
-  // todo what happens if some loader fails?
-  return Promise.all(queue.map(loader => loader()))
-    .then(partials => {
-      partials = partials.map(partial => partial.default || partial)
+  // TODO what happens if some loader fails
+  activeLocaleFlushes[locale] = Promise.all(
+    queues.map(([locale, queue]) => {
+      return Promise.all(queue.map(loader => loader())).then(partials => {
+        partials = partials.map(partial => partial.default || partial)
+        addMessages(locale, ...partials)
+      })
+    })
+  ).then(() => {
+    clearTimeout(loadingDelay)
+    $isLoading.set(false)
+    delete activeLocaleFlushes[locale]
+  })
 
-      removeFromLookupCache(locale)
-      addMessages(locale, ...partials)
-    })
-    .then(() => {
-      clearTimeout(loadingDelay)
-      $isLoading.set(false)
-    })
+  return activeLocaleFlushes[locale]
 }
 
 export function registerLocaleLoader(locale: string, loader: MessagesLoader) {
