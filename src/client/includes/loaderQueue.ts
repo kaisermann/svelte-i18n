@@ -2,7 +2,7 @@ import { MessagesLoader } from '../types'
 import {
   hasLocaleDictionary,
   $dictionary,
-  addMessagesTo,
+  addMessages,
 } from '../stores/dictionary'
 import { getCurrentLocale } from '../stores/locale'
 import { $isLoading } from '../stores/loading'
@@ -62,7 +62,7 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
       partials = partials.map(partial => partial.default || partial)
 
       removeFromLookupCache(locale)
-      addMessagesTo(locale, ...partials)
+      addMessages(locale, ...partials)
     })
     .then(() => {
       clearTimeout(loadingDelay)

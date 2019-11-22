@@ -1,4 +1,4 @@
-// todo this is a mess
+// TODO remake this, it's a mess
 import { Formatter } from '../../src/client/types'
 import {
   dictionary,

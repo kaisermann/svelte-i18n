@@ -20,7 +20,7 @@ export { $locale as locale, loadLocale as preloadLocale } from './stores/locale'
 export {
   $dictionary as dictionary,
   $locales as locales,
-  addMessagesTo,
+  addMessages,
 } from './stores/dictionary'
 export { $isLoading as isLoading } from './stores/loading'
 export { $format as format, $format as _, $format as t } from './stores/format'
