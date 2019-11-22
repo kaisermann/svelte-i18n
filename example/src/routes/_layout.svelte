@@ -1,5 +1,5 @@
 <script context="module">
-  import { locales, locale, isLoading, waitInitialLocale } from 'svelte-i18n'
+  import { isLoading, waitInitialLocale } from 'svelte-i18n'
 
   export async function preload() {
     return waitInitialLocale({
@@ -11,13 +11,6 @@
 
 <script>
   import Nav from '../components/Nav.svelte'
-
-  const localeLabels = {
-    'pt-BR': 'Português',
-    en: 'English',
-    'en-US': 'English US',
-    'es-ES': 'Espanõl',
-  }
 
   export let segment
 </script>
@@ -54,13 +47,7 @@
 {/if}
 
 <Nav {segment} />
+
 <main>
-  <select bind:value={$locale}>
-    {#each $locales as locale}
-      {#if locale in localeLabels}
-        <option value={locale}>{localeLabels[locale]}</option>
-      {/if}
-    {/each}
-  </select>
   <slot />
 </main>
