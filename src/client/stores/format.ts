@@ -2,7 +2,14 @@ import { derived } from 'svelte/store'
 
 import { Formatter, MessageObject } from '../types'
 import { lookupMessage } from '../includes/lookup'
-import { getLocalesFrom, capital, upper, lower, title } from '../includes/utils'
+import { hasLocaleQueue } from '../includes/loaderQueue'
+import {
+  getAllFallbackLocales,
+  capital,
+  upper,
+  lower,
+  title,
+} from '../includes/utils'
 import {
   getMessageFormatter,
   getTimeFormatter,
@@ -31,10 +38,15 @@ const formatMessage: Formatter = (id, options = {}) => {
 
   if (!message) {
     console.warn(
-      `[svelte-i18n] The message "${id}" was not found in "${getLocalesFrom(
+      `[svelte-i18n] The message "${id}" was not found in "${getAllFallbackLocales(
         locale
-      ).join('", "')}".`
+      ).join('", "')}". ${
+        hasLocaleQueue(getCurrentLocale())
+          ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
+          : ''
+      }`
     )
+
     return defaultValue || id
   }
 
