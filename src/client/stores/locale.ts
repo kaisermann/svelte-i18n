@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 
-import { getGenericLocaleFrom, getLocalesFrom } from '../includes/utils'
+import { getFallbackLocale, getAllFallbackLocales } from '../includes/utils'
 import { flushQueue, hasLocaleQueue } from '../includes/loaderQueue'
 
 import { getDictionary } from './dictionary'
@@ -14,12 +14,12 @@ function getCurrentLocale() {
 
 function getAvailableLocale(locale: string): string | null {
   if (locale in getDictionary() || locale == null) return locale
-  return getAvailableLocale(getGenericLocaleFrom(locale))
+  return getAvailableLocale(getFallbackLocale(locale))
 }
 
 function loadLocale(localeToLoad: string) {
   return Promise.all(
-    getLocalesFrom(localeToLoad).map(localeItem =>
+    getAllFallbackLocales(localeToLoad).map(localeItem =>
       flushQueue(localeItem)
         .then(() => [localeItem, { err: undefined }])
         .catch(e => [localeItem, { err: e }])
