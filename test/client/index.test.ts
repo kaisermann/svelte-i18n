@@ -229,7 +229,7 @@ describe('custom formats', () => {
         customDate: { year: 'numeric', era: 'short' },
       },
       time: {
-        customTime: { hour: '2-digit', month: 'narrow' },
+        customTime: { hour: '2-digit', minute: '2-digit' },
       },
     })
 
@@ -243,6 +243,6 @@ describe('custom formats', () => {
 
     expect(
       _.time(new Date(2019, 0, 1, 2, 0, 0), { format: 'customTime' })
-    ).toEqual('Jan, 02')
+    ).toEqual('02:00')
   })
 })
