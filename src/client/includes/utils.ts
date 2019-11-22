@@ -16,12 +16,12 @@ export function lower(str: string) {
   return str.toLocaleLowerCase()
 }
 
-export function getGenericLocaleFrom(locale: string) {
+export function getFallbackLocale(locale: string) {
   const index = locale.lastIndexOf('-')
   return index > 0 ? locale.slice(0, index) : null
 }
 
-export function getLocalesFrom(locale: string) {
+export function getAllFallbackLocales(locale: string) {
   return locale.split('-').map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 }
 
