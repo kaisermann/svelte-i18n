@@ -5,7 +5,7 @@ import {
   addMessagesTo,
 } from '../stores/dictionary'
 import { getCurrentLocale } from '../stores/locale'
-import { $loading } from '../stores/loading'
+import { $isLoading } from '../stores/loading'
 
 import { removeFromLookupCache } from './lookup'
 import { getLocalesFrom } from './utils'
@@ -54,7 +54,7 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
   if (queue.length === 0) return
 
   removeLocaleFromQueue(locale)
-  const loadingDelay = setTimeout(() => $loading.set(true), 200)
+  const loadingDelay = setTimeout(() => $isLoading.set(true), 200)
 
   // todo what happens if some loader fails?
   return Promise.all(queue.map(loader => loader()))
@@ -66,7 +66,7 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
     })
     .then(() => {
       clearTimeout(loadingDelay)
-      $loading.set(false)
+      $isLoading.set(false)
     })
 }
 

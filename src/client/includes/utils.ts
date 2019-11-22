@@ -1,3 +1,5 @@
+import { GetClientLocaleOptions } from '../types'
+
 export function capital(str: string) {
   return str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
 }
@@ -47,15 +49,7 @@ export const getClientLocale = ({
   pathname,
   hostname,
   default: defaultLocale,
-}: {
-  navigator?: boolean
-  hash?: string | RegExp
-  search?: string | RegExp
-  fallback?: string
-  default?: string
-  pathname?: RegExp
-  hostname?: RegExp
-}) => {
+}: GetClientLocaleOptions) => {
   let locale
 
   if (typeof window === 'undefined') {

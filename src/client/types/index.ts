@@ -45,3 +45,13 @@ export interface Formatter extends FormatterFn {
 export interface MessagesLoader {
   (): Promise<any>
 }
+
+export interface GetClientLocaleOptions {
+  navigator?: boolean
+  hash?: string | RegExp
+  search?: string | RegExp
+  fallback?: string
+  default?: string
+  pathname?: RegExp
+  hostname?: RegExp
+}
