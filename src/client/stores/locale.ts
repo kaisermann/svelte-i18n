@@ -29,6 +29,10 @@ function loadLocale(localeToLoad: string) {
 
 $locale.subscribe((newLocale: string) => {
   current = newLocale
+
+  if (typeof window !== 'undefined') {
+    document.documentElement.setAttribute('lang', newLocale)
+  }
 })
 
 const localeSet = $locale.set
