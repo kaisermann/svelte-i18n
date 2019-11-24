@@ -25,7 +25,7 @@ export function isFallbackLocaleOf(localeA: string, localeB: string) {
 export function getFallbackOf(locale: string) {
   const index = locale.lastIndexOf('-')
   if (index > 0) return locale.slice(0, index)
-  if (fallback && !isFallbackLocaleOf(locale, fallback)) return fallback
+  if (fallback && !isFallbackLocaleOf(fallback, locale)) return fallback
   return null
 }
 
@@ -34,7 +34,7 @@ export function getFallbacksOf(locale: string): string[] {
     .split('-')
     .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 
-  if (fallback != null && !isFallbackLocaleOf(locale, fallback)) {
+  if (fallback != null && !isFallbackLocaleOf(fallback, locale)) {
     return locales.concat(getFallbacksOf(fallback))
   }
   return locales

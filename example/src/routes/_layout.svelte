@@ -3,7 +3,7 @@
 
   export async function preload() {
     return setInitialLocale({
-      fallback: 'en-US',
+      fallback: 'en',
       // navigator: true,
       search: 'lang'
     })
