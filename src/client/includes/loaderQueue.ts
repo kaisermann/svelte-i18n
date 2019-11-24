@@ -4,10 +4,8 @@ import {
   $dictionary,
   addMessages,
 } from '../stores/dictionary'
-import { getCurrentLocale } from '../stores/locale'
+import { getCurrentLocale, getFallbacksOf } from '../stores/locale'
 import { $isLoading } from '../stores/loading'
-
-import { getAllFallbackLocales } from './utils'
 
 type Queue = Set<MessagesLoader>
 const loaderQueue: Record<string, Queue> = {}
@@ -25,7 +23,7 @@ function getLocaleQueue(locale: string) {
 }
 
 function getLocalesQueues(locale: string) {
-  return getAllFallbackLocales(locale)
+  return getFallbacksOf(locale)
     .reverse()
     .map<[string, MessagesLoader[]]>(localeItem => {
       const queue = getLocaleQueue(localeItem)
@@ -35,7 +33,7 @@ function getLocalesQueues(locale: string) {
 }
 
 export function hasLocaleQueue(locale: string) {
-  return getAllFallbackLocales(locale)
+  return getFallbacksOf(locale)
     .reverse()
     .some(getLocaleQueue)
 }

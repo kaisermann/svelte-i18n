@@ -1,30 +1,54 @@
 import { writable } from 'svelte/store'
 
-import { getFallbackLocale, getAllFallbackLocales } from '../includes/utils'
 import { flushQueue, hasLocaleQueue } from '../includes/loaderQueue'
+import { getClientLocale } from '../includes/utils'
+import { GetClientLocaleOptions } from '../types'
 
-import { getDictionary } from './dictionary'
+import { getAvailableLocale } from './dictionary'
 
+let fallback: string = null
 let current: string
 const $locale = writable(null)
+
+export function getFallbackLocale() {
+  return fallback
+}
+
+export function setfallbackLocale(locale: string) {
+  fallback = locale
+}
+
+export function isFallbackLocaleOf(localeA: string, localeB: string) {
+  return localeB.indexOf(localeA) === 0
+}
+
+export function getFallbackOf(locale: string) {
+  const index = locale.lastIndexOf('-')
+  if (index > 0) return locale.slice(0, index)
+  if (fallback && !isFallbackLocaleOf(locale, fallback)) return fallback
+  return null
+}
+
+export function getFallbacksOf(locale: string): string[] {
+  const locales = locale
+    .split('-')
+    .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
+
+  if (fallback != null && !isFallbackLocaleOf(locale, fallback)) {
+    return locales.concat(getFallbacksOf(fallback))
+  }
+  return locales
+}
 
 function getCurrentLocale() {
   return current
 }
 
-function getAvailableLocale(locale: string): string | null {
-  if (locale in getDictionary() || locale == null) return locale
-  return getAvailableLocale(getFallbackLocale(locale))
-}
-
-function loadLocale(localeToLoad: string) {
-  return Promise.all(
-    getAllFallbackLocales(localeToLoad).map(localeItem =>
-      flushQueue(localeItem)
-        .then(() => [localeItem, { err: undefined }])
-        .catch(e => [localeItem, { err: e }])
-    )
-  )
+export function setInitialLocale(options: GetClientLocaleOptions) {
+  if (typeof options.fallback === 'string') {
+    setfallbackLocale(options.fallback)
+  }
+  return $locale.set(getClientLocale(options))
 }
 
 $locale.subscribe((newLocale: string) => {
@@ -37,17 +61,13 @@ $locale.subscribe((newLocale: string) => {
 
 const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
-  if (getAvailableLocale(newLocale)) {
-    if (hasLocaleQueue(newLocale)) {
-      return flushQueue(newLocale).then(() => localeSet(newLocale))
-    }
-    return localeSet(newLocale)
+  if (getAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
+    return flushQueue(newLocale).then(() => localeSet(newLocale))
   }
-
-  throw Error(`[svelte-i18n] Locale "${newLocale}" not found.`)
+  return localeSet(newLocale)
 }
 
 $locale.update = (fn: (locale: string) => void | Promise<void>) =>
   localeSet(fn(current))
 
-export { $locale, loadLocale, flushQueue, getCurrentLocale }
+export { $locale, flushQueue, getCurrentLocale }

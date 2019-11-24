@@ -1,22 +1,18 @@
 import merge from 'deepmerge'
 
-import { GetClientLocaleOptions, MessageObject } from './types'
-import { getClientLocale } from './includes/utils'
-import { $locale } from './stores/locale'
+import { MessageObject } from './types'
 
 // defineMessages allow us to define and extract dynamic message ids
 export function defineMessages(i: Record<string, MessageObject>) {
   return i
 }
 
-export function waitInitialLocale(options: GetClientLocaleOptions | string) {
-  if (typeof options === 'string') {
-    return $locale.set(options)
-  }
-  return $locale.set(getClientLocale(options))
-}
-
-export { $locale as locale, loadLocale as preloadLocale } from './stores/locale'
+export {
+  $locale as locale,
+  setInitialLocale,
+  // @deprecated
+  setInitialLocale as waitInitialLocale,
+} from './stores/locale'
 export {
   $dictionary as dictionary,
   $locales as locales,
@@ -26,7 +22,7 @@ export { $isLoading as isLoading } from './stores/loading'
 export { $format as format, $format as _, $format as t } from './stores/format'
 
 // utilities
-export { getClientLocale, merge }
+export { merge }
 export { customFormats, addCustomFormats } from './includes/formats'
 export {
   flushQueue as waitLocale,

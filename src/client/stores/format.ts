@@ -3,13 +3,7 @@ import { derived } from 'svelte/store'
 import { Formatter, MessageObject } from '../types'
 import { lookupMessage } from '../includes/lookup'
 import { hasLocaleQueue } from '../includes/loaderQueue'
-import {
-  getAllFallbackLocales,
-  capital,
-  upper,
-  lower,
-  title,
-} from '../includes/utils'
+import { capital, upper, lower, title } from '../includes/utils'
 import {
   getMessageFormatter,
   getTimeFormatter,
@@ -18,7 +12,7 @@ import {
 } from '../includes/formats'
 
 import { getDictionary, $dictionary } from './dictionary'
-import { getCurrentLocale, $locale } from './locale'
+import { getCurrentLocale, getFallbacksOf, $locale } from './locale'
 
 const formatMessage: Formatter = (id, options = {}) => {
   if (typeof id === 'object') {
@@ -38,7 +32,7 @@ const formatMessage: Formatter = (id, options = {}) => {
 
   if (!message) {
     console.warn(
-      `[svelte-i18n] The message "${id}" was not found in "${getAllFallbackLocales(
+      `[svelte-i18n] The message "${id}" was not found in "${getFallbacksOf(
         locale
       ).join('", "')}". ${
         hasLocaleQueue(getCurrentLocale())

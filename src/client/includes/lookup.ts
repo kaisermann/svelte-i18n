@@ -2,8 +2,7 @@
 import resolvePath from 'object-resolve-path'
 
 import { hasLocaleDictionary } from '../stores/dictionary'
-
-import { getFallbackLocale } from './utils'
+import { getFallbackOf } from '../stores/locale'
 
 const lookupCache: Record<string, Record<string, string>> = {}
 
@@ -34,6 +33,6 @@ export const lookupMessage = (
   return addToCache(
     path,
     locale,
-    lookupMessage(dictionary, path, getFallbackLocale(locale))
+    lookupMessage(dictionary, path, getFallbackOf(locale))
   )
 }

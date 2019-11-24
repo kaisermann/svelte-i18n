@@ -4,13 +4,12 @@ import {
   dictionary,
   locale,
   format,
-  getClientLocale,
   addCustomFormats,
   customFormats,
-  preloadLocale,
   register,
   waitLocale,
 } from '../../src/client'
+import { getClientLocale } from '../../src/client/includes/utils'
 
 global.Intl = require('intl')
 
@@ -42,19 +41,9 @@ describe('locale', () => {
     await locale.set('en-US')
     expect(currentLocale).toBe('en-US')
   })
-
-  it("should throw an error if locale doesn't exist", () => {
-    expect(() => locale.set('FOO')).toThrow()
-  })
 })
 
 describe('dictionary', () => {
-  it('load a locale and its derived locales if dictionary is a loader', async () => {
-    const loaded = await preloadLocale('pt-PT')
-    expect(loaded[0][0]).toEqual('pt')
-    expect(loaded[1][0]).toEqual('pt-PT')
-  })
-
   it('load a partial dictionary and merge it with the existing one', async () => {
     await locale.set('en')
     register('en', () => import('../fixtures/partials/en.json'))
@@ -96,7 +85,8 @@ describe('formatting', () => {
     expect(_({ id: 'switch.lang' })).toBe('Switch language')
   })
 
-  it('should translate to passed locale', () => {
+  it('should translate to passed locale', async () => {
+    await waitLocale('pt-BR')
     expect(_('switch.lang', { locale: 'pt' })).toBe('Trocar idioma')
   })
 

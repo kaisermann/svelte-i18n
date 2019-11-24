@@ -16,15 +16,6 @@ export function lower(str: string) {
   return str.toLocaleLowerCase()
 }
 
-export function getFallbackLocale(locale: string) {
-  const index = locale.lastIndexOf('-')
-  return index > 0 ? locale.slice(0, index) : null
-}
-
-export function getAllFallbackLocales(locale: string) {
-  return locale.split('-').map((_, i, arr) => arr.slice(0, i + 1).join('-'))
-}
-
 const getFromURL = (urlPart: string, key: string) => {
   const keyVal = urlPart
     .substr(1)
@@ -49,12 +40,11 @@ export const getClientLocale = ({
   pathname,
   hostname,
   default: defaultLocale,
+  fallback = defaultLocale,
 }: GetClientLocaleOptions) => {
   let locale
 
-  if (typeof window === 'undefined') {
-    return defaultLocale
-  }
+  if (typeof window === 'undefined') return fallback
 
   if (hostname) {
     locale = getFirstMatch(window.location.hostname, hostname)
@@ -88,5 +78,5 @@ export const getClientLocale = ({
     if (locale) return locale
   }
 
-  return defaultLocale
+  return fallback
 }
