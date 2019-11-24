@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
   "bin": {

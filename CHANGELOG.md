@@ -1,3 +1,13 @@
+## [2.0.2](https://github.com/kaisermann/svelte-i18n/compare/v2.0.0...v2.0.2) (2019-11-24)
+
+
+### Bug Fixes
+
+* 🐛 fallback behaviour and simplify API contact points ([6e0df2f](https://github.com/kaisermann/svelte-i18n/commit/6e0df2fb25e1bf9038eb4252ba993541a7fa2b4a))
+* 🐛 fallback locale being looked twice ([9260b83](https://github.com/kaisermann/svelte-i18n/commit/9260b83756b9bb2811be48817190510fa24cb2ff))
+
+
+
 ## [2.0.1](https://github.com/kaisermann/svelte-i18n/compare/v2.0.0...v2.0.1) (2019-11-24)
 
 
