@@ -1,3 +1,12 @@
+## [2.0.1](https://github.com/kaisermann/svelte-i18n/compare/v2.0.0...v2.0.1) (2019-11-24)
+
+
+### Bug Fixes
+
+* 🐛 fallback behaviour and simplify API contact points ([64e69eb](https://github.com/kaisermann/svelte-i18n/commit/64e69eb3c0f62754570429a87450ff53eb29973a))
+
+
+
 # [2.0.0](https://github.com/kaisermann/svelte-i18n/compare/v1.1.2-beta...v2.0.0) (2019-11-22)
 
 
