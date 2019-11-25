@@ -198,9 +198,9 @@ describe('custom formats', () => {
     })
 
     expect(_.number(123123123, { format: 'usd' })).toContain('US$')
-    expect(_.number(123123123, { format: 'usd' })).toContain('123,123,123.00')
+    expect(_.number(123123123, { format: 'usd' })).toContain('123.123.123,00')
 
     expect(_.number(123123123, { format: 'brl' })).toContain('R$')
-    expect(_.number(123123123, { format: 'brl' })).toContain('123,123,123.00')
+    expect(_.number(123123123, { format: 'brl' })).toContain('123.123.123,00')
   })
 })

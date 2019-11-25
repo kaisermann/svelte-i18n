@@ -2,7 +2,7 @@
 
 > Internationalization for Svelte.
 
-[See Demo](https://svelte-i18n.netlify.com/)
+**Note:** the `v2` version was unpublished and will be released again in the following week after I rewrite all of its tests. For now, use the `v1.1.2`.
 
 ## Usage
 

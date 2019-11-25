@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "1.1.2-beta",
+  "version": "1.1.2",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
   "license": "MIT",
@@ -50,7 +50,7 @@
         "statements": 95
       }
     },
-    "collectCoverage": true
+    "collectCoverage": false
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
