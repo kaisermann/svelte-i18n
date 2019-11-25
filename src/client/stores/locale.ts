@@ -6,26 +6,36 @@ import { GetClientLocaleOptions } from '../types'
 
 import { getAvailableLocale } from './dictionary'
 
-let fallback: string = null
+let fallbackLocale: string = null
 let current: string
 const $locale = writable(null)
 
 export function getFallbackLocale() {
-  return fallback
+  return fallbackLocale
 }
 
-export function setfallbackLocale(locale: string) {
-  fallback = locale
+export function setFallbackLocale(locale: string) {
+  fallbackLocale = locale
 }
 
 export function isFallbackLocaleOf(localeA: string, localeB: string) {
-  return localeB.indexOf(localeA) === 0
+  return localeB.indexOf(localeA) === 0 && localeA !== localeB
+}
+
+export function isRelatedLocale(localeA: string, localeB: string) {
+  return (
+    localeA === localeB ||
+    isFallbackLocaleOf(localeA, localeB) ||
+    isFallbackLocaleOf(localeB, localeA)
+  )
 }
 
 export function getFallbackOf(locale: string) {
   const index = locale.lastIndexOf('-')
   if (index > 0) return locale.slice(0, index)
-  if (fallback && !isFallbackLocaleOf(fallback, locale)) return fallback
+  if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
+    return fallbackLocale
+  }
   return null
 }
 
@@ -34,19 +44,19 @@ export function getFallbacksOf(locale: string): string[] {
     .split('-')
     .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 
-  if (fallback != null && !isFallbackLocaleOf(fallback, locale)) {
-    return locales.concat(getFallbacksOf(fallback))
+  if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
+    return locales.concat(getFallbacksOf(fallbackLocale))
   }
   return locales
 }
 
-function getCurrentLocale() {
+export function getCurrentLocale() {
   return current
 }
 
 export function setInitialLocale(options: GetClientLocaleOptions) {
   if (typeof options.fallback === 'string') {
-    setfallbackLocale(options.fallback)
+    setFallbackLocale(options.fallback)
   }
   return $locale.set(getClientLocale(options))
 }
@@ -70,4 +80,4 @@ $locale.set = (newLocale: string): void | Promise<void> => {
 $locale.update = (fn: (locale: string) => void | Promise<void>) =>
   localeSet(fn(current))
 
-export { $locale, flushQueue, getCurrentLocale }
+export { $locale }
