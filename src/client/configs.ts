@@ -2,9 +2,20 @@ import { getClientLocale } from './includes/utils'
 import { ConfigureOptions } from './types'
 import { $locale } from './stores/locale'
 
-let fallbackLocale: string = null
-let loadingDelay = 200
-const formats: any = {
+interface Formats {
+  number: Record<string, any>
+  date: Record<string, any>
+  time: Record<string, any>
+}
+
+interface Options {
+  fallbackLocale: string
+  initialLocale: string
+  formats: Formats
+  loadingDelay: number
+}
+
+export const defaultFormats: Formats = {
   number: {
     scientific: { notation: 'scientific' },
     engineering: { notation: 'engineering' },
@@ -35,33 +46,44 @@ const formats: any = {
   },
 }
 
-export function getFallbackLocale() {
-  return fallbackLocale
+export const defaultOptions: Options = {
+  fallbackLocale: null,
+  initialLocale: null,
+  loadingDelay: 200,
+  formats: defaultFormats,
 }
 
-export function getLoadingDelay() {
-  return loadingDelay
-}
+const options: Options = defaultOptions
 
-export function getFormats() {
-  return formats
+export function getOptions() {
+  return options
 }
 
 export function configure(opts: ConfigureOptions) {
-  fallbackLocale = opts.fallbackLocale
+  const fallbackLocale = (options.fallbackLocale = opts.fallbackLocale)
 
-  if (opts.initialLocale) {
-    $locale.set(getClientLocale(opts.initialLocale) || fallbackLocale)
-  } else {
-    $locale.set(fallbackLocale)
-  }
+  const initialLocale = opts.initialLocale
+    ? typeof opts.initialLocale === 'string'
+      ? opts.initialLocale
+      : getClientLocale(opts.initialLocale) || fallbackLocale
+    : fallbackLocale
+
+  $locale.set(initialLocale)
+  options.initialLocale = initialLocale
 
   if (opts.formats) {
-    if ('number' in opts.formats)
-      Object.assign(formats.number, opts.formats.number)
-    if ('date' in opts.formats) Object.assign(formats.date, opts.formats.date)
-    if ('time' in opts.formats) Object.assign(formats.time, opts.formats.time)
+    if ('number' in opts.formats) {
+      Object.assign(options.formats.number, opts.formats.number)
+    }
+    if ('date' in opts.formats) {
+      Object.assign(options.formats.date, opts.formats.date)
+    }
+    if ('time' in opts.formats) {
+      Object.assign(options.formats.time, opts.formats.time)
+    }
   }
 
-  if (loadingDelay != null) loadingDelay = loadingDelay
+  if (opts.loadingDelay != null) {
+    options.loadingDelay = opts.loadingDelay
+  }
 }

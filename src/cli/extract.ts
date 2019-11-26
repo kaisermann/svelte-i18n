@@ -7,7 +7,7 @@ import {
   CallExpression,
   Identifier,
 } from 'estree'
-import resolvePath from 'object-resolve-path'
+import delve from 'dlv'
 import { walk } from 'estree-walker'
 import { Ast } from 'svelte/types/compiler/interfaces'
 import { parse } from 'svelte/compiler'
@@ -209,7 +209,7 @@ export function extractMessages(
     } else {
       if (
         overwrite === false &&
-        typeof resolvePath(accumulator, message.meta.id) !== 'undefined'
+        typeof delve(accumulator, message.meta.id) !== 'undefined'
       ) {
         return
       }

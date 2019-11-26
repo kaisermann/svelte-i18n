@@ -16,15 +16,13 @@ export function lower(str: string) {
   return str.toLocaleLowerCase()
 }
 
-const getFromURL = (urlPart: string, key: string) => {
-  const keyVal = urlPart
-    .substr(1)
-    .split('&')
-    .find(i => i.indexOf(key) === 0)
+const getFromQueryString = (queryString: string, key: string) => {
+  const keyVal = queryString.split('&').find(i => i.indexOf(`${key}=`) === 0)
 
   if (keyVal) {
     return keyVal.split('=').pop()
   }
+  return null
 }
 
 const getFirstMatch = (base: string, pattern: RegExp) => {
@@ -42,7 +40,8 @@ export const getClientLocale = ({
 }: GetClientLocaleOptions) => {
   let locale
 
-  if (typeof window === 'undefined') return fallback
+  // istanbul ignore next
+  if (typeof window === 'undefined') return null
 
   if (hostname) {
     locale = getFirstMatch(window.location.hostname, hostname)
@@ -61,18 +60,12 @@ export const getClientLocale = ({
   }
 
   if (search) {
-    locale =
-      typeof search === 'string'
-        ? getFromURL(window.location.search, search)
-        : getFirstMatch(window.location.search, search)
+    locale = getFromQueryString(window.location.search.substr(1), search)
     if (locale) return locale
   }
 
   if (hash) {
-    locale =
-      typeof hash === 'string'
-        ? getFromURL(window.location.hash, hash)
-        : getFirstMatch(window.location.hash, hash)
+    locale = getFromQueryString(window.location.hash.substr(1), hash)
     if (locale) return locale
   }
 

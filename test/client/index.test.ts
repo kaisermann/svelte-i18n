@@ -99,47 +99,6 @@
 // })
 
 // describe('utilities', () => {
-//   describe('get locale', () => {
-//     beforeEach(() => {
-//       delete window.location
-//       window.location = {
-//         pathname: '/',
-//         hostname: 'example.com',
-//         hash: '',
-//         search: '',
-//       } as any
-//     })
-
-//     it('should get the locale based on the passed hash parameter', () => {
-//       window.location.hash = '#locale=en-US&lang=pt-BR'
-//       expect(getClientLocale({ hash: 'lang' })).toBe('pt-BR')
-//     })
-
-//     it('should get the locale based on the passed search parameter', () => {
-//       window.location.search = '?locale=en-US&lang=pt-BR'
-//       expect(getClientLocale({ search: 'lang' })).toBe('pt-BR')
-//     })
-
-//     it('should get the locale based on the navigator language', () => {
-//       expect(getClientLocale({ navigator: true })).toBe(
-//         window.navigator.language
-//       )
-//     })
-
-//     it('should get the default locale', () => {
-//       expect(getClientLocale({ default: 'pt' })).toBe('pt')
-//     })
-
-//     it('should get the fallback locale', () => {
-//       window.location.pathname = '/en-US/foo/'
-//       expect(getClientLocale({ pathname: /^\/(.*?)\// })).toBe('en-US')
-//     })
-
-//     it('should get the fallback locale', () => {
-//       window.location.hostname = 'pt.example.com'
-//       expect(getClientLocale({ hostname: /^(.*?)\./ })).toBe('pt')
-//     })
-//   })
 
 //   describe('format utils', () => {
 //     beforeAll(async () => {
@@ -184,31 +143,6 @@
 // })
 
 // describe('custom formats', () => {
-//   beforeAll(async () => {
-//     await locale.set('pt-BR')
-//   })
-
-//   it('should have default number custom formats', () => {
-//     expect(customFormats.number).toMatchObject({
-//       scientific: { notation: 'scientific' },
-//       engineering: { notation: 'engineering' },
-//       compactLong: { notation: 'compact', compactDisplay: 'long' },
-//       compactShort: { notation: 'compact', compactDisplay: 'short' },
-//     })
-//   })
-
-//   it('should allow to add custom formats', () => {
-//     addCustomFormats({
-//       number: {
-//         usd: { style: 'currency', currency: 'USD' },
-//       },
-//     })
-
-//     expect(customFormats.number).toMatchObject({
-//       usd: { style: 'currency', currency: 'USD' },
-//     })
-//   })
-
 //   it('should format messages with custom formats', async () => {
 //     addCustomFormats({
 //       number: {

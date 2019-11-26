@@ -8,7 +8,7 @@ import {
   $locale,
   isRelatedLocale,
 } from '../../src/client/stores/locale'
-import { getFallbackLocale, configure } from '../../src/client/configs'
+import { getOptions, configure } from '../../src/client/configs'
 
 beforeEach(() => {
   configure({ fallbackLocale: undefined })
@@ -17,7 +17,7 @@ beforeEach(() => {
 
 test('sets and gets the fallback locale', () => {
   configure({ fallbackLocale: 'en' })
-  expect(getFallbackLocale()).toBe('en')
+  expect(getOptions().fallbackLocale).toBe('en')
 })
 
 test('checks if a locale is a fallback locale of another locale', () => {
@@ -104,7 +104,7 @@ test('gets the current locale', () => {
 test('if no initial locale is set, set the locale to the fallback', () => {
   configure({ fallbackLocale: 'pt' })
   expect(get($locale)).toBe('pt')
-  expect(getFallbackLocale()).toBe('pt')
+  expect(getOptions().fallbackLocale).toBe('pt')
 })
 
 test('if no initial locale was found, set to the fallback locale', () => {
@@ -115,5 +115,5 @@ test('if no initial locale was found, set to the fallback locale', () => {
     },
   })
   expect(get($locale)).toBe('en')
-  expect(getFallbackLocale()).toBe('en')
+  expect(getOptions().fallbackLocale).toBe('en')
 })

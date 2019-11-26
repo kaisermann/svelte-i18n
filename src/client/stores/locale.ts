@@ -1,11 +1,9 @@
 import { writable } from 'svelte/store'
 
 import { flushQueue, hasLocaleQueue } from '../includes/loaderQueue'
-import { getClientLocale } from '../includes/utils'
-import { GetClientLocaleOptions } from '../types'
+import { getOptions } from '../configs'
 
 import { getClosestAvailableLocale } from './dictionary'
-import { setFallbackLocale, getFallbackLocale } from '../configs'
 
 let current: string
 const $locale = writable(null)
@@ -25,8 +23,10 @@ export function isRelatedLocale(localeA: string, localeB: string) {
 export function getFallbackOf(locale: string) {
   const index = locale.lastIndexOf('-')
   if (index > 0) return locale.slice(0, index)
-  if (getFallbackLocale() && !isRelatedLocale(locale, getFallbackLocale())) {
-    return getFallbackLocale()
+
+  const { fallbackLocale } = getOptions()
+  if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
+    return fallbackLocale
   }
   return null
 }
@@ -36,8 +36,9 @@ export function getRelatedLocalesOf(locale: string): string[] {
     .split('-')
     .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
 
-  if (getFallbackLocale() && !isRelatedLocale(locale, getFallbackLocale())) {
-    return locales.concat(getRelatedLocalesOf(getFallbackLocale()))
+  const { fallbackLocale } = getOptions()
+  if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
+    return locales.concat(getRelatedLocalesOf(fallbackLocale))
   }
   return locales
 }

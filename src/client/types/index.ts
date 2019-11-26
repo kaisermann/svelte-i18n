@@ -50,16 +50,15 @@ export interface MessagesLoader {
 
 export interface GetClientLocaleOptions {
   navigator?: boolean
-  hash?: string | RegExp
-  search?: string | RegExp
-  default?: string
+  hash?: string
+  search?: string
   pathname?: RegExp
   hostname?: RegExp
 }
 
 export interface ConfigureOptions {
   fallbackLocale: string
-  initialLocale?: GetClientLocaleOptions
+  initialLocale?: string | GetClientLocaleOptions
   formats?: Partial<Formats>
   loadingDelay?: number
 }
