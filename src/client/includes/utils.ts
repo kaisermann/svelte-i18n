@@ -27,7 +27,9 @@ const getFromQueryString = (queryString: string, key: string) => {
 
 const getFirstMatch = (base: string, pattern: RegExp) => {
   const match = pattern.exec(base)
+  // istanbul ignore if
   if (!match) return null
+  // istanbul ignore else
   return match[1] || null
 }
 
