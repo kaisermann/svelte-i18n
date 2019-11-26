@@ -7,7 +7,11 @@ export function defineMessages(i: Record<string, MessageObject>) {
   return i
 }
 
-export { $locale as locale, setInitialLocale } from './stores/locale'
+export {
+  $locale as locale,
+  setInitialLocale,
+  setFallbackLocale,
+} from './stores/locale'
 export {
   $dictionary as dictionary,
   $locales as locales,
@@ -26,4 +30,3 @@ export {
 
 // @deprecated
 export { getClientLocale } from './includes/utils'
-export { setInitialLocale as waitInitialLocale } from './stores/locale'

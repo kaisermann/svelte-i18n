@@ -1,7 +1,4 @@
-// todo invalidate only keys with null values
-import resolvePath from 'object-resolve-path'
-
-import { hasLocaleDictionary } from '../stores/dictionary'
+import { getMessageFromDictionary } from '../stores/dictionary'
 import { getFallbackOf } from '../stores/locale'
 
 const lookupCache: Record<string, Record<string, string>> = {}
@@ -13,26 +10,14 @@ const addToCache = (path: string, locale: string, message: string) => {
   return message
 }
 
-export const lookupMessage = (
-  dictionary: any,
-  path: string,
-  locale: string
-): string => {
+export const lookupMessage = (path: string, locale: string): string => {
   if (locale == null) return null
   if (locale in lookupCache && path in lookupCache[locale]) {
     return lookupCache[locale][path]
   }
-  if (hasLocaleDictionary(locale)) {
-    if (path in dictionary[locale]) {
-      return addToCache(path, locale, dictionary[locale][path])
-    }
-    const message = resolvePath(dictionary[locale], path)
-    if (message) return addToCache(path, locale, message)
-  }
 
-  return addToCache(
-    path,
-    locale,
-    lookupMessage(dictionary, path, getFallbackOf(locale))
-  )
+  const message = getMessageFromDictionary(locale, path)
+  if (message) return message
+
+  return addToCache(path, locale, lookupMessage(path, getFallbackOf(locale)))
 }

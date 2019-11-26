@@ -1,5 +1,5 @@
-export interface LocaleDictionary {
-  [key: string]: LocaleDictionary | LocaleDictionary[] | string | object
+export interface Dictionary {
+  [key: string]: string | string[] | Dictionary | Dictionary[]
 }
 
 export interface MessageObject {

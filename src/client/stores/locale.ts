@@ -4,7 +4,7 @@ import { flushQueue, hasLocaleQueue } from '../includes/loaderQueue'
 import { getClientLocale } from '../includes/utils'
 import { GetClientLocaleOptions } from '../types'
 
-import { getAvailableLocale } from './dictionary'
+import { getClosestAvailableLocale } from './dictionary'
 
 let fallbackLocale: string = null
 let current: string
@@ -71,7 +71,7 @@ $locale.subscribe((newLocale: string) => {
 
 const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
-  if (getAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
+  if (getClosestAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
     return flushQueue(newLocale).then(() => localeSet(newLocale))
   }
   return localeSet(newLocale)

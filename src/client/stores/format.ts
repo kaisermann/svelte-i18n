@@ -11,7 +11,7 @@ import {
   getNumberFormatter,
 } from '../includes/formats'
 
-import { getDictionary, $dictionary } from './dictionary'
+import { $dictionary } from './dictionary'
 import { getCurrentLocale, getFallbacksOf, $locale } from './locale'
 
 const formatMessage: Formatter = (id, options = {}) => {
@@ -28,7 +28,7 @@ const formatMessage: Formatter = (id, options = {}) => {
     )
   }
 
-  const message = lookupMessage(getDictionary(), id, locale)
+  const message = lookupMessage(id, locale)
 
   if (!message) {
     console.warn(

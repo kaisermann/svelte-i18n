@@ -1,2 +1,2 @@
-declare module 'object-resolve-path'
+declare module 'dlv'
 declare module 'nano-memoize'
