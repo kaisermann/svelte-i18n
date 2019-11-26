@@ -1,32 +1,17 @@
-import IntlMessageFormat, { Formats } from 'intl-messageformat'
+import IntlMessageFormat from 'intl-messageformat'
 import memoize from 'fast-memoize'
 
 import { MemoizedIntlFormatter } from '../types'
 import { getCurrentLocale } from '../stores/locale'
-
-export const customFormats: any = {
-  number: {
-    scientific: { notation: 'scientific' },
-    engineering: { notation: 'engineering' },
-    compactLong: { notation: 'compact', compactDisplay: 'long' },
-    compactShort: { notation: 'compact', compactDisplay: 'short' },
-  },
-  date: {},
-  time: {},
-}
-
-export function addCustomFormats(formats: Partial<Formats>) {
-  if ('number' in formats) Object.assign(customFormats.number, formats.number)
-  if ('date' in formats) Object.assign(customFormats.date, formats.date)
-  if ('time' in formats) Object.assign(customFormats.time, formats.time)
-}
+import { getFormats } from '../configs'
 
 const getIntlFormatterOptions = (
   type: 'time' | 'number' | 'date',
   name: string
 ): any => {
-  if (type in customFormats && name in customFormats[type]) {
-    return customFormats[type][name]
+  const formats = getFormats()
+  if (type in formats && name in formats[type]) {
+    return formats[type][name]
   }
 
   if (
@@ -77,5 +62,5 @@ export const getTimeFormatter: MemoizedIntlFormatter<
 
 export const getMessageFormatter = memoize(
   (message: string, locale: string) =>
-    new IntlMessageFormat(message, locale, customFormats)
+    new IntlMessageFormat(message, locale, getFormats())
 )

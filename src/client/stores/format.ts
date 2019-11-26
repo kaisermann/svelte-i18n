@@ -9,10 +9,10 @@ import {
   getTimeFormatter,
   getDateFormatter,
   getNumberFormatter,
-} from '../includes/formats'
+} from '../includes/formatters'
 
 import { $dictionary } from './dictionary'
-import { getCurrentLocale, getFallbacksOf, $locale } from './locale'
+import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale'
 
 const formatMessage: Formatter = (id, options = {}) => {
   if (typeof id === 'object') {
@@ -32,7 +32,7 @@ const formatMessage: Formatter = (id, options = {}) => {
 
   if (!message) {
     console.warn(
-      `[svelte-i18n] The message "${id}" was not found in "${getFallbacksOf(
+      `[svelte-i18n] The message "${id}" was not found in "${getRelatedLocalesOf(
         locale
       ).join('", "')}". ${
         hasLocaleQueue(getCurrentLocale())

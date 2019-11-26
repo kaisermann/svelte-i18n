@@ -1,3 +1,5 @@
+import { Formats } from 'intl-messageformat'
+
 export interface Dictionary {
   [key: string]: string | string[] | Dictionary | Dictionary[]
 }
@@ -50,8 +52,14 @@ export interface GetClientLocaleOptions {
   navigator?: boolean
   hash?: string | RegExp
   search?: string | RegExp
-  fallback?: string
   default?: string
   pathname?: RegExp
   hostname?: RegExp
+}
+
+export interface ConfigureOptions {
+  fallbackLocale: string
+  initialLocale?: GetClientLocaleOptions
+  formats?: Partial<Formats>
+  loadingDelay?: number
 }

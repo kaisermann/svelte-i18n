@@ -4,8 +4,9 @@ import {
   $dictionary,
   addMessages,
 } from '../stores/dictionary'
-import { getCurrentLocale, getFallbacksOf } from '../stores/locale'
+import { getCurrentLocale, getRelatedLocalesOf } from '../stores/locale'
 import { $isLoading } from '../stores/loading'
+import { getLoadingDelay } from '../configs'
 
 type Queue = Set<MessagesLoader>
 const loaderQueue: Record<string, Queue> = {}
@@ -23,7 +24,7 @@ function getLocaleQueue(locale: string) {
 }
 
 function getLocalesQueues(locale: string) {
-  return getFallbacksOf(locale)
+  return getRelatedLocalesOf(locale)
     .reverse()
     .map<[string, MessagesLoader[]]>(localeItem => {
       const queue = getLocaleQueue(localeItem)
@@ -33,7 +34,7 @@ function getLocalesQueues(locale: string) {
 }
 
 export function hasLocaleQueue(locale: string) {
-  return getFallbacksOf(locale)
+  return getRelatedLocalesOf(locale)
     .reverse()
     .some(getLocaleQueue)
 }
@@ -45,14 +46,14 @@ export function addLoaderToQueue(locale: string, loader: MessagesLoader) {
 const activeLocaleFlushes: { [key: string]: Promise<void> } = {}
 export async function flushQueue(locale: string = getCurrentLocale()) {
   if (!hasLocaleQueue(locale)) return
-  if (activeLocaleFlushes[locale]) return activeLocaleFlushes[locale]
+  if (locale in activeLocaleFlushes) return activeLocaleFlushes[locale]
 
   // get queue of XX-YY and XX locales
   const queues = getLocalesQueues(locale)
   if (queues.length === 0) return
 
   removeLocaleFromQueue(locale)
-  const loadingDelay = setTimeout(() => $isLoading.set(true), 200)
+  const loadingDelay = setTimeout(() => $isLoading.set(true), getLoadingDelay())
 
   // TODO what happens if some loader fails
   activeLocaleFlushes[locale] = Promise.all(

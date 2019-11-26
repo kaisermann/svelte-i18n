@@ -1,5 +1,3 @@
-import merge from 'deepmerge'
-
 import { MessageObject } from './types'
 
 // defineMessages allow us to define and extract dynamic message ids
@@ -7,11 +5,8 @@ export function defineMessages(i: Record<string, MessageObject>) {
   return i
 }
 
-export {
-  $locale as locale,
-  setInitialLocale,
-  setFallbackLocale,
-} from './stores/locale'
+export { configure } from './configs'
+export { $locale as locale } from './stores/locale'
 export {
   $dictionary as dictionary,
   $locales as locales,
@@ -21,12 +16,7 @@ export { $isLoading as isLoading } from './stores/loading'
 export { $format as format, $format as _, $format as t } from './stores/format'
 
 // utilities
-export { merge }
-export { customFormats, addCustomFormats } from './includes/formats'
 export {
   flushQueue as waitLocale,
   registerLocaleLoader as register,
 } from './includes/loaderQueue'
-
-// @deprecated
-export { getClientLocale } from './includes/utils'

@@ -39,8 +39,6 @@ export const getClientLocale = ({
   search,
   pathname,
   hostname,
-  default: defaultLocale,
-  fallback = defaultLocale,
 }: GetClientLocaleOptions) => {
   let locale
 
@@ -78,5 +76,5 @@ export const getClientLocale = ({
     if (locale) return locale
   }
 
-  return fallback
+  return null
 }

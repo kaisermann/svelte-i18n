@@ -1,12 +1,8 @@
 <script context="module">
-  import { isLoading, setInitialLocale } from 'svelte-i18n'
+  import { isLoading, waitLocale } from 'svelte-i18n'
 
   export async function preload() {
-    return setInitialLocale({
-      fallback: 'en',
-      // navigator: true,
-      search: 'lang'
-    })
+    return waitLocale()
   }
 </script>
 
