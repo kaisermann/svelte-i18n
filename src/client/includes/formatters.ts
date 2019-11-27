@@ -3,47 +3,52 @@ import memoize from 'fast-memoize'
 
 import { MemoizedIntlFormatter } from '../types'
 import { getCurrentLocale } from '../stores/locale'
-import { getFormats } from '../configs'
+import { getOptions } from '../configs'
 
 const getIntlFormatterOptions = (
   type: 'time' | 'number' | 'date',
   name: string
 ): any => {
-  const formats = getFormats()
+  const formats = getOptions().formats
   if (type in formats && name in formats[type]) {
     return formats[type][name]
   }
 
-  if (
-    type in IntlMessageFormat.formats &&
-    name in IntlMessageFormat.formats[type]
-  ) {
-    return (IntlMessageFormat.formats[type] as any)[name]
-  }
-
-  return null
+  throw new Error(`[svelte-i18n] Unknown "${name}" ${type} format.`)
 }
 
 export const getNumberFormatter: MemoizedIntlFormatter<
   Intl.NumberFormat,
   Intl.NumberFormatOptions
-> = memoize((options = {}) => {
-  const locale = options.locale || getCurrentLocale()
-  if (options.format) {
-    const format = getIntlFormatterOptions('number', options.format)
-    if (format) options = format
+> = memoize(({ locale, format, ...options } = {}) => {
+  locale = locale || getCurrentLocale()
+  if (locale == null) {
+    throw new Error('[svelte-i18n] A "locale" must be set to format numbers')
   }
+
+  if (format) {
+    options = getIntlFormatterOptions('number', format) || {}
+  }
+
   return new Intl.NumberFormat(locale, options)
 })
 
 export const getDateFormatter: MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
-> = memoize((options = { format: 'short' }) => {
-  const locale = options.locale || getCurrentLocale()
+> = memoize(({ locale, format, ...options } = {}) => {
+  locale = locale || getCurrentLocale()
+  if (locale == null) {
+    throw new Error('[svelte-i18n] A "locale" must be set to format dates')
+  }
 
-  const format = getIntlFormatterOptions('date', options.format)
-  if (format) options = format
+  const hasInlineArgs = Object.keys(options).length > 0
+  if (!hasInlineArgs) {
+    options =
+      typeof format === 'string'
+        ? getIntlFormatterOptions('date', format)
+        : getIntlFormatterOptions('date', 'short')
+  }
 
   return new Intl.DateTimeFormat(locale, options)
 })
@@ -51,16 +56,26 @@ export const getDateFormatter: MemoizedIntlFormatter<
 export const getTimeFormatter: MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
-> = memoize((options = { format: 'short' }) => {
-  const locale = options.locale || getCurrentLocale()
+> = memoize(({ locale, format, ...options } = {}) => {
+  locale = locale || getCurrentLocale()
+  if (locale == null) {
+    throw new Error(
+      '[svelte-i18n] A "locale" must be set to format time values'
+    )
+  }
 
-  const format = getIntlFormatterOptions('time', options.format)
-  if (format) options = format
+  const hasInlineArgs = Object.keys(options).length > 0
+  if (!hasInlineArgs) {
+    options =
+      typeof format === 'string'
+        ? getIntlFormatterOptions('time', format)
+        : getIntlFormatterOptions('time', 'short')
+  }
 
   return new Intl.DateTimeFormat(locale, options)
 })
 
 export const getMessageFormatter = memoize(
   (message: string, locale: string) =>
-    new IntlMessageFormat(message, locale, getFormats())
+    new IntlMessageFormat(message, locale, getOptions().formats)
 )

@@ -1,3 +1,5 @@
+import { get } from 'svelte/store'
+
 import {
   getDictionary,
   hasLocaleDictionary,
@@ -8,7 +10,6 @@ import {
   $locales,
   getLocaleDictionary,
 } from '../../../src/client/stores/dictionary'
-import { get } from 'svelte/store'
 
 beforeEach(() => {
   $dictionary.set({})

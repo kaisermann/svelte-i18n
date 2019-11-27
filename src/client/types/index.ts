@@ -22,7 +22,7 @@ type IntlFormatterOptions<T> = T & {
 }
 
 export interface MemoizedIntlFormatter<T, U> {
-  (options: IntlFormatterOptions<U>): T
+  (options?: IntlFormatterOptions<U>): T
 }
 
 export interface Formatter extends FormatterFn {

@@ -6,5 +6,8 @@
   },
   "parserOptions": {
     "sourceType": "module"
+  },
+  "rules": {
+    "@typescript-eslint/camelcase": "off"
   }
 }

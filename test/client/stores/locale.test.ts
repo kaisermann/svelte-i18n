@@ -1,5 +1,6 @@
-import { lookupMessage } from './../../../src/client/includes/lookup'
 import { get } from 'svelte/store'
+import { lookupMessage } from '../../../src/client/includes/lookup'
+
 
 import {
   isFallbackLocaleOf,

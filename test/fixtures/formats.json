@@ -7,6 +7,10 @@
     "customDate": { "year": "numeric", "era": "short" }
   },
   "time": {
-    "customTime": { "hour": "2-digit", "minute": "2-digit" }
+    "customTime": {
+      "hour": "2-digit",
+      "minute": "2-digit",
+      "second": "2-digit"
+    }
   }
 }
