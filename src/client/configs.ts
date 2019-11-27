@@ -59,7 +59,7 @@ export function getOptions() {
   return options
 }
 
-export function configure(opts: ConfigureOptions) {
+export function init(opts: ConfigureOptions) {
   const fallbackLocale = (options.fallbackLocale = opts.fallbackLocale)
 
   const initialLocale = opts.initialLocale

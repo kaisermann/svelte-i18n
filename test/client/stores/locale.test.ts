@@ -9,17 +9,17 @@ import {
   $locale,
   isRelatedLocale,
 } from '../../../src/client/stores/locale'
-import { getOptions, configure } from '../../../src/client/configs'
+import { getOptions, init } from '../../../src/client/configs'
 import { register } from '../../../src/client'
 import { hasLocaleQueue } from '../../../src/client/includes/loaderQueue'
 
 beforeEach(() => {
-  configure({ fallbackLocale: undefined })
+  init({ fallbackLocale: undefined })
   $locale.set(undefined)
 })
 
 test('sets and gets the fallback locale', () => {
-  configure({ fallbackLocale: 'en' })
+  init({ fallbackLocale: 'en' })
   expect(getOptions().fallbackLocale).toBe('en')
 })
 
@@ -44,17 +44,17 @@ test('gets the next fallback locale of a locale', () => {
 })
 
 test('gets the global fallback locale if set', () => {
-  configure({ fallbackLocale: 'en' })
+  init({ fallbackLocale: 'en' })
   expect(getFallbackOf('it')).toBe('en')
 })
 
 test('should not get the global fallback as the fallback of itself', () => {
-  configure({ fallbackLocale: 'en' })
+  init({ fallbackLocale: 'en' })
   expect(getFallbackOf('en')).toBe(null)
 })
 
 test('if global fallback locale has a fallback, it should return it', () => {
-  configure({ fallbackLocale: 'en-US' })
+  init({ fallbackLocale: 'en-US' })
   expect(getFallbackOf('en-US')).toBe('en')
 })
 
@@ -69,7 +69,7 @@ test('gets all fallback locales of a locale', () => {
 })
 
 test('gets all fallback locales of a locale including the global fallback locale', () => {
-  configure({ fallbackLocale: 'pt' })
+  init({ fallbackLocale: 'pt' })
   expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt'])
   expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt'])
   expect(getRelatedLocalesOf('az-Cyrl-AZ')).toEqual([
@@ -80,7 +80,7 @@ test('gets all fallback locales of a locale including the global fallback locale
   ])
 })
 test('gets all fallback locales of a locale including the global fallback locale and its fallbacks', () => {
-  configure({ fallbackLocale: 'pt-BR' })
+  init({ fallbackLocale: 'pt-BR' })
   expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt', 'pt-BR'])
   expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt', 'pt-BR'])
   expect(getRelatedLocalesOf('az-Cyrl-AZ')).toEqual([
@@ -93,7 +93,7 @@ test('gets all fallback locales of a locale including the global fallback locale
 })
 
 test("don't list fallback locale twice", () => {
-  configure({ fallbackLocale: 'pt-BR' })
+  init({ fallbackLocale: 'pt-BR' })
   expect(getRelatedLocalesOf('pt-BR')).toEqual(['pt', 'pt-BR'])
   expect(getRelatedLocalesOf('pt')).toEqual(['pt'])
 })
@@ -105,13 +105,13 @@ test('gets the current locale', () => {
 })
 
 test('if no initial locale is set, set the locale to the fallback', () => {
-  configure({ fallbackLocale: 'pt' })
+  init({ fallbackLocale: 'pt' })
   expect(get($locale)).toBe('pt')
   expect(getOptions().fallbackLocale).toBe('pt')
 })
 
 test('if no initial locale was found, set to the fallback locale', () => {
-  configure({
+  init({
     fallbackLocale: 'en',
     initialLocale: {
       hash: 'lang',

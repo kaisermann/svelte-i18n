@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
 
 import {
-  configure,
+  init,
   getOptions,
   defaultOptions,
   defaultFormats,
@@ -9,19 +9,19 @@ import {
 import { $locale } from '../../src/client/stores/locale'
 
 beforeEach(() => {
-  configure(defaultOptions)
+  init(defaultOptions)
 })
 
-test('configures the fallback locale', () => {
+test('inits the fallback locale', () => {
   expect(getOptions().fallbackLocale).toBe(null)
-  configure({
+  init({
     fallbackLocale: 'en',
   })
   expect(getOptions().fallbackLocale).toBe('en')
 })
 
-test('configures the initial locale by string', () => {
-  configure({
+test('inits the initial locale by string', () => {
+  init({
     fallbackLocale: 'pt',
     initialLocale: 'en',
   })
@@ -29,7 +29,7 @@ test('configures the initial locale by string', () => {
   expect(get($locale)).toBe('en')
 })
 
-test('configures the initial locale by client heuristics', () => {
+test('inits the initial locale by client heuristics', () => {
   delete window.location
   window.location = {
     search: '?lang=en-US&foo',
@@ -38,7 +38,7 @@ test('configures the initial locale by client heuristics', () => {
     hash: '',
   } as any
 
-  configure({
+  init({
     fallbackLocale: 'pt',
     initialLocale: {
       search: 'lang',
@@ -51,7 +51,7 @@ test('configures the initial locale by client heuristics', () => {
 test('adds custom formats for time, date and number values', () => {
   const customFormats = require('../fixtures/formats.json')
 
-  configure({
+  init({
     fallbackLocale: 'en',
     formats: customFormats,
   })
@@ -60,6 +60,6 @@ test('adds custom formats for time, date and number values', () => {
 })
 
 test('sets the minimum delay to set the loading store value', () => {
-  configure({ fallbackLocale: 'en', loadingDelay: 300 })
+  init({ fallbackLocale: 'en', loadingDelay: 300 })
   expect(getOptions().loadingDelay).toBe(300)
 })
