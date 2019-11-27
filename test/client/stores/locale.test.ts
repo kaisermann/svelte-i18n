@@ -7,8 +7,8 @@ import {
   getCurrentLocale,
   $locale,
   isRelatedLocale,
-} from '../../src/client/stores/locale'
-import { getOptions, configure } from '../../src/client/configs'
+} from '../../../src/client/stores/locale'
+import { getOptions, configure } from '../../../src/client/configs'
 
 beforeEach(() => {
   configure({ fallbackLocale: undefined })

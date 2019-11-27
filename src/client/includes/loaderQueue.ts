@@ -6,10 +6,16 @@ import {
 } from '../stores/dictionary'
 import { getCurrentLocale, getRelatedLocalesOf } from '../stores/locale'
 import { $isLoading } from '../stores/loading'
-import { getLoadingDelay } from '../configs'
+import { getOptions } from '../configs'
 
 type Queue = Set<MessagesLoader>
 const loaderQueue: Record<string, Queue> = {}
+
+export function resetQueues() {
+  Object.keys(loaderQueue).forEach(key => {
+    delete loaderQueue[key]
+  })
+}
 
 function createLocaleQueue(locale: string) {
   loaderQueue[locale] = new Set()
@@ -39,10 +45,6 @@ export function hasLocaleQueue(locale: string) {
     .some(getLocaleQueue)
 }
 
-export function addLoaderToQueue(locale: string, loader: MessagesLoader) {
-  loaderQueue[locale].add(loader)
-}
-
 const activeLocaleFlushes: { [key: string]: Promise<void> } = {}
 export async function flushQueue(locale: string = getCurrentLocale()) {
   if (!hasLocaleQueue(locale)) return
@@ -50,14 +52,18 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
 
   // get queue of XX-YY and XX locales
   const queues = getLocalesQueues(locale)
+  // istanbul ignore if
   if (queues.length === 0) return
 
-  removeLocaleFromQueue(locale)
-  const loadingDelay = setTimeout(() => $isLoading.set(true), getLoadingDelay())
+  const loadingDelay = setTimeout(
+    () => $isLoading.set(true),
+    getOptions().loadingDelay
+  )
 
   // TODO what happens if some loader fails
   activeLocaleFlushes[locale] = Promise.all(
     queues.map(([locale, queue]) => {
+      removeLocaleFromQueue(locale)
       return Promise.all(queue.map(loader => loader())).then(partials => {
         partials = partials.map(partial => partial.default || partial)
         addMessages(locale, ...partials)
@@ -76,6 +82,7 @@ export function registerLocaleLoader(locale: string, loader: MessagesLoader) {
   if (!getLocaleQueue(locale)) createLocaleQueue(locale)
 
   const queue = getLocaleQueue(locale)
+  // istanbul ignore if
   if (getLocaleQueue(locale).has(loader)) return
 
   if (!hasLocaleDictionary(locale)) {

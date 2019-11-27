@@ -4,7 +4,7 @@ import {
   title,
   upper,
   lower,
-} from '../../src/client/includes/utils'
+} from '../../../src/client/includes/utils'
 
 describe('getting client locale', () => {
   beforeEach(() => {

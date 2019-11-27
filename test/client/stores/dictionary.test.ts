@@ -7,7 +7,7 @@ import {
   $dictionary,
   $locales,
   getLocaleDictionary,
-} from '../../src/client/stores/dictionary'
+} from '../../../src/client/stores/dictionary'
 import { get } from 'svelte/store'
 
 beforeEach(() => {

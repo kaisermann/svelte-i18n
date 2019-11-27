@@ -1,7 +1,7 @@
 import { getMessageFromDictionary } from '../stores/dictionary'
 import { getFallbackOf } from '../stores/locale'
 
-const lookupCache: Record<string, Record<string, string>> = {}
+export const lookupCache: Record<string, Record<string, string>> = {}
 
 const addToCache = (path: string, locale: string, message: string) => {
   if (!message) return message
