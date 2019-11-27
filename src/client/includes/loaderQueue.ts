@@ -63,8 +63,8 @@ export async function flushQueue(locale: string = getCurrentLocale()) {
   // TODO what happens if some loader fails
   activeLocaleFlushes[locale] = Promise.all(
     queues.map(([locale, queue]) => {
-      removeLocaleFromQueue(locale)
       return Promise.all(queue.map(loader => loader())).then(partials => {
+        removeLocaleFromQueue(locale)
         partials = partials.map(partial => partial.default || partial)
         addMessages(locale, ...partials)
       })

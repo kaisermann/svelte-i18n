@@ -24,6 +24,11 @@ test('adds a new dictionary to a locale', () => {
   })
 })
 
+test('gets the whole current dictionary', () => {
+  addMessages('en', { field_1: 'name' })
+  expect(getDictionary()).toMatchObject(get($dictionary))
+})
+
 test('merges the existing dictionaries with new ones', () => {
   addMessages('en', { field_1: 'name', deep: { prop1: 'foo' } })
   addMessages('en', { field_2: 'lastname', deep: { prop2: 'foo' } })
@@ -41,13 +46,6 @@ test('merges the existing dictionaries with new ones', () => {
       field_2: 'sobrenome',
       deep: { prop1: 'foo', prop2: 'foo' },
     },
-  })
-})
-
-test('gets the whole current dictionary', () => {
-  addMessages('en', { field_1: 'name' })
-  expect(getDictionary()).toMatchObject({
-    en: { field_1: 'name' },
   })
 })
 

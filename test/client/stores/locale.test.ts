@@ -1,3 +1,4 @@
+import { lookupMessage } from './../../../src/client/includes/lookup'
 import { get } from 'svelte/store'
 
 import {
@@ -9,6 +10,8 @@ import {
   isRelatedLocale,
 } from '../../../src/client/stores/locale'
 import { getOptions, configure } from '../../../src/client/configs'
+import { register } from '../../../src/client'
+import { hasLocaleQueue } from '../../../src/client/includes/loaderQueue'
 
 beforeEach(() => {
   configure({ fallbackLocale: undefined })
@@ -116,4 +119,18 @@ test('if no initial locale was found, set to the fallback locale', () => {
   })
   expect(get($locale)).toBe('en')
   expect(getOptions().fallbackLocale).toBe('en')
+})
+
+test('should flush the queue of the locale when changing the store value', async () => {
+  register(
+    'en',
+    () => new Promise(res => setTimeout(() => res({ foo: 'Foo' }), 50))
+  )
+
+  expect(hasLocaleQueue('en')).toBe(true)
+
+  await $locale.set('en')
+
+  expect(hasLocaleQueue('en')).toBe(false)
+  expect(lookupMessage('foo', 'en')).toBe('Foo')
 })

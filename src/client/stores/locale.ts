@@ -63,6 +63,7 @@ $locale.set = (newLocale: string): void | Promise<void> => {
   return localeSet(newLocale)
 }
 
+// istanbul ignore next
 $locale.update = (fn: (locale: string) => void | Promise<void>) =>
   localeSet(fn(current))
 
