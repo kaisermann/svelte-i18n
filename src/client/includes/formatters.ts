@@ -42,12 +42,9 @@ export const getDateFormatter: MemoizedIntlFormatter<
     throw new Error('[svelte-i18n] A "locale" must be set to format dates')
   }
 
-  const hasInlineArgs = Object.keys(options).length > 0
-  if (!hasInlineArgs) {
-    options =
-      typeof format === 'string'
-        ? getIntlFormatterOptions('date', format)
-        : getIntlFormatterOptions('date', 'short')
+  if (format) options = getIntlFormatterOptions('date', format)
+  else if (Object.keys(options).length === 0) {
+    options = getIntlFormatterOptions('date', 'short')
   }
 
   return new Intl.DateTimeFormat(locale, options)
@@ -64,12 +61,9 @@ export const getTimeFormatter: MemoizedIntlFormatter<
     )
   }
 
-  const hasInlineArgs = Object.keys(options).length > 0
-  if (!hasInlineArgs) {
-    options =
-      typeof format === 'string'
-        ? getIntlFormatterOptions('time', format)
-        : getIntlFormatterOptions('time', 'short')
+  if (format) options = getIntlFormatterOptions('time', format)
+  else if (Object.keys(options).length === 0) {
+    options = getIntlFormatterOptions('time', 'short')
   }
 
   return new Intl.DateTimeFormat(locale, options)

@@ -5,7 +5,7 @@ export function defineMessages(i: Record<string, MessageObject>) {
   return i
 }
 
-export { configure } from './configs'
+export { init } from './configs'
 export { $locale as locale } from './stores/locale'
 export {
   $dictionary as dictionary,
