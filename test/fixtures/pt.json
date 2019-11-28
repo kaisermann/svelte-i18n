@@ -1,11 +1,9 @@
 {
-  "hi": "olá você",
-  "switch.lang": "Trocar idioma",
-  "greeting": {
-    "ask": "Por favor, digite seu nome",
-    "message": "Olá {name}, como vai?"
+  "form": {
+    "field_1_name": "Nome",
+    "field_2_name": "Sobrenome"
   },
   "photos": "Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}",
-  "cats": "Tenho {n, number} {n,plural,=0{gatos}one{gato}other{gatos}}",
+  "title": "Título da página",
   "sneakers": "tênis"
 }

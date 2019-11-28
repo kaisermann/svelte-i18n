@@ -1,11 +1,8 @@
 {
-  "hi": "hola yo",
-  "switch.lang": "Cambiar de idioma",
-  "greeting": {
-    "ask": "Por favor escriba su nombre",
-    "message": "Hola {name}, cómo estás?"
+  "form": {
+    "field_1_name": "Nombre",
+    "field_2_name": "Apellido"
   },
-  "photos": "Tienes {n, plural, =0 {0 fotos.} =1 {una foto.} other {# fotos.}}",
-  "cats": "Yo tengo {n, number} {n,plural,one{gato}other{gatos}}",
+  "title": "Título de la página",
   "sneakers": "zapatillas"
 }

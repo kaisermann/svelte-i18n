@@ -1,14 +1,9 @@
 {
-  "hi": "hi yo",
-  "switch.lang": "Switch language",
-  "page": {
-    "title_home": "Home"
-  },
-  "greeting": {
-    "ask": "Please type your name",
-    "message": "Hello {name}, how are you?"
+  "form": {
+    "field_1_name": "Name",
+    "field_2_name": "Lastname"
   },
   "photos": "You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}",
-  "cats": "I have {n, number} {n,plural,one{cat}other{cats}}",
+  "title": "Page title",
   "sneakers": "sneakers"
 }
