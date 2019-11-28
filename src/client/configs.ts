@@ -13,6 +13,7 @@ interface Options {
   initialLocale: string
   formats: Formats
   loadingDelay: number
+  warnOnMissingMessages: boolean
 }
 
 export const defaultFormats: Formats = {
@@ -51,6 +52,7 @@ export const defaultOptions: Options = {
   initialLocale: null,
   loadingDelay: 200,
   formats: defaultFormats,
+  warnOnMissingMessages: true,
 }
 
 const options: Options = defaultOptions
@@ -60,30 +62,26 @@ export function getOptions() {
 }
 
 export function init(opts: ConfigureOptions) {
-  const fallbackLocale = (options.fallbackLocale = opts.fallbackLocale)
-
+  const { formats, ...rest } = opts
   const initialLocale = opts.initialLocale
     ? typeof opts.initialLocale === 'string'
       ? opts.initialLocale
-      : getClientLocale(opts.initialLocale) || fallbackLocale
-    : fallbackLocale
+      : getClientLocale(opts.initialLocale) || opts.fallbackLocale
+    : opts.fallbackLocale
 
-  $locale.set(initialLocale)
-  options.initialLocale = initialLocale
+  Object.assign(options, rest, { initialLocale })
 
-  if (opts.formats) {
-    if ('number' in opts.formats) {
-      Object.assign(options.formats.number, opts.formats.number)
+  if (formats) {
+    if ('number' in formats) {
+      Object.assign(options.formats.number, formats.number)
     }
-    if ('date' in opts.formats) {
-      Object.assign(options.formats.date, opts.formats.date)
+    if ('date' in formats) {
+      Object.assign(options.formats.date, formats.date)
     }
-    if ('time' in opts.formats) {
-      Object.assign(options.formats.time, opts.formats.time)
+    if ('time' in formats) {
+      Object.assign(options.formats.time, formats.time)
     }
   }
 
-  if (opts.loadingDelay != null) {
-    options.loadingDelay = opts.loadingDelay
-  }
+  return $locale.set(initialLocale)
 }

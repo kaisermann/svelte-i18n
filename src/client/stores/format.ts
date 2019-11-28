@@ -10,6 +10,7 @@ import {
   getDateFormatter,
   getNumberFormatter,
 } from '../includes/formatters'
+import { getOptions } from '../configs'
 
 import { $dictionary } from './dictionary'
 import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale'
@@ -31,15 +32,18 @@ const formatMessage: Formatter = (id, options = {}) => {
   const message = lookupMessage(id, locale)
 
   if (!message) {
-    console.warn(
-      `[svelte-i18n] The message "${id}" was not found in "${getRelatedLocalesOf(
-        locale
-      ).join('", "')}". ${
-        hasLocaleQueue(getCurrentLocale())
-          ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
-          : ''
-      }`
-    )
+    if (getOptions().warnOnMissingMessages) {
+      // istanbul ignore next
+      console.warn(
+        `[svelte-i18n] The message "${id}" was not found in "${getRelatedLocalesOf(
+          locale
+        ).join('", "')}".${
+          hasLocaleQueue(getCurrentLocale())
+            ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
+            : ''
+        }`
+      )
+    }
 
     return defaultValue || id
   }
