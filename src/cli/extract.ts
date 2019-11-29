@@ -150,10 +150,7 @@ export function collectMessages(markup: string): Message[] {
         return messageObj
       }
 
-      return {
-        node,
-        meta: { id },
-      }
+      return { node, meta: { id } }
     }),
   ].filter(Boolean)
 }

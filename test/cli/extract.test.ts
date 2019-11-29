@@ -10,6 +10,12 @@ import {
 } from '../../src/cli/extract'
 
 describe('collecting format calls', () => {
+  test('returns nothing if there are no script tag', () => {
+    const ast = parse(`<div>Hey</div>`)
+    const calls = collectFormatCalls(ast)
+    expect(calls).toHaveLength(0)
+  })
+
   test('returns nothing if there are no imports', () => {
     const ast = parse(`<script>
       import Foo from 'foo';
