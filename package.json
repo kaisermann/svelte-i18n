@@ -32,7 +32,7 @@
     "prerelease": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "postrelease": "git tag -a v$npm_package_version -m 'Release v$npm_package_version'",
-    "prepublishOnly": "npx run-s test:ci build release"
+    "prepublishOnly": "run-s test:ci build release"
   },
   "files": [
     "dist/"
@@ -64,6 +64,7 @@
     "eslint": "^6.6.0",
     "eslint-config-kaisermann": "0.0.3",
     "jest": "^24.9.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "rollup": "^1.26.5",
     "rollup-plugin-auto-external": "^2.0.0",

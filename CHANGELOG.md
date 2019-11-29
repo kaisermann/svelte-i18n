@@ -1,3 +1,17 @@
+# [2.1.0-alpha.2](https://github.com/kaisermann/svelte-i18n/compare/v2.0.2...v2.1.0-alpha.2) (2019-11-29)
+
+
+### Bug Fixes
+
+* 🐛 allow to wait for initial locale load ([0b7f61c](https://github.com/kaisermann/svelte-i18n/commit/0b7f61c49a1c3206bbb5d9c77dfb5819a85d4bb5))
+
+
+### Features
+
+* 🎸 add warnOnMissingMessages ([efbe793](https://github.com/kaisermann/svelte-i18n/commit/efbe793a0f3656b27d050886d85e06e9327ea681))
+
+
+
 ## [2.0.2](https://github.com/kaisermann/svelte-i18n/compare/v2.0.0...v2.0.2) (2019-11-24)
 
 
