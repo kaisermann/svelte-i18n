@@ -12,19 +12,26 @@ beforeEach(() => {
 
 describe('number formatter', () => {
   const number = 123123
-  test('should format a date according to the current locale', () => {
+
+  test('throws if no locale is set', () => {
+    expect(() => getNumberFormatter().format(number)).toThrow(
+      '[svelte-i18n] A "locale" must be set to format numbers'
+    )
+  })
+
+  test('formats a date according to the current locale', () => {
     init({ fallbackLocale: 'en' })
     expect(getNumberFormatter().format(number)).toBe('123,123')
   })
 
-  test('should format a number according to a locale', () => {
+  test('formats a number according to a locale', () => {
     init({ fallbackLocale: 'en' })
     expect(getNumberFormatter({ locale: 'pt-BR' }).format(number)).toBe(
       '123.123'
     )
   })
 
-  test('should format a number with a custom format', () => {
+  test('formats a number with a custom format', () => {
     init({
       fallbackLocale: 'en',
       formats: require('../../fixtures/formats.json'),
@@ -35,7 +42,7 @@ describe('number formatter', () => {
     )
   })
 
-  test('should format a number with inline options', () => {
+  test('formats a number with inline options', () => {
     init({ fallbackLocale: 'en' })
 
     expect(
@@ -47,16 +54,22 @@ describe('number formatter', () => {
 describe('date formatter', () => {
   const date = new Date(2019, 1, 1)
 
-  test('should format a date according to the current locale', () => {
+  test('throws if no locale is set', () => {
+    expect(() => getDateFormatter().format(date)).toThrow(
+      '[svelte-i18n] A "locale" must be set to format dates'
+    )
+  })
+
+  test('formats a date according to the current locale', () => {
     init({ fallbackLocale: 'en' })
     expect(getDateFormatter().format(date)).toBe('2/1/19')
   })
 
-  test('should format a date according to a locale', () => {
+  test('formats a date according to a locale', () => {
     expect(getDateFormatter({ locale: 'pt-BR' }).format(date)).toBe('01/02/19')
   })
 
-  test('should throw if passed a non-existing format', () => {
+  test('throws if passed a non-existing format', () => {
     init({
       fallbackLocale: 'en',
       formats: require('../../fixtures/formats.json'),
@@ -67,7 +80,7 @@ describe('date formatter', () => {
     ).toThrowError(`[svelte-i18n] Unknown "foo" date format.`)
   })
 
-  test('should format a date with a custom format', () => {
+  test('formats a date with a custom format', () => {
     init({
       fallbackLocale: 'en',
       formats: require('../../fixtures/formats.json'),
@@ -78,7 +91,7 @@ describe('date formatter', () => {
     )
   })
 
-  test('should format a date with inline options', () => {
+  test('formats a date with inline options', () => {
     init({ fallbackLocale: 'en' })
 
     expect(
@@ -90,16 +103,22 @@ describe('date formatter', () => {
 describe('time formatter', () => {
   const time = new Date(2019, 1, 1, 20, 37, 32)
 
-  test('should format a time according to the current locale', () => {
+  test('throws if no locale is set', () => {
+    expect(() => getTimeFormatter().format(time)).toThrow(
+      '[svelte-i18n] A "locale" must be set to format time'
+    )
+  })
+
+  test('formats a time according to the current locale', () => {
     init({ fallbackLocale: 'en' })
     expect(getTimeFormatter().format(time)).toBe('8:37 PM')
   })
 
-  test('should format a time according to a locale', () => {
+  test('formats a time according to a locale', () => {
     expect(getTimeFormatter({ locale: 'pt-BR' }).format(time)).toBe('20:37')
   })
 
-  test('should format a time with a custom format', () => {
+  test('formats a time with a custom format', () => {
     init({
       fallbackLocale: 'en',
       formats: require('../../fixtures/formats.json'),
@@ -110,7 +129,7 @@ describe('time formatter', () => {
     )
   })
 
-  test('should throw if passed a non-existing format', () => {
+  test('throws if passed a non-existing format', () => {
     init({
       fallbackLocale: 'en',
       formats: require('../../fixtures/formats.json'),
@@ -121,7 +140,7 @@ describe('time formatter', () => {
     ).toThrowError(`[svelte-i18n] Unknown "foo" time format.`)
   })
 
-  test('should format a time with inline options', () => {
+  test('formats a time with inline options', () => {
     init({ fallbackLocale: 'en' })
 
     expect(

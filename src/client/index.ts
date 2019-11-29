@@ -8,13 +8,8 @@ export function defineMessages(i: Record<string, MessageObject>) {
   return i
 }
 
-export function waitLocale(locale: string) {
-  return flush(
-    locale ||
-      getCurrentLocale() ||
-      getOptions().initialLocale ||
-      getOptions().fallbackLocale
-  )
+export function waitLocale(locale?: string) {
+  return flush(locale || getCurrentLocale() || getOptions().initialLocale)
 }
 
 export { init } from './configs'

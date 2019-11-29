@@ -27,7 +27,7 @@ export const getNumberFormatter: MemoizedIntlFormatter<
   }
 
   if (format) {
-    options = getIntlFormatterOptions('number', format) || {}
+    options = getIntlFormatterOptions('number', format)
   }
 
   return new Intl.NumberFormat(locale, options)
