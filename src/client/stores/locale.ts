@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 
-import { flushQueue, hasLocaleQueue } from '../includes/loaderQueue'
+import { flush, hasLocaleQueue } from '../includes/loaderQueue'
 import { getOptions } from '../configs'
 
 import { getClosestAvailableLocale } from './dictionary'
@@ -58,7 +58,7 @@ $locale.subscribe((newLocale: string) => {
 const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
   if (getClosestAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
-    return flushQueue(newLocale).then(() => localeSet(newLocale))
+    return flush(newLocale).then(() => localeSet(newLocale))
   }
   return localeSet(newLocale)
 }

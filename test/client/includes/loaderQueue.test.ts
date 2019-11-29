@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 
 import {
   hasLocaleQueue,
-  flushQueue,
+  flush,
   registerLocaleLoader,
   resetQueues,
 } from '../../../src/client/includes/loaderQueue'
@@ -28,14 +28,14 @@ test('checks if exist queues of locale and its fallbacks', () => {
 })
 
 test("does nothing if there's no queue for a locale", () => {
-  expect(flushQueue('foo')).toBe(undefined)
+  expect(flush('foo')).toBe(undefined)
 })
 
 test('flushes the queue of a locale and its fallbacks and merge the result with the dictionary', async () => {
   registerLocaleLoader('en', loader({ field: 'Name' }))
   registerLocaleLoader('en-US', loader({ field_2: 'Lastname' }))
 
-  await flushQueue('en-US')
+  await flush('en-US')
 
   expect(getMessageFromDictionary('en', 'field')).toBe('Name')
   expect(getMessageFromDictionary('en-US', 'field_2')).toBe('Lastname')
@@ -47,9 +47,9 @@ test('flushes the queue of a locale and its fallbacks and merge the result with 
 test('consecutive flushes return the same promise', async () => {
   registerLocaleLoader('en', async () => ({}))
 
-  const flushA = flushQueue('en')
-  const flushB = flushQueue('en')
-  const flushC = flushQueue('en')
+  const flushA = flush('en')
+  const flushB = flush('en')
+  const flushC = flush('en')
 
   expect(flushB).toStrictEqual(flushA)
   expect(flushC).toStrictEqual(flushA)
@@ -64,7 +64,7 @@ test('should set loading to true if passed min delay and false after loading', (
       )
   )
 
-  const flush = flushQueue('en')
+  const flush = flush('en')
 
   return new Promise((res, rej) => {
     setTimeout(() => {

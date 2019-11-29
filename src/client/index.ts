@@ -1,8 +1,20 @@
 import { MessageObject } from './types'
+import { getCurrentLocale } from './stores/locale'
+import { getOptions } from './configs'
+import { flush } from './includes/loaderQueue'
 
 // defineMessages allow us to define and extract dynamic message ids
 export function defineMessages(i: Record<string, MessageObject>) {
   return i
+}
+
+export function waitLocale(locale: string) {
+  return flush(
+    locale ||
+      getCurrentLocale() ||
+      getOptions().initialLocale ||
+      getOptions().fallbackLocale
+  )
 }
 
 export { init } from './configs'
@@ -16,7 +28,4 @@ export { $isLoading as isLoading } from './stores/loading'
 export { $format as format, $format as _, $format as t } from './stores/format'
 
 // utilities
-export {
-  flushQueue as waitLocale,
-  registerLocaleLoader as register,
-} from './includes/loaderQueue'
+export { registerLocaleLoader as register } from './includes/loaderQueue'

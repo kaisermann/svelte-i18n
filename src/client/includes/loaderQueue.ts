@@ -46,7 +46,7 @@ export function hasLocaleQueue(locale: string) {
 }
 
 const activeLocaleFlushes: { [key: string]: Promise<void> } = {}
-export function flushQueue(locale: string = getCurrentLocale()) {
+export function flush(locale: string) {
   if (!hasLocaleQueue(locale)) return
   if (locale in activeLocaleFlushes) return activeLocaleFlushes[locale]
 
