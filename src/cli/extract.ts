@@ -1,53 +1,35 @@
 import {
   Node,
   ObjectExpression,
-  Property,
   ImportDeclaration,
   ImportSpecifier,
   CallExpression,
   Identifier,
+  Literal,
 } from 'estree'
 import delve from 'dlv'
 import { walk } from 'estree-walker'
 import { Ast } from 'svelte/types/compiler/interfaces'
 import { parse } from 'svelte/compiler'
 
+import { deepSet } from './includes/deepSet'
+import { getObjFromExpression } from './includes/getObjFromExpression'
+import { Message } from './types'
+
 const LIB_NAME = 'svelte-i18n'
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages'
-const FORMAT_METHOD_NAMES = new Set(['format', '_'])
-
-interface Message {
-  node: Node
-  meta: {
-    id?: string
-    default?: string
-    [key: string]: any
-  }
-}
-
-const isNumberString = (n: string) => !Number.isNaN(parseInt(n))
-
-function deepSet(obj: any, path: string, value: any) {
-  const parts = path.replace(/\[(\w+)\]/gi, '.$1').split('.')
-  return parts.reduce((ref, part, i) => {
-    if (part in ref) return (ref = ref[part])
-
-    if (i < parts.length - 1) {
-      if (isNumberString(parts[i + 1])) {
-        return (ref = ref[part] = [])
-      }
-      return (ref = ref[part] = {})
-    }
-
-    return (ref[part] = value)
-  }, obj)
-}
+const FORMAT_METHOD_NAMES = new Set(['format', '_', 't'])
+const IGNORED_UTILITIES = new Set(['number', 'date', 'time'])
 
 function isFormatCall(node: Node, imports: Set<string>) {
   if (node.type !== 'CallExpression') return false
 
   let identifier: Identifier
-  if (node.callee.type === 'MemberExpression') {
+  if (
+    node.callee.type === 'MemberExpression' &&
+    node.callee.property.type === 'Identifier' &&
+    !IGNORED_UTILITIES.has(node.callee.property.name)
+  ) {
     identifier = node.callee.object as Identifier
   } else if (node.callee.type === 'Identifier') {
     identifier = node.callee
@@ -92,22 +74,6 @@ function getFormatSpecifiers(decl: ImportDeclaration) {
   ) as ImportSpecifier[]
 }
 
-function getObjFromExpression(exprNode: Node | ObjectExpression) {
-  if (exprNode.type !== 'ObjectExpression') return null
-  return exprNode.properties.reduce<Message>(
-    (acc, prop: Property) => {
-      // we only want primitives
-      if (prop.value.type !== 'Literal') return acc
-      if (prop.value.value !== Object(prop.value.value)) {
-        const key = (prop.key as Identifier).name as string
-        acc.meta[key] = prop.value.value
-      }
-      return acc
-    },
-    { node: exprNode, meta: {} }
-  )
-}
-
 export function collectFormatCalls(ast: Ast) {
   const importDecls = getLibImportDeclarations(ast)
 
@@ -122,14 +88,14 @@ export function collectFormatCalls(ast: Ast) {
   if (imports.size === 0) return []
 
   const calls: CallExpression[] = []
-  function formatCallsWalker(node: Node) {
+  function enter(node: Node) {
     if (isFormatCall(node, imports)) {
       calls.push(node as CallExpression)
       this.skip()
     }
   }
-  walk(ast.instance as any, { enter: formatCallsWalker })
-  walk(ast.html as any, { enter: formatCallsWalker })
+  walk(ast.instance as any, { enter })
+  walk(ast.html as any, { enter })
 
   return calls
 }
@@ -157,7 +123,9 @@ export function collectMessageDefinitions(ast: Ast) {
   })
 
   return definitions.flatMap(definitionDict =>
-    definitionDict.properties.map(propNode => propNode.value)
+    definitionDict.properties.map(
+      propNode => propNode.value as ObjectExpression
+    )
   )
 }
 
@@ -173,19 +141,18 @@ export function collectMessages(markup: string): Message[] {
         return getObjFromExpression(pathNode)
       }
 
-      if (pathNode.type !== 'Literal' || typeof pathNode.value !== 'string') {
-        return null
-      }
+      const node = pathNode as Literal
+      const id = node.value as string
 
       if (options && options.type === 'ObjectExpression') {
         const messageObj = getObjFromExpression(options)
-        messageObj.meta.id = pathNode.value
+        messageObj.meta.id = id
         return messageObj
       }
 
       return {
-        node: pathNode,
-        meta: { id: pathNode.value },
+        node,
+        meta: { id },
       }
     }),
   ].filter(Boolean)
