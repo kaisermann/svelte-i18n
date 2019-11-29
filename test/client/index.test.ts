@@ -49,7 +49,7 @@ describe('waiting for a locale to load', () => {
   })
 })
 
-describe('changing locale', () => {
+describe('format updates', () => {
   beforeEach(() => {
     init({ fallbackLocale: 'en' })
   })
