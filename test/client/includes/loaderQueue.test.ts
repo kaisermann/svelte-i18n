@@ -64,7 +64,7 @@ test('should set loading to true if passed min delay and false after loading', (
       )
   )
 
-  const flush = flush('en')
+  const flushPromise = flush('en')
 
   return new Promise((res, rej) => {
     setTimeout(() => {
@@ -72,7 +72,7 @@ test('should set loading to true if passed min delay and false after loading', (
       return rej('$isLoading should be "true"')
     }, getOptions().loadingDelay)
   }).then(() => {
-    flush.then(
+    flushPromise.then(
       () =>
         new Promise((res, rej) => {
           if (get($isLoading) === false) return res()

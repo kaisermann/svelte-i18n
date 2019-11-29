@@ -4,7 +4,7 @@ import {
   $dictionary,
   addMessages,
 } from '../stores/dictionary'
-import { getCurrentLocale, getRelatedLocalesOf } from '../stores/locale'
+import { getRelatedLocalesOf } from '../stores/locale'
 import { $isLoading } from '../stores/loading'
 import { getOptions } from '../configs'
 
