@@ -5,6 +5,7 @@ import {
   getLocaleDictionary,
   $dictionary,
 } from '../../src/client/stores/dictionary'
+import { $format } from '../../src/client/stores/format'
 
 test('defineMessages returns the identity of its first argument', () => {
   const obj = {}
@@ -45,5 +46,28 @@ describe('waiting for a locale to load', () => {
 
     expect(hasLocaleQueue('pt')).toBe(false)
     expect(getLocaleDictionary('pt')).toMatchObject({ foo: 'foo' })
+  })
+})
+
+describe('changing locale', () => {
+  beforeEach(() => {
+    init({ fallbackLocale: 'en' })
+  })
+
+  test('format store is updated when locale changes', () => {
+    const fn = jest.fn()
+    const cancel = $format.subscribe(fn)
+
+    $locale.set('pt')
+    expect(fn).toHaveBeenCalledTimes(2)
+    cancel()
+  })
+
+  test('format store is updated when dictionary changes', () => {
+    const fn = jest.fn()
+    const cancel = $format.subscribe(fn)
+    $dictionary.set({})
+    expect(fn).toHaveBeenCalledTimes(2)
+    cancel()
   })
 })
