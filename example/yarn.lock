@@ -889,6 +889,11 @@ debug@^4.1.0:
   dependencies:
     ms "^2.1.1"
 
+deepmerge@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
+  integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
+
 define-properties@^1.1.2, define-properties@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.3.tgz#cf88da6cbee26fe6db7094f61d870cbd84cee9f1"
@@ -952,6 +957,11 @@ esutils@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
+
+fast-memoize@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.5.1.tgz#c3519241e80552ce395e1a32dcdde8d1fd680f5d"
+  integrity sha512-xdmw296PCL01tMOXx9mdJSmWY29jQgxyuZdq0rEHMu+Tpe1eOEtCycoG6chzlcrWsNgpZP7oL8RiQr7+G6Bl6g==
 
 function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
@@ -1168,6 +1178,13 @@ magic-string@^0.25.2:
   dependencies:
     sourcemap-codec "^1.4.4"
 
+make-plural@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/make-plural/-/make-plural-4.3.0.tgz#f23de08efdb0cac2e0c9ba9f315b0dff6b4c2735"
+  integrity sha512-xTYd4JVHpSCW+aqDof6w/MebaMVNTVYBZhbB/vi513xXdiPT92JMVCo0Jq8W2UZnzYRFeVbQiQ+I25l13JuKvA==
+  optionalDependencies:
+    minimist "^1.2.0"
+
 memorystream@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/memorystream/-/memorystream-0.3.1.tgz#86d7090b30ce455d63fbae12dda51a47ddcaf9b2"
@@ -1178,10 +1195,24 @@ merge-stream@^2.0.0:
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
   integrity sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==
 
-micro-memoize@^4.0.8:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.8.tgz#b2bd9fb57817fe5dc1eb1010b37b3f7695aef9a8"
-  integrity sha512-Mzlo15iWNrP5EwokGjx0Wlh2b3aMjTPdpsD+ryQtkYJBD67IxBddWU2fO3MIXRtXDH8NsuhaotTrtDbfb+k6jw==
+messageformat-formatters@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/messageformat-formatters/-/messageformat-formatters-2.0.1.tgz#0492c1402a48775f751c9b17c0354e92be012b08"
+  integrity sha512-E/lQRXhtHwGuiQjI7qxkLp8AHbMD5r2217XNe/SREbBlSawe0lOqsFb7rflZJmlQFSULNLIqlcjjsCPlB3m3Mg==
+
+messageformat-parser@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/messageformat-parser/-/messageformat-parser-4.1.2.tgz#fd34ec39912a14868a1595eaeb742485ab8ab372"
+  integrity sha512-7dWuifeyldz7vhEuL96Kwq1fhZXBW+TUfbnHN4UCrCxoXQTYjHnR78eI66Gk9LaLLsAvzPNVJBaa66DRfFNaiA==
+
+messageformat@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/messageformat/-/messageformat-2.3.0.tgz#de263c49029d5eae65d7ee25e0754f57f425ad91"
+  integrity sha512-uTzvsv0lTeQxYI2y1NPa1lItL5VRI8Gb93Y2K2ue5gBPyrbJxfDi/EYWxh2PKv5yO42AJeeqblS9MJSh/IEk4w==
+  dependencies:
+    make-plural "^4.3.0"
+    messageformat-formatters "^2.0.1"
+    messageformat-parser "^4.1.2"
 
 mime-db@1.42.0, "mime-db@>= 1.40.0 < 2":
   version "1.42.0"
@@ -1659,15 +1690,17 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-svelte-i18n@^2.0.0-alpha.2:
-  version "2.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/svelte-i18n/-/svelte-i18n-2.0.0-alpha.2.tgz#b9a506008b50de2d7c47c043c58c38daafa2a6c1"
-  integrity sha512-Sp9VmTXAoPYVRhTIfWTaQ1Rq4smQpIwVYH0naDjU69OclDekkrQ/XSh8HcPGID/rUbeBAvsdT8ph9e/bpwZbqw==
+svelte-i18n@^2.0.0:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/svelte-i18n/-/svelte-i18n-2.0.3.tgz#c0518df86aa92ad782158474bf3d838f370f5e5b"
+  integrity sha512-ZKID4ZH2zEV3jdD9PKdH2Hlk+iH6/ho5F6QKVOzK+V78jX1wTpX4pF3TsszrPwFvW2Ac5+YJBBofBpcKFb67fA==
   dependencies:
     commander "^4.0.1"
+    deepmerge "^4.2.2"
     estree-walker "^0.9.0"
+    fast-memoize "^2.5.1"
     intl-messageformat "^7.5.2"
-    micro-memoize "^4.0.8"
+    messageformat "^2.3.0"
     object-resolve-path "^1.1.1"
     tiny-glob "^0.2.6"
 

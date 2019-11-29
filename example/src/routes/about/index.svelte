@@ -20,4 +20,4 @@
 
 <h1>{$_('about_this_site')}</h1>
 
-<p>{$_('about_content[0]')}</p>
+<p>{$_('about_content.0')}</p>
