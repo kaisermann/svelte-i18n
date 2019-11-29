@@ -1,5 +1,5 @@
 <script>
-  import { _, locale, dictionary, locales } from 'svelte-i18n'
+  import { _, locale, locales } from 'svelte-i18n'
   export let segment
 </script>
 

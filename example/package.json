@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
-    "export": "sapper export --legacy",
+    "export": "export NODE_ENV=development; sapper export --legacy",
     "start": "node __sapper__/build"
   },
   "dependencies": {
