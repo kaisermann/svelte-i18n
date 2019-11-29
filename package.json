@@ -63,7 +63,6 @@
     "conventional-changelog-cli": "^2.0.28",
     "eslint": "^6.6.0",
     "eslint-config-kaisermann": "0.0.3",
-    "intl": "^1.2.5",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "rollup": "^1.26.5",
