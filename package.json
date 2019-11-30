@@ -1,6 +1,10 @@
 {
   "name": "svelte-i18n",
+<<<<<<< HEAD
   "version": "2.1.0",
+=======
+  "version": "1.1.2",
+>>>>>>> master
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
   "bin": {
@@ -24,6 +28,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "pretest": "npm run build",
+<<<<<<< HEAD
     "test": "jest",
     "test:ci": "jest --silent",
     "test:watch": "jest --verbose --watchAll",
@@ -33,6 +38,14 @@
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "postrelease": "git tag -a v$npm_package_version -m 'Release v$npm_package_version'",
     "prepublishOnly": "run-s test:ci build release"
+=======
+    "test": "jest --no-cache --verbose",
+    "test:watch": "jest --no-cache --verbose --watchAll",
+    "test:ci": "jest --no-cache --silent",
+    "lint": "eslint \"src/**/*.js\"",
+    "format": "prettier --loglevel silent --write \"src/**/*.js\" && eslint --fix \"src/**/*.js\"",
+    "prepublishOnly": "npm run format && npm run test && npm run build"
+>>>>>>> master
   },
   "files": [
     "dist/"
