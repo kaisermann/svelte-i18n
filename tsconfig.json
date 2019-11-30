@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": true,
+    "sourceMap": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "lib": ["es2018", "dom", "esnext"],
+    "outDir": "dist",
+    "types": ["svelte", "jest"]
+  },
+  "exclude": ["node_modules/**/*", "dist"]
+}

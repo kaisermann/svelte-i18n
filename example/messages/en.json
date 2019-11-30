@@ -1,0 +1,20 @@
+{
+  "title": {
+    "index": "Sapper project template!"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog"
+  },
+  "messages": {
+    "success": "Great success!",
+    "high_five": "High five",
+    "try_editing": "Try editing this file (src/routes/index.svelte) to test live reloading."
+  },
+  "languages": {
+    "pt_BR": "Portugues",
+    "en": "English",
+    "es_ES": "Spanish"
+  }
+}

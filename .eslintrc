@@ -1,10 +1,13 @@
 {
-  "extends": ["kaisermann"],
+  "extends": ["kaisermann/typescript"],
   "env": {
     "browser": true,
     "jest": true
   },
   "parserOptions": {
     "sourceType": "module"
+  },
+  "rules": {
+    "@typescript-eslint/camelcase": "off"
   }
 }

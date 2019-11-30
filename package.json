@@ -1,12 +1,19 @@
 {
   "name": "svelte-i18n",
+<<<<<<< HEAD
+  "version": "2.1.0",
+=======
   "version": "1.1.2",
+>>>>>>> master
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
+  "bin": {
+    "svelte-i18n": "dist/cli.js"
+  },
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
-  "repository": "https://github.com/kaisermann",
+  "repository": "https://github.com/kaisermann/svelte-i18n",
   "keywords": [
     "svelte",
     "i18n",
@@ -14,67 +21,82 @@
     "localization",
     "translation"
   ],
+  "engines": {
+    "node": ">= 11.15.0"
+  },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "pretest": "npm run build",
+<<<<<<< HEAD
+    "test": "jest",
+    "test:ci": "jest --silent",
+    "test:watch": "jest --verbose --watchAll",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --loglevel silent --write \"src/**/*.ts\" && eslint --fix \"src/**/*.ts\"",
+    "prerelease": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
+    "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
+    "postrelease": "git tag -a v$npm_package_version -m 'Release v$npm_package_version'",
+    "prepublishOnly": "run-s test:ci build release"
+=======
     "test": "jest --no-cache --verbose",
     "test:watch": "jest --no-cache --verbose --watchAll",
     "test:ci": "jest --no-cache --silent",
     "lint": "eslint \"src/**/*.js\"",
     "format": "prettier --loglevel silent --write \"src/**/*.js\" && eslint --fix \"src/**/*.js\"",
     "prepublishOnly": "npm run format && npm run test && npm run build"
+>>>>>>> master
   },
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
   "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/",
+    "collectCoverage": true,
+    "testMatch": [
+      "<rootDir>/test/**/*.test.ts"
+    ],
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.ts"
+    ],
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "testRegex": "(/test/.*|\\.(test|spec))\\.js$",
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
-      }
-    },
-    "collectCoverage": false
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "peerDependencies": {
+    "svelte": "^3.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
+    "@types/estree": "0.0.39",
+    "@types/intl": "^1.2.0",
+    "@types/jest": "^24.0.23",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
+    "conventional-changelog-cli": "^2.0.28",
     "eslint": "^6.6.0",
     "eslint-config-kaisermann": "0.0.3",
     "jest": "^24.9.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "rollup": "^1.26.5",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.14.0"
-  },
-  "peerDependencies": {
-    "svelte": "^3.14.0"
+    "rollup-plugin-typescript2": "^0.25.2",
+    "sass": "^1.23.6",
+    "svelte": "^3.14.1",
+    "svelte-preprocess": "^3.2.6",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.7.2"
   },
   "dependencies": {
+    "commander": "^4.0.1",
+    "deepmerge": "^4.2.2",
+    "dlv": "^1.1.3",
+    "estree-walker": "^0.9.0",
+    "fast-memoize": "^2.5.1",
     "intl-messageformat": "^7.5.2",
-    "micro-memoize": "^4.0.8",
-    "object-resolve-path": "^1.1.1"
+    "tiny-glob": "^0.2.6"
   }
 }
