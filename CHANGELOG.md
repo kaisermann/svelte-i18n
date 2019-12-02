@@ -1,3 +1,7 @@
+## [2.1.1](https://github.com/kaisermann/svelte-i18n/compare/v2.1.0...v2.1.1) (2019-12-02)
+
+
+
 # [2.1.0](https://github.com/kaisermann/svelte-i18n/compare/v2.1.0-alpha.2...v2.1.0) (2019-11-30)
 
 
