@@ -9,7 +9,7 @@
 **Requirements**
 
 -   Node: `>= 11.15.0`
--   Browsers: `Chrome 38+`, `Edge 12+`, `Firefox 13+`, `Opera 25+`, `Safari 8+`.
+-   Browsers: `Chrome 38+`, `Edge 16+`, `Firefox 13+`, `Opera 25+`, `Safari 8+`.
 
 ```svelte
 <script>
