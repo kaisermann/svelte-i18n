@@ -8,8 +8,8 @@
 
 **Requirements**
 
--   Node: `>= 11.15.0`
--   Browsers: `Chrome 38+`, `Edge 16+`, `Firefox 13+`, `Opera 25+`, `Safari 8+`.
+- Node: `>= 11.15.0`
+- Browsers: `Chrome 38+`, `Edge 16+`, `Firefox 13+`, `Opera 25+`, `Safari 8+`.
 
 ```svelte
 <script>
@@ -28,21 +28,21 @@
 ```jsonc
 // en.json
 {
-	"page": {
-		"home": {
-			"title": "Homepage",
-			"nav": "Home"
-		},
-		"about": {
-			"title": "About",
-			"nav": "About"
-		},
-		"contact": {
-			"title": "Contact",
-			"nav": "Contact Us"
-		}
-	}
+  "page": {
+    "home": {
+      "title": "Homepage",
+      "nav": "Home"
+    },
+    "about": {
+      "title": "About",
+      "nav": "About"
+    },
+    "contact": {
+      "title": "Contact",
+      "nav": "Contact Us"
+    }
+  }
 }
 ```
 
-### [Go to documentation](https://github.com/kaisermann/svelte-i18n/wiki)
+### [Go see the documentation](https://github.com/kaisermann/svelte-i18n/wiki)
