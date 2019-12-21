@@ -1,6 +1,9 @@
 import { lookupMessage } from '../../../src/client/includes/lookup'
 import { addMessages } from '../../../src/client/stores/dictionary'
-
+import { Formatter } from '../../../src/client/types/index'
+import { $format } from '../../../src/client/stores/format'
+let format: Formatter
+$format.subscribe(f => (format = f))
 
 test('a nested key', () => {
 	addMessages('en', { key:'value',nested_key:'nested {{key}}' })
@@ -50,4 +53,22 @@ test('nested key with dots', () => {
 test('nesting dotted key priority check', () => {
 	addMessages('en', { 'key.dot':'value',key:{dot:"not_value"},nested_key:'{{key.dot}}' })
 	expect(lookupMessage('nested_key', 'en')).toBe('value')
+})
+
+test('seperate addMessage with nesting', () => {
+	addMessages('en', { yes: 'Yes', no: 'No' })
+	addMessages('en', { confirmation: 'Please answer {{yes}} or {{no}}' })
+	expect(lookupMessage('confirmation', 'en')).toBe('Please answer Yes or No')
+})
+
+test('nest the older key after new addMessage define it', () => {
+	addMessages('en', { will_be_defined: 'Hi {{who_am_i}}' })
+	expect(lookupMessage('will_be_defined', 'en')).toBe('Hi {{who_am_i}}')
+	addMessages('en', { who_am_i: 'Ehsan' })
+	expect(lookupMessage('will_be_defined', 'en')).toBe('Hi Ehsan')
+})
+
+test('nested key with argument in values', () => {
+	addMessages('en', { key: '{arg}', nested: '{{key}}' })
+	expect(format({id:'nested', values:{arg:'argument value'} , locale:'en'} )).toBe('argument value')
 })

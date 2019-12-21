@@ -6,6 +6,8 @@ import { Dictionary } from '../types/index'
 
 import { getFallbackOf } from './locale'
 
+import { lookupMessage } from '../includes/lookup'
+
 let dictionary: Dictionary
 const $dictionary = writable<Dictionary>({})
 
@@ -38,19 +40,21 @@ export function getClosestAvailableLocale(locale: string): string | null {
   return getClosestAvailableLocale(getFallbackOf(locale))
 }
 
-export function nestingLoop(maindict:any,dict:any = {}) {
+export function nestingLoop(maindict:any,locale:string,dict:any = {}) {
   if (Object.keys(dict).length === 0) dict = {...maindict}
   for(const key in dict) {
-    if (typeof dict[key] == 'object') dict[key] = nestingLoop(maindict,dict[key])
+    if (typeof dict[key] == 'object') dict[key] = nestingLoop(maindict,locale,dict[key])
     else if (typeof dict[key] == 'string') {
+      let not_found:string[] = []
       while(true) {
-        const nested = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
+        let nested = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
+        nested = nested.filter(n=>!not_found.includes(n))
         if (!nested || nested.constructor != Array || nested.length === 0) break
         nested.forEach( (k:string) =>{
-          dict[key] = dict[key].replace(
-            new RegExp(`{{${k}}}`),
-            !maindict[k] && k!='' ? k.split('.').reduce((prev, curr) => prev && prev[curr] , maindict) : maindict[k] || ''
-          )
+          const K = `{{${k}}}`
+          const v = k!='' ? lookupMessage(k,locale) || K : ''
+          if (v == K) return not_found.push(k)
+          dict[key] = dict[key].replace( new RegExp(K),v )
         })
       }
     }
@@ -59,11 +63,11 @@ export function nestingLoop(maindict:any,dict:any = {}) {
 }
 
 export function addMessages(locale: string, ...partials: Dictionary[]) {
-  partials = [nestingLoop(partials[0])]
   $dictionary.update(d => {
     dictionary[locale] = merge.all<Dictionary>(
       [getLocaleDictionary(locale) || {}].concat(partials)
     )
+    d[locale]=nestingLoop(d[locale],locale)
     return d
   })
 }
