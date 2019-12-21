@@ -46,3 +46,8 @@ test('nested key with dots', () => {
 	addMessages('en', { 'key.with.dots':'value',nested_key:'nested {{key.with.dots}}' })
 	expect(lookupMessage('nested_key', 'en')).toBe('nested value')
 })
+
+test('nesting dotted key priority check', () => {
+	addMessages('en', { 'key.dot':'value',key:{dot:"not_value"},nested_key:'{{key.dot}}' })
+	expect(lookupMessage('nested_key', 'en')).toBe('value')
+})
