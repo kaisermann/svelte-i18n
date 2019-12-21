@@ -54,12 +54,12 @@ function nestingLoop(maindict:any,dict:any = {}) {
     if (typeof dict[key] == 'object') dict[key] = nestingLoop(maindict,dict[key])
     else if (typeof dict[key] == 'string') {
       while(true) {
-        let nesteds = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
-        if (!nesteds || nesteds.constructor != Array || nesteds.length === 0) break
-        nesteds.forEach( (k:string) =>{
+        let nested = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
+        if (!nested || nested.constructor != Array || nested.length === 0) break
+        nested.forEach( (k:string) =>{
           dict[key] = dict[key].replace(
             new RegExp(`\{\{${k}\}\}`),
-            k!='' ? k.split('.').reduce((prev, curr) => prev && prev[curr], maindict) : ''
+            !maindict[k] && k!='' ? k.split('.').reduce((prev, curr) => prev && prev[curr] , maindict) : maindict[k] || ''
           )
         })
       }

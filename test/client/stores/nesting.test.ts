@@ -41,3 +41,8 @@ test('full empty nested', () => {
 	addMessages('en', { full_empty_nested_key:'{{}}' })
 	expect(lookupMessage('full_empty_nested_key', 'en')).toBe(null)
 })
+
+test('nested key with dots', () => {
+	addMessages('en', { 'key.with.dots':'value',nested_key:'nested {{key.with.dots}}' })
+	expect(lookupMessage('nested_key', 'en')).toBe('nested value')
+})
