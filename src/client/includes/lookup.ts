@@ -10,7 +10,7 @@ const addToCache = (path: string, locale: string, message: string) => {
   return message
 }
 
-export const lookupMessage = (path: string, locale: string): string => {
+export const lookupMessage = (path: string, locale: string, cache:boolean = true): string => {
   if (locale == null) return null
   if (locale in lookupCache && path in lookupCache[locale]) {
     return lookupCache[locale][path]
@@ -19,5 +19,5 @@ export const lookupMessage = (path: string, locale: string): string => {
   const message = getMessageFromDictionary(locale, path)
   if (message) return message
 
-  return addToCache(path, locale, lookupMessage(path, getFallbackOf(locale)))
+  if (cache) return addToCache(path, locale, lookupMessage(path, getFallbackOf(locale)))
 }

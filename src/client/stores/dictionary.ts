@@ -4,9 +4,10 @@ import { writable, derived } from 'svelte/store'
 
 import { Dictionary } from '../types/index'
 
+import { lookupMessage } from '../includes/lookup'
+
 import { getFallbackOf } from './locale'
 
-import { lookupMessage } from '../includes/lookup'
 
 let dictionary: Dictionary
 const $dictionary = writable<Dictionary>({})
@@ -52,7 +53,7 @@ export function nestingLoop(maindict:any,locale:string,dict:any = {}) {
         if (!nested || nested.constructor != Array || nested.length === 0) break
         nested.forEach( (k:string) =>{
           const K = `{{${k}}}`
-          const v = k!='' ? lookupMessage(k,locale) || K : ''
+          const v = k!='' ? lookupMessage(k,locale,false) || K : ''
           if (v == K) return not_found.push(k)
           dict[key] = dict[key].replace( new RegExp(K),v )
         })
