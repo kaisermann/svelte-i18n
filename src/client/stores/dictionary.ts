@@ -38,6 +38,26 @@ export function getClosestAvailableLocale(locale: string): string | null {
   return getClosestAvailableLocale(getFallbackOf(locale))
 }
 
+export function nestingLoop(maindict:any,dict:any = {}) {
+  if (Object.keys(dict).length === 0) dict = {...maindict}
+  for(const key in dict) {
+    if (typeof dict[key] == 'object') dict[key] = nestingLoop(maindict,dict[key])
+    else if (typeof dict[key] == 'string') {
+      while(true) {
+        const nested = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
+        if (!nested || nested.constructor != Array || nested.length === 0) break
+        nested.forEach( (k:string) =>{
+          dict[key] = dict[key].replace(
+            new RegExp(`{{${k}}}`),
+            !maindict[k] && k!='' ? k.split('.').reduce((prev, curr) => prev && prev[curr] , maindict) : maindict[k] || ''
+          )
+        })
+      }
+    }
+  }
+  return dict
+}
+
 export function addMessages(locale: string, ...partials: Dictionary[]) {
   partials = [nestingLoop(partials[0])]
   $dictionary.update(d => {
@@ -46,26 +66,6 @@ export function addMessages(locale: string, ...partials: Dictionary[]) {
     )
     return d
   })
-}
-
-function nestingLoop(maindict:any,dict:any = {}) {
-  if (Object.keys(dict).length === 0) dict = {...maindict}
-  for(let key in dict) {
-    if (typeof dict[key] == 'object') dict[key] = nestingLoop(maindict,dict[key])
-    else if (typeof dict[key] == 'string') {
-      while(true) {
-        let nested = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
-        if (!nested || nested.constructor != Array || nested.length === 0) break
-        nested.forEach( (k:string) =>{
-          dict[key] = dict[key].replace(
-            new RegExp(`\{\{${k}\}\}`),
-            !maindict[k] && k!='' ? k.split('.').reduce((prev, curr) => prev && prev[curr] , maindict) : maindict[k] || ''
-          )
-        })
-      }
-    }
-  }
-  return dict
 }
 
 const $locales = derived([$dictionary], ([$dictionary]) =>
