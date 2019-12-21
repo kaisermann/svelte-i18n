@@ -39,12 +39,33 @@ export function getClosestAvailableLocale(locale: string): string | null {
 }
 
 export function addMessages(locale: string, ...partials: Dictionary[]) {
+  partials = [nestingLoop(partials[0])]
   $dictionary.update(d => {
     dictionary[locale] = merge.all<Dictionary>(
       [getLocaleDictionary(locale) || {}].concat(partials)
     )
     return d
   })
+}
+
+function nestingLoop(maindict:any,dict:any = {}) {
+  if (Object.keys(dict).length === 0) dict = {...maindict}
+  for(let key in dict) {
+    if (typeof dict[key] == 'object') dict[key] = nestingLoop(maindict,dict[key])
+    else if (typeof dict[key] == 'string') {
+      while(true) {
+        let nesteds = Array.from(dict[key].matchAll(/\{\{(.*?)\}\}/g),(m:any)=>m[1])
+        if (!nesteds || nesteds.constructor != Array || nesteds.length === 0) break
+        nesteds.forEach( (k:string) =>{
+          dict[key] = dict[key].replace(
+            new RegExp(`\{\{${k}\}\}`),
+            k!='' ? k.split('.').reduce((prev, curr) => prev && prev[curr], maindict) : ''
+          )
+        })
+      }
+    }
+  }
+  return dict
 }
 
 const $locales = derived([$dictionary], ([$dictionary]) =>
