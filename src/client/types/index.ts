@@ -26,6 +26,9 @@ export interface MemoizedIntlFormatter<T, U> {
 }
 
 export interface Formatter extends FormatterFn {
+  timeFormatter: (
+    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
+  ) => Intl.DateTimeFormat
   time: (
     d: Date | number,
     options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>

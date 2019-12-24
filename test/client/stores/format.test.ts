@@ -68,6 +68,9 @@ test('warn on missing messages', () => {
 })
 
 describe('format utilities', () => {
+  test('timeFormatter', () => {
+    expect(format.timeFormatter().format(new Date(2019, 0, 1, 20, 37))).toBe('8:37 PM')
+  })
   test('time', () => {
     expect(format.time(new Date(2019, 0, 1, 20, 37))).toBe('8:37 PM')
   })

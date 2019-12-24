@@ -52,6 +52,7 @@ const formatMessage: Formatter = (id, options = {}) => {
   return getMessageFormatter(message, locale).format(values)
 }
 
+formatMessage.timeFormatter = (options) => getTimeFormatter(options)
 formatMessage.time = (t, options) => getTimeFormatter(options).format(t)
 formatMessage.date = (d, options) => getDateFormatter(options).format(d)
 formatMessage.number = (n, options) => getNumberFormatter(options).format(n)
