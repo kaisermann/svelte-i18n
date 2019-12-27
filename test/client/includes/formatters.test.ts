@@ -3,8 +3,8 @@ import {
   getDateFormatter,
   getTimeFormatter,
   getMessageFormatter,
-} from '../../../src/client/includes/formatters'
-import { init } from '../../../src/client/configs'
+  init
+} from '../../../src/client'
 
 beforeEach(() => {
   init({ fallbackLocale: undefined })

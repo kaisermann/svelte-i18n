@@ -21,6 +21,11 @@ export {
 } from './stores/dictionary'
 export { $isLoading as isLoading } from './stores/loading'
 export { $format as format, $format as _, $format as t } from './stores/format'
-
+export {
+  getDateFormatter,
+  getNumberFormatter,
+  getTimeFormatter,
+  getMessageFormatter,
+} from './includes/formatters'
 // utilities
 export { registerLocaleLoader as register } from './includes/loaderQueue'
