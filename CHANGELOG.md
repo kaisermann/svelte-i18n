@@ -1,3 +1,12 @@
+## [2.2.1](https://github.com/kaisermann/svelte-i18n/compare/v2.2.0...v2.2.1) (2020-01-08)
+
+
+### Bug Fixes
+
+* 🐛 lookup message not caching correctly ([b9b6fa4](https://github.com/kaisermann/svelte-i18n/commit/b9b6fa41ffd99b89fc117c44a5bc636335c63632))
+
+
+
 # [2.2.0](https://github.com/kaisermann/svelte-i18n/compare/v2.1.1...v2.2.0) (2020-01-07)
 
 
