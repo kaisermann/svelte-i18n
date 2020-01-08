@@ -28,6 +28,7 @@ export function getFallbackOf(locale: string) {
   if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
     return fallbackLocale
   }
+
   return null
 }
 

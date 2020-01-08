@@ -1,7 +1,7 @@
 import { derived } from 'svelte/store'
 
 import { Formatter, MessageObject } from '../types'
-import { lookupMessage } from '../includes/lookup'
+import { lookup } from '../includes/lookup'
 import { hasLocaleQueue } from '../includes/loaderQueue'
 import { capital, upper, lower, title } from '../includes/utils'
 import {
@@ -29,7 +29,7 @@ const formatMessage: Formatter = (id, options = {}) => {
     )
   }
 
-  const message = lookupMessage(id, locale)
+  const message = lookup(id, locale)
 
   if (!message) {
     if (getOptions().warnOnMissingMessages) {
