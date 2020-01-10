@@ -1,7 +1,7 @@
 import { Formats } from 'intl-messageformat'
 
 export interface Dictionary {
-  [key: string]: string | string[] | Dictionary | Dictionary[]
+  [key: string]: string | number | (string|number)[] | Dictionary | Dictionary[]
 }
 
 export interface MessageObject {

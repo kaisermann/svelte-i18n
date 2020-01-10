@@ -29,5 +29,5 @@ export const lookup = (path: string, locale: string, cache = true) => {
     return addToCache(path, locale, message)
   }
 
-  return message
+  return message || null
 }

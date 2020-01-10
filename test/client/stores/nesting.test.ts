@@ -10,6 +10,11 @@ test('a nested key', () => {
 	expect(lookup('nested_key', 'en')).toBe('nested value')
 })
 
+test('a nested key with number value', () => {
+	addMessages('en', { one:1 ,nested_key:'nested {{one}}' })
+	expect(lookup('nested_key', 'en')).toBe('nested 1')
+})
+
 test('a deep nested key', () => {
 	addMessages('en', { key:'value',deep_nested_key:'deep {{nested_key}}',nested_key:'nested {{key}}' })
 	expect(lookup('deep_nested_key', 'en')).toBe('deep nested value')
@@ -71,4 +76,18 @@ test('nest the older key after new addMessage define it', () => {
 test('nested key with argument in values', () => {
 	addMessages('en', { key: '{arg}', nested: '{{key}}' })
 	expect(format({id:'nested', values:{arg:'argument value'} , locale:'en'} )).toBe('argument value')
+})
+
+test('test cached key cleaner', () => {
+	addMessages('en', { cacheMe: 'value' })
+	expect(lookup('cacheMe', 'en')).toBe('value') // we want it to get cached, so we called it
+	addMessages('en', { key: 'value',cacheMe:'new {{key}}' }) // now we don't the value to get from cache, because we cahnged it
+	expect(lookup('cacheMe', 'en')).toBe('new value')
+})
+
+test('changed the nested key which is used directly and cached', () => {
+	addMessages('en', { cacheMe: 'value' })
+	expect(lookup('cacheMe', 'en')).toBe('value') // we want it to get cached, so we called it
+	addMessages('en', { cacheMe: 'changed',nested:'nested {{cacheMe}}' })
+	expect(lookup('nested', 'en')).toBe('nested changed')
 })
