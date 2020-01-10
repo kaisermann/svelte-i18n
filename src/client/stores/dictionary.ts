@@ -3,7 +3,6 @@ import merge from 'deepmerge'
 import { writable, derived } from 'svelte/store'
 
 import { lookup,lookupCache } from '../includes/lookup'
-
 import { Dictionary } from '../types/index'
 
 import { getFallbackOf } from './locale'
