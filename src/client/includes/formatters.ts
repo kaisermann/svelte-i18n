@@ -70,6 +70,6 @@ export const getTimeFormatter: MemoizedIntlFormatter<
 })
 
 export const getMessageFormatter = memoize(
-  (message: string, locale: string) =>
+  (message: string, locale: string = getCurrentLocale()) =>
     new IntlMessageFormat(message, locale, getOptions().formats)
 )

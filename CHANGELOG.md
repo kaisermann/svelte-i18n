@@ -1,3 +1,26 @@
+## [2.2.1](https://github.com/kaisermann/svelte-i18n/compare/v2.2.0...v2.2.1) (2020-01-08)
+
+
+### Bug Fixes
+
+* 🐛 lookup message not caching correctly ([b9b6fa4](https://github.com/kaisermann/svelte-i18n/commit/b9b6fa41ffd99b89fc117c44a5bc636335c63632))
+
+
+
+# [2.2.0](https://github.com/kaisermann/svelte-i18n/compare/v2.1.1...v2.2.0) (2020-01-07)
+
+
+### Bug Fixes
+
+* 🐛 make message formatter default to current locale ([0c57b9b](https://github.com/kaisermann/svelte-i18n/commit/0c57b9b568ba60216c4c96931da19dea97d998c4))
+
+
+### Features
+
+* add low level API to get access to the formatters ([#31](https://github.com/kaisermann/svelte-i18n/issues/31)) ([86cca99](https://github.com/kaisermann/svelte-i18n/commit/86cca992515809b1767d648293d395562dc2946a))
+
+
+
 ## [2.1.1](https://github.com/kaisermann/svelte-i18n/compare/v2.1.0...v2.1.1) (2019-12-02)
 
 ### Bug Fixes

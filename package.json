@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "2.1.1",
+  "version": "2.2.1",
   "main": "dist/i18n.js",
   "module": "dist/i18n.mjs",
   "bin": {
@@ -69,7 +69,7 @@
     "rollup": "^1.26.5",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-terser": "^5.1.3",
     "rollup-plugin-typescript2": "^0.25.2",
     "sass": "^1.23.6",
     "svelte": "^3.14.1",

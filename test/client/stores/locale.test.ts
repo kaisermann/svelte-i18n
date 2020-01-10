@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { lookupMessage } from '../../../src/client/includes/lookup'
+import { lookup } from '../../../src/client/includes/lookup'
 import {
   isFallbackLocaleOf,
   getFallbackOf,
@@ -132,5 +132,5 @@ test('should flush the queue of the locale when changing the store value', async
   await $locale.set('en')
 
   expect(hasLocaleQueue('en')).toBe(false)
-  expect(lookupMessage('foo', 'en')).toBe('Foo')
+  expect(lookup('foo', 'en')).toBe('Foo')
 })
