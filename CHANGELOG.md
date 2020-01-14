@@ -1,3 +1,13 @@
+## [2.2.2](https://github.com/kaisermann/svelte-i18n/compare/v2.2.0...v2.2.2) (2020-01-14)
+
+
+### Bug Fixes
+
+* 🐛 lookup message not caching correctly ([bb8c68f](https://github.com/kaisermann/svelte-i18n/commit/bb8c68f2eb7bbe658a40dc528b471ffadd5f92df))
+* 🐛 mjs causing an elusive bug in webpack module resolution ([b2dc782](https://github.com/kaisermann/svelte-i18n/commit/b2dc7828c55b23be05adb0791816cc7bc9910af2)), closes [#36](https://github.com/kaisermann/svelte-i18n/issues/36)
+
+
+
 ## [2.2.1](https://github.com/kaisermann/svelte-i18n/compare/v2.2.0...v2.2.1) (2020-01-08)
 
 
