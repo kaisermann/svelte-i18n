@@ -4,6 +4,7 @@ import {
   title,
   upper,
   lower,
+  flatObj,
 } from '../../../src/client/includes/utils'
 
 describe('getting client locale', () => {
@@ -127,5 +128,31 @@ describe('string utilities', () => {
 
   test('transforms a string into lowercase', () => {
     expect(lower('UPPERCASE STRING')).toMatch('uppercase string')
+  })
+})
+
+describe('deep object handling', () => {
+  test('flattens a deep object', () => {
+    const obj = {
+      a: { b: { c: { d: 'foo' } } },
+      e: { f: 'bar' },
+    }
+    expect(flatObj(obj)).toMatchObject({
+      'a.b.c.d': 'foo',
+      'e.f': 'bar',
+    })
+  })
+
+  test('flattens a deep object with array values', () => {
+    const obj = {
+      a: { b: { c: { d: ['foo', 'bar'] } } },
+      e: { f: ['foo', 'bar'] },
+    }
+    expect(flatObj(obj)).toMatchObject({
+      'a.b.c.d.0': 'foo',
+      'a.b.c.d.1': 'bar',
+      'e.f.0': 'foo',
+      'e.f.1': 'bar',
+    })
   })
 })

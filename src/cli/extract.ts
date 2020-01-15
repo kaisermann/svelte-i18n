@@ -11,6 +11,7 @@ import { walk } from 'estree-walker'
 import { Ast } from 'svelte/types/compiler/interfaces'
 import { parse } from 'svelte/compiler'
 
+import { getIn } from './includes/getIn'
 import { deepSet } from './includes/deepSet'
 import { getObjFromExpression } from './includes/getObjFromExpression'
 import { Message } from './types'
@@ -19,9 +20,6 @@ const LIB_NAME = 'svelte-i18n'
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages'
 const FORMAT_METHOD_NAMES = new Set(['format', '_', 't'])
 const IGNORED_UTILITIES = new Set(['number', 'date', 'time'])
-
-const delve = (o: Record<string, any>, id: string) =>
-  id.split('.').reduce((acc, path) => acc[path], o)
 
 function isFormatCall(node: Node, imports: Set<string>) {
   if (node.type !== 'CallExpression') return false
@@ -175,7 +173,7 @@ export function extractMessages(
     } else {
       if (
         overwrite === false &&
-        typeof delve(accumulator, message.meta.id) !== 'undefined'
+        typeof getIn(accumulator, message.meta.id) !== 'undefined'
       ) {
         return
       }
