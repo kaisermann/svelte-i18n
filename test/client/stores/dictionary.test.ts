@@ -40,12 +40,14 @@ test('merges the existing dictionaries with new ones', () => {
     en: {
       field_1: 'name',
       field_2: 'lastname',
-      deep: { prop1: 'foo', prop2: 'foo' },
+      'deep.prop1': 'foo',
+      'deep.prop2': 'foo',
     },
     pt: {
       field_1: 'nome',
       field_2: 'sobrenome',
-      deep: { prop1: 'foo', prop2: 'foo' },
+      'deep.prop1': 'foo',
+      'deep.prop2': 'foo',
     },
   })
 })

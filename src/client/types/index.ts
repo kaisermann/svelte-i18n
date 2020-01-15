@@ -1,8 +1,10 @@
 import { Formats } from 'intl-messageformat'
 
-export interface Dictionary {
-  [key: string]: string | string[] | Dictionary | Dictionary[]
+export interface DeepDictionary {
+  [key: string]: DeepDictionary | string | string[]
 }
+export type LocaleDictionary = Record<string, string>
+export type Dictionary = Record<string, LocaleDictionary>
 
 export interface MessageObject {
   id?: string

@@ -1,8 +1,7 @@
-import delve from 'dlv'
-import merge from 'deepmerge'
 import { writable, derived } from 'svelte/store'
 
-import { Dictionary } from '../types/index'
+import { LocaleDictionary, DeepDictionary, Dictionary } from '../types/index'
+import { flatObj } from '../includes/utils'
 
 import { getFallbackOf } from './locale'
 
@@ -10,7 +9,7 @@ let dictionary: Dictionary
 const $dictionary = writable<Dictionary>({})
 
 export function getLocaleDictionary(locale: string) {
-  return (dictionary[locale] as Dictionary) || null
+  return (dictionary[locale] as LocaleDictionary) || null
 }
 
 export function getDictionary() {
@@ -27,8 +26,6 @@ export function getMessageFromDictionary(locale: string, id: string) {
     if (id in localeDictionary) {
       return localeDictionary[id]
     }
-    const message = delve(localeDictionary, id)
-    if (message) return message
   }
   return null
 }
@@ -38,11 +35,11 @@ export function getClosestAvailableLocale(locale: string): string | null {
   return getClosestAvailableLocale(getFallbackOf(locale))
 }
 
-export function addMessages(locale: string, ...partials: Dictionary[]) {
+export function addMessages(locale: string, ...partials: DeepDictionary[]) {
+  const flattedPartials = partials.map(partial => flatObj(partial))
+
   $dictionary.update(d => {
-    dictionary[locale] = merge.all<Dictionary>(
-      [getLocaleDictionary(locale) || {}].concat(partials)
-    )
+    d[locale] = Object.assign(d[locale] || {}, ...flattedPartials)
     return d
   })
 }

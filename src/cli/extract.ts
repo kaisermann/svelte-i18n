@@ -7,7 +7,6 @@ import {
   Identifier,
   Literal,
 } from 'estree'
-import delve from 'dlv'
 import { walk } from 'estree-walker'
 import { Ast } from 'svelte/types/compiler/interfaces'
 import { parse } from 'svelte/compiler'
@@ -20,6 +19,9 @@ const LIB_NAME = 'svelte-i18n'
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages'
 const FORMAT_METHOD_NAMES = new Set(['format', '_', 't'])
 const IGNORED_UTILITIES = new Set(['number', 'date', 'time'])
+
+const delve = (o: Record<string, any>, id: string) =>
+  id.split('.').reduce((acc, path) => acc[path], o)
 
 function isFormatCall(node: Node, imports: Set<string>) {
   if (node.type !== 'CallExpression') return false
