@@ -14,11 +14,11 @@ export default function(options = {}) {
   return {
     name: 'compile-translations',
     transform: (code, id) => {
-      console.log(id)
       if (filter(id)) {
         const { code: newCode } = babel.transform(code, {
           plugins: [icuPrecompiler],
-        })
+        });
+        console.log(`compiled ${id} to: `, newCode);
         return { code: newCode, map: { mappings: '' } }
       }
     },
