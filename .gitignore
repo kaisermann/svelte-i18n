@@ -1,5 +1,5 @@
 node_modules
 *.log
-dist/
+# dist/ temporarily remove to be able to install from github
 coverage/
 docs/
