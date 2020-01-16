@@ -1,9 +1,14 @@
 import { derived } from 'svelte/store'
 
-import { Formatter, MessageObject } from '../types'
+import {
+  MessageFormatter,
+  MessageObject,
+  TimeFormatter,
+  DateFormatter,
+  NumberFormatter,
+} from '../types'
 import { lookup } from '../includes/lookup'
 import { hasLocaleQueue } from '../includes/loaderQueue'
-import { capital, upper, lower, title } from '../includes/utils'
 import {
   getMessageFormatter,
   getTimeFormatter,
@@ -15,7 +20,7 @@ import { getOptions } from '../configs'
 import { $dictionary } from './dictionary'
 import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale'
 
-const formatMessage: Formatter = (id, options = {}) => {
+const formatMessage: MessageFormatter = (id, options = {}) => {
   if (typeof id === 'object') {
     options = id as MessageObject
     id = options.id
@@ -52,14 +57,16 @@ const formatMessage: Formatter = (id, options = {}) => {
   return getMessageFormatter(message, locale).format(values)
 }
 
-formatMessage.time = (t, options) => getTimeFormatter(options).format(t)
-formatMessage.date = (d, options) => getDateFormatter(options).format(d)
-formatMessage.number = (n, options) => getNumberFormatter(options).format(n)
-formatMessage.capital = (id, options) => capital(formatMessage(id, options))
-formatMessage.title = (id, options) => title(formatMessage(id, options))
-formatMessage.upper = (id, options) => upper(formatMessage(id, options))
-formatMessage.lower = (id, options) => lower(formatMessage(id, options))
+const formatTime: TimeFormatter = (t, options) =>
+  getTimeFormatter(options).format(t)
 
-const $format = derived([$locale, $dictionary], () => formatMessage)
+const formatDate: DateFormatter = (d, options) =>
+  getDateFormatter(options).format(d)
 
-export { $format }
+const formatNumber: NumberFormatter = (n, options) =>
+  getNumberFormatter(options).format(n)
+
+export const $format = derived([$locale, $dictionary], () => formatMessage)
+export const $formatTime = derived([$locale], () => formatTime)
+export const $formatDate = derived([$locale], () => formatDate)
+export const $formatNumber = derived([$locale], () => formatNumber)
