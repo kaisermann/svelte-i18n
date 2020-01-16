@@ -6,6 +6,7 @@
   "bin": {
     "svelte-i18n": "dist/cli.js"
   },
+  "rollupPlugin": "dist/rollup-plugin-precompile-i18n.js",
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -80,7 +81,9 @@
   "dependencies": {
     "commander": "^4.0.1",
     "estree-walker": "^0.9.0",
-    "intl-messageformat": "^7.5.2",
+    "rollup-pluginutils": "^2.8.2",
+    "babel-plugin-precompile-icu": "file:~/code/own/babel-plugin-precompile-icu",
+    "icu-helpers": "file:~/code/own/icu-helpers",
     "tiny-glob": "^0.2.6"
   }
 }
