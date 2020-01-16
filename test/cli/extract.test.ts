@@ -79,17 +79,6 @@ describe('collecting format calls', () => {
     expect(calls[2]).toMatchObject({ type: 'CallExpression' })
     expect(calls[3]).toMatchObject({ type: 'CallExpression' })
   })
-
-  test('ignores date, time and number calls', () => {
-    const ast = parse(`<script>
-      import { _ } from 'svelte-i18n'
-      $_.number(1000)
-      $_.date(new Date())
-      $_.time(new Date())
-    </script>`)
-    const calls = collectFormatCalls(ast)
-    expect(calls).toHaveLength(0)
-  })
 })
 
 describe('collecting message definitions', () => {
