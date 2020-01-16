@@ -79,7 +79,7 @@
     "commander": "^4.0.1",
     "estree-walker": "^0.9.0",
     "rollup-pluginutils": "^2.8.2",
-    "babel-plugin-precompile-icu": "file:~/code/own/babel-plugin-precompile-icu",
+    "babel-plugin-precompile-icu": "cibernox/babel-plugin-precompile-icu",
     "icu-helpers": "cibernox/icu-helpers#master",
     "tiny-glob": "^0.2.6"
   }
