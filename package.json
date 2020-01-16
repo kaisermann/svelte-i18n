@@ -3,9 +3,6 @@
   "version": "2.2.3",
   "main": "dist/i18n.cjs.js",
   "module": "dist/i18n.esm.js",
-  "bin": {
-    "svelte-i18n": "dist/cli.js"
-  },
   "rollupPlugin": "dist/rollup-plugin-precompile-i18n.js",
   "license": "MIT",
   "description": "Internationalization library for Svelte",

@@ -10,16 +10,22 @@ const PROD = !process.env.ROLLUP_WATCH
 export default [
   {
     input: 'src/client/index.ts',
-    // external: [
+    external: [
+      // "icu-helpers"
     //   ...Object.keys(pkg.dependencies),
     //   ...Object.keys(pkg.peerDependencies),
     //   'svelte/store',
-    // ],
+    ],
     output: [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
     ],
-    plugins: [commonjs(), autoExternal(), ts(), PROD && terser()],
+    plugins: [
+      commonjs(),
+      autoExternal(),
+      ts(),
+      // PROD && terser()
+    ],
   },
   // {
   //   input: 'src/cli/index.ts',

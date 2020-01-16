@@ -1,4 +1,9 @@
-import { Formats } from 'intl-messageformat'
+// import { Formats } from 'intl-messageformat'
+interface Formats {
+  number: Record<string, Intl.NumberFormatOptions>;
+  date: Record<string, Intl.DateTimeFormatOptions>;
+  time: Record<string, Intl.DateTimeFormatOptions>;
+}
 
 export interface DeepDictionary {
   [key: string]: DeepDictionary | string | string[]
