@@ -23,10 +23,11 @@ import {
 import { $locale } from './locale'
 
 const formatMessage: MessageFormatter = (id, options = {}) => {
-  if (typeof id === 'string') {
-    return lookupMessage(id) as string;
+  const message = lookupMessage(id as string);
+  if (typeof message === 'string') {
+    return message;
   } else {
-    return (lookupMessage(id.id) as MessageFn)(options);
+    return message(...Object.keys(options.values).sort().map(k => options.values[k]));
   }
   // if (typeof id === 'object') {
   //   options = id as MessageObject
