@@ -56,7 +56,7 @@ import { flatObj } from '../includes/utils'
 // export { $dictionary, $locales }
 
 
-export function addMessages(locale: string, ...partials: DeepDictionary[]) {
-  const flattedPartials = partials.map(partial => flatObj(partial))
+export function addMessages(locale: string, partials: DeepDictionary) {
+  const flattedPartials = flatObj(partials);
   addEntries(locale, flattedPartials);
 }
