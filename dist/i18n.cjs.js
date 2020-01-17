@@ -5,97 +5,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var icuHelpers = require('icu-helpers');
 var store = require('svelte/store');
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-// could use a reduce, but a simple for-in has less footprint
-const flatObj = (obj, prefix = '') => {
-    const flatted = {};
-    for (const key in obj) {
-        const flatKey = prefix + key;
-        // we want plain objects and arrays
-        if (typeof obj[key] === 'object') {
-            Object.assign(flatted, flatObj(obj[key], `${flatKey}.`));
-        }
-        else {
-            flatted[flatKey] = obj[key];
-        }
-    }
-    return flatted;
-};
-const getFromQueryString = (queryString, key) => {
-    const keyVal = queryString.split('&').find(i => i.indexOf(`${key}=`) === 0);
-    if (keyVal) {
-        return keyVal.split('=').pop();
-    }
-    return null;
-};
-const getFirstMatch = (base, pattern) => {
-    const match = pattern.exec(base);
-    // istanbul ignore if
-    if (!match)
-        return null;
-    // istanbul ignore else
-    return match[1] || null;
-};
-const getClientLocale = ({ navigator, hash, search, pathname, hostname, }) => {
-    let locale;
-    // istanbul ignore next
-    if (typeof window === 'undefined')
-        return null;
-    if (hostname) {
-        locale = getFirstMatch(window.location.hostname, hostname);
-        if (locale)
-            return locale;
-    }
-    if (pathname) {
-        locale = getFirstMatch(window.location.pathname, pathname);
-        if (locale)
-            return locale;
-    }
-    if (navigator) {
-        // istanbul ignore else
-        locale = window.navigator.language || window.navigator.languages[0];
-        if (locale)
-            return locale;
-    }
-    if (search) {
-        locale = getFromQueryString(window.location.search.substr(1), search);
-        if (locale)
-            return locale;
-    }
-    if (hash) {
-        locale = getFromQueryString(window.location.hash.substr(1), hash);
-        if (locale)
-            return locale;
-    }
-    return null;
-};
-
 // import { writable } from 'svelte/store'
 // import { flush, hasLocaleQueue } from '../includes/loaderQueue'
 // import { getOptions } from '../configs'
@@ -141,65 +50,21 @@ icuHelpers.currentLocale.subscribe((newLocale) => {
     }
 });
 
-const defaultFormats = {
-    number: {
-        scientific: { notation: 'scientific' },
-        engineering: { notation: 'engineering' },
-        compactLong: { notation: 'compact', compactDisplay: 'long' },
-        compactShort: { notation: 'compact', compactDisplay: 'short' },
-    },
-    date: {
-        short: { month: 'numeric', day: 'numeric', year: '2-digit' },
-        medium: { month: 'short', day: 'numeric', year: 'numeric' },
-        long: { month: 'long', day: 'numeric', year: 'numeric' },
-        full: { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' },
-    },
-    time: {
-        short: { hour: 'numeric', minute: 'numeric' },
-        medium: { hour: 'numeric', minute: 'numeric', second: 'numeric' },
-        long: {
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            timeZoneName: 'short',
-        },
-        full: {
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            timeZoneName: 'short',
-        },
-    },
-};
-const defaultOptions = {
-    fallbackLocale: null,
-    initialLocale: null,
-    loadingDelay: 200,
-    formats: defaultFormats,
-    warnOnMissingMessages: true,
-};
-const options = defaultOptions;
-function init(opts) {
-    const { formats } = opts, rest = __rest(opts, ["formats"]);
-    const initialLocale = opts.initialLocale
-        ? typeof opts.initialLocale === 'string'
-            ? opts.initialLocale
-            : getClientLocale(opts.initialLocale) || opts.fallbackLocale
-        : opts.fallbackLocale;
-    Object.assign(options, rest, { initialLocale });
-    if (formats) {
-        if ('number' in formats) {
-            Object.assign(options.formats.number, formats.number);
+// could use a reduce, but a simple for-in has less footprint
+const flatObj = (obj, prefix = '') => {
+    const flatted = {};
+    for (const key in obj) {
+        const flatKey = prefix + key;
+        // we want plain objects and arrays
+        if (typeof obj[key] === 'object') {
+            Object.assign(flatted, flatObj(obj[key], `${flatKey}.`));
         }
-        if ('date' in formats) {
-            Object.assign(options.formats.date, formats.date);
-        }
-        if ('time' in formats) {
-            Object.assign(options.formats.time, formats.time);
+        else {
+            flatted[flatKey] = obj[key];
         }
     }
-    return icuHelpers.currentLocale.set(initialLocale);
-}
+    return flatted;
+};
 
 // import { getFallbackOf } from './locale'
 // let dictionary: Dictionary
@@ -293,25 +158,30 @@ const formatMessage = (id, options = {}) => {
 const $format = store.derived([icuHelpers.currentLocale /*, $dictionary*/], () => formatMessage);
 
 Object.defineProperty(exports, 'dictionary', {
-    enumerable: true,
-    get: function () {
-        return icuHelpers.dictionary;
-    }
+  enumerable: true,
+  get: function () {
+    return icuHelpers.dictionary;
+  }
+});
+Object.defineProperty(exports, 'init', {
+  enumerable: true,
+  get: function () {
+    return icuHelpers.init;
+  }
 });
 Object.defineProperty(exports, 'locale', {
-    enumerable: true,
-    get: function () {
-        return icuHelpers.currentLocale;
-    }
+  enumerable: true,
+  get: function () {
+    return icuHelpers.currentLocale;
+  }
 });
 Object.defineProperty(exports, 'locales', {
-    enumerable: true,
-    get: function () {
-        return icuHelpers.locales;
-    }
+  enumerable: true,
+  get: function () {
+    return icuHelpers.locales;
+  }
 });
 exports._ = $format;
 exports.addMessages = addMessages;
 exports.format = $format;
-exports.init = init;
 exports.t = $format;
