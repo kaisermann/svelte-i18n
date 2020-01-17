@@ -1,13 +1,13 @@
-import { writable } from 'svelte/store'
-import { setLocale } from 'icu-helpers';
+// import { writable } from 'svelte/store'
+import { currentLocale } from 'icu-helpers';
 
 // import { flush, hasLocaleQueue } from '../includes/loaderQueue'
 // import { getOptions } from '../configs'
 
 // import { getClosestAvailableLocale } from './dictionary'
 
-let current: string
-const $locale = writable(null)
+// let current: string
+// const $locale = writable(null)
 
 // export function isFallbackLocaleOf(localeA: string, localeB: string) {
 //   return localeB.indexOf(localeA) === 0 && localeA !== localeB
@@ -49,17 +49,17 @@ const $locale = writable(null)
 //   return current
 // }
 
-$locale.subscribe((newLocale: string) => {
-  current = newLocale
+currentLocale.subscribe((newLocale: string) => {
+  // current = newLocale
 
   if (typeof window !== 'undefined') {
     document.documentElement.setAttribute('lang', newLocale)
   }
 })
 
-const localeSet = $locale.set
-$locale.set = (newLocale: string): void | Promise<void> => {
-  setLocale(newLocale);
+// const localeSet = $locale.set
+// $locale.set = (newLocale: string): void | Promise<void> => {
+  // setLocale(newLocale);
 
 
 
@@ -68,10 +68,10 @@ $locale.set = (newLocale: string): void | Promise<void> => {
   //   return flush(newLocale).then(() => localeSet(newLocale))
   // }
   // return localeSet(newLocale)
-}
+// }
 
 // istanbul ignore next
-$locale.update = (fn: (locale: string) => void | Promise<void>) =>
-  localeSet(fn(current))
+// $locale.update = (fn: (locale: string) => void | Promise<void>) =>
+//   localeSet(fn(current))
 
-export { $locale }
+export { currentLocale as $locale }

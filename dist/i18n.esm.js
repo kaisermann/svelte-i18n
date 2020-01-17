@@ -1,5 +1,6 @@
-import { writable, derived } from 'svelte/store';
-import { setLocale, addMessages as addMessages$1, lookupMessage } from 'icu-helpers';
+import { currentLocale, addMessages as addMessages$1, lookupMessage } from 'icu-helpers';
+export { currentLocale as locale } from 'icu-helpers';
+import { derived } from 'svelte/store';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -92,11 +93,12 @@ const getClientLocale = ({ navigator, hash, search, pathname, hostname, }) => {
     return null;
 };
 
+// import { writable } from 'svelte/store'
 // import { flush, hasLocaleQueue } from '../includes/loaderQueue'
 // import { getOptions } from '../configs'
 // import { getClosestAvailableLocale } from './dictionary'
-let current;
-const $locale = writable(null);
+// let current: string
+// const $locale = writable(null)
 // export function isFallbackLocaleOf(localeA: string, localeB: string) {
 //   return localeB.indexOf(localeA) === 0 && localeA !== localeB
 // }
@@ -129,22 +131,12 @@ const $locale = writable(null);
 // export function getCurrentLocale() {
 //   return current
 // }
-$locale.subscribe((newLocale) => {
-    current = newLocale;
+currentLocale.subscribe((newLocale) => {
+    // current = newLocale
     if (typeof window !== 'undefined') {
         document.documentElement.setAttribute('lang', newLocale);
     }
 });
-const localeSet = $locale.set;
-$locale.set = (newLocale) => {
-    setLocale(newLocale);
-    // if (getClosestAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
-    //   return flush(newLocale).then(() => localeSet(newLocale))
-    // }
-    // return localeSet(newLocale)
-};
-// istanbul ignore next
-$locale.update = (fn) => localeSet(fn(current));
 
 const defaultFormats = {
     number: {
@@ -203,7 +195,7 @@ function init(opts) {
             Object.assign(options.formats.time, formats.time);
         }
     }
-    return $locale.set(initialLocale);
+    return currentLocale.set(initialLocale);
 }
 
 // import { getFallbackOf } from './locale'
@@ -295,6 +287,6 @@ const formatMessage = (id, options = {}) => {
 // export const $formatTime = derived([$locale], () => formatTime)
 // export const $formatDate = derived([$locale], () => formatDate)
 // export const $formatNumber = derived([$locale], () => formatNumber)
-const $format = derived([$locale /*, $dictionary*/], () => formatMessage);
+const $format = derived([currentLocale /*, $dictionary*/], () => formatMessage);
 
-export { $format as _, addMessages, $format as format, init, $locale as locale, $format as t };
+export { $format as _, addMessages, $format as format, init, $format as t };

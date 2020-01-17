@@ -2,8 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var store = require('svelte/store');
 var icuHelpers = require('icu-helpers');
+var store = require('svelte/store');
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -96,11 +96,12 @@ const getClientLocale = ({ navigator, hash, search, pathname, hostname, }) => {
     return null;
 };
 
+// import { writable } from 'svelte/store'
 // import { flush, hasLocaleQueue } from '../includes/loaderQueue'
 // import { getOptions } from '../configs'
 // import { getClosestAvailableLocale } from './dictionary'
-let current;
-const $locale = store.writable(null);
+// let current: string
+// const $locale = writable(null)
 // export function isFallbackLocaleOf(localeA: string, localeB: string) {
 //   return localeB.indexOf(localeA) === 0 && localeA !== localeB
 // }
@@ -133,22 +134,12 @@ const $locale = store.writable(null);
 // export function getCurrentLocale() {
 //   return current
 // }
-$locale.subscribe((newLocale) => {
-    current = newLocale;
+icuHelpers.currentLocale.subscribe((newLocale) => {
+    // current = newLocale
     if (typeof window !== 'undefined') {
         document.documentElement.setAttribute('lang', newLocale);
     }
 });
-const localeSet = $locale.set;
-$locale.set = (newLocale) => {
-    icuHelpers.setLocale(newLocale);
-    // if (getClosestAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
-    //   return flush(newLocale).then(() => localeSet(newLocale))
-    // }
-    // return localeSet(newLocale)
-};
-// istanbul ignore next
-$locale.update = (fn) => localeSet(fn(current));
 
 const defaultFormats = {
     number: {
@@ -207,7 +198,7 @@ function init(opts) {
             Object.assign(options.formats.time, formats.time);
         }
     }
-    return $locale.set(initialLocale);
+    return icuHelpers.currentLocale.set(initialLocale);
 }
 
 // import { getFallbackOf } from './locale'
@@ -299,11 +290,16 @@ const formatMessage = (id, options = {}) => {
 // export const $formatTime = derived([$locale], () => formatTime)
 // export const $formatDate = derived([$locale], () => formatDate)
 // export const $formatNumber = derived([$locale], () => formatNumber)
-const $format = store.derived([$locale /*, $dictionary*/], () => formatMessage);
+const $format = store.derived([icuHelpers.currentLocale /*, $dictionary*/], () => formatMessage);
 
+Object.defineProperty(exports, 'locale', {
+    enumerable: true,
+    get: function () {
+        return icuHelpers.currentLocale;
+    }
+});
 exports._ = $format;
 exports.addMessages = addMessages;
 exports.format = $format;
 exports.init = init;
-exports.locale = $locale;
 exports.t = $format;

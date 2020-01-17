@@ -1,5 +1,5 @@
 import { derived } from 'svelte/store'
-import { lookupMessage, MessageFn } from 'icu-helpers'
+import { lookupMessage } from 'icu-helpers'
 
 import {
   MessageFormatter,
