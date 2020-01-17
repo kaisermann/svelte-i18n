@@ -292,10 +292,22 @@ const formatMessage = (id, options = {}) => {
 // export const $formatNumber = derived([$locale], () => formatNumber)
 const $format = store.derived([icuHelpers.currentLocale /*, $dictionary*/], () => formatMessage);
 
+Object.defineProperty(exports, 'dictionary', {
+    enumerable: true,
+    get: function () {
+        return icuHelpers.dictionary;
+    }
+});
 Object.defineProperty(exports, 'locale', {
     enumerable: true,
     get: function () {
         return icuHelpers.currentLocale;
+    }
+});
+Object.defineProperty(exports, 'locales', {
+    enumerable: true,
+    get: function () {
+        return icuHelpers.locales;
     }
 });
 exports._ = $format;

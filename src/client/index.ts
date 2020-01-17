@@ -17,8 +17,8 @@ export { init } from './configs'
 export { $locale as locale } from './stores/locale'
 
 export {
-  // $dictionary as dictionary,
-  // $locales as locales,
+  $dictionary as dictionary,
+  $locales as locales,
   addMessages,
 } from './stores/dictionary'
 // export { registerLocaleLoader as register } from './includes/loaderQueue'

@@ -1,5 +1,5 @@
 import { currentLocale, addMessages as addMessages$1, lookupMessage } from 'icu-helpers';
-export { currentLocale as locale } from 'icu-helpers';
+export { dictionary, currentLocale as locale, locales } from 'icu-helpers';
 import { derived } from 'svelte/store';
 
 /*! *****************************************************************************

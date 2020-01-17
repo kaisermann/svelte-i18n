@@ -1,4 +1,4 @@
-import { addMessages as addEntries } from 'icu-helpers';
+import { addMessages as addEntries, locales, dictionary } from 'icu-helpers';
 
 // import { writable, derived } from 'svelte/store'
 
@@ -60,3 +60,5 @@ export function addMessages(locale: string, partials: DeepDictionary) {
   const flattedPartials = flatObj(partials);
   addEntries(locale, flattedPartials);
 }
+
+export { dictionary as $dictionary, locales as $locales }
