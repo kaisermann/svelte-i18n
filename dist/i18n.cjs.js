@@ -145,17 +145,11 @@ const formatMessage = (id, options = {}) => {
     // if (!values) return message
     // return getMessageFormatter(message, locale).format(values)
 };
-// const formatTime: TimeFormatter = (t, options) =>
-//   getTimeFormatter(options).format(t)
-// const formatDate: DateFormatter = (d, options) =>
-//   getDateFormatter(options).format(d)
-// const formatNumber: NumberFormatter = (n, options) =>
-//   getNumberFormatter(options).format(n)
 // export const $format = derived([$locale, $dictionary], () => formatMessage)
-// export const $formatTime = derived([$locale], () => formatTime)
-// export const $formatDate = derived([$locale], () => formatDate)
-// export const $formatNumber = derived([$locale], () => formatNumber)
-const $format = store.derived([icuHelpers.currentLocale /*, $dictionary*/], () => formatMessage);
+const $formatTime = store.derived([icuHelpers.currentLocale], () => icuHelpers.formatTime);
+const $formatDate = store.derived([icuHelpers.currentLocale], () => icuHelpers.formatDate);
+const $formatNumber = store.derived([icuHelpers.currentLocale], () => icuHelpers.formatNumber);
+const $format = store.derived([icuHelpers.currentLocale, icuHelpers.dictionary], () => formatMessage);
 
 Object.defineProperty(exports, 'dictionary', {
   enumerable: true,
@@ -202,4 +196,7 @@ Object.defineProperty(exports, 'locales', {
 exports._ = $format;
 exports.addMessages = addMessages;
 exports.format = $format;
+exports.formatDate = $formatDate;
+exports.formatNumber = $formatNumber;
+exports.formatTime = $formatTime;
 exports.t = $format;

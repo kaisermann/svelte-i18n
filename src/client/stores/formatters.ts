@@ -1,24 +1,19 @@
 import { derived } from 'svelte/store'
-import { lookupMessage } from 'icu-helpers'
-
 import {
-  MessageFormatter,
-  // MessageObject,
-  // TimeFormatter,
-  // DateFormatter,
-  // NumberFormatter,
-} from '../types'
+  lookupMessage,
+  getTimeFormatter,
+  getDateFormatter,
+  getNumberFormatter,
+  formatTime,
+  formatDate,
+  formatNumber
+} from 'icu-helpers';
+
+import { MessageFormatter } from '../types'
 // import { lookup } from '../includes/lookup'
 // import { hasLocaleQueue } from '../includes/loaderQueue'
-// import {
-//   getMessageFormatter,
-//   getTimeFormatter,
-//   getDateFormatter,
-//   getNumberFormatter,
-// } from '../includes/formatters'
-// import { getOptions } from '../configs'
 
-// import { $dictionary } from './dictionary'
+import { $dictionary } from './dictionary'
 // import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale'
 import { $locale } from './locale'
 
@@ -65,19 +60,14 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
   // return getMessageFormatter(message, locale).format(values)
 }
 
-// const formatTime: TimeFormatter = (t, options) =>
-//   getTimeFormatter(options).format(t)
-
-// const formatDate: DateFormatter = (d, options) =>
-//   getDateFormatter(options).format(d)
-
-// const formatNumber: NumberFormatter = (n, options) =>
-//   getNumberFormatter(options).format(n)
-
 // export const $format = derived([$locale, $dictionary], () => formatMessage)
-// export const $formatTime = derived([$locale], () => formatTime)
-// export const $formatDate = derived([$locale], () => formatDate)
-// export const $formatNumber = derived([$locale], () => formatNumber)
-
-export const $format = derived([$locale/*, $dictionary*/], () => formatMessage)
+export const $formatTime = derived([$locale], () => formatTime)
+export const $formatDate = derived([$locale], () => formatDate)
+export const $formatNumber = derived([$locale], () => formatNumber)
+export const $format = derived([$locale, $dictionary], () => formatMessage)
+export {
+  getTimeFormatter,
+  getDateFormatter,
+  getNumberFormatter
+}
 

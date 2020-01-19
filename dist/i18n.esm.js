@@ -1,4 +1,4 @@
-import { currentLocale, addMessages as addMessages$1, lookupMessage } from 'icu-helpers';
+import { currentLocale, addMessages as addMessages$1, formatTime, formatDate, formatNumber, dictionary, lookupMessage } from 'icu-helpers';
 export { dictionary, getDateFormatter, getNumberFormatter, getTimeFormatter, init, currentLocale as locale, locales } from 'icu-helpers';
 import { derived } from 'svelte/store';
 
@@ -142,16 +142,10 @@ const formatMessage = (id, options = {}) => {
     // if (!values) return message
     // return getMessageFormatter(message, locale).format(values)
 };
-// const formatTime: TimeFormatter = (t, options) =>
-//   getTimeFormatter(options).format(t)
-// const formatDate: DateFormatter = (d, options) =>
-//   getDateFormatter(options).format(d)
-// const formatNumber: NumberFormatter = (n, options) =>
-//   getNumberFormatter(options).format(n)
 // export const $format = derived([$locale, $dictionary], () => formatMessage)
-// export const $formatTime = derived([$locale], () => formatTime)
-// export const $formatDate = derived([$locale], () => formatDate)
-// export const $formatNumber = derived([$locale], () => formatNumber)
-const $format = derived([currentLocale /*, $dictionary*/], () => formatMessage);
+const $formatTime = derived([currentLocale], () => formatTime);
+const $formatDate = derived([currentLocale], () => formatDate);
+const $formatNumber = derived([currentLocale], () => formatNumber);
+const $format = derived([currentLocale, dictionary], () => formatMessage);
 
-export { $format as _, addMessages, $format as format, $format as t };
+export { $format as _, addMessages, $format as format, $formatDate as formatDate, $formatNumber as formatNumber, $formatTime as formatTime, $format as t };
