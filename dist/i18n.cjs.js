@@ -163,6 +163,24 @@ Object.defineProperty(exports, 'dictionary', {
     return icuHelpers.dictionary;
   }
 });
+Object.defineProperty(exports, 'getDateFormatter', {
+  enumerable: true,
+  get: function () {
+    return icuHelpers.getDateFormatter;
+  }
+});
+Object.defineProperty(exports, 'getNumberFormatter', {
+  enumerable: true,
+  get: function () {
+    return icuHelpers.getNumberFormatter;
+  }
+});
+Object.defineProperty(exports, 'getTimeFormatter', {
+  enumerable: true,
+  get: function () {
+    return icuHelpers.getTimeFormatter;
+  }
+});
 Object.defineProperty(exports, 'init', {
   enumerable: true,
   get: function () {

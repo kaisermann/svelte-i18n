@@ -1,5 +1,5 @@
 import { currentLocale, addMessages as addMessages$1, lookupMessage } from 'icu-helpers';
-export { dictionary, init, currentLocale as locale, locales } from 'icu-helpers';
+export { dictionary, getDateFormatter, getNumberFormatter, getTimeFormatter, init, currentLocale as locale, locales } from 'icu-helpers';
 import { derived } from 'svelte/store';
 
 // import { writable } from 'svelte/store'

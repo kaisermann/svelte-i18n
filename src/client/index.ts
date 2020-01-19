@@ -35,9 +35,9 @@ export {
 } from './stores/formatters'
 
 // low-level
-// export {
-//   getDateFormatter,
-//   getNumberFormatter,
-//   getTimeFormatter,
-//   getMessageFormatter,
-// } from './includes/formatters'
+export {
+  getDateFormatter,
+  getNumberFormatter,
+  getTimeFormatter,
+  // getMessageFormatter,
+} from 'icu-helpers'
