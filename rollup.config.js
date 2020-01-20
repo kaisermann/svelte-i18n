@@ -40,11 +40,11 @@ export default [
     plugins: [autoExternal(), commonjs(), ts(), PROD && terser()],
   },
   {
-    input: 'src/rollup-plugin/precompile-i18n.js',
+    input: 'src/rollup-plugin/precompile-intl.js',
     output: [
       {
         file: pkg.rollupPlugin,
-        name: 'rollup-plugin-precompile-i18n.js',
+        name: 'rollup-plugin-precompile-intl.js',
         format: 'cjs',
       },
     ],
