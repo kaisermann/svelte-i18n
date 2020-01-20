@@ -1,1 +1,1 @@
-export * from 'icu-helpers'
+export * from 'precompile-intl-runtime'

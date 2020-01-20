@@ -10,12 +10,7 @@ const PROD = !process.env.ROLLUP_WATCH
 export default [
   {
     input: 'src/client/index.ts',
-    external: [
-      // "icu-helpers"
-    //   ...Object.keys(pkg.dependencies),
-    //   ...Object.keys(pkg.peerDependencies),
-    //   'svelte/store',
-    ],
+    external: [],
     output: [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
@@ -24,26 +19,26 @@ export default [
       commonjs(),
       autoExternal(),
       ts(),
-      // PROD && terser()
+      PROD && terser()
     ],
   },
-  // {
-  //   input: 'src/cli/index.ts',
+  {
+    input: 'src/cli/index.ts',
 
-  //   // external: id => {
-  //   //   if (id.startsWith('/')) return false
-  //   //   return externals.has(id) || id.match(/svelte/gi)
-  //   // },
-  //   output: [
-  //     {
-  //       file: pkg.bin['svelte-i18n'],
-  //       name: 'cli.js',
-  //       format: 'cjs',
-  //       banner: `#!/usr/bin/env node`,
-  //     },
-  //   ],
-  //   plugins: [autoExternal(), commonjs(), ts(), PROD && terser()],
-  // },
+    // external: id => {
+    //   if (id.startsWith('/')) return false
+    //   return externals.has(id) || id.match(/svelte/gi)
+    // },
+    output: [
+      {
+        file: pkg.bin['svelte-i18n'],
+        name: 'cli.js',
+        format: 'cjs',
+        banner: `#!/usr/bin/env node`,
+      },
+    ],
+    plugins: [autoExternal(), commonjs(), ts(), PROD && terser()],
+  },
   {
     input: 'src/rollup-plugin/precompile-i18n.js',
     output: [
