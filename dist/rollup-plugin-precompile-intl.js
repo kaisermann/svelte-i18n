@@ -20,7 +20,6 @@ function precompileIntl(options = {}) {
         const { code: newCode } = babel.transform(code, {
           plugins: [intlPrecompiler],
         });
-        console.log(`compiled ${id} to: `, newCode);
         return { code: newCode, map: { mappings: '' } }
       }
     },
