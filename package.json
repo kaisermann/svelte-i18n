@@ -4,6 +4,9 @@
   "main": "dist/i18n.cjs.js",
   "module": "dist/i18n.esm.js",
   "rollupPlugin": "dist/rollup-plugin-precompile-i18n.js",
+  "bin": {
+    "svelte-i18n": "dist/cli.js"
+  },
   "license": "MIT",
   "description": "Internationalization library for Svelte",
   "author": "Christian Kaisermann <christian@kaisermann.me>",
@@ -53,7 +56,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
-    "@types/estree": "0.0.39",
+    "@types/estree": "0.0.42",
     "@types/intl": "^1.2.0",
     "@types/jest": "^24.0.23",
     "babel-core": "^7.0.0-bridge.0",
@@ -68,7 +71,7 @@
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-terser": "^5.1.3",
-    "rollup-plugin-typescript2": "^0.25.2",
+    "@rollup/plugin-typescript": "^2.1.0",
     "sass": "^1.23.6",
     "svelte": "^3.14.1",
     "svelte-preprocess": "^3.2.6",

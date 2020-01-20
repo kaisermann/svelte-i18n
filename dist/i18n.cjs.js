@@ -1,16 +1,1 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var icuHelpers = require('icu-helpers');
-
-
-
-Object.keys(icuHelpers).forEach(function (k) {
-	if (k !== 'default') Object.defineProperty(exports, k, {
-		enumerable: true,
-		get: function () {
-			return icuHelpers[k];
-		}
-	});
-});
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("precompile-intl-runtime");Object.keys(e).forEach((function(r){"default"!==r&&Object.defineProperty(exports,r,{enumerable:!0,get:function(){return e[r]}})}));
