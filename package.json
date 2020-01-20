@@ -3,7 +3,7 @@
   "version": "2.2.3",
   "main": "dist/i18n.cjs.js",
   "module": "dist/i18n.esm.js",
-  "rollupPlugin": "dist/rollup-plugin-precompile-i18n.js",
+  "rollupPlugin": "dist/rollup-plugin-precompile-intl.js",
   "bin": {
     "svelte-i18n": "dist/cli.js"
   },

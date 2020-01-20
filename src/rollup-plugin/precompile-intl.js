@@ -1,7 +1,7 @@
 // const extname = require('path').extname
 const createFilter = require('rollup-pluginutils').createFilter
 const babel = require('babel-core')
-const icuPrecompiler = require('babel-plugin-precompile-icu')
+const intlPrecompiler = require('babel-plugin-precompile-intl')
 
 /**
  * @param options
@@ -16,7 +16,7 @@ export default function(options = {}) {
     transform: (code, id) => {
       if (filter(id)) {
         const { code: newCode } = babel.transform(code, {
-          plugins: [icuPrecompiler],
+          plugins: [intlPrecompiler],
         });
         console.log(`compiled ${id} to: `, newCode);
         return { code: newCode, map: { mappings: '' } }
