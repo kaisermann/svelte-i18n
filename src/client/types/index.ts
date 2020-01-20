@@ -44,10 +44,6 @@ type IntlFormatterOptions<T> = T & {
   locale?: string
 }
 
-export interface MemoizedIntlFormatter<T, U> {
-  (options?: IntlFormatterOptions<U>): T
-}
-
 export interface MessagesLoader {
   (): Promise<any>
 }

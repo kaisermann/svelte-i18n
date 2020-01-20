@@ -50,8 +50,6 @@ import { currentLocale } from 'icu-helpers';
 // }
 
 currentLocale.subscribe((newLocale: string) => {
-  // current = newLocale
-
   if (typeof window !== 'undefined') {
     document.documentElement.setAttribute('lang', newLocale)
   }

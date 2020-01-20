@@ -44,7 +44,6 @@ var store = require('svelte/store');
 //   return current
 // }
 icuHelpers.currentLocale.subscribe((newLocale) => {
-    // current = newLocale
     if (typeof window !== 'undefined') {
         document.documentElement.setAttribute('lang', newLocale);
     }
@@ -108,48 +107,13 @@ function addMessages(locale, partials) {
     icuHelpers.addMessages(locale, flattedPartials);
 }
 
-const formatMessage = (id, options = {}) => {
-    const message = icuHelpers.lookupMessage(id);
-    if (typeof message === 'string') {
-        return message;
-    }
-    else {
-        return message(...Object.keys(options.values).sort().map(k => options.values[k]));
-    }
-    // if (typeof id === 'object') {
-    //   options = id as MessageObject
-    //   id = options.id
-    // }
-    // const { values, locale = getCurrentLocale(), default: defaultValue } = options
-    // if (locale == null) {
-    //   throw new Error(
-    //     '[svelte-i18n] Cannot format a message without first setting the initial locale.'
-    //   )
-    // }
-    // const message = lookup(id, locale)
-    // if (!message) {
-    //   if (getOptions().warnOnMissingMessages) {
-    //     // istanbul ignore next
-    //     console.warn(
-    //       `[svelte-i18n] The message "${id}" was not found in "${getRelatedLocalesOf(
-    //         locale
-    //       ).join('", "')}".${
-    //         hasLocaleQueue(getCurrentLocale())
-    //           ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
-    //           : ''
-    //       }`
-    //     )
-    //   }
-    //   return defaultValue || id
-    // }
-    // if (!values) return message
-    // return getMessageFormatter(message, locale).format(values)
-};
-// export const $format = derived([$locale, $dictionary], () => formatMessage)
+// import { lookup } from '../includes/lookup'
+// import { hasLocaleQueue } from '../includes/loaderQueue'
+// import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale'
 const $formatTime = store.derived([icuHelpers.currentLocale], () => icuHelpers.formatTime);
 const $formatDate = store.derived([icuHelpers.currentLocale], () => icuHelpers.formatDate);
 const $formatNumber = store.derived([icuHelpers.currentLocale], () => icuHelpers.formatNumber);
-const $format = store.derived([icuHelpers.currentLocale, icuHelpers.dictionary], () => formatMessage);
+const $format = store.derived([icuHelpers.currentLocale, icuHelpers.dictionary], () => icuHelpers.formatMessage);
 
 Object.defineProperty(exports, 'dictionary', {
   enumerable: true,

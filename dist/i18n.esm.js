@@ -1,4 +1,4 @@
-import { currentLocale, addMessages as addMessages$1, formatTime, formatDate, formatNumber, dictionary, lookupMessage } from 'icu-helpers';
+import { currentLocale, addMessages as addMessages$1, formatTime, formatDate, formatNumber, dictionary, formatMessage } from 'icu-helpers';
 export { dictionary, getDateFormatter, getNumberFormatter, getTimeFormatter, init, currentLocale as locale, locales } from 'icu-helpers';
 import { derived } from 'svelte/store';
 
@@ -41,7 +41,6 @@ import { derived } from 'svelte/store';
 //   return current
 // }
 currentLocale.subscribe((newLocale) => {
-    // current = newLocale
     if (typeof window !== 'undefined') {
         document.documentElement.setAttribute('lang', newLocale);
     }
@@ -105,44 +104,9 @@ function addMessages(locale, partials) {
     addMessages$1(locale, flattedPartials);
 }
 
-const formatMessage = (id, options = {}) => {
-    const message = lookupMessage(id);
-    if (typeof message === 'string') {
-        return message;
-    }
-    else {
-        return message(...Object.keys(options.values).sort().map(k => options.values[k]));
-    }
-    // if (typeof id === 'object') {
-    //   options = id as MessageObject
-    //   id = options.id
-    // }
-    // const { values, locale = getCurrentLocale(), default: defaultValue } = options
-    // if (locale == null) {
-    //   throw new Error(
-    //     '[svelte-i18n] Cannot format a message without first setting the initial locale.'
-    //   )
-    // }
-    // const message = lookup(id, locale)
-    // if (!message) {
-    //   if (getOptions().warnOnMissingMessages) {
-    //     // istanbul ignore next
-    //     console.warn(
-    //       `[svelte-i18n] The message "${id}" was not found in "${getRelatedLocalesOf(
-    //         locale
-    //       ).join('", "')}".${
-    //         hasLocaleQueue(getCurrentLocale())
-    //           ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
-    //           : ''
-    //       }`
-    //     )
-    //   }
-    //   return defaultValue || id
-    // }
-    // if (!values) return message
-    // return getMessageFormatter(message, locale).format(values)
-};
-// export const $format = derived([$locale, $dictionary], () => formatMessage)
+// import { lookup } from '../includes/lookup'
+// import { hasLocaleQueue } from '../includes/loaderQueue'
+// import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale'
 const $formatTime = derived([currentLocale], () => formatTime);
 const $formatDate = derived([currentLocale], () => formatDate);
 const $formatNumber = derived([currentLocale], () => formatNumber);

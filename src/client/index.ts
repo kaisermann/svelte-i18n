@@ -12,18 +12,14 @@
 //   return flush(locale || getCurrentLocale() || getOptions().initialLocale)
 // }
 
-export { init } from './configs'
-
+// export { registerLocaleLoader as register } from './includes/loaderQueue'
+// export { $isLoading as isLoading } from './stores/loading'
 export { $locale as locale } from './stores/locale'
-
 export {
   $dictionary as dictionary,
   $locales as locales,
   addMessages,
 } from './stores/dictionary'
-// export { registerLocaleLoader as register } from './includes/loaderQueue'
-
-// export { $isLoading as isLoading } from './stores/loading'
 
 export {
   $format as format,
@@ -36,8 +32,8 @@ export {
 
 // low-level
 export {
+  init,
   getDateFormatter,
   getNumberFormatter,
   getTimeFormatter,
-  // getMessageFormatter,
 } from 'icu-helpers'
