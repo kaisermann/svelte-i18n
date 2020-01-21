@@ -11,7 +11,7 @@ import { walk } from 'estree-walker'
 import { Ast } from 'svelte/types/compiler/interfaces'
 import { parse } from 'svelte/compiler'
 
-import { getIn } from './includes/getIn'
+import { deepGet } from './includes/deepGet'
 import { deepSet } from './includes/deepSet'
 import { getObjFromExpression } from './includes/getObjFromExpression'
 import { Message } from './types'
@@ -173,7 +173,7 @@ export function extractMessages(
     } else {
       if (
         overwrite === false &&
-        typeof getIn(accumulator, message.meta.id) !== 'undefined'
+        typeof deepGet(accumulator, message.meta.id) !== 'undefined'
       ) {
         return
       }
