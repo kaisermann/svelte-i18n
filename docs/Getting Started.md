@@ -26,7 +26,7 @@ There are two different ways of adding a new dicitonary of messages to a certain
 
 ##### 2.1 Synchronous
 
-Just `import`/`require` your locale `.json` files and pass them to the [`addMessages(locale, dict)`](/docs/Methods.md#addmessages) method.
+Just `import`/`require` your locale `.json` files and pass them to the [`addMessages(locale, dict)`](/docs/Methods.md#addmessage) method.
 
 ```js
 // src/i18n.js
@@ -60,7 +60,7 @@ register('pt', () => import('./pt.json'))
 
 #### 3. Initializing
 
-After populating your [`$dictionary`](/docs/Dictionary) with [`addMessages()`](/docs/Methods.md#addmessages) or registering loaders via [`register()`](/docs/Methods.md#register), you are ready to bootstrap the library. You can use [`init()`](/docs/Methods.md#init) to define the fallback locale, initial locale and other options of your app.
+After populating your [`$dictionary`](/docs/Dictionary.md) with [`addMessages()`](/docs/Methods.md#addmessages) or registering loaders via [`register()`](/docs/Methods.md#register), you are ready to bootstrap the library. You can use [`init()`](/docs/Methods.md#init) to define the fallback locale, initial locale and other options of your app.
 
 ```js
 // src/i18n.js
@@ -104,7 +104,7 @@ Please note that the `fallbackLocale` is always loaded, independent of the curre
 
 #### 4. Localizing your app
 
-After having the initial locale set, you're ready to start localizing your app. Import the [`$format`](/docs/Formatting) method, or any of its aliases, to any component that needs to be translated. Then, just call [`$format`](/docs/Formatting) passing the message `id` on your layout and voila! 🎉
+After having the initial locale set, you're ready to start localizing your app. Import the [`$format`](/docs/Formatting.md) method, or any of its aliases, to any component that needs to be translated. Then, just call [`$format`](/docs/Formatting.md) passing the message `id` on your layout and voila! 🎉
 
 ```svelte
 <script>
@@ -121,4 +121,4 @@ After having the initial locale set, you're ready to start localizing your app. 
 </nav>
 ```
 
-See [Formatting](/docs/Formatting) to read about the supported message syntax.
+See [Formatting](/docs/Formatting.md) to read about the supported message syntax.

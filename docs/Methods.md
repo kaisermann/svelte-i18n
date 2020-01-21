@@ -65,7 +65,7 @@ interface Formats {
 }
 ```
 
-Please refer to the [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) and [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat) documentations to see available formatting options.
+Please refer to the [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat.md) and [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat.md) documentations to see available formatting options.
 
 **Example**:
 
@@ -137,7 +137,7 @@ register('en', () => import('./_locales/en.json'))
 register('pt', () => import('./_locales/pt.json'))
 ```
 
-See [how to asynchronously load dictionaries](/svelte-i18n/wiki#22-asynchronous).
+See [how to asynchronously load dictionaries](/svelte-i18n/blob/master/docs#22-asynchronous).
 
 #### waitLocale
 
@@ -145,7 +145,7 @@ See [how to asynchronously load dictionaries](/svelte-i18n/wiki#22-asynchronous)
 
 `waitLocale(locale: string = $locale): Promise<void>`
 
-Executes the queue of `locale`. If the queue isn't resolved yet, the same promise is returned. Great to use in the `preload` method of Sapper for awaiting [`loaders`](/svelte-i18n/wiki#22-asynchronous).
+Executes the queue of `locale`. If the queue isn't resolved yet, the same promise is returned. Great to use in the `preload` method of Sapper for awaiting [`loaders`](/svelte-i18n/blob/master/docs#22-asynchronous).
 
 **Example**:
 
