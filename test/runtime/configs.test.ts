@@ -29,25 +29,6 @@ test('inits the initial locale by string', () => {
   expect(get($locale)).toBe('en')
 })
 
-test('inits the initial locale by client heuristics', () => {
-  delete window.location
-  window.location = {
-    search: '?lang=en-US&foo',
-    pathname: '/',
-    hostname: 'example.com',
-    hash: '',
-  } as any
-
-  init({
-    fallbackLocale: 'pt',
-    initialLocale: {
-      search: 'lang',
-    },
-  })
-  expect(getOptions().initialLocale).toBe('en-US')
-  expect(get($locale)).toBe('en-US')
-})
-
 test('adds custom formats for time, date and number values', () => {
   const customFormats = require('../fixtures/formats.json')
 
