@@ -60,62 +60,45 @@ If the message id literal value is not in the root of the dicitonary, `.` (dots)
 <div>{$_('deep.prop')}</div> <!-- Deep property -->
 ```
 
-### Formatting utilities
+### `$time(number: Date, options: MessageObject)`
 
-The formatter method also provides some casing methods:
-
-- `_.upper` - transforms a localized message into uppercase;
-- `_.lower` - transforms a localized message into lowercase;
-- `_.capital` - capitalize a localized message;
-- `_.title` - transforms the message into title case;
-
-```html
-<div>{$_.upper('greeting.ask')}</div>
-<!-- PLEASE TYPE YOUR NAME -->
-
-<div>{$_.lower('greeting.ask')}</div>
-<!-- please type your name -->
-
-<div>{$_.capital('greeting.ask')}</div>
-<!-- Please type your name -->
-
-<div>{$_.title('greeting.ask')}</div>
-<!-- Please Type Your Name -->
-```
-
-#### `_.time(time: Date, options: MessageObject): string`
+`import { time } from 'svelte-i18n'`
 
 Formats a date object into a time string with the specified format. Please refer to the [#formats](#formats) section to see available formats.
 
 ```html
-<div>{$_.time(new Date(2019, 3, 24, 23, 45))}</div>
+<div>{$time(new Date(2019, 3, 24, 23, 45))}</div>
 <!-- 11:45 PM -->
 
-<div>{$_.time(new Date(2019, 3, 24, 23, 45), { format: 'medium' } )}</div>
+<div>{$time(new Date(2019, 3, 24, 23, 45), { format: 'medium' } )}</div>
 <!-- 11:45:00 PM -->
 ```
 
-#### `_.date(date: Date, options: MessageObject): string`
+#### `$date(date: Date, options: MessageObject)`
+
+`import { date } from 'svelte-i18n'`
 
 Formats a date object into a string with the specified format. Please refer to the [#formats](#formats) section to see available formats.
 
 ```html
-<div>{$_.date(new Date(2019, 3, 24, 23, 45))}</div>
+<div>{$date(new Date(2019, 3, 24, 23, 45))}</div>
 <!-- 4/24/19 -->
 
-<div>{$_.date(new Date(2019, 3, 24, 23, 45), { format: 'medium' } )}</div>
+<div>{$date(new Date(2019, 3, 24, 23, 45), { format: 'medium' } )}</div>
 <!-- Apr 24, 2019 -->
 ```
 
-#### `_.number(number: number, options: MessageObject): string`
+#### `$number(number: number, options: MessageObject)`
+
+`import { number } from 'svelte-i18n'`
 
 Formats a number with the specified locale and format. Please refer to the [#formats](#formats) section to see available formats.
 
 ```html
-<div>{$_.number(100000000)}</div>
+<div>{$number(100000000)}</div>
 <!-- 100,000,000 -->
 
-<div>{$_.number(100000000, { locale: 'pt' })}</div>
+<div>{$number(100000000, { locale: 'pt' })}</div>
 <!-- 100.000.000 -->
 ```
 
