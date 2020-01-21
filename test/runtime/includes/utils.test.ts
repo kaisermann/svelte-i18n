@@ -1,11 +1,5 @@
-import {
-  getClientLocale,
-  capital,
-  title,
-  upper,
-  lower,
-  flatObj,
-} from '../../../src/runtime/includes/utils'
+import { getClientLocale } from '../../../src/client/includes/getClientLocale'
+import { flatObj } from '../../../src/client/includes/flatObj'
 
 describe('getting client locale', () => {
   beforeEach(() => {
@@ -110,24 +104,6 @@ describe('getting client locale', () => {
         search: 'lang',
       })
     ).toBe(null)
-  })
-})
-
-describe('string utilities', () => {
-  test('transforms a string into capital case', () => {
-    expect(capital('lowercase string')).toMatch('Lowercase string')
-  })
-
-  test('transforms a string into title case', () => {
-    expect(title('lowercase string')).toMatch('Lowercase String')
-  })
-
-  test('transforms a string into uppercase', () => {
-    expect(upper('lowercase string')).toMatch('LOWERCASE STRING')
-  })
-
-  test('transforms a string into lowercase', () => {
-    expect(lower('UPPERCASE STRING')).toMatch('uppercase string')
   })
 })
 
