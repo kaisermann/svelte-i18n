@@ -8,10 +8,11 @@ import {
   getCurrentLocale,
   $locale,
   isRelatedLocale,
-} from '../../../src/runtime/stores/locale'
-import { getOptions, init } from '../../../src/runtime/configs'
-import { register } from '../../../src/runtime'
-import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue'
+} from '../../../src/client/stores/locale'
+import { getOptions, init } from '../../../src/client/configs'
+import { register } from '../../../src/client'
+import { hasLocaleQueue } from '../../../src/client/includes/loaderQueue'
+import { getClientLocale } from '../../../src/client/includes/getClientLocale'
 
 beforeEach(() => {
   init({ fallbackLocale: undefined })
@@ -113,9 +114,7 @@ test('if no initial locale is set, set the locale to the fallback', () => {
 test('if no initial locale was found, set to the fallback locale', () => {
   init({
     fallbackLocale: 'en',
-    initialLocale: {
-      hash: 'lang',
-    },
+    initialLocale: null,
   })
   expect(get($locale)).toBe('en')
   expect(getOptions().fallbackLocale).toBe('en')

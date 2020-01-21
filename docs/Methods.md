@@ -10,46 +10,24 @@ Method responsible for configuring some of the library behaviours such as the gl
 interface InitOptions {
   // the global fallback locale
   fallbackLocale: string
-  // set of heuristic configs to define the client's locale
-  initialLocale?: InitialLocaleOptions
+  // the app initial locale
+  initialLocale?: string
   // custom time/date/number formats
   formats?: Formats
   // loading delay interval
   loadingDelay?: number
-}
-
-interface InitialLocaleOptions {
-  // the fallback locale to use if no message is found in the current one
-  fallback?: string
-  // when 'true', check the 'window.navigator.language' to set the current locale
-  navigator?: boolean
-  // key to look for a locale on 'window.location.search'
-  // 'example.com?locale=en-US'
-  search?: string
-  // key to look for a locale on 'window.location.hash'
-  // 'example.com#locale=en-US'
-  hash?: string
-  // pattern to look in the window.location.pathname.
-  // It returns the first capturing group.
-  pathname?: RegExp
-  // pattern to look in the window.location.hostname.
-  // It returns the first capturing group.
-  hostname?: RegExp
 }
 ```
 
 **Example**:
 
 ```js
-import { init } from 'svelte-i18n'
+import { init, getClientLocale } from 'svelte-i18n'
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
-  initialLocale: {
-    // based on the user's browser
-    navigator: true,
-  },
+  initialLocale: 'pt-br',
 })
 ```
 
@@ -88,6 +66,50 @@ init({
   {$_.number(123456.789, { format: 'EUR' })}
 </div>
 <!-- 123.456,79 € -->
+```
+
+#### getClientLocale
+
+> `import { getClientLocale } from 'svelte-i18n'`
+
+`getClientLocale(options: GetClientLocaleOptions): void`
+
+Optional utility method to help getting the initial locale of a user. Use it together with the [`init()`](#init) method.
+
+```ts
+interface GetClientLocaleOptions {
+  // the fallback locale to use if no message is found in the current one
+  fallback?: string
+  // when 'true', check the 'window.navigator.language' to set the current locale
+  navigator?: boolean
+  // key to look for a locale on 'window.location.search'
+  // 'example.com?locale=en-US'
+  search?: string
+  // key to look for a locale on 'window.location.hash'
+  // 'example.com#locale=en-US'
+  hash?: string
+  // pattern to look in the window.location.pathname.
+  // It returns the first capturing group.
+  pathname?: RegExp
+  // pattern to look in the window.location.hostname.
+  // It returns the first capturing group.
+  hostname?: RegExp
+}
+```
+
+**Example**:
+
+```js
+import { init, getClientLocale } from 'svelte-i18n'
+
+init({
+  // fallback to en if current locale is not in the dictionary
+  fallbackLocale: 'en',
+  initialLocale: getClientLocale({
+    // based on the user's browser
+    navigator: true,
+  }),
+})
 ```
 
 #### addMessages

@@ -1,4 +1,3 @@
-import { getClientLocale } from './includes/getClientLocale'
 import { ConfigureOptions } from './types'
 import { $locale } from './stores/locale'
 
@@ -63,11 +62,7 @@ export function getOptions() {
 
 export function init(opts: ConfigureOptions) {
   const { formats, ...rest } = opts
-  const initialLocale = opts.initialLocale
-    ? typeof opts.initialLocale === 'string'
-      ? opts.initialLocale
-      : getClientLocale(opts.initialLocale) || opts.fallbackLocale
-    : opts.fallbackLocale
+  const initialLocale = opts.initialLocale || opts.fallbackLocale
 
   Object.assign(options, rest, { initialLocale })
 
