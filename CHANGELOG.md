@@ -1,3 +1,7 @@
+## [2.2.4](https://github.com/kaisermann/svelte-i18n/compare/v2.2.2...v2.2.4) (2020-01-21)
+
+
+
 ## [2.2.3](https://github.com/kaisermann/svelte-i18n/compare/v2.2.2...v2.2.3) (2020-01-15)
 
 ### Refactor
