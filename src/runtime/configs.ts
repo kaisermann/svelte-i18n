@@ -1,4 +1,4 @@
-import { getClientLocale } from './includes/utils'
+import { getClientLocale } from './includes/getClientLocale'
 import { ConfigureOptions } from './types'
 import { $locale } from './stores/locale'
 
