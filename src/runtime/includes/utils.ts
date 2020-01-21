@@ -1,21 +1,5 @@
 import { GetClientLocaleOptions } from '../types'
 
-export function capital(str: string) {
-  return str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
-}
-
-export function title(str: string) {
-  return str.replace(/(^|\s)\S/g, l => l.toLocaleUpperCase())
-}
-
-export function upper(str: string) {
-  return str.toLocaleUpperCase()
-}
-
-export function lower(str: string) {
-  return str.toLocaleLowerCase()
-}
-
 // could use a reduce, but a simple for-in has less footprint
 export const flatObj = (obj: Record<string, any>, prefix = '') => {
   const flatted: Record<string, string> = {}
