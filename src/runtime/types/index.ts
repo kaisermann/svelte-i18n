@@ -14,25 +14,9 @@ export interface MessageObject {
   values?: Record<string, string | number | Date>
 }
 
-export type MessageFormatter = (
-  id: string | MessageObject,
-  options?: MessageObject
-) => string
-
-export type TimeFormatter = (
-  d: Date | number,
-  options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
-) => string
-
-export type DateFormatter = (
-  d: Date | number,
-  options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
-) => string
-
-export type NumberFormatter = (
-  d: number,
-  options?: IntlFormatterOptions<Intl.NumberFormatOptions>
-) => string
+interface FormatterFn {
+  (id: string | MessageObject, options?: MessageObject): string
+}
 
 type IntlFormatterOptions<T> = T & {
   format?: string
@@ -41,6 +25,25 @@ type IntlFormatterOptions<T> = T & {
 
 export interface MemoizedIntlFormatter<T, U> {
   (options?: IntlFormatterOptions<U>): T
+}
+
+export interface Formatter extends FormatterFn {
+  time: (
+    d: Date | number,
+    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
+  ) => string
+  date: (
+    d: Date | number,
+    options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>
+  ) => string
+  number: (
+    d: number,
+    options?: IntlFormatterOptions<Intl.NumberFormatOptions>
+  ) => string
+  capital: FormatterFn
+  title: FormatterFn
+  upper: FormatterFn
+  lower: FormatterFn
 }
 
 export interface MessagesLoader {
