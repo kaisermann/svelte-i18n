@@ -2,4 +2,8 @@ node_modules
 *.log
 dist/
 coverage/
+<<<<<<< HEAD
 /types/
+=======
+types/
+>>>>>>> feat: 🎸 add runtime typings
