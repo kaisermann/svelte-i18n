@@ -1,5 +1,5 @@
-import { getClientLocale } from '../../../src/client/includes/getClientLocale'
-import { flatObj } from '../../../src/client/includes/flatObj'
+import { getClientLocale } from '../../../src/runtime/includes/getClientLocale'
+import { flatObj } from '../../../src/runtime/includes/flatObj'
 
 describe('getting client locale', () => {
   beforeEach(() => {

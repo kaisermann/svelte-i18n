@@ -8,11 +8,10 @@ import {
   getCurrentLocale,
   $locale,
   isRelatedLocale,
-} from '../../../src/client/stores/locale'
-import { getOptions, init } from '../../../src/client/configs'
-import { register } from '../../../src/client'
-import { hasLocaleQueue } from '../../../src/client/includes/loaderQueue'
-import { getClientLocale } from '../../../src/client/includes/getClientLocale'
+} from '../../../src/runtime/stores/locale'
+import { getOptions, init } from '../../../src/runtime/configs'
+import { register } from '../../../src/runtime'
+import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue'
 
 beforeEach(() => {
   init({ fallbackLocale: undefined })
