@@ -11,6 +11,5 @@
     "lib": ["es2018", "dom", "esnext"],
     "outDir": "dist",
     "types": ["svelte", "jest"]
-  },
-  "exclude": ["node_modules/**/*", "dist"]
+  }
 }

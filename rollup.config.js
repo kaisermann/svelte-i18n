@@ -9,7 +9,7 @@ const PROD = !process.env.ROLLUP_WATCH
 
 export default [
   {
-    input: 'src/client/index.ts',
+    input: 'src/runtime/index.ts',
     external: [
       ...Object.keys(pkg.dependencies),
       ...Object.keys(pkg.peerDependencies),

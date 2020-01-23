@@ -1,11 +1,11 @@
-import { defineMessages, waitLocale, register, init } from '../../src/client'
-import { $locale } from '../../src/client/stores/locale'
-import { hasLocaleQueue } from '../../src/client/includes/loaderQueue'
+import { defineMessages, waitLocale, register, init } from '../../src/runtime'
+import { $locale } from '../../src/runtime/stores/locale'
+import { hasLocaleQueue } from '../../src/runtime/includes/loaderQueue'
 import {
   getLocaleDictionary,
   $dictionary,
-} from '../../src/client/stores/dictionary'
-import { $format } from '../../src/client/stores/format'
+} from '../../src/runtime/stores/dictionary'
+import { $format } from '../../src/runtime/stores/format'
 
 test('defineMessages returns the identity of its first argument', () => {
   const obj = {}

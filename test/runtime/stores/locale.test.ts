@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 
-import { lookup } from '../../../src/client/includes/lookup'
+import { lookup } from '../../../src/runtime/includes/lookup'
 import {
   isFallbackLocaleOf,
   getFallbackOf,
@@ -8,10 +8,10 @@ import {
   getCurrentLocale,
   $locale,
   isRelatedLocale,
-} from '../../../src/client/stores/locale'
-import { getOptions, init } from '../../../src/client/configs'
-import { register } from '../../../src/client'
-import { hasLocaleQueue } from '../../../src/client/includes/loaderQueue'
+} from '../../../src/runtime/stores/locale'
+import { getOptions, init } from '../../../src/runtime/configs'
+import { register } from '../../../src/runtime'
+import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue'
 
 beforeEach(() => {
   init({ fallbackLocale: undefined })

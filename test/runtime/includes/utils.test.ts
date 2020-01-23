@@ -5,7 +5,7 @@ import {
   upper,
   lower,
   flatObj,
-} from '../../../src/client/includes/utils'
+} from '../../../src/runtime/includes/utils'
 
 describe('getting client locale', () => {
   beforeEach(() => {

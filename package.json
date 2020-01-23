@@ -1,8 +1,9 @@
 {
   "name": "svelte-i18n",
   "version": "2.2.4",
-  "main": "dist/i18n.cjs.js",
-  "module": "dist/i18n.esm.js",
+  "main": "dist/runtime.cjs.js",
+  "module": "dist/runtime.esm.js",
+  "types": "types/runtime/index.d.ts",
   "bin": {
     "svelte-i18n": "dist/cli.js"
   },
@@ -21,21 +22,26 @@
     "node": ">= 11.15.0"
   },
   "scripts": {
+    "clean": "rm -rf dist/ types/",
     "build": "rollup -c",
+    "build:types": "tsc -p src/runtime --emitDeclarationOnly",
     "dev": "rollup -c -w",
-    "pretest": "npm run build",
     "test": "jest",
     "test:ci": "jest --silent",
     "test:watch": "jest --verbose --watchAll",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --loglevel silent --write \"src/**/*.ts\" && eslint --fix \"src/**/*.ts\"",
-    "prerelease": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
+    "pretest": "npm run build",
+    "prebuild": "yarn clean",
+    "postbuild": "yarn build:types",
+    "prerelease": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
     "postrelease": "git tag -a v$npm_package_version -m 'Release v$npm_package_version'",
     "prepublishOnly": "run-s test:ci build release"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "types/"
   ],
   "jest": {
     "collectCoverage": true,

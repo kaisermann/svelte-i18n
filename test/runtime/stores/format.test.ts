@@ -1,8 +1,8 @@
-import { Formatter } from '../../../src/client/types/index'
-import { $format } from '../../../src/client/stores/format'
-import { init } from '../../../src/client/configs'
-import { addMessages } from '../../../src/client/stores/dictionary'
-import { $locale } from '../../../src/client/stores/locale'
+import { Formatter } from '../../../src/runtime/types/index'
+import { $format } from '../../../src/runtime/stores/format'
+import { init } from '../../../src/runtime/configs'
+import { addMessages } from '../../../src/runtime/stores/dictionary'
+import { $locale } from '../../../src/runtime/stores/locale'
 
 let format: Formatter
 $format.subscribe(f => (format = f))

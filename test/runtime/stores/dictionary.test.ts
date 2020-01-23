@@ -9,7 +9,7 @@ import {
   $dictionary,
   $locales,
   getLocaleDictionary,
-} from '../../../src/client/stores/dictionary'
+} from '../../../src/runtime/stores/dictionary'
 
 beforeEach(() => {
   $dictionary.set({})

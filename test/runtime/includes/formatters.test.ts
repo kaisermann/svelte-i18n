@@ -4,7 +4,7 @@ import {
   getTimeFormatter,
   getMessageFormatter,
   init
-} from '../../../src/client'
+} from '../../../src/runtime'
 
 beforeEach(() => {
   init({ fallbackLocale: undefined })

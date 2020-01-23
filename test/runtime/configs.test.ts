@@ -5,8 +5,8 @@ import {
   getOptions,
   defaultOptions,
   defaultFormats,
-} from '../../src/client/configs'
-import { $locale } from '../../src/client/stores/locale'
+} from '../../src/runtime/configs'
+import { $locale } from '../../src/runtime/stores/locale'
 
 beforeEach(() => {
   init(defaultOptions)

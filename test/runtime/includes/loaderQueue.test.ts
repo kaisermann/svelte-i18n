@@ -5,10 +5,10 @@ import {
   flush,
   registerLocaleLoader,
   resetQueues,
-} from '../../../src/client/includes/loaderQueue'
-import { getMessageFromDictionary } from '../../../src/client/stores/dictionary'
-import { $isLoading } from '../../../src/client/stores/loading'
-import { getOptions } from '../../../src/client/configs'
+} from '../../../src/runtime/includes/loaderQueue'
+import { getMessageFromDictionary } from '../../../src/runtime/stores/dictionary'
+import { $isLoading } from '../../../src/runtime/stores/loading'
+import { getOptions } from '../../../src/runtime/configs'
 
 beforeEach(() => {
   resetQueues()

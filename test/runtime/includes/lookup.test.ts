@@ -1,5 +1,5 @@
-import { lookup, lookupCache } from '../../../src/client/includes/lookup'
-import { $dictionary, addMessages } from '../../../src/client/stores/dictionary'
+import { lookup, lookupCache } from '../../../src/runtime/includes/lookup'
+import { $dictionary, addMessages } from '../../../src/runtime/stores/dictionary'
 
 beforeEach(() => {
   $dictionary.set({})
