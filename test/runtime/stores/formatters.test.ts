@@ -1,4 +1,3 @@
-
 import { get } from 'svelte/store'
 
 import {
@@ -10,12 +9,12 @@ import {
 import { init } from '../../../src/runtime/configs'
 import { addMessages } from '../../../src/runtime/stores/dictionary'
 import { $locale } from '../../../src/runtime/stores/locale'
-import { MessageFormatter ,
+import {
+  MessageFormatter,
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
 } from '../../../src/runtime/types'
-
 
 let formatMessage: MessageFormatter
 let formatTime: TimeFormatter
