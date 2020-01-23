@@ -1,3 +1,12 @@
+# [2.3.0](https://github.com/kaisermann/svelte-i18n/compare/v2.2.4...v2.3.0) (2020-01-23)
+
+
+### Features
+
+* 🎸 add runtime typings ([dadeaa2](https://github.com/kaisermann/svelte-i18n/commit/dadeaa2e7fa0d0447135f76a5c70273238fc1da0)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
+
+
+
 ## [2.2.4](https://github.com/kaisermann/svelte-i18n/compare/v2.2.2...v2.2.4) (2020-01-21)
 
 
