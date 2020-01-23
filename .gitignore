@@ -1,9 +1,5 @@
 node_modules
 *.log
-dist/
-coverage/
-<<<<<<< HEAD
+/coverage/
+/dist/
 /types/
-=======
-types/
->>>>>>> feat: 🎸 add runtime typings
