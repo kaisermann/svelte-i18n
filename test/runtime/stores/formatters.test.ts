@@ -1,10 +1,4 @@
-<<<<<<< HEAD:test/runtime/stores/format.test.ts
-import { Formatter } from '../../../src/runtime/types'
-import { $format } from '../../../src/runtime/stores/format'
-import { init } from '../../../src/runtime/configs'
-import { addMessages } from '../../../src/runtime/stores/dictionary'
-import { $locale } from '../../../src/runtime/stores/locale'
-=======
+
 import { get } from 'svelte/store'
 
 import {
@@ -12,17 +6,16 @@ import {
   $formatTime,
   $formatDate,
   $formatNumber,
-} from '../../../src/client/stores/formatters'
-import { init } from '../../../src/client/configs'
-import { addMessages } from '../../../src/client/stores/dictionary'
-import { $locale } from '../../../src/client/stores/locale'
-import { MessageFormatter } from '../../../src/client/types'
-import {
+} from '../../../src/runtime/stores/formatters'
+import { init } from '../../../src/runtime/configs'
+import { addMessages } from '../../../src/runtime/stores/dictionary'
+import { $locale } from '../../../src/runtime/stores/locale'
+import { MessageFormatter ,
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
-} from '../../../src/client/types/index'
->>>>>>> feat: 🎸 make date,time and number formatters tree-shakeable:test/client/stores/formatters.test.ts
+} from '../../../src/runtime/types'
+
 
 let formatMessage: MessageFormatter
 let formatTime: TimeFormatter

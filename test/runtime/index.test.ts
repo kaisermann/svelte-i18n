@@ -5,7 +5,7 @@ import {
   getLocaleDictionary,
   $dictionary,
 } from '../../src/runtime/stores/dictionary'
-import { $format } from '../../src/runtime/stores/format'
+import { $format } from '../../src/runtime/stores/formatters'
 
 test('defineMessages returns the identity of its first argument', () => {
   const obj = {}
