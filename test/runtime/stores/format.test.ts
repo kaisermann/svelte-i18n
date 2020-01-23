@@ -1,4 +1,4 @@
-import { Formatter } from '../../../src/runtime/types/index'
+import { Formatter } from '../../../src/runtime/types'
 import { $format } from '../../../src/runtime/stores/format'
 import { init } from '../../../src/runtime/configs'
 import { addMessages } from '../../../src/runtime/stores/dictionary'

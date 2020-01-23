@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store'
 
-import { LocaleDictionary, DeepDictionary, Dictionary } from '../types/index'
+import { LocaleDictionary, DeepDictionary, Dictionary } from '../types'
 import { flatObj } from '../includes/utils'
 
 import { getFallbackOf } from './locale'
