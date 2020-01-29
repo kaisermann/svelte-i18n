@@ -43,6 +43,20 @@
     "dist/",
     "types/"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ]
+  },
   "jest": {
     "collectCoverage": true,
     "testMatch": [
@@ -69,7 +83,9 @@
     "conventional-changelog-cli": "^2.0.28",
     "eslint": "^6.6.0",
     "eslint-config-kaisermann": "0.0.3",
+    "husky": "^4.2.1",
     "jest": "^24.9.0",
+    "lint-staged": "^10.0.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "rollup": "^1.26.5",
