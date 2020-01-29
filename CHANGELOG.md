@@ -1,3 +1,13 @@
+## [2.3.1](https://github.com/kaisermann/svelte-i18n/compare/v2.3.0...v2.3.1) (2020-01-29)
+
+
+### Bug Fixes
+
+* 🐛 types from v3 branch leaking to master branch :shrug: ([88f7762](https://github.com/kaisermann/svelte-i18n/commit/88f7762e96c4eae963722bdedf601afbce4b2f17))
+* memoizing of formatters when no locale is given. ([#47](https://github.com/kaisermann/svelte-i18n/issues/47)) ([27871f9](https://github.com/kaisermann/svelte-i18n/commit/27871f9775a96e0a2627a143635d4f4750b9f945))
+
+
+
 # [2.3.0](https://github.com/kaisermann/svelte-i18n/compare/v2.2.4...v2.3.0) (2020-01-23)
 
 
