@@ -3,7 +3,8 @@ import {
   getDateFormatter,
   getTimeFormatter,
   getMessageFormatter,
-  init
+  init,
+  locale
 } from '../../../src/runtime'
 
 beforeEach(() => {
@@ -19,7 +20,7 @@ describe('number formatter', () => {
     )
   })
 
-  test('formats a date according to the current locale', () => {
+  test('formats a number according to the current locale', () => {
     init({ fallbackLocale: 'en' })
     expect(getNumberFormatter().format(number)).toBe('123,123')
   })
@@ -48,6 +49,14 @@ describe('number formatter', () => {
     expect(
       getNumberFormatter({ style: 'currency', currency: 'BRL' }).format(number)
     ).toBe('R$123,123.00')
+  })
+
+  test('formats a number according to the currently set locale', () => {
+    locale.set('en')
+    expect(getNumberFormatter().format(number)).toBe('123,123')
+
+    locale.set('nl')
+    expect(getNumberFormatter().format(number)).toBe('123.123')
   })
 })
 
@@ -97,6 +106,14 @@ describe('date formatter', () => {
     expect(
       getDateFormatter({ year: 'numeric', era: 'short' }).format(date)
     ).toBe('2019 AD')
+  })
+
+  test('formats a date according to the currently set locale', () => {
+    locale.set('en')
+    expect(getDateFormatter().format(date)).toBe('2/1/19')
+
+    locale.set('nl')
+    expect(getDateFormatter().format(date)).toBe('1-2-19')
   })
 })
 
@@ -150,6 +167,14 @@ describe('time formatter', () => {
         second: '2-digit',
       }).format(time)
     ).toBe('08:37:32 PM')
+  })
+
+  test('formats time according to the currently set locale', () => {
+    locale.set('en')
+    expect(getTimeFormatter().format(time)).toBe('8:37 PM')
+
+    locale.set('nl')
+    expect(getTimeFormatter().format(time)).toBe('20:37')
   })
 })
 
