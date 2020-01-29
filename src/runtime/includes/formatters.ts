@@ -18,11 +18,10 @@ const getIntlFormatterOptions = (
   throw new Error(`[svelte-i18n] Unknown "${name}" ${type} format.`)
 }
 
-export const getNumberFormatter: MemoizedIntlFormatter<
+const createNumberFormatter: MemoizedIntlFormatter<
   Intl.NumberFormat,
   Intl.NumberFormatOptions
-> = monadicMemoize(({ locale, format, ...options } = {}) => {
-  locale = locale || getCurrentLocale()
+> = monadicMemoize(({ locale, format, ...options }) => {
   if (locale == null) {
     throw new Error('[svelte-i18n] A "locale" must be set to format numbers')
   }
@@ -33,12 +32,12 @@ export const getNumberFormatter: MemoizedIntlFormatter<
 
   return new Intl.NumberFormat(locale, options)
 })
+export const getNumberFormatter = ({ locale = getCurrentLocale(), ...args } = {}) => createNumberFormatter({ locale, ...args })
 
-export const getDateFormatter: MemoizedIntlFormatter<
+const createDateFormatter: MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
-> = monadicMemoize(({ locale, format, ...options } = {}) => {
-  locale = locale || getCurrentLocale()
+> = monadicMemoize(({ locale, format, ...options }) => {
   if (locale == null) {
     throw new Error('[svelte-i18n] A "locale" must be set to format dates')
   }
@@ -50,12 +49,12 @@ export const getDateFormatter: MemoizedIntlFormatter<
 
   return new Intl.DateTimeFormat(locale, options)
 })
+export const getDateFormatter = ({ locale = getCurrentLocale(), ...args } = {}) => createDateFormatter({ locale, ...args })
 
-export const getTimeFormatter: MemoizedIntlFormatter<
+const createTimeFormatter: MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
-> = monadicMemoize(({ locale, format, ...options } = {}) => {
-  locale = locale || getCurrentLocale()
+> = monadicMemoize(({ locale, format, ...options }) => {
   if (locale == null) {
     throw new Error(
       '[svelte-i18n] A "locale" must be set to format time values'
@@ -69,6 +68,7 @@ export const getTimeFormatter: MemoizedIntlFormatter<
 
   return new Intl.DateTimeFormat(locale, options)
 })
+export const getTimeFormatter = ({ locale = getCurrentLocale(), ...args } = {}) => createTimeFormatter({ locale, ...args })
 
 export const getMessageFormatter = monadicMemoize(
   (message: string, locale: string = getCurrentLocale()) =>
