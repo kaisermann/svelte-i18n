@@ -47,17 +47,9 @@ export interface MessagesLoader {
   (): Promise<any>
 }
 
-export interface GetClientLocaleOptions {
-  navigator?: boolean
-  hash?: string
-  search?: string
-  pathname?: RegExp
-  hostname?: RegExp
-}
-
 export interface ConfigureOptions {
   fallbackLocale: string
-  initialLocale?: string | GetClientLocaleOptions
+  initialLocale?: string
   formats?: Partial<Formats>
   loadingDelay?: number
 }

@@ -22,7 +22,7 @@ interface InitOptions {
 **Example**:
 
 ```js
-import { init, getClientLocale } from 'svelte-i18n'
+import { init } from 'svelte-i18n'
 
 init({
   // fallback to en if current locale is not in the dictionary
@@ -68,47 +68,100 @@ init({
 <!-- 123.456,79 € -->
 ```
 
-#### getClientLocale
+#### getLocaleFromHostname
 
-> `import { getClientLocale } from 'svelte-i18n'`
+> `import { getLocaleFromHostname } from 'svelte-i18n'
 
-`getClientLocale(options: GetClientLocaleOptions): void`
-
-Optional utility method to help getting the initial locale of a user. Use it together with the [`init()`](#init) method.
-
-```ts
-interface GetClientLocaleOptions {
-  // the fallback locale to use if no message is found in the current one
-  fallback?: string
-  // when 'true', check the 'window.navigator.language' to set the current locale
-  navigator?: boolean
-  // key to look for a locale on 'window.location.search'
-  // 'example.com?locale=en-US'
-  search?: string
-  // key to look for a locale on 'window.location.hash'
-  // 'example.com#locale=en-US'
-  hash?: string
-  // pattern to look in the window.location.pathname.
-  // It returns the first capturing group.
-  pathname?: RegExp
-  // pattern to look in the window.location.hostname.
-  // It returns the first capturing group.
-  hostname?: RegExp
-}
-```
+`getLocaleFromHostname(hostnamePattern: RegExp): string`
+Utility method to help getting a initial locale based on a pattern of the current `hostname`.
 
 **Example**:
 
 ```js
-import { init, getClientLocale } from 'svelte-i18n'
+import { init, getLocaleFromHostname } from 'svelte-i18n'
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
-  initialLocale: getClientLocale({
-    // based on the user's browser
-    navigator: true,
-  }),
+  initialLocale: getLocaleFromHostname(/^(.*?)\./),
+})
+```
+
+#### getLocaleFromPathname
+
+> `import { getLocaleFromPathname } from 'svelte-i18n'
+
+`getLocaleFromPathname(pathnamePattern: RegExp): string`
+
+Utility method to help getting a initial locale based on a pattern of the current `pathname`.
+
+**Example**:
+
+```js
+import { init, getLocaleFromPathname } from 'svelte-i18n'
+
+init({
+  // fallback to en if current locale is not in the dictionary
+  fallbackLocale: 'en',
+  initialLocale: getLocaleFromPathname(/^\/(.*?)\//),
+})
+```
+
+#### getLocaleFromNavigator
+
+> `import { getLocaleFromNavigator } from 'svelte-i18n'
+
+`getLocaleFromNavigator(): string`
+
+Utility method to help getting a initial locale based on the browser's `navigator` settings.
+
+**Example**:
+
+```js
+import { init, getLocaleFromNavigator } from 'svelte-i18n'
+
+init({
+  // fallback to en if current locale is not in the dictionary
+  fallbackLocale: 'en',
+  initialLocale: getLocaleFromNavigator(),
+})
+```
+
+#### getLocaleFromQueryString
+
+> `import { getLocaleFromQueryString } from 'svelte-i18n'
+
+`getLocaleFromQueryString(queryKey: string): string`
+
+Utility method to help getting a initial locale based on a query string value.
+
+```js
+import { init, getLocaleFromQueryString } from 'svelte-i18n'
+
+init({
+  // fallback to en if current locale is not in the dictionary
+  fallbackLocale: 'en',
+  initialLocale: getLocaleFromQueryString('lang'),
+})
+```
+
+#### getLocaleFromHash
+
+> `import { getLocaleFromHash } from 'svelte-i18n'
+
+`getLocaleFromHash(): string`
+
+Utility method to help getting a initial locale based on a hash `{key}={value}` string.
+
+**Example**:
+
+```js
+import { init, getLocaleFromHash } from 'svelte-i18n'
+
+init({
+  // fallback to en if current locale is not in the dictionary
+  fallbackLocale: 'en',
+  initialLocale: getLocaleFromHash('lang'),
 })
 ```
 

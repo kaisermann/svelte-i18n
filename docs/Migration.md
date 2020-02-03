@@ -71,7 +71,7 @@ capital($_('message.id'))
 In `v2`, the [`init`](/docs/Methods.md#init) method could automatically set the initial locale based on some heuristcs from the client:
 
 ```js
-import { init, getClientLocale } from 'svelte-i18n'
+import { init } from 'svelte-i18n'
 
 init({
   initialLocale: {
@@ -80,13 +80,19 @@ init({
 })
 ```
 
-However, many people didn't need that kind of extra weight in their apps. So in `v3`, to have the same behavior as `v2`, you have to import the [`getClientLocale`](/docs/Methods.md#getclientlocale) method.
+However, many people didn't need that kind of extra weight in their apps. So in `v3` you have to explicitly import the utility desired:
+
+- [`getLocaleFromHostname`](/docs/Methods.md#getlocalefromhostname)
+- [`getLocaleFromPathname`](/docs/Methods.md#getlocalefrompathname)
+- [`getLocaleFromNavigator`](/docs/Methods.md#getlocalefromnavigator)
+- [`getLocaleFromQueryString`](/docs/Methods.md#getlocalefromquerystring)
+- [`getLocaleFromHash`](/docs/Methods.md#getlocalefromhash)
 
 ```js
-import { init, getClientLocale } from 'svelte-i18n'
+import { init, getLocaleFromNavigator } from 'svelte-i18n'
 
 init({
-    initialLocale: getClientLocale({ ... })
+  initialLocale: getLocaleFromNavigator(),
 })
 ```
 

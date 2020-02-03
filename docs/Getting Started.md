@@ -64,7 +64,7 @@ After populating your [`$dictionary`](/docs/Dictionary.md) with [`addMessages()`
 
 ```js
 // src/i18n.js
-import { register, init, getClientLocale } from 'svelte-i18n'
+import { register, init, getLocaleFromNavigator } from 'svelte-i18n'
 
 register('en', () => import('./en.json'))
 register('en-US', () => import('./en-US.json'))
@@ -73,9 +73,7 @@ register('pt', () => import('./pt.json'))
 
 init({
   fallbackLocale: 'en',
-  initialLocale: getClientLocale({
-    navigator: true, // i.e 'en-US'
-  }),
+  initialLocale: getLocaleFromNavigator(),
 })
 // starts loading 'en-US' and 'en'
 ```

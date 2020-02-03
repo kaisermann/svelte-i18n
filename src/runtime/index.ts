@@ -13,7 +13,13 @@ export function waitLocale(locale?: string) {
 }
 
 export { init } from './configs'
-export { getClientLocale } from './includes/getClientLocale'
+export {
+  getLocaleFromHostname,
+  getLocaleFromPathname,
+  getLocaleFromNavigator,
+  getLocaleFromQueryString,
+  getLocaleFromHash,
+} from './includes/localeGetters'
 
 export { $locale as locale } from './stores/locale'
 
