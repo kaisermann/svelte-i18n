@@ -45,4 +45,4 @@
 }
 ```
 
-### [Go see the documentation](https://github.com/kaisermann/svelte-i18n/blob/master/docs)
+### [Go see the documentation](/docs/Getting%20Started.md)
