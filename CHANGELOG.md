@@ -1,3 +1,33 @@
+## [3.0.1](https://github.com/kaisermann/svelte-i18n/compare/v2.3.1...v3.0.1) (2020-02-03)
+
+
+### Features
+
+* 🎸 add runtime typings ([7bf47d8](https://github.com/kaisermann/svelte-i18n/commit/7bf47d879006ffeec51ec112f20c74c72abe87ff)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
+* 🎸 make date,time and number formatters tree-shakeable ([6526245](https://github.com/kaisermann/svelte-i18n/commit/6526245bf9d40d25af14ec1e7acb34772a9f3f0e))
+* 🎸 make getClientLocale tree-shakeable ([31b556b](https://github.com/kaisermann/svelte-i18n/commit/31b556bc3f77bc5b581541976a82f898a398c01a))
+
+
+### BREAKING CHANGES
+
+* It's now needed to explicitly import the `getClientLocale` method to use
+its heuristics when setting the initial locale. This makes the method
+and its helpers to be tree-shakeable.
+
+```js
+import { init, getClientLocale } from 'svelte-i18n'
+
+init({
+  initialLocale: getClientLocale({ ... })
+})
+```
+* Changes completely the API. Now, to format a number, date or time, the
+developer must explicitly import the formatter store:
+
+`import { time, date, number } from 'svelte-i18n'`
+
+
+
 # [3.0.0](https://github.com/kaisermann/svelte-i18n/compare/v2.3.1...v3.0.0) (2020-02-03)
 
 
