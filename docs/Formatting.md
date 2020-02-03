@@ -1,3 +1,17 @@
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Message syntax](#message-syntax)
+- [`$format` or `$_` or `$t`](#format-or-_-or-t)
+- [`$time(number: Date, options: MessageObject)`](#timenumber-date-options-messageobject)
+- [`$date(date: Date, options: MessageObject)`](#datedate-date-options-messageobject)
+- [`$number(number: number, options: MessageObject)`](#numbernumber-number-options-messageobject)
+- [Formats](#formats)
+- [Accessing formatters directly](#accessing-formatters-directly)
+
+<!-- /code_chunk_output -->
+
 ### Message syntax
 
 Under the hood, `formatjs` is used for localizing your messages. It allows `svelte-i18n` to support the ICU message syntax. It is strongly recommended to read their documentation about it.
@@ -74,7 +88,7 @@ Formats a date object into a time string with the specified format. Please refer
 <!-- 11:45:00 PM -->
 ```
 
-#### `$date(date: Date, options: MessageObject)`
+### `$date(date: Date, options: MessageObject)`
 
 `import { date } from 'svelte-i18n'`
 
@@ -88,7 +102,7 @@ Formats a date object into a string with the specified format. Please refer to t
 <!-- Apr 24, 2019 -->
 ```
 
-#### `$number(number: number, options: MessageObject)`
+### `$number(number: number, options: MessageObject)`
 
 `import { number } from 'svelte-i18n'`
 

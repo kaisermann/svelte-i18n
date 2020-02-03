@@ -1,5 +1,18 @@
 ### Getting started
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=4 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [1. Locale dictionaries](#1-locale-dictionaries)
+- [2. Adding locale dictionaries](#2-adding-locale-dictionaries)
+  - [2.1 Synchronous](#21-synchronous)
+  - [2.2 Asynchronous](#22-asynchronous)
+- [3. Initializing](#3-initializing)
+- [4. Localizing your app](#4-localizing-your-app)
+
+<!-- /code_chunk_output -->
+
 #### 1. Locale dictionaries
 
 A locale dictionary is a regular JSON object which contains message definitions for a certain language.

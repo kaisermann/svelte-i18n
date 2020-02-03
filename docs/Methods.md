@@ -1,4 +1,22 @@
-#### init
+<!-- @import "[TOC]" {cmd="toc" depthFrom=4 depthTo=4 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [`init`](#init)
+- [`getLocaleFromHostname`](#getlocalefromhostname)
+- [`getLocaleFromPathname`](#getlocalefrompathname)
+- [`getLocaleFromNavigator`](#getlocalefromnavigator)
+- [`getLocaleFromQueryString`](#getlocalefromquerystring)
+- [`getLocaleFromHash`](#getlocalefromhash)
+- [`addMessages`](#addmessages)
+- [`register`](#register)
+- [`waitLocale`](#waitlocale)
+- [`getDateFormatter`/`getTimeFormatter`/`getNumberFormatter`](#getdateformattergettimeformattergetnumberformatter)
+- [`getMessageFormatter`](#getmessageformatter)
+
+<!-- /code_chunk_output -->
+
+#### `init`
 
 > `import { init } from 'svelte-i18n'`
 
@@ -68,7 +86,7 @@ init({
 <!-- 123.456,79 € -->
 ```
 
-#### getLocaleFromHostname
+#### `getLocaleFromHostname`
 
 > `import { getLocaleFromHostname } from 'svelte-i18n'
 
@@ -87,7 +105,7 @@ init({
 })
 ```
 
-#### getLocaleFromPathname
+#### `getLocaleFromPathname`
 
 > `import { getLocaleFromPathname } from 'svelte-i18n'
 
@@ -107,7 +125,7 @@ init({
 })
 ```
 
-#### getLocaleFromNavigator
+#### `getLocaleFromNavigator`
 
 > `import { getLocaleFromNavigator } from 'svelte-i18n'
 
@@ -127,7 +145,7 @@ init({
 })
 ```
 
-#### getLocaleFromQueryString
+#### `getLocaleFromQueryString`
 
 > `import { getLocaleFromQueryString } from 'svelte-i18n'
 
@@ -145,7 +163,7 @@ init({
 })
 ```
 
-#### getLocaleFromHash
+#### `getLocaleFromHash`
 
 > `import { getLocaleFromHash } from 'svelte-i18n'
 
@@ -165,7 +183,7 @@ init({
 })
 ```
 
-#### addMessages
+#### `addMessages`
 
 `import { addMessages } from 'svelte-i18n`
 
@@ -195,7 +213,7 @@ addMessages('pt', { field_2: 'Sobrenome' })
 }
 ```
 
-#### register
+#### `register`
 
 > `import { register } from 'svelte-i18n'`
 
@@ -214,7 +232,7 @@ register('pt', () => import('./_locales/pt.json'))
 
 See [how to asynchronously load dictionaries](/svelte-i18n/blob/master/docs#22-asynchronous).
 
-#### waitLocale
+#### `waitLocale`
 
 > `import { waitLocale } from 'svelte-i18n'`
 
@@ -243,7 +261,7 @@ Executes the queue of `locale`. If the queue isn't resolved yet, the same promis
 
 ### Low level API
 
-#### getDateFormatter / getTimeFormatter / getNumberFormatter
+#### `getDateFormatter`/`getTimeFormatter`/`getNumberFormatter`
 
 > `import { getDateFormatter, getNumberFormatter, getTimeFormatter } from 'svelte-i18n'`
 
@@ -268,7 +286,7 @@ getNumberFormatter(
 
 Each of these methods return their respective [`Intl.xxxxFormatter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#Internationalization) variant. Click [here](/docs/formatting.md#accessing-formatters-directly) for an example of usage.
 
-#### getMessageFormatter
+#### `getMessageFormatter`
 
 > `import { getMessageFormatter } from 'svelte-i18n'`
 
