@@ -1,3 +1,95 @@
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [From `v2` to `v3`](#from-v2-to-v3)
+  - [Formatting numbers, dates and times](#formatting-numbers-dates-and-times)
+  - [Casing utilities](#casing-utilities)
+  - [Getting the client locale](#getting-the-client-locale)
+- [From `v1` to `v2`](#from-v1-to-v2)
+  - [Adding dictionaries](#adding-dictionaries)
+  - [Setting the initial and fallback locales](#setting-the-initial-and-fallback-locales)
+  - [Interpolating values](#interpolating-values)
+  - [Adding custom formats](#adding-custom-formats)
+
+<!-- /code_chunk_output -->
+
+#### From `v2` to `v3`
+
+##### Formatting numbers, dates and times
+
+In `v2`, to format numbers, dates and times you would access the `date`, `time` or `number` method of the main formatter method:
+
+```js
+$_.time(dateValue)
+$_.date(dateValue)
+$_.number(100000000)
+```
+
+In `v3`, these utilities are exported as standalone formatter stores, making them tree-shakeable:
+
+```js
+import { time, date, number } from 'svelte-i18n'
+
+$time(someDateValue)
+$date(someDateValue)
+$number(100000000)
+```
+
+##### Casing utilities
+
+The casing utilities `$_.title`, `$_.capital`, `$_.lower`, `$_.upper` were removed from the library.
+
+In `v2`:
+
+```js
+$_.lower('message.id')
+$_.upper('message.id')
+$_.title('message.id')
+$_.capital('message.id')
+```
+
+In `v3`:
+
+```js
+function capital(str: string) {
+  return str.replace(/(^|\s)\S/, l => l.toLocaleUpperCase())
+}
+
+function title(str: string) {
+  return str.replace(/(^|\s)\S/g, l => l.toLocaleUpperCase())
+}
+
+$_('message.id').toLocaleLowerCase()
+$_('message.id').toLocaleUpperCase()
+title($_('message.id'))
+capital($_('message.id'))
+```
+
+##### Getting the client locale
+
+In `v2`, the [`init`](/docs/Methods.md#init) method could automatically set the initial locale based on some heuristcs from the client:
+
+```js
+import { init, getClientLocale } from 'svelte-i18n'
+
+init({
+  initialLocale: {
+    navigator: true,
+  },
+})
+```
+
+However, many people didn't need that kind of extra weight in their apps. So in `v3`, to have the same behavior as `v2`, you have to import the [`getClientLocale`](/docs/Methods.md#getclientlocale) method.
+
+```js
+import { init, getClientLocale } from 'svelte-i18n'
+
+init({
+    initialLocale: getClientLocale({ ... })
+})
+```
+
 #### From `v1` to `v2`
 
 ##### Adding dictionaries
