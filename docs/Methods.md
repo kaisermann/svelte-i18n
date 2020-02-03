@@ -43,7 +43,7 @@ interface Formats {
 }
 ```
 
-Please refer to the [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat.md) and [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat.md) documentations to see available formatting options.
+Please refer to the [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat) and [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat) documentations to see available formatting options.
 
 **Example**:
 
@@ -213,7 +213,7 @@ getNumberFormatter(
 ): Intl.NumberFormat
 ```
 
-Each of these methods return their respective [`Intl.xxxxFormatter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects.md#Internationalization) variant. Click [here](/docs/formatting.md#accessing-formatters-directly) for an example of usage.
+Each of these methods return their respective [`Intl.xxxxFormatter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#Internationalization) variant. Click [here](/docs/formatting.md#accessing-formatters-directly) for an example of usage.
 
 #### getMessageFormatter
 
