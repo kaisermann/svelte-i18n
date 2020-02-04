@@ -167,7 +167,7 @@ init({
 
 > `import { getLocaleFromHash } from 'svelte-i18n'
 
-`getLocaleFromHash(): string`
+`getLocaleFromHash(hashKey: string): string`
 
 Utility method to help getting a initial locale based on a hash `{key}={value}` string.
 
