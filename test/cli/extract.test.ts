@@ -63,22 +63,6 @@ describe('collecting format calls', () => {
     expect(calls[1]).toMatchObject({ type: 'CallExpression' })
     expect(calls[2]).toMatchObject({ type: 'CallExpression' })
   })
-
-  test('collects all string format utility calls', () => {
-    const ast = parse(`<script>
-      import { _ } from 'svelte-i18n'
-      $_.title('foo')
-      $_.capitalize({ id: 'bar' })
-      $_.lower({ id: 'bar' })
-      $_.upper({ id: 'bar' })
-    </script>`)
-    const calls = collectFormatCalls(ast)
-    expect(calls).toHaveLength(4)
-    expect(calls[0]).toMatchObject({ type: 'CallExpression' })
-    expect(calls[1]).toMatchObject({ type: 'CallExpression' })
-    expect(calls[2]).toMatchObject({ type: 'CallExpression' })
-    expect(calls[3]).toMatchObject({ type: 'CallExpression' })
-  })
 })
 
 describe('collecting message definitions', () => {

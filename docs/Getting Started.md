@@ -123,7 +123,7 @@ After having the initial locale set, you're ready to start localizing your app. 
 </script>
 
 <svelte:head>
-  <title>{$_.upper('page_title')}</title>
+  <title>{$_('page_title')}</title>
 </svelte:head>
 
 <nav>
