@@ -40,16 +40,16 @@ locale.set('en-US')
 locale.subscribe(() => console.log('locale change'))
 ```
 
-### `$loading`
+### `$isLoading`
 
-While changing the `$locale`, the `$loading` store can be used to detect if the app is currently fetching any enqueued message definitions.
+While changing the `$locale`, the `$isLoading` store can be used to detect if the app is currently fetching any enqueued message definitions.
 
 ```svelte
 <script>
-  import { loading } from 'svelte-i18n'
+  import { isLoading } from 'svelte-i18n'
 </script>
 
-{#if loading}
+{#if $isLoading}
   Please wait...
 {:else}
   <Nav />
@@ -57,4 +57,4 @@ While changing the `$locale`, the `$loading` store can be used to detect if the 
 {/if}
 ```
 
-> `$loading` will only be `true` if fetching takes more than 200ms.
+> `$isLoading` will only be `true` if fetching takes more than 200ms.
