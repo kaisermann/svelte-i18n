@@ -1,3 +1,12 @@
+## [3.0.2](https://github.com/kaisermann/svelte-i18n/compare/v3.0.1...v3.0.2) (2020-03-06)
+
+
+### Bug Fixes
+
+* 🐛 ignore loadingDelay for the initialLocale ([9d82a98](https://github.com/kaisermann/svelte-i18n/commit/9d82a98e8d6ecf25dca12cce88183502e11133fe)), closes [#53](https://github.com/kaisermann/svelte-i18n/issues/53) [#53](https://github.com/kaisermann/svelte-i18n/issues/53)
+
+
+
 ## [3.0.1](https://github.com/kaisermann/svelte-i18n/compare/v2.3.1...v3.0.1) (2020-02-03)
 
 
