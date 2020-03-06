@@ -1,5 +1,3 @@
-import { get } from 'svelte/store'
-
 import {
   hasLocaleQueue,
   flush,
@@ -7,8 +5,6 @@ import {
   resetQueues,
 } from '../../../src/runtime/includes/loaderQueue'
 import { getMessageFromDictionary } from '../../../src/runtime/stores/dictionary'
-import { $isLoading } from '../../../src/runtime/stores/loading'
-import { getOptions } from '../../../src/runtime/configs'
 
 beforeEach(() => {
   resetQueues()
@@ -53,31 +49,4 @@ test('consecutive flushes return the same promise', async () => {
 
   expect(flushB).toStrictEqual(flushA)
   expect(flushC).toStrictEqual(flushA)
-})
-
-test('should set loading to true if passed min delay and false after loading', () => {
-  registerLocaleLoader(
-    'en',
-    () =>
-      new Promise(res =>
-        setTimeout(() => res({}), getOptions().loadingDelay * 2)
-      )
-  )
-
-  const flushPromise = flush('en')
-
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      if (get($isLoading) === true) return res()
-      return rej('$isLoading should be "true"')
-    }, getOptions().loadingDelay)
-  }).then(() => {
-    flushPromise.then(
-      () =>
-        new Promise((res, rej) => {
-          if (get($isLoading) === false) return res()
-          return rej('$isLoading should be "false" after loading')
-        })
-    )
-  })
 })

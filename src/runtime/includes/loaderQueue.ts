@@ -5,8 +5,6 @@ import {
   addMessages,
 } from '../stores/dictionary'
 import { getRelatedLocalesOf } from '../stores/locale'
-import { $isLoading } from '../stores/loading'
-import { getOptions } from '../configs'
 
 type Queue = Set<MessagesLoader>
 const loaderQueue: Record<string, Queue> = {}
@@ -55,11 +53,6 @@ export function flush(locale: string) {
   // istanbul ignore if
   if (queues.length === 0) return
 
-  const loadingDelay = setTimeout(
-    () => $isLoading.set(true),
-    getOptions().loadingDelay
-  )
-
   // TODO what happens if some loader fails
   activeLocaleFlushes[locale] = Promise.all(
     queues.map(([locale, queue]) => {
@@ -70,8 +63,6 @@ export function flush(locale: string) {
       })
     })
   ).then(() => {
-    clearTimeout(loadingDelay)
-    $isLoading.set(false)
     delete activeLocaleFlushes[locale]
   })
 

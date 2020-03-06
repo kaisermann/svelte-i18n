@@ -10,7 +10,7 @@ import {
   isRelatedLocale,
 } from '../../../src/runtime/stores/locale'
 import { getOptions, init } from '../../../src/runtime/configs'
-import { register } from '../../../src/runtime'
+import { register, isLoading } from '../../../src/runtime'
 import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue'
 
 beforeEach(() => {
@@ -131,4 +131,39 @@ test('should flush the queue of the locale when changing the store value', async
 
   expect(hasLocaleQueue('en')).toBe(false)
   expect(lookup('foo', 'en')).toBe('Foo')
+})
+
+test('if no locale is set, ignore the loading delay', async () => {
+  register(
+    'en',
+    () => new Promise(res => setTimeout(() => res({ foo: 'Foo' }), 50))
+  )
+
+  const promise = $locale.set('en')
+
+  expect(get(isLoading)).toBe(true)
+
+  await promise
+
+  expect(get(isLoading)).toBe(false)
+})
+
+test("if a locale is set, don't ignore the loading delay", async () => {
+  register(
+    'en',
+    () => new Promise(res => setTimeout(() => res({ foo: 'Foo' }), 50))
+  )
+  register(
+    'pt',
+    () => new Promise(res => setTimeout(() => res({ foo: 'Foo' }), 50))
+  )
+
+  await $locale.set('en')
+  const promise = $locale.set('pt')
+
+  expect(get(isLoading)).toBe(false)
+
+  await promise
+
+  expect(get(isLoading)).toBe(false)
 })

@@ -4,6 +4,7 @@ import { flush, hasLocaleQueue } from '../includes/loaderQueue'
 import { getOptions } from '../configs'
 
 import { getClosestAvailableLocale } from './dictionary'
+import { $isLoading } from './loading'
 
 let current: string
 const $locale = writable(null)
@@ -59,7 +60,26 @@ $locale.subscribe((newLocale: string) => {
 const localeSet = $locale.set
 $locale.set = (newLocale: string): void | Promise<void> => {
   if (getClosestAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
-    return flush(newLocale).then(() => localeSet(newLocale))
+    const loadingDelay = getOptions().loadingDelay
+
+    let loadingTimer: number
+
+    // if there's no current locale, we don't wait to set isLoading to true
+    // because it would break pages when loading the initial locale
+    if (getCurrentLocale() != null && loadingDelay) {
+      loadingTimer = window.setTimeout(() => $isLoading.set(true), loadingDelay)
+    } else {
+      $isLoading.set(true)
+    }
+
+    return flush(newLocale)
+      .then(() => {
+        localeSet(newLocale)
+      })
+      .finally(() => {
+        clearTimeout(loadingTimer)
+        $isLoading.set(false)
+      })
   }
   return localeSet(newLocale)
 }
