@@ -51,10 +51,14 @@
     padding: 1em 0.5em;
     display: block;
   }
+  .rtl {
+    direction: rtl;
+    display: flex;
+  }
 </style>
 
-<nav>
-  <ul>
+<nav class={$_('direction')}>
+  <ul class={$_('direction')}>
     <li>
       <a class:selected={segment === undefined} href=".">{$_('nav.home')}</a>
     </li>
@@ -78,7 +82,7 @@
           class:selected={$locale.includes(item)}
           href={`#!${item}`}
           on:click={() => ($locale = item)}>
-          {item.replace('-', '_')}
+          {$_('languages.' + item.replace('-', '_'))}
         </span>
       </li>
     {/each}
