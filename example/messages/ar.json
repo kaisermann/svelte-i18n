@@ -3,9 +3,9 @@
     "index": "Sapper project template!"
   },
   "nav": {
-    "home": "بداية",
-    "about": "حول",
-    "blog": "مقالات"
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "blog": "اتصل بنا"
   },
   "messages": {
     "success": "عظيم",
@@ -14,9 +14,9 @@
   },
   "languages": {
     "en": "English",
-    "pt_BR": "Portugues",
-    "es_ES": "Spanish",
-    "ar": "Arabic"
+    "pt_BR": "Português",
+    "es_ES": "Espanol",
+    "ar": "عربى"
   },
   "direction": "rtl"
 }

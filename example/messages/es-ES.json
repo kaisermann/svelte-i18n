@@ -13,8 +13,8 @@
     "try_editing": " Intente editar este archivo (src/routes/index.svelte) para probar la recarga en vivo."
   },
   "languages": {
-    "pt_BR": "Portugués",
-    "en": "Ingles",
+    "en": "English",
+    "pt_BR": "Português",
     "es_ES": "Espanol",
     "ar": "عربى"
   },
