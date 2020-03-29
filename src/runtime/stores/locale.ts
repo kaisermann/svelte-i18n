@@ -66,7 +66,11 @@ $locale.set = (newLocale: string): void | Promise<void> => {
 
     // if there's no current locale, we don't wait to set isLoading to true
     // because it would break pages when loading the initial locale
-    if (getCurrentLocale() != null && loadingDelay) {
+    if (
+      typeof window !== 'undefined' &&
+      getCurrentLocale() != null &&
+      loadingDelay
+    ) {
       loadingTimer = window.setTimeout(() => $isLoading.set(true), loadingDelay)
     } else {
       $isLoading.set(true)
