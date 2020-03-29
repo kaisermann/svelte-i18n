@@ -1,3 +1,12 @@
+## [3.0.3](https://github.com/kaisermann/svelte-i18n/compare/v3.0.2...v3.0.3) (2020-03-29)
+
+
+### Bug Fixes
+
+* 🐛 prevent server from breaking on locale.set ([07ef1da](https://github.com/kaisermann/svelte-i18n/commit/07ef1da6d5177854b4707d5f038f5a14562e6bf5)), closes [#55](https://github.com/kaisermann/svelte-i18n/issues/55)
+
+
+
 ## [3.0.2](https://github.com/kaisermann/svelte-i18n/compare/v3.0.1...v3.0.2) (2020-03-06)
 
 
