@@ -58,7 +58,7 @@
     ]
   },
   "jest": {
-    "collectCoverage": true,
+    "collectCoverage": false,
     "testMatch": [
       "<rootDir>/test/**/*.test.ts"
     ],
@@ -95,7 +95,7 @@
     "rollup-plugin-typescript2": "^0.25.2",
     "sass": "^1.23.6",
     "svelte": "^3.14.1",
-    "svelte-preprocess": "^3.2.6",
+    "svelte-preprocess": "^3.7.1",
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   },
@@ -103,6 +103,7 @@
     "commander": "^4.0.1",
     "estree-walker": "^0.9.0",
     "intl-messageformat": "^7.5.2",
+    "intl-messageformat-parser": "^4.1.1",
     "tiny-glob": "^0.2.6"
   }
 }
