@@ -22,14 +22,14 @@ A locale dictionary is a regular JSON object which contains message definitions 
 {
   "page_title": "Page titlte",
   "sign_in": "Sign in",
-  "sign_up": "Sign up",
+  "sign_up": "Sign up"
 }
 
 // pt.json
 {
   "page_title": "Título da página",
   "sign_in": "Entrar",
-  "sign_up": "Registrar",
+  "sign_up": "Registrar"
 }
 ```
 
