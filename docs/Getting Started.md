@@ -20,7 +20,7 @@ A locale dictionary is a regular JSON object which contains message definitions 
 ```jsonc
 // en.json
 {
-  "page_title": "Page titlte",
+  "page_title": "Page title",
   "sign_in": "Sign in",
   "sign_up": "Sign up"
 }
@@ -35,7 +35,7 @@ A locale dictionary is a regular JSON object which contains message definitions 
 
 #### 2. Adding locale dictionaries
 
-There are two different ways of adding a new dicitonary of messages to a certain locale:
+There are two different ways of adding a new dictionary of messages to a certain locale:
 
 ##### 2.1 Synchronous
 
