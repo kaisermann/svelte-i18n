@@ -1,3 +1,12 @@
+## [3.0.4](https://github.com/kaisermann/svelte-i18n/compare/v3.0.3...v3.0.4) (2020-05-31)
+
+
+### Bug Fixes
+
+* 🐛 also wait for loaders added while loading ([e560514](https://github.com/kaisermann/svelte-i18n/commit/e560514b1d957b2c4fc9b1a4f412ab93cf31d21a))
+
+
+
 ## [3.0.3](https://github.com/kaisermann/svelte-i18n/compare/v3.0.2...v3.0.3) (2020-03-29)
 
 
