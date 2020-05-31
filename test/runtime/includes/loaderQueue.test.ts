@@ -50,3 +50,22 @@ test('consecutive flushes return the same promise', async () => {
   expect(flushB).toStrictEqual(flushA)
   expect(flushC).toStrictEqual(flushA)
 })
+
+test('waits for loaders added while already flushing', async () => {
+  registerLocaleLoader(
+    'en',
+    () => new Promise(res => setTimeout(() => res({ foo: 'foo' }), 300))
+  )
+
+  const flushPromise = flush('en')
+
+  registerLocaleLoader(
+    'en',
+    () => new Promise(res => setTimeout(() => res({ bar: 'bar' })))
+  )
+
+  await flushPromise
+
+  expect(getMessageFromDictionary('en', 'foo')).toBe('foo')
+  expect(getMessageFromDictionary('en', 'bar')).toBe('bar')
+})

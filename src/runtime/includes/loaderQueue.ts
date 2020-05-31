@@ -7,24 +7,28 @@ import {
 import { getRelatedLocalesOf } from '../stores/locale'
 
 type Queue = Set<MessagesLoader>
-const loaderQueue: Record<string, Queue> = {}
+const queue: Record<string, Queue> = {}
 
 export function resetQueues() {
-  Object.keys(loaderQueue).forEach(key => {
-    delete loaderQueue[key]
+  Object.keys(queue).forEach(key => {
+    delete queue[key]
   })
 }
 
 function createLocaleQueue(locale: string) {
-  loaderQueue[locale] = new Set()
+  queue[locale] = new Set()
 }
 
-function removeLocaleFromQueue(locale: string) {
-  delete loaderQueue[locale]
+function removeLoaderFromQueue(locale: string, loader: MessagesLoader) {
+  queue[locale].delete(loader)
+
+  if (queue[locale].size === 0) {
+    delete queue[locale]
+  }
 }
 
 function getLocaleQueue(locale: string) {
-  return loaderQueue[locale]
+  return queue[locale]
 }
 
 function getLocalesQueues(locale: string) {
@@ -40,33 +44,46 @@ function getLocalesQueues(locale: string) {
 export function hasLocaleQueue(locale: string) {
   return getRelatedLocalesOf(locale)
     .reverse()
-    .some(getLocaleQueue)
+    .some(locale => getLocaleQueue(locale)?.size)
 }
 
-const activeLocaleFlushes: { [key: string]: Promise<void> } = {}
-export function flush(locale: string) {
-  if (!hasLocaleQueue(locale)) return
-  if (locale in activeLocaleFlushes) return activeLocaleFlushes[locale]
+function loadLocaleQueue(locale: string, queue: MessagesLoader[]) {
+  const allLoadersPromise = Promise.all(
+    queue.map(loader => {
+      // todo: maybe don't just remove, but add to a `loading` set?
+      removeLoaderFromQueue(locale, loader)
+
+      return loader().then(partial => partial.default || partial)
+    })
+  )
+
+  return allLoadersPromise.then(partials => addMessages(locale, ...partials))
+}
+
+const activeFlushes: { [key: string]: Promise<void> } = {}
+export function flush(locale: string): Promise<void> {
+  if (!hasLocaleQueue(locale)) {
+    if (locale in activeFlushes) {
+      return activeFlushes[locale]
+    }
+    return
+  }
 
   // get queue of XX-YY and XX locales
   const queues = getLocalesQueues(locale)
-  // istanbul ignore if
-  if (queues.length === 0) return
 
-  // TODO what happens if some loader fails
-  activeLocaleFlushes[locale] = Promise.all(
-    queues.map(([locale, queue]) => {
-      return Promise.all(queue.map(loader => loader())).then(partials => {
-        removeLocaleFromQueue(locale)
-        partials = partials.map(partial => partial.default || partial)
-        addMessages(locale, ...partials)
-      })
-    })
+  // todo: what happens if some loader fails?
+  activeFlushes[locale] = Promise.all(
+    queues.map(([locale, queue]) => loadLocaleQueue(locale, queue))
   ).then(() => {
-    delete activeLocaleFlushes[locale]
+    if (hasLocaleQueue(locale)) {
+      return flush(locale)
+    }
+
+    delete activeFlushes[locale]
   })
 
-  return activeLocaleFlushes[locale]
+  return activeFlushes[locale]
 }
 
 export function registerLocaleLoader(locale: string, loader: MessagesLoader) {
