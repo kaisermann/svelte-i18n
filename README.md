@@ -45,4 +45,5 @@
 }
 ```
 
-### [Go see the documentation](/docs/Getting%20Started.md)
+- [Documentation](/docs/Getting%20Started.md)
+- [Sapper Template](https://github.com/kaisermann/sapper-template-i18n)
