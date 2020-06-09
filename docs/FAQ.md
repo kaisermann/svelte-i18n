@@ -4,21 +4,11 @@ When using `Rollup` as a bundler, you're possibly seeing this warning. It's rela
 
 ```js
 // modified version of onwarn provided by sapper projects
-const onwarn = (warning, onwarn) => {
-  if (
-    (warning.code === 'CIRCULAR_DEPENDENCY' &&
-      /[/\\]@sapper[/\\]/.test(warning.message))
-  ) {
-    return
-  }
-
-  // ignores the annoying this is undefined warning
-  if(warning.code === 'THIS_IS_UNDEFINED') {
-    return
-  }
-
-  onwarn(warning)
-}
+const onwarn = (warning, onwarn) => (
+	warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) 
+	|| warning.code === 'THIS_IS_UNDEFINED'
+	|| onwarn(warning
+)
 
 export default {
   client: {
