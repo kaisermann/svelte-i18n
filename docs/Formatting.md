@@ -16,9 +16,9 @@
 
 Under the hood, `formatjs` is used for localizing your messages. It allows `svelte-i18n` to support the ICU message syntax. It is strongly recommended to read their documentation about it.
 
-- [Basic Internationalization Principles](https://formatjs.io/guides/basic-i18n/)
-- [Runtime Environments](https://formatjs.io/guides/runtime-environments/)
-- [ICU Message Syntax](https://formatjs.io/guides/message-syntax/)
+- [Basic Internationalization Principles](https://formatjs.io/docs/basic-internationalization-principles)
+- [Runtime Environments](https://formatjs.io/docs/runtime-requirements)
+- [ICU Message Syntax](https://formatjs.io/docs/icu-syntax)
 
 ### `$format` or `$_` or `$t`
 
