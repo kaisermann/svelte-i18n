@@ -55,7 +55,17 @@ interface MessageObject {
 - `format`: the format to be used. See [#formats](#formats);
 - `values`: properties that should be interpolated in the message;
 
-You can pass a `string` as the first parameter for a less verbose way of formatting a message.
+You can pass a `string` as the first parameter for a less verbose way of formatting a message. It is also possible to inject values into the translation like so:
+```jsonc
+// en.json
+{
+  "awesome": "{name} is awesome!"
+}
+```
+
+```svelte
+<h1>{$_("awesome", { values: { name: "svelte-i18n" } })}</h1> <!-- "svelte-i18n is awesome" -->
+```
 
 If the message id literal value is not in the root of the dicitonary, `.` (dots) are interpreted as a path:
 
