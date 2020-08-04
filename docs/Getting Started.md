@@ -4,16 +4,28 @@
 
 <!-- code_chunk_output -->
 
-- [1. Locale dictionaries](#1-locale-dictionaries)
-- [2. Adding locale dictionaries](#2-adding-locale-dictionaries)
-  - [2.1 Synchronous](#21-synchronous)
-  - [2.2 Asynchronous](#22-asynchronous)
-- [3. Initializing](#3-initializing)
+- [1. Installing](#1-installing)
+- [2. Locale dictionaries](#2-locale-dictionaries)
+- [3. Adding locale dictionaries](#3-adding-locale-dictionaries)
+  - [3.1 Synchronous](#31-synchronous)
+  - [3.2 Asynchronous](#32-asynchronous)
+- [4. Initializing](#4-initializing)
 - [4. Localizing your app](#4-localizing-your-app)
 
 <!-- /code_chunk_output -->
 
-#### 1. Locale dictionaries
+#### 1. Installing
+
+First things first, let's install the necessary dependencies:
+
+```sh
+yarn add svelte-i18n
+
+# if using rollup so we can import json files
+yarn add -D @rollup/plugin-json
+```
+
+#### 2. Locale dictionaries
 
 A locale dictionary is a regular JSON object which contains message definitions for a certain language.
 
@@ -33,11 +45,11 @@ A locale dictionary is a regular JSON object which contains message definitions 
 }
 ```
 
-#### 2. Adding locale dictionaries
+#### 3. Adding locale dictionaries
 
 There are two different ways of adding a new dictionary of messages to a certain locale:
 
-##### 2.1 Synchronous
+##### 3.1 Synchronous
 
 Just `import`/`require` your locale `.json` files and pass them to the [`addMessages(locale, dict)`](/docs/Methods.md#addmessage) method.
 
@@ -56,7 +68,7 @@ addMessages('pt', pt)
 // en, en-US and pt are available
 ```
 
-##### 2.2 Asynchronous
+##### 3.2 Asynchronous
 
 A more performant way to load your dictionaries is to register `loader` methods. This way, only the files registered to the current locale will be loaded. A `loader` is a method which must return a `Promise` that resolves to a `JSON` object. A [`$locale`](/kaisermann/svelte-i18n/Locale) value change will automatically load the registered loaders for the new locale.
 
@@ -71,7 +83,7 @@ register('pt', () => import('./pt.json'))
 // en, en-US and pt are not available yet
 ```
 
-#### 3. Initializing
+#### 4. Initializing
 
 After populating your [`$dictionary`](/docs/Dictionary.md) with [`addMessages()`](/docs/Methods.md#addmessages) or registering loaders via [`register()`](/docs/Methods.md#register), you are ready to bootstrap the library. You can use [`init()`](/docs/Methods.md#init) to define the fallback locale, initial locale and other options of your app.
 
