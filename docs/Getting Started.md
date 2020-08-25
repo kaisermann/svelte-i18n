@@ -70,7 +70,7 @@ addMessages('pt', pt)
 
 ##### 3.2 Asynchronous
 
-A more performant way to load your dictionaries is to register `loader` methods. This way, only the files registered to the current locale will be loaded. A `loader` is a method which must return a `Promise` that resolves to a `JSON` object. A [`$locale`](/kaisermann/svelte-i18n/Locale) value change will automatically load the registered loaders for the new locale.
+A more performant way to load your dictionaries is to register `loader` methods. This way, only the files registered to the current locale will be loaded. A `loader` is a method which must return a `Promise` that resolves to a `JSON` object. A [`$locale`](/docs/Locale.md#locale) value change will automatically load the registered loaders for the new locale.
 
 ```js
 // src/i18n.js
