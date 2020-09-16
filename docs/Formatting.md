@@ -81,7 +81,7 @@ If the message id literal value is not in the root of the dicitonary, `.` (dots)
 
 ```svelte
 <div>{$_('shallow.prop')}</div> <!-- Shallow property -->
-<div>{$_('deep.prop')}</div> <!-- Deep property -->
+<div>{$_('deep.property')}</div> <!-- Deep property -->
 ```
 
 ### `$time(number: Date, options: MessageObject)`
