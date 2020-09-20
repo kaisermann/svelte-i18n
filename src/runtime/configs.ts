@@ -1,5 +1,5 @@
-import { ConfigureOptions } from './types'
-import { $locale } from './stores/locale'
+import { ConfigureOptions } from './types';
+import { $locale } from './stores/locale';
 
 interface Formats {
   number: Record<string, any>;
@@ -36,39 +36,41 @@ export const defaultFormats: Formats = {
       timeZoneName: 'short',
     },
   },
-}
+};
 
-export const defaultOptions: Options = {
+export const defaultOptions: ConfigureOptions = {
   fallbackLocale: null,
   initialLocale: null,
   loadingDelay: 200,
   formats: defaultFormats,
   warnOnMissingMessages: true,
-}
+};
 
-const options: Options = defaultOptions
+const options: ConfigureOptions = defaultOptions;
 
 export function getOptions() {
-  return options
+  return options;
 }
 
 export function init(opts: ConfigureOptions) {
-  const { formats, ...rest } = opts
-  const initialLocale = opts.initialLocale || opts.fallbackLocale
+  const { formats, ...rest } = opts;
+  const initialLocale = opts.initialLocale || opts.fallbackLocale;
 
-  Object.assign(options, rest, { initialLocale })
+  Object.assign(options, rest, { initialLocale });
 
   if (formats) {
     if ('number' in formats) {
-      Object.assign(options.formats.number, formats.number)
+      Object.assign(options.formats.number, formats.number);
     }
+
     if ('date' in formats) {
-      Object.assign(options.formats.date, formats.date)
+      Object.assign(options.formats.date, formats.date);
     }
+
     if ('time' in formats) {
-      Object.assign(options.formats.time, formats.time)
+      Object.assign(options.formats.time, formats.time);
     }
   }
 
-  return $locale.set(initialLocale)
+  return $locale.set(initialLocale);
 }

@@ -1,36 +1,36 @@
-import { MessageObject } from './types'
-import { getCurrentLocale } from './stores/locale'
-import { getOptions } from './configs'
-import { flush } from './includes/loaderQueue'
+import { MessageObject } from './types';
+import { getCurrentLocale } from './stores/locale';
+import { getOptions } from './configs';
+import { flush } from './includes/loaderQueue';
 
 // defineMessages allow us to define and extract dynamic message ids
 export function defineMessages(i: Record<string, MessageObject>) {
-  return i
+  return i;
 }
 
 export function waitLocale(locale?: string) {
-  return flush(locale || getCurrentLocale() || getOptions().initialLocale)
+  return flush(locale || getCurrentLocale() || getOptions().initialLocale);
 }
 
-export { init } from './configs'
+export { init } from './configs';
 export {
   getLocaleFromHostname,
   getLocaleFromPathname,
   getLocaleFromNavigator,
   getLocaleFromQueryString,
   getLocaleFromHash,
-} from './includes/localeGetters'
+} from './includes/localeGetters';
 
-export { $locale as locale } from './stores/locale'
+export { $locale as locale } from './stores/locale';
 
 export {
   $dictionary as dictionary,
   $locales as locales,
   addMessages,
-} from './stores/dictionary'
-export { registerLocaleLoader as register } from './includes/loaderQueue'
+} from './stores/dictionary';
+export { registerLocaleLoader as register } from './includes/loaderQueue';
 
-export { $isLoading as isLoading } from './stores/loading'
+export { $isLoading as isLoading } from './stores/loading';
 
 export {
   $format as format,
@@ -39,7 +39,7 @@ export {
   $formatDate as date,
   $formatNumber as number,
   $formatTime as time,
-} from './stores/formatters'
+} from './stores/formatters';
 
 // low-level
 export {
@@ -47,4 +47,4 @@ export {
   getNumberFormatter,
   getTimeFormatter,
   getMessageFormatter,
-} from './includes/formatters'
+} from './includes/formatters';

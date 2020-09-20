@@ -1,53 +1,57 @@
-import { writable, derived } from 'svelte/store'
+import { writable, derived } from 'svelte/store';
 
-import { LocaleDictionary, DeepDictionary, Dictionary } from '../types/index'
-import { flatObj } from '../includes/flatObj'
+import { LocaleDictionary, DeepDictionary, Dictionary } from '../types/index';
+import { flatObj } from '../includes/flatObj';
+import { getFallbackOf } from './locale';
 
-import { getFallbackOf } from './locale'
-
-let dictionary: Dictionary
-const $dictionary = writable<Dictionary>({})
+let dictionary: Dictionary;
+const $dictionary = writable<Dictionary>({});
 
 export function getLocaleDictionary(locale: string) {
-  return (dictionary[locale] as LocaleDictionary) || null
+  return (dictionary[locale] as LocaleDictionary) || null;
 }
 
 export function getDictionary() {
-  return dictionary
+  return dictionary;
 }
 
 export function hasLocaleDictionary(locale: string) {
-  return locale in dictionary
+  return locale in dictionary;
 }
 
 export function getMessageFromDictionary(locale: string, id: string) {
   if (hasLocaleDictionary(locale)) {
-    const localeDictionary = getLocaleDictionary(locale)
+    const localeDictionary = getLocaleDictionary(locale);
+
     if (id in localeDictionary) {
-      return localeDictionary[id]
+      return localeDictionary[id];
     }
   }
-  return null
+
+  return null;
 }
 
 export function getClosestAvailableLocale(locale: string): string | null {
-  if (locale == null || hasLocaleDictionary(locale)) return locale
-  return getClosestAvailableLocale(getFallbackOf(locale))
+  if (locale == null || hasLocaleDictionary(locale)) return locale;
+
+  return getClosestAvailableLocale(getFallbackOf(locale));
 }
 
 export function addMessages(locale: string, ...partials: DeepDictionary[]) {
-  const flattedPartials = partials.map(partial => flatObj(partial))
+  const flattedPartials = partials.map((partial) => flatObj(partial));
 
-  $dictionary.update(d => {
-    d[locale] = Object.assign(d[locale] || {}, ...flattedPartials)
-    return d
-  })
+  $dictionary.update((d) => {
+    d[locale] = Object.assign(d[locale] || {}, ...flattedPartials);
+
+    return d;
+  });
 }
 
-const $locales = derived([$dictionary], ([$dictionary]) =>
-  Object.keys($dictionary)
-)
+// eslint-disable-next-line no-shadow
+const $locales = derived([$dictionary], ([dictionary]) =>
+  Object.keys(dictionary),
+);
 
-$dictionary.subscribe(newDictionary => (dictionary = newDictionary))
+$dictionary.subscribe((newDictionary) => (dictionary = newDictionary));
 
-export { $dictionary, $locales }
+export { $dictionary, $locales };

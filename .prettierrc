@@ -1,8 +1,1 @@
-{
-  "semi": false,
-  "printWidth": 80,
-  "trailingComma": "es5",
-  "bracketSpacing": true,
-  "jsxBracketSameLine": false,
-  "singleQuote": true
-}
+"@kiwi/prettier-config"

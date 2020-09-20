@@ -1,95 +1,95 @@
-import IntlMessageFormat from 'intl-messageformat'
+import IntlMessageFormat from 'intl-messageformat';
 
-import { MemoizedIntlFormatter } from '../types'
-import { getCurrentLocale } from '../stores/locale'
-import { getOptions } from '../configs'
-
-import { monadicMemoize } from './memoize'
+import { MemoizedIntlFormatter } from '../types';
+import { getCurrentLocale } from '../stores/locale';
+import { getOptions } from '../configs';
+import { monadicMemoize } from './memoize';
 
 type MemoizedNumberFormatterFactory = MemoizedIntlFormatter<
   Intl.NumberFormat,
   Intl.NumberFormatOptions
->
+>;
 
 type MemoizedDateTimeFormatterFactory = MemoizedIntlFormatter<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
->
+>;
 
 const getIntlFormatterOptions = (
   type: 'time' | 'number' | 'date',
-  name: string
+  name: string,
 ): any => {
-  const formats = getOptions().formats
+  const { formats } = getOptions();
+
   if (type in formats && name in formats[type]) {
-    return formats[type][name]
+    return formats[type][name];
   }
 
-  throw new Error(`[svelte-i18n] Unknown "${name}" ${type} format.`)
-}
+  throw new Error(`[svelte-i18n] Unknown "${name}" ${type} format.`);
+};
 
 const createNumberFormatter: MemoizedNumberFormatterFactory = monadicMemoize(
   ({ locale, format, ...options }) => {
     if (locale == null) {
-      throw new Error('[svelte-i18n] A "locale" must be set to format numbers')
+      throw new Error('[svelte-i18n] A "locale" must be set to format numbers');
     }
 
     if (format) {
-      options = getIntlFormatterOptions('number', format)
+      options = getIntlFormatterOptions('number', format);
     }
 
-    return new Intl.NumberFormat(locale, options)
-  }
-)
+    return new Intl.NumberFormat(locale, options);
+  },
+);
 
 const createDateFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
   ({ locale, format, ...options }) => {
     if (locale == null) {
-      throw new Error('[svelte-i18n] A "locale" must be set to format dates')
+      throw new Error('[svelte-i18n] A "locale" must be set to format dates');
     }
 
-    if (format) options = getIntlFormatterOptions('date', format)
+    if (format) options = getIntlFormatterOptions('date', format);
     else if (Object.keys(options).length === 0) {
-      options = getIntlFormatterOptions('date', 'short')
+      options = getIntlFormatterOptions('date', 'short');
     }
 
-    return new Intl.DateTimeFormat(locale, options)
-  }
-)
+    return new Intl.DateTimeFormat(locale, options);
+  },
+);
 
 const createTimeFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
   ({ locale, format, ...options }) => {
     if (locale == null) {
       throw new Error(
-        '[svelte-i18n] A "locale" must be set to format time values'
-      )
+        '[svelte-i18n] A "locale" must be set to format time values',
+      );
     }
 
-    if (format) options = getIntlFormatterOptions('time', format)
+    if (format) options = getIntlFormatterOptions('time', format);
     else if (Object.keys(options).length === 0) {
-      options = getIntlFormatterOptions('time', 'short')
+      options = getIntlFormatterOptions('time', 'short');
     }
 
-    return new Intl.DateTimeFormat(locale, options)
-  }
-)
+    return new Intl.DateTimeFormat(locale, options);
+  },
+);
 
 export const getNumberFormatter: MemoizedNumberFormatterFactory = ({
   locale = getCurrentLocale(),
   ...args
-} = {}) => createNumberFormatter({ locale, ...args })
+} = {}) => createNumberFormatter({ locale, ...args });
 
 export const getDateFormatter: MemoizedDateTimeFormatterFactory = ({
   locale = getCurrentLocale(),
   ...args
-} = {}) => createDateFormatter({ locale, ...args })
+} = {}) => createDateFormatter({ locale, ...args });
 
 export const getTimeFormatter: MemoizedDateTimeFormatterFactory = ({
   locale = getCurrentLocale(),
   ...args
-} = {}) => createTimeFormatter({ locale, ...args })
+} = {}) => createTimeFormatter({ locale, ...args });
 
 export const getMessageFormatter = monadicMemoize(
   (message: string, locale: string = getCurrentLocale()) =>
-    new IntlMessageFormat(message, locale, getOptions().formats)
-)
+    new IntlMessageFormat(message, locale, getOptions().formats),
+);

@@ -1,18 +1,18 @@
-import fs from 'fs'
-import { dirname, resolve } from 'path'
+import fs from 'fs';
+import { dirname, resolve } from 'path';
 
-import program from 'commander'
-import glob from 'tiny-glob'
-import { preprocess } from 'svelte/compiler'
+import program from 'commander';
+import glob from 'tiny-glob';
+import { preprocess } from 'svelte/compiler';
 
-import { extractMessages } from './extract'
+import { extractMessages } from './extract';
 
-const { readFile, writeFile, mkdir, access } = fs.promises
+const { readFile, writeFile, mkdir, access } = fs.promises;
 
 const fileExists = (path: string) =>
   access(path)
     .then(() => true)
-    .catch(() => false)
+    .catch(() => false);
 
 program
   .command('extract <glob> [output]')
@@ -20,54 +20,59 @@ program
   .option(
     '-s, --shallow',
     'extract to a shallow dictionary (ids with dots interpreted as strings, not paths)',
-    false
+    false,
   )
   .option(
     '--overwrite',
     'overwrite the content of the output file instead of just appending new properties',
-    false
+    false,
   )
   .option(
     '-c, --config <dir>',
     'path to the "svelte.config.js" file',
-    process.cwd()
+    process.cwd(),
   )
   .action(async (globStr, output, { shallow, overwrite, config }) => {
-    const filesToExtract = (await glob(globStr)).filter(file =>
-      file.match(/\.html|svelte$/i)
-    )
+    const filesToExtract = (await glob(globStr)).filter((file) =>
+      file.match(/\.html|svelte$/i),
+    );
+
     const svelteConfig = await import(
       resolve(config, 'svelte.config.js')
-    ).catch(() => null)
+    ).catch(() => null);
 
-    let accumulator = {}
+    let accumulator = {};
+
     if (output != null && overwrite === false && (await fileExists(output))) {
       accumulator = await readFile(output)
-        .then(file => JSON.parse(file.toString()))
+        .then((file) => JSON.parse(file.toString()))
         .catch((e: Error) => {
-          console.warn(e)
-          accumulator = {}
-        })
+          console.warn(e);
+          accumulator = {};
+        });
     }
 
     for await (const filePath of filesToExtract) {
-      const buffer = await readFile(filePath)
-      let content = buffer.toString()
+      const buffer = await readFile(filePath);
+      let content = buffer.toString();
 
-      if (svelteConfig && svelteConfig.preprocess) {
+      if (svelteConfig?.preprocess) {
         const processed = await preprocess(content, svelteConfig.preprocess, {
           filename: filePath,
-        })
-        content = processed.code
+        });
+
+        content = processed.code;
       }
-      extractMessages(content, { accumulator, shallow })
+
+      extractMessages(content, { filePath, accumulator, shallow });
     }
 
-    const jsonDictionary = JSON.stringify(accumulator, null, '  ')
-    if (output == null) return console.log(jsonDictionary)
+    const jsonDictionary = JSON.stringify(accumulator, null, '  ');
 
-    await mkdir(dirname(output), { recursive: true })
-    await writeFile(output, jsonDictionary)
-  })
+    if (output == null) return console.log(jsonDictionary);
 
-program.parse(process.argv)
+    await mkdir(dirname(output), { recursive: true });
+    await writeFile(output, jsonDictionary);
+  });
+
+program.parse(process.argv);

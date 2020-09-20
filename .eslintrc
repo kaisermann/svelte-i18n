@@ -1,13 +1,10 @@
 {
-  "extends": ["kaisermann/typescript"],
+  "extends": ["@kiwi"],
   "env": {
     "browser": true,
     "jest": true
   },
-  "parserOptions": {
-    "sourceType": "module"
-  },
   "rules": {
-    "@typescript-eslint/camelcase": "off"
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
