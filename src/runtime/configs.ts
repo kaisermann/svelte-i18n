@@ -2,17 +2,9 @@ import { ConfigureOptions } from './types'
 import { $locale } from './stores/locale'
 
 interface Formats {
-  number: Record<string, any>
-  date: Record<string, any>
-  time: Record<string, any>
-}
-
-interface Options {
-  fallbackLocale: string
-  initialLocale: string
-  formats: Formats
-  loadingDelay: number
-  warnOnMissingMessages: boolean
+  number: Record<string, any>;
+  date: Record<string, any>;
+  time: Record<string, any>;
 }
 
 export const defaultFormats: Formats = {

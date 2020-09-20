@@ -48,8 +48,9 @@ export interface MessagesLoader {
 }
 
 export interface ConfigureOptions {
-  fallbackLocale: string
-  initialLocale?: string
-  formats?: Partial<Formats>
-  loadingDelay?: number
+  fallbackLocale: string;
+  formats?: Partial<Formats>;
+  initialLocale?: string;
+  loadingDelay?: number;
+  warnOnMissingMessages?: boolean;
 }
