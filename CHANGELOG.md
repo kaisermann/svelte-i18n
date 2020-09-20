@@ -1,3 +1,12 @@
+# [3.1.0](https://github.com/kaisermann/svelte-i18n/compare/v3.0.4...v3.1.0) (2020-09-20)
+
+
+### Bug Fixes
+
+* export correct configuration type ([68e8c51](https://github.com/kaisermann/svelte-i18n/commit/68e8c51a636910bbe0619350b7d8ad6fabe13c7d))
+
+
+
 ## [3.0.4](https://github.com/kaisermann/svelte-i18n/compare/v3.0.3...v3.0.4) (2020-05-31)
 
 
