@@ -58,6 +58,14 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
 
   if (!values) return message;
 
+  if (typeof message === 'object') {
+    for (const [i, m] of message.entries()) {
+      message[i] = getMessageFormatter(m, locale).format(values);
+    }
+
+    return message;
+  }
+
   return getMessageFormatter(message, locale).format(values);
 };
 

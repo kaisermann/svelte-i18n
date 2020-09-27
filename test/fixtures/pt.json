@@ -1,9 +1,12 @@
 {
   "form": {
     "field_1_name": "Nome",
-    "field_2_name": "Sobrenome"
+    "field_2_name": "Sobrenome",
+    "field_3_name": ["sim", "não"]
   },
   "photos": "Você {n, plural, =0 {não tem fotos.} =1 {tem uma foto.} other {tem # fotos.}}",
   "title": "Título da página",
-  "sneakers": "tênis"
+  "sneakers": "tênis",
+  "food": ["Pizza", "Hambúrguer", "Sushi"],
+  "welcome": ["Ola {name} !", "Como você está {name} ?"]
 }

@@ -1,9 +1,12 @@
 {
   "form": {
     "field_1_name": "Name",
-    "field_2_name": "Lastname"
+    "field_2_name": "Lastname",
+    "field_3_name": ["yes", "no"]
   },
   "photos": "You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}",
   "title": "Page title",
-  "sneakers": "sneakers"
+  "sneakers": "sneakers",
+  "food": ["Pizza", "Burger", "Sushi"],
+  "welcome": ["Hello {name}!", "How are you {name}?"]
 }

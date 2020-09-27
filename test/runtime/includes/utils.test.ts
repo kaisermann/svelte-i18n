@@ -54,8 +54,16 @@ describe('deep object handling', () => {
       e: { f: 'bar' },
     }
     expect(flatObj(obj)).toMatchObject({
-      'a.b.c.d': 'foo',
-      'e.f': 'bar',
+      a: {
+        b: {
+          c: {
+            d: 'foo',
+          },
+        },
+      },
+      e: {
+        f: 'bar',
+      },
     })
   })
 
@@ -65,10 +73,16 @@ describe('deep object handling', () => {
       e: { f: ['foo', 'bar'] },
     }
     expect(flatObj(obj)).toMatchObject({
-      'a.b.c.d.0': 'foo',
-      'a.b.c.d.1': 'bar',
-      'e.f.0': 'foo',
-      'e.f.1': 'bar',
+      a: {
+        b: {
+          c: {
+            d: ['foo', 'bar'],
+          },
+        },
+      },
+      e: {
+        f: ['foo', 'bar'],
+      },
     })
   })
 })

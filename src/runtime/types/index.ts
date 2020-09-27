@@ -3,7 +3,7 @@ import { Formats } from 'intl-messageformat';
 export interface DeepDictionary {
   [key: string]: DeepDictionary | string | string[];
 }
-export type LocaleDictionary = Record<string, string>;
+export type LocaleDictionary = Record<string, any[]>;
 export type Dictionary = Record<string, LocaleDictionary>;
 
 export interface MessageObject {
@@ -17,7 +17,7 @@ export interface MessageObject {
 export type MessageFormatter = (
   id: string | MessageObject,
   options?: MessageObject,
-) => string;
+) => string | any[];
 
 export type TimeFormatter = (
   d: Date | number,

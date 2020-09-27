@@ -61,6 +61,38 @@ test('accepts a message id as first argument', () => {
   expect(formatMessage('form.field_1_name')).toBe('Name')
 })
 
+test('accepts a message id as first argument and return an array of an object', () => {
+  expect(formatMessage('form.field_3_name')).toEqual(
+    expect.arrayContaining(['yes', 'no']),
+  )
+})
+
+test('accepts a message id as first argument and return a given value of an array inside an object', () => {
+  expect(formatMessage('form.field_3_name.1')).toBe('no')
+})
+
+test('accepts a message id as first argument', () => {
+  expect(formatMessage('food')).toEqual(
+    expect.arrayContaining(['Pizza', 'Burger', 'Sushi']),
+  )
+})
+
+test('accepts a message id as first argument', () => {
+  expect(formatMessage('food.0')).toBe('Pizza')
+})
+
+test('accepts a message id as first argument', () => {
+  expect(formatMessage({ id: 'welcome', values: { name: 'Jérôme' } })).toEqual(
+    expect.arrayContaining(['Hello Jérôme!', 'How are you Jérôme?']),
+  )
+})
+
+test('accepts a message id as first argument', () => {
+  expect(formatMessage({ id: 'welcome.0', values: { name: 'Jérôme' } })).toBe(
+    'Hello Jérôme!',
+  )
+})
+
 test('accepts a message id as first argument and formatting options as second', () => {
   expect(formatMessage('form.field_1_name', { locale: 'pt' })).toBe('Nome')
 })

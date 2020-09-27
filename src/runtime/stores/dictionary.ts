@@ -23,6 +23,22 @@ export function getMessageFromDictionary(locale: string, id: string) {
   if (hasLocaleDictionary(locale)) {
     const localeDictionary = getLocaleDictionary(locale);
 
+    if (/^(\w+\.)+\w+$/.test(id)) {
+      const keys = id.split('.');
+
+      const value: Map<string, any> = new Map<string, any>();
+
+      for (const [index, key] of keys.entries()) {
+        if (index === 0) {
+          value.set('message', localeDictionary[key]);
+        } else {
+          value.set('message', value.get('message')[key]);
+        }
+      }
+
+      return value.get('message');
+    }
+
     if (id in localeDictionary) {
       return localeDictionary[id];
     }
@@ -41,7 +57,31 @@ export function addMessages(locale: string, ...partials: DeepDictionary[]) {
   const flattedPartials = partials.map((partial) => flatObj(partial));
 
   $dictionary.update((d) => {
+    const test = d[locale] !== undefined ? d[locale] : {};
+
+    console.log(
+      'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      test,
+    );
+    console.log(
+      'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      d[locale] || {},
+    );
+
+    console.log(
+      'RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR',
+      { ...test[locale], ...flattedPartials },
+    );
+    console.log(
+      'PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP',
+      Object.assign(d[locale] || {}, ...flattedPartials),
+    );
+
     d[locale] = Object.assign(d[locale] || {}, ...flattedPartials);
+    console.log(
+      'UPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP',
+      d,
+    );
 
     return d;
   });

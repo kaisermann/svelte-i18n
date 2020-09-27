@@ -40,14 +40,18 @@ test('merges the existing dictionaries with new ones', () => {
     en: {
       field_1: 'name',
       field_2: 'lastname',
-      'deep.prop1': 'foo',
-      'deep.prop2': 'foo',
+      deep: {
+        prop1: 'foo',
+        prop2: 'foo',
+      },
     },
     pt: {
       field_1: 'nome',
       field_2: 'sobrenome',
-      'deep.prop1': 'foo',
-      'deep.prop2': 'foo',
+      deep: {
+        prop1: 'foo',
+        prop2: 'foo',
+      },
     },
   })
 })
@@ -70,7 +74,7 @@ test('gets the closest available locale', () => {
 
 test("returns null if there's no closest locale available", () => {
   addMessages('pt', { field_1: 'name' })
-  expect(getClosestAvailableLocale('it-IT')).toBe(null)
+  expect(getClosestAvailableLocale('it-it')).toBe(null)
 })
 
 test('lists all locales in the dictionary', () => {
@@ -89,7 +93,7 @@ describe('getting messages', () => {
   test('gets a message from a deep object in the dictionary', () => {
     addMessages('en', { messages: { message_1: 'Some message' } })
     expect(getMessageFromDictionary('en', 'messages.message_1')).toBe(
-      'Some message'
+      'Some message',
     )
   })
 

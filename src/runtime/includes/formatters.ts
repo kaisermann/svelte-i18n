@@ -90,6 +90,6 @@ export const getTimeFormatter: MemoizedDateTimeFormatterFactory = ({
 } = {}) => createTimeFormatter({ locale, ...args });
 
 export const getMessageFormatter = monadicMemoize(
-  (message: string, locale: string = getCurrentLocale()) =>
+  (message: string | any[], locale: string = getCurrentLocale()) =>
     new IntlMessageFormat(message, locale, getOptions().formats),
 );
