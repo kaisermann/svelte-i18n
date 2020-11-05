@@ -1,73 +1,75 @@
-import { defineMessages, waitLocale, register, init } from '../../src/runtime'
-import { $locale } from '../../src/runtime/stores/locale'
-import { hasLocaleQueue } from '../../src/runtime/includes/loaderQueue'
+import { defineMessages, waitLocale, register, init } from '../../src/runtime';
+import { $locale } from '../../src/runtime/stores/locale';
+import { hasLocaleQueue } from '../../src/runtime/includes/loaderQueue';
 import {
   getLocaleDictionary,
   $dictionary,
-} from '../../src/runtime/stores/dictionary'
-import { $format } from '../../src/runtime/stores/formatters'
+} from '../../src/runtime/stores/dictionary';
+import { $format } from '../../src/runtime/stores/formatters';
 
 test('defineMessages returns the identity of its first argument', () => {
-  const obj = {}
-  expect(obj).toBe(defineMessages(obj))
-})
+  const obj = {};
+
+  expect(obj).toBe(defineMessages(obj));
+});
 
 describe('waiting for a locale to load', () => {
   beforeEach(() => {
-    $dictionary.set({})
-    $locale.set(undefined)
-  })
+    $dictionary.set({});
+    $locale.set(undefined);
+  });
 
-  test('should wait for a locale queue to be flushed', async () => {
-    register('en', () => Promise.resolve({ foo: 'foo' }))
-    $locale.set('en')
+  it('should wait for a locale queue to be flushed', async () => {
+    register('en', () => Promise.resolve({ foo: 'foo' }));
+    $locale.set('en');
 
-    await waitLocale('en')
+    await waitLocale('en');
 
-    expect(hasLocaleQueue('en')).toBe(false)
-    expect(getLocaleDictionary('en')).toMatchObject({ foo: 'foo' })
-  })
+    expect(hasLocaleQueue('en')).toBe(false);
+    expect(getLocaleDictionary('en')).toMatchObject({ foo: 'foo' });
+  });
 
-  test('should wait for the current locale queue to be flushed', async () => {
-    register('en', () => Promise.resolve({ foo: 'foo' }))
-    init({ fallbackLocale: 'pt', initialLocale: 'en' })
+  it('should wait for the current locale queue to be flushed', async () => {
+    register('en', () => Promise.resolve({ foo: 'foo' }));
+    init({ fallbackLocale: 'pt', initialLocale: 'en' });
 
-    await waitLocale()
+    await waitLocale();
 
-    expect(hasLocaleQueue('en')).toBe(false)
-    expect(getLocaleDictionary('en')).toMatchObject({ foo: 'foo' })
-  })
+    expect(hasLocaleQueue('en')).toBe(false);
+    expect(getLocaleDictionary('en')).toMatchObject({ foo: 'foo' });
+  });
 
-  test('should wait for the fallback locale queue to be flushed if initial not set', async () => {
-    register('pt', () => Promise.resolve({ foo: 'foo' }))
-    init({ fallbackLocale: 'pt' })
+  it('should wait for the fallback locale queue to be flushed if initial not set', async () => {
+    register('pt', () => Promise.resolve({ foo: 'foo' }));
+    init({ fallbackLocale: 'pt' });
 
-    await waitLocale()
+    await waitLocale();
 
-    expect(hasLocaleQueue('pt')).toBe(false)
-    expect(getLocaleDictionary('pt')).toMatchObject({ foo: 'foo' })
-  })
-})
+    expect(hasLocaleQueue('pt')).toBe(false);
+    expect(getLocaleDictionary('pt')).toMatchObject({ foo: 'foo' });
+  });
+});
 
 describe('format updates', () => {
   beforeEach(() => {
-    init({ fallbackLocale: 'en' })
-  })
+    init({ fallbackLocale: 'en' });
+  });
 
-  test('format store is updated when locale changes', () => {
-    const fn = jest.fn()
-    const cancel = $format.subscribe(fn)
+  it('format store is updated when locale changes', () => {
+    const fn = jest.fn();
+    const cancel = $format.subscribe(fn);
 
-    $locale.set('pt')
-    expect(fn).toHaveBeenCalledTimes(2)
-    cancel()
-  })
+    $locale.set('pt');
+    expect(fn).toHaveBeenCalledTimes(2);
+    cancel();
+  });
 
-  test('format store is updated when dictionary changes', () => {
-    const fn = jest.fn()
-    const cancel = $format.subscribe(fn)
-    $dictionary.set({})
-    expect(fn).toHaveBeenCalledTimes(2)
-    cancel()
-  })
-})
+  it('format store is updated when dictionary changes', () => {
+    const fn = jest.fn();
+    const cancel = $format.subscribe(fn);
+
+    $dictionary.set({});
+    expect(fn).toHaveBeenCalledTimes(2);
+    cancel();
+  });
+});
