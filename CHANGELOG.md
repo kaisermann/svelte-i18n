@@ -1,3 +1,12 @@
+# [3.2.0](https://github.com/kaisermann/svelte-i18n/compare/v3.1.0...v3.2.0) (2020-11-05)
+
+
+### Features
+
+* 🎸 Support getting deep localized objects/arrays ([ff54136](https://github.com/kaisermann/svelte-i18n/commit/ff541367f85a28ad69bb34beb145ce404b1a9240)), closes [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
+
+
+
 # [3.1.0](https://github.com/kaisermann/svelte-i18n/compare/v3.0.4...v3.1.0) (2020-09-20)
 
 
