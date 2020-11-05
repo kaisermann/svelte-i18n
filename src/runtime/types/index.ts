@@ -1,8 +1,9 @@
 import { Formats } from 'intl-messageformat';
 
 export interface LocaleDictionary {
-  [key: string]: LocaleDictionary | LocaleDictionary[] | string | string[];
+  [key: string]: LocaleDictionary | string | Array<string | LocaleDictionary>;
 }
+
 export type LocalesDictionary = {
   [key: string]: LocaleDictionary;
 };
@@ -18,7 +19,7 @@ export interface MessageObject {
 export type MessageFormatter = (
   id: string | MessageObject,
   options?: MessageObject,
-) => string;
+) => string | unknown;
 
 export type TimeFormatter = (
   d: Date | number,

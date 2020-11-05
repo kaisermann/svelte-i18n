@@ -37,7 +37,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
     );
   }
 
-  const message = lookup(id, locale);
+  let message = lookup(id, locale);
 
   if (!message) {
     if (getOptions().warnOnMissingMessages) {
@@ -53,7 +53,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
       );
     }
 
-    return defaultValue || id;
+    message = defaultValue || id;
   }
 
   if (!values) return message;

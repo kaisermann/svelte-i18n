@@ -58,6 +58,25 @@ test('formats a message with interpolated values', () => {
   );
 });
 
+test('formats the default value with interpolated values', () => {
+  expect(
+    formatMessage({
+      id: 'non-existent',
+      default: '{food}',
+      values: { food: 'potato' },
+    }),
+  ).toBe('potato');
+});
+
+test('formats the key with interpolated values', () => {
+  expect(
+    formatMessage({
+      id: '{food}',
+      values: { food: 'potato' },
+    }),
+  ).toBe('potato');
+});
+
 test('accepts a message id as first argument', () => {
   expect(formatMessage('form.field_1_name')).toBe('Name');
 });
