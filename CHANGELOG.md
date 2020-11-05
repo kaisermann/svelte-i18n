@@ -1,3 +1,12 @@
+## [3.2.1](https://github.com/kaisermann/svelte-i18n/compare/v3.2.0...v3.2.1) (2020-11-05)
+
+
+### Bug Fixes
+
+* 🐛 interpolate values for default values and missing keys ([330f20b](https://github.com/kaisermann/svelte-i18n/commit/330f20b7bd55af1e565de7ba0449a03cc24738aa)), closes [#101](https://github.com/kaisermann/svelte-i18n/issues/101)
+
+
+
 # [3.2.0](https://github.com/kaisermann/svelte-i18n/compare/v3.1.0...v3.2.0) (2020-11-05)
 
 
