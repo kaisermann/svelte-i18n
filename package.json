@@ -35,9 +35,8 @@
     "pretest": "npm run build",
     "prebuild": "yarn clean",
     "postbuild": "yarn build:types",
-    "prerelease": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
-    "postrelease": "git tag -a v$npm_package_version -m 'Release v$npm_package_version'",
-    "prepublishOnly": "run-s test:ci build release"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
     "dist/",
@@ -88,7 +87,6 @@
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "lint-staged": "^10.4.0",
-    "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "rollup": "^2.27.1",
     "rollup-plugin-auto-external": "^2.0.0",
