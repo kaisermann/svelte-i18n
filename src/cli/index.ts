@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { dirname, resolve } from 'path';
 
-import program from 'commander';
+import sade from 'sade';
 import glob from 'tiny-glob';
 import { preprocess } from 'svelte/compiler';
 
@@ -14,9 +14,11 @@ const fileExists = (path: string) =>
     .then(() => true)
     .catch(() => false);
 
+const program = sade('svelte-i18n');
+
 program
   .command('extract <glob> [output]')
-  .description('extract all message definitions from files to a json')
+  .describe('extract all message definitions from files to a json')
   .option(
     '-s, --shallow',
     'extract to a shallow dictionary (ids with dots interpreted as strings, not paths)',
