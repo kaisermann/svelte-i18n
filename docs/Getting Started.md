@@ -55,15 +55,15 @@ Just `import`/`require` your locale `.json` files and pass them to the [`addMess
 
 ```js
 // src/i18n.js
-import { addMessages } from 'svelte-i18n'
+import { addMessages } from 'svelte-i18n';
 
-import en from './en.json'
-import enUS from './en-US.json'
-import pt from './pt.json'
+import en from './en.json';
+import enUS from './en-US.json';
+import pt from './pt.json';
 
-addMessages('en', en)
-addMessages('en-US', enUS)
-addMessages('pt', pt)
+addMessages('en', en);
+addMessages('en-US', enUS);
+addMessages('pt', pt);
 
 // en, en-US and pt are available
 ```
@@ -74,11 +74,11 @@ A more performant way to load your dictionaries is to register `loader` methods.
 
 ```js
 // src/i18n.js
-import { register } from 'svelte-i18n'
+import { register } from 'svelte-i18n';
 
-register('en', () => import('./en.json'))
-register('en-US', () => import('./en-US.json'))
-register('pt', () => import('./pt.json'))
+register('en', () => import('./en.json'));
+register('en-US', () => import('./en-US.json'));
+register('pt', () => import('./pt.json'));
 
 // en, en-US and pt are not available yet
 ```
@@ -89,21 +89,21 @@ After populating your [`$dictionary`](/docs/Dictionary.md) with [`addMessages()`
 
 ```js
 // src/i18n.js
-import { register, init, getLocaleFromNavigator } from 'svelte-i18n'
+import { register, init, getLocaleFromNavigator } from 'svelte-i18n';
 
-register('en', () => import('./en.json'))
-register('en-US', () => import('./en-US.json'))
-register('pt', () => import('./pt.json'))
+register('en', () => import('./en.json'));
+register('en-US', () => import('./en-US.json'));
+register('pt', () => import('./pt.json'));
 // en, en-US and pt are not available yet
 
 init({
   fallbackLocale: 'en',
   initialLocale: getLocaleFromNavigator(),
-})
+});
 // starts loading 'en-US' and 'en'
 ```
 
-_**Note**: If you're using Sapper, remember to also call `init()` on your server side code (`server.js`)._
+_Note_: Make sure to call your `i18n.js` file on your app's entrypoint. If you're using Sapper, remember to also call `init()` on your server-side code (`server.js`).
 
 Since we're using `register`, and not `addMessages`, we need to wait for it's loaders to finish before rendering your app.
 
