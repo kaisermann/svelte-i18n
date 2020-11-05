@@ -1,3 +1,12 @@
+## [3.2.2](https://github.com/kaisermann/svelte-i18n/compare/v3.2.1...v3.2.2) (2020-11-05)
+
+
+### Bug Fixes
+
+* 🐛 update estree-walker and intl-messageformat ([44e71d7](https://github.com/kaisermann/svelte-i18n/commit/44e71d72aba1cb3263ea009932df27dd39d86cb3))
+
+
+
 ## [3.2.1](https://github.com/kaisermann/svelte-i18n/compare/v3.2.0...v3.2.1) (2020-11-05)
 
 
