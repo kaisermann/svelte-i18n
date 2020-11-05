@@ -103,7 +103,7 @@ init({
 // starts loading 'en-US' and 'en'
 ```
 
-_Note_: Make sure to call your `i18n.js` file on your app's entrypoint. If you're using Sapper, remember to also call `init()` on your server-side code (`server.js`).
+_Note_: Make sure to call your `i18n.js` file on your app's entry-point. If you're using Sapper, remember to also call `init()` on your server-side code (`server.js`).
 
 Since we're using `register`, and not `addMessages`, we need to wait for it's loaders to finish before rendering your app.
 
