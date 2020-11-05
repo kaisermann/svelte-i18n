@@ -1,11 +1,12 @@
 import { writable, derived } from 'svelte/store';
+import deepmerge from 'deepmerge';
+import dlv from 'dlv';
 
-import { LocaleDictionary, DeepDictionary, Dictionary } from '../types/index';
-import { flatObj } from '../includes/flatObj';
+import { LocaleDictionary, LocalesDictionary } from '../types/index';
 import { getFallbackOf } from './locale';
 
-let dictionary: Dictionary;
-const $dictionary = writable<Dictionary>({});
+let dictionary: LocalesDictionary;
+const $dictionary = writable<LocalesDictionary>({});
 
 export function getLocaleDictionary(locale: string) {
   return (dictionary[locale] as LocaleDictionary) || null;
@@ -20,15 +21,15 @@ export function hasLocaleDictionary(locale: string) {
 }
 
 export function getMessageFromDictionary(locale: string, id: string) {
-  if (hasLocaleDictionary(locale)) {
-    const localeDictionary = getLocaleDictionary(locale);
-
-    if (id in localeDictionary) {
-      return localeDictionary[id];
-    }
+  if (!hasLocaleDictionary(locale)) {
+    return null;
   }
 
-  return null;
+  const localeDictionary = getLocaleDictionary(locale);
+
+  const match = dlv(localeDictionary, id);
+
+  return match;
 }
 
 export function getClosestAvailableLocale(locale: string): string | null {
@@ -37,11 +38,9 @@ export function getClosestAvailableLocale(locale: string): string | null {
   return getClosestAvailableLocale(getFallbackOf(locale));
 }
 
-export function addMessages(locale: string, ...partials: DeepDictionary[]) {
-  const flattedPartials = partials.map((partial) => flatObj(partial));
-
+export function addMessages(locale: string, ...partials: LocaleDictionary[]) {
   $dictionary.update((d) => {
-    d[locale] = Object.assign(d[locale] || {}, ...flattedPartials);
+    d[locale] = deepmerge.all<LocaleDictionary>([d[locale] || {}, ...partials]);
 
     return d;
   });
