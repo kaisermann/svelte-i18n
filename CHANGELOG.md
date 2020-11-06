@@ -1,3 +1,12 @@
+## [3.2.3](https://github.com/kaisermann/svelte-i18n/compare/v3.2.2...v3.2.3) (2020-11-06)
+
+
+### Bug Fixes
+
+* 🐛 prevent extraction of non-deterministic message ids ([9b6adb6](https://github.com/kaisermann/svelte-i18n/commit/9b6adb6538329ecba1e32e2acdca2c4761c1d99c)), closes [#89](https://github.com/kaisermann/svelte-i18n/issues/89)
+
+
+
 ## [3.2.2](https://github.com/kaisermann/svelte-i18n/compare/v3.2.1...v3.2.2) (2020-11-05)
 
 
