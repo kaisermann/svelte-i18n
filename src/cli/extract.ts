@@ -19,20 +19,13 @@ import { Message } from './types';
 const LIB_NAME = 'svelte-i18n';
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages';
 const FORMAT_METHOD_NAMES = new Set(['format', '_', 't']);
-const IGNORED_UTILITIES = new Set(['number', 'date', 'time']);
 
 function isFormatCall(node: Node, imports: Set<string>) {
   if (node.type !== 'CallExpression') return false;
 
   let identifier: Identifier;
 
-  if (
-    node.callee.type === 'MemberExpression' &&
-    node.callee.property.type === 'Identifier' &&
-    !IGNORED_UTILITIES.has(node.callee.property.name)
-  ) {
-    identifier = node.callee.object as Identifier;
-  } else if (node.callee.type === 'Identifier') {
+  if (node.callee.type === 'Identifier') {
     identifier = node.callee;
   }
 
@@ -150,23 +143,28 @@ export function collectMessages(markup: string): Message[] {
     ...definitions.map((definition) => getObjFromExpression(definition)),
     ...calls.map((call) => {
       const [pathNode, options] = call.arguments;
+      let messageObj;
 
       if (pathNode.type === 'ObjectExpression') {
-        return getObjFromExpression(pathNode);
+        // _({ ...opts })
+        messageObj = getObjFromExpression(pathNode);
+      } else {
+        const node = pathNode as Literal;
+        const id = node.value as string;
+
+        if (options && options.type === 'ObjectExpression') {
+          // _(id, { ...opts })
+          messageObj = getObjFromExpression(options);
+          messageObj.id = id;
+        } else {
+          // _(id)
+          messageObj = { id };
+        }
       }
 
-      const node = pathNode as Literal;
-      const id = node.value as string;
+      if (messageObj?.id == null) return null;
 
-      if (options && options.type === 'ObjectExpression') {
-        const messageObj = getObjFromExpression(options);
-
-        messageObj.meta.id = id;
-
-        return messageObj;
-      }
-
-      return { node, meta: { id } };
+      return messageObj;
     }),
   ].filter(Boolean);
 }
@@ -175,28 +173,28 @@ export function extractMessages(
   markup: string,
   { accumulator = {}, shallow = false, overwrite = false } = {} as any,
 ) {
-  collectMessages(markup).forEach((message) => {
-    let defaultValue = message.meta.default;
+  collectMessages(markup).forEach((messageObj) => {
+    let defaultValue = messageObj.default;
 
     if (typeof defaultValue === 'undefined') {
       defaultValue = '';
     }
 
     if (shallow) {
-      if (overwrite === false && message.meta.id in accumulator) {
+      if (overwrite === false && messageObj.id in accumulator) {
         return;
       }
 
-      accumulator[message.meta.id] = defaultValue;
+      accumulator[messageObj.id] = defaultValue;
     } else {
       if (
         overwrite === false &&
-        typeof dlv(accumulator, message.meta.id) !== 'undefined'
+        typeof dlv(accumulator, messageObj.id) !== 'undefined'
       ) {
         return;
       }
 
-      deepSet(accumulator, message.meta.id, defaultValue);
+      deepSet(accumulator, messageObj.id, defaultValue);
     }
   });
 

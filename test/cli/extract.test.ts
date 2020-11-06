@@ -1,5 +1,3 @@
-// TODO: better tests. these are way too generic.
-
 import { parse } from 'svelte/compiler';
 
 import {
@@ -124,7 +122,7 @@ describe('collecting messages', () => {
       import { _, defineMessages } from 'svelte-i18n';
 
       console.log($_({ id: 'foo' }))
-      console.log($_.title({ id: 'page.title' }))
+      console.log($_({ id: 'page.title' }))
 
       const messages = defineMessages({
         enabled: { id: 'enabled' , default: 'Enabled' },
@@ -141,19 +139,35 @@ describe('collecting messages', () => {
     expect(messages).toHaveLength(7);
     expect(messages).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ meta: { id: 'foo' } }),
-        expect.objectContaining({ meta: { id: 'msg_1' } }),
-        expect.objectContaining({ meta: { id: 'msg_2' } }),
-        expect.objectContaining({ meta: { id: 'msg_3', default: 'Message' } }),
-        expect.objectContaining({ meta: { id: 'page.title' } }),
+        expect.objectContaining({ id: 'foo' }),
+        expect.objectContaining({ id: 'msg_1' }),
+        expect.objectContaining({ id: 'msg_2' }),
+        expect.objectContaining({ id: 'msg_3', default: 'Message' }),
+        expect.objectContaining({ id: 'page.title' }),
         expect.objectContaining({
-          meta: { id: 'disabled', default: 'Disabled' },
+          id: 'disabled',
+          default: 'Disabled',
         }),
         expect.objectContaining({
-          meta: { id: 'enabled', default: 'Enabled' },
+          id: 'enabled',
+          default: 'Enabled',
         }),
       ]),
     );
+  });
+
+  it('ignores non-static message ids', () => {
+    const markup = `
+    <script>
+      import { _, defineMessages } from 'svelte-i18n';
+
+      $_({ id: 'foo' + i })
+      $_('bar' + i)
+    </script>`;
+
+    const messages = collectMessages(markup);
+
+    expect(messages).toHaveLength(0);
   });
 });
 
@@ -163,7 +177,7 @@ describe('messages extraction', () => {
       import { _ } from 'svelte-i18n';
     </script>
 
-    <h1>{$_.title('title')}</h1>
+    <h1>{$_('title')}</h1>
     <h2>{$_({ id: 'subtitle'})}</h2>
     `;
 
@@ -176,7 +190,7 @@ describe('messages extraction', () => {
     const markup = `
     <script>import { _ } from 'svelte-i18n';</script>
 
-    <h1>{$_.title('home.page.title')}</h1>
+    <h1>{$_('home.page.title')}</h1>
     <h2>{$_({ id: 'home.page.subtitle'})}</h2>
     <ul>
       <li>{$_('list.0')}</li>
@@ -197,7 +211,7 @@ describe('messages extraction', () => {
     const markup = `
     <script>import { _ } from 'svelte-i18n';</script>
 
-    <h1>{$_.title('home.page.title')}</h1>
+    <h1>{$_('home.page.title')}</h1>
     <h2>{$_({ id: 'home.page.subtitle'})}</h2>
     <ul>
       <li>{$_('list.0')}</li>
@@ -221,7 +235,7 @@ describe('messages extraction', () => {
     const markup = `
     <script>import { _ } from 'svelte-i18n';</script>
 
-    <h1>{$_.title('home.page.title')}</h1>
+    <h1>{$_('home.page.title')}</h1>
     <h2>{$_({ id: 'home.page.subtitle'})}</h2>
     <ul>
       <li>{$_('list.0')}</li>
@@ -256,7 +270,7 @@ describe('messages extraction', () => {
     const markup = `
     <script>import { _ } from 'svelte-i18n';</script>
 
-    <h1>{$_.title('home.page.title')}</h1>
+    <h1>{$_('home.page.title')}</h1>
     <h2>{$_({ id: 'home.page.subtitle'})}</h2>
     `;
 
