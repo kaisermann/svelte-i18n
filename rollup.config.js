@@ -1,11 +1,11 @@
-import commonjs from 'rollup-plugin-commonjs'
-import ts from 'rollup-plugin-typescript2'
-import { terser } from 'rollup-plugin-terser'
-import autoExternal from 'rollup-plugin-auto-external'
+import commonjs from 'rollup-plugin-commonjs';
+import ts from 'rollup-plugin-typescript2';
+import { terser } from 'rollup-plugin-terser';
+import autoExternal from 'rollup-plugin-auto-external';
 
-import pkg from './package.json'
+import pkg from './package.json';
 
-const PROD = !process.env.ROLLUP_WATCH
+const PROD = !process.env.ROLLUP_WATCH;
 
 export default [
   {
@@ -38,4 +38,4 @@ export default [
     ],
     plugins: [autoExternal(), commonjs(), ts(), PROD && terser()],
   },
-]
+];
