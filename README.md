@@ -47,3 +47,4 @@
 
 - [Documentation](/docs/Getting%20Started.md)
 - [Sapper Template](https://github.com/kaisermann/sapper-template-i18n)
+- [i18n VSCode extension (3rd party)](https://github.com/antfu/i18n-ally)

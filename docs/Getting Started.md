@@ -5,12 +5,13 @@
 <!-- code_chunk_output -->
 
 - [1. Installing](#1-installing)
+  - [1.1 VSCode extension](#11-vscode-extension)
 - [2. Locale dictionaries](#2-locale-dictionaries)
 - [3. Adding locale dictionaries](#3-adding-locale-dictionaries)
   - [3.1 Synchronous](#31-synchronous)
   - [3.2 Asynchronous](#32-asynchronous)
 - [4. Initializing](#4-initializing)
-- [4. Localizing your app](#4-localizing-your-app)
+- [5. Localizing your app](#5-localizing-your-app)
 
 <!-- /code_chunk_output -->
 
@@ -24,6 +25,10 @@ yarn add svelte-i18n
 # if using rollup so we can import json files
 yarn add -D @rollup/plugin-json
 ```
+
+##### 1.1 VSCode extension
+
+If you're using `VSCode` and want to have your messages previewed alongside your components, checkout the [i18n-ally](https://github.com/antfu/i18n-ally) and their [FAQ](https://github.com/antfu/i18n-ally/wiki/FAQ) to see how to set it up.
 
 #### 2. Locale dictionaries
 
@@ -125,7 +130,7 @@ In **Sapper**, you can use the `preload` static method together with `waitLocale
 
 Please note that the `fallbackLocale` is always loaded, independent of the current locale, since only some messages can be missing.
 
-#### 4. Localizing your app
+#### 5. Localizing your app
 
 After having the initial locale set, you're ready to start localizing your app. Import the [`$format`](/docs/Formatting.md) method, or any of its aliases, to any component that needs to be translated. Then, just call [`$format`](/docs/Formatting.md) passing the message `id` on your layout and voila! 🎉
 
