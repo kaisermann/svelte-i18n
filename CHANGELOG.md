@@ -1,3 +1,12 @@
+## [3.2.4](https://github.com/kaisermann/svelte-i18n/compare/v3.2.3...v3.2.4) (2020-11-07)
+
+
+### Bug Fixes
+
+* 🐛 possible interpolation value types ([0caaead](https://github.com/kaisermann/svelte-i18n/commit/0caaead4789a62daef4ea73361506a9f135b80e7))
+
+
+
 ## [3.2.3](https://github.com/kaisermann/svelte-i18n/compare/v3.2.2...v3.2.3) (2020-11-06)
 
 
