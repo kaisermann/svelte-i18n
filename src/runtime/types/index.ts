@@ -1,4 +1,4 @@
-import { Formats } from 'intl-messageformat';
+import type { FormatXMLElementFn, Formats } from 'intl-messageformat';
 
 export interface LocaleDictionary {
   [key: string]: LocaleDictionary | string | Array<string | LocaleDictionary>;
@@ -8,12 +8,25 @@ export type LocalesDictionary = {
   [key: string]: LocaleDictionary;
 };
 
+export type InterpolationValues =
+  | Record<
+      string,
+      | string
+      | number
+      | boolean
+      | Date
+      | FormatXMLElementFn<unknown>
+      | null
+      | undefined
+    >
+  | undefined;
+
 export interface MessageObject {
   id?: string;
   locale?: string;
   format?: string;
   default?: string;
-  values?: Record<string, string | number | Date>;
+  values?: InterpolationValues;
 }
 
 export type MessageFormatter = (
