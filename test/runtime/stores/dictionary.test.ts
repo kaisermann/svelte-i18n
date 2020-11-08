@@ -99,9 +99,9 @@ describe('getting messages', () => {
 
   it('accepts english in dictionary keys', () => {
     addMessages('pt', {
-      'Hey man, how are you today?': 'E ai cara, como você vai hoje?',
+      'Hey man. How are you today?': 'E ai cara, como você vai hoje?',
     });
-    expect(getMessageFromDictionary('pt', 'Hey man, how are you today?')).toBe(
+    expect(getMessageFromDictionary('pt', 'Hey man. How are you today?')).toBe(
       'E ai cara, como você vai hoje?',
     );
   });

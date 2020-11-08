@@ -27,6 +27,12 @@ export function getMessageFromDictionary(locale: string, id: string) {
 
   const localeDictionary = getLocaleDictionary(locale);
 
+  // flat ids
+  if (id in localeDictionary) {
+    return localeDictionary[id];
+  }
+
+  // deep ids
   const match = dlv(localeDictionary, id);
 
   return match;
