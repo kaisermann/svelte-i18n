@@ -1,3 +1,12 @@
+## [3.2.5](https://github.com/kaisermann/svelte-i18n/compare/v3.2.4...v3.2.5) (2020-11-08)
+
+
+### Bug Fixes
+
+* 🐛 regression of flat keys separated by dot ([d87caef](https://github.com/kaisermann/svelte-i18n/commit/d87caef0600be10727222a2cfbe7ff391fb8ff4c))
+
+
+
 ## [3.2.4](https://github.com/kaisermann/svelte-i18n/compare/v3.2.3...v3.2.4) (2020-11-07)
 
 
