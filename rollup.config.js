@@ -36,6 +36,6 @@ export default [
         banner: `#!/usr/bin/env node`,
       },
     ],
-    plugins: [autoExternal(), commonjs(), ts(), PROD && terser()],
+    plugins: [autoExternal(), commonjs(), ts()],
   },
 ];
