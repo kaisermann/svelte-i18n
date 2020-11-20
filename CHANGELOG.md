@@ -1,3 +1,7 @@
+## [3.2.6](https://github.com/kaisermann/svelte-i18n/compare/v3.2.5...v3.2.6) (2020-11-20)
+
+
+
 ## [3.2.5](https://github.com/kaisermann/svelte-i18n/compare/v3.2.4...v3.2.5) (2020-11-08)
 
 
