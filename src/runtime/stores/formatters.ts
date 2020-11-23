@@ -58,7 +58,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
 
   if (!values) return message;
 
-  return getMessageFormatter(message, locale).format(values);
+  return getMessageFormatter(message, locale).format(values) as string;
 };
 
 const formatTime: TimeFormatter = (t, options) =>

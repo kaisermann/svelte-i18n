@@ -32,7 +32,7 @@ export interface MessageObject {
 export type MessageFormatter = (
   id: string | MessageObject,
   options?: MessageObject,
-) => string | unknown;
+) => string;
 
 export type TimeFormatter = (
   d: Date | number,
