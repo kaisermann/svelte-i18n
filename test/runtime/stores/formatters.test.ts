@@ -12,7 +12,7 @@ import {
   $formatTime,
   $formatDate,
   $formatNumber,
-  $json,
+  $getJSON,
 } from '../../../src/runtime/stores/formatters';
 import { init } from '../../../src/runtime/configs';
 import { addMessages } from '../../../src/runtime/stores/dictionary';
@@ -29,7 +29,7 @@ $locale.subscribe(() => {
   formatTime = get($formatTime);
   formatDate = get($formatDate);
   formatNumber = get($formatNumber);
-  getJSON = get($json);
+  getJSON = get($getJSON);
 });
 
 addMessages('en', require('../../fixtures/en.json'));
@@ -41,6 +41,7 @@ addMessages('pt-PT', require('../../fixtures/pt-PT.json'));
 beforeEach(() => {
   init({ fallbackLocale: 'en' });
 });
+
 describe('format message', () => {
   it('formats a message by its id and the current locale', () => {
     expect(formatMessage({ id: 'form.field_1_name' })).toBe('Name');

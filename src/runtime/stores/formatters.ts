@@ -90,4 +90,4 @@ export const $format = derived([$locale, $dictionary], () => formatMessage);
 export const $formatTime = derived([$locale], () => formatTime);
 export const $formatDate = derived([$locale], () => formatDate);
 export const $formatNumber = derived([$locale], () => formatNumber);
-export const $json = derived([$locale, $dictionary], () => getJSON);
+export const $getJSON = derived([$locale, $dictionary], () => getJSON);
