@@ -9,8 +9,8 @@ beforeEach(() => {
 });
 
 test('returns null if no locale was passed', () => {
-  expect(lookup('message.id', undefined)).toBeNull();
-  expect(lookup('message.id', null)).toBeNull();
+  expect(lookup('message.id', undefined)).toBeUndefined();
+  expect(lookup('message.id', null)).toBeUndefined();
 });
 
 test('gets a shallow message of a locale dictionary', () => {
@@ -61,6 +61,7 @@ test('gets an array ', () => {
 test('caches found messages by locale', () => {
   addMessages('en', { field: 'name' });
   addMessages('pt', { field: 'nome' });
+
   lookup('field', 'en-US');
   lookup('field', 'pt');
 
@@ -73,8 +74,10 @@ test('caches found messages by locale', () => {
 test("doesn't cache falsy messages", () => {
   addMessages('en', { field: 'name' });
   addMessages('pt', { field: 'nome' });
+
   lookup('field_2', 'en-US');
   lookup('field_2', 'pt');
+
   expect(lookupCache).not.toMatchObject({
     'en-US': { field_2: 'name' },
     pt: { field_2: 'nome' },

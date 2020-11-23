@@ -3,10 +3,11 @@
 <!-- code_chunk_output -->
 
 - [Message syntax](#message-syntax)
-- [`$format` or `$_` or `$t`](#format-or-_-or-t)
+- [`$format`, `$_` or `$t`](#format-_-or-t)
 - [`$time(number: Date, options: MessageObject)`](#timenumber-date-options-messageobject)
 - [`$date(date: Date, options: MessageObject)`](#datedate-date-options-messageobject)
 - [`$number(number: number, options: MessageObject)`](#numbernumber-number-options-messageobject)
+- [`$json(messageId: string)`](#jsonmessageid-string)
 - [Formats](#formats)
 - [Accessing formatters directly](#accessing-formatters-directly)
 
@@ -20,7 +21,7 @@ Under the hood, `formatjs` is used for localizing your messages. It allows `svel
 - [Runtime Environments](https://formatjs.io/docs/guides/runtime-requirements/)
 - [ICU Message Syntax](https://formatjs.io/docs/core-concepts/icu-syntax/)
 
-### `$format` or `$_` or `$t`
+### `$format`, `$_` or `$t`
 
 `import { _, t, format } from 'svelte-i18n'`
 
@@ -41,11 +42,11 @@ The formatter can be called with two different signatures:
 
 ```ts
 interface MessageObject {
-  id?: string
-  locale?: string
-  format?: string
-  default?: string
-  values?: Record<string, string | number | Date>
+  id?: string;
+  locale?: string;
+  format?: string;
+  default?: string;
+  values?: Record<string, string | number | Date>;
 }
 ```
 
@@ -56,6 +57,7 @@ interface MessageObject {
 - `values`: properties that should be interpolated in the message;
 
 You can pass a `string` as the first parameter for a less verbose way of formatting a message. It is also possible to inject values into the translation like so:
+
 ```jsonc
 // en.json
 {
@@ -126,6 +128,30 @@ Formats a number with the specified locale and format. Please refer to the [#for
 <!-- 100.000.000 -->
 ```
 
+### `$json(messageId: string)`
+
+`import { json } from 'svelte-i18n'`
+
+Returns the raw JSON value of the specified `messageId` for the current locale. While [`$format`](#format-_-or-t) always returns a string, `$json` can be used to get an object relative to the current locale.
+
+```html
+<ul>
+  {#each $json('list.items') as item}
+    <li>{item.name}</li>
+  {/each}
+</ul>
+```
+
+If you're using TypeScript, you can define the returned type as well:
+
+```html
+<ul>
+  {#each $json<Item[]>('list.items') as item}
+    <li>{item.name}</li>
+  {/each}
+</ul>
+```
+
 ### Formats
 
 `svelte-i18n` comes with a default set of `number`, `time` and `date` formats:
@@ -163,24 +189,24 @@ import {
   getNumberFormatter,
   getTimeFormatter,
   getMessageFormatter,
-} from 'svelte-i18n'
+} from 'svelte-i18n';
 ```
 
 By using these methods, it's possible to manipulate values in a more specific way that fits your needs. For example, it's possible to create a method which receives a `date` and returns its relevant date related parts:
 
 ```js
-import { getDateFormatter } from 'svelte-i18n'
+import { getDateFormatter } from 'svelte-i18n';
 
-const getDateParts = date =>
+const getDateParts = (date) =>
   getDateFormatter()
     .formatToParts(date)
     .filter(({ type }) => type !== 'literal')
     .reduce((acc, { type, value }) => {
-      acc[type] = value
-      return acc
-    }, {})
+      acc[type] = value;
+      return acc;
+    }, {});
 
-getDateParts(new Date(2020, 0, 1)) // { month: '1', day: '1', year: '2020' }
+getDateParts(new Date(2020, 0, 1)); // { month: '1', day: '1', year: '2020' }
 ```
 
 Check the [methods documentation](/docs/Methods.md#low-level-api) for more information.
