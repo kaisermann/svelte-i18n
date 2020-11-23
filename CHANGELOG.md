@@ -1,3 +1,12 @@
+## [3.2.7](https://github.com/kaisermann/svelte-i18n/compare/v3.2.6...v3.2.7) (2020-11-23)
+
+
+### Bug Fixes
+
+* 🐛 message formatter type ([40e6dbe](https://github.com/kaisermann/svelte-i18n/commit/40e6dbe8f7490c57b70dc96f525530f046abcda1)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109)
+
+
+
 ## [3.2.6](https://github.com/kaisermann/svelte-i18n/compare/v3.2.5...v3.2.6) (2020-11-20)
 
 ### Changed
