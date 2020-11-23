@@ -1,7 +1,11 @@
 import { getMessageFromDictionary } from '../stores/dictionary';
 import { getFallbackOf } from '../stores/locale';
 
-export const lookupCache: Record<string, Record<string, string>> = {};
+export const lookupCache: {
+  [locale: string]: {
+    [messageId: string]: any;
+  };
+} = {};
 
 const addToCache = (path: string, locale: string, message: string) => {
   if (!message) return message;
@@ -11,8 +15,8 @@ const addToCache = (path: string, locale: string, message: string) => {
   return message;
 };
 
-const searchForMessage = (path: string, locale: string): string => {
-  if (locale == null) return null;
+const searchForMessage = (path: string, locale: string): any => {
+  if (locale == null) return undefined;
 
   const message = getMessageFromDictionary(locale, path);
 
@@ -32,5 +36,5 @@ export const lookup = (path: string, locale: string) => {
     return addToCache(path, locale, message);
   }
 
-  return null;
+  return undefined;
 };

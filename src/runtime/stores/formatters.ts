@@ -6,6 +6,7 @@ import {
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
+  JSONGetter,
 } from '../types';
 import { lookup } from '../includes/lookup';
 import { hasLocaleQueue } from '../includes/loaderQueue';
@@ -54,23 +55,39 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
     }
 
     message = defaultValue || id;
+  } else if (typeof message !== 'string') {
+    console.error(
+      `[svelte-i18n] Message with id "${id}" must be of type "string", found: "${typeof message}". Gettin its value through the "$format" method is deprecated; use the "json" method instead.`,
+    );
+
+    return message;
   }
 
-  if (!values) return message;
+  if (!values) {
+    return message;
+  }
 
   return getMessageFormatter(message, locale).format(values) as string;
 };
 
-const formatTime: TimeFormatter = (t, options) =>
-  getTimeFormatter(options).format(t);
+const formatTime: TimeFormatter = (t, options) => {
+  return getTimeFormatter(options).format(t);
+};
 
-const formatDate: DateFormatter = (d, options) =>
-  getDateFormatter(options).format(d);
+const formatDate: DateFormatter = (d, options) => {
+  return getDateFormatter(options).format(d);
+};
 
-const formatNumber: NumberFormatter = (n, options) =>
-  getNumberFormatter(options).format(n);
+const formatNumber: NumberFormatter = (n, options) => {
+  return getNumberFormatter(options).format(n);
+};
+
+const getJSON: JSONGetter = <T>(id: string, locale = getCurrentLocale()) => {
+  return lookup(id, locale) as T;
+};
 
 export const $format = derived([$locale, $dictionary], () => formatMessage);
 export const $formatTime = derived([$locale], () => formatTime);
 export const $formatDate = derived([$locale], () => formatDate);
 export const $formatNumber = derived([$locale], () => formatNumber);
+export const $json = derived([$locale, $dictionary], () => getJSON);
