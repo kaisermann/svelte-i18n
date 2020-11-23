@@ -149,4 +149,4 @@ After having the initial locale set, you're ready to start localizing your app. 
 </nav>
 ```
 
-See [Formatting](/docs/Formatting.md) to read about the supported message syntax.
+See [Formatting](/docs/Formatting.md) to read about the supported message syntax and all the available formatters.
