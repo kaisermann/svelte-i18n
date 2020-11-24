@@ -1,3 +1,12 @@
+# [3.3.0](https://github.com/kaisermann/svelte-i18n/compare/v3.2.7...v3.3.0) (2020-11-24)
+
+
+### Features
+
+* 🎸 add $json method to get raw dictionary values ([52400b5](https://github.com/kaisermann/svelte-i18n/commit/52400b5c51213b45270da101aab6e8ae2bda024c)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109) [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
+
+
+
 ## [3.2.7](https://github.com/kaisermann/svelte-i18n/compare/v3.2.6...v3.2.7) (2020-11-23)
 
 
