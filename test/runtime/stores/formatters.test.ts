@@ -106,16 +106,16 @@ describe('format message', () => {
   });
 
   it('errors out when value found is not string', () => {
-    const { error } = global.console;
+    const { warn } = global.console;
 
-    jest.spyOn(global.console, 'error').mockImplementation();
+    jest.spyOn(global.console, 'warn').mockImplementation();
 
     expect(typeof formatMessage('form')).toBe('object');
-    expect(console.error).toBeCalledWith(
+    expect(console.warn).toBeCalledWith(
       `[svelte-i18n] Message with id "form" must be of type "string", found: "object". Gettin its value through the "$format" method is deprecated; use the "json" method instead.`,
     );
 
-    global.console.error = error;
+    global.console.warn = warn;
   });
 
   it('warn on missing messages', () => {
