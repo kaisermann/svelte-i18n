@@ -9,7 +9,6 @@
     "resolveJsonModule": true,
     "target": "es2017",
     "lib": ["es2018", "dom", "esnext"],
-    "outDir": "dist",
-    "types": ["svelte", "jest"]
+    "outDir": "dist"
   }
 }

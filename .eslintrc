@@ -1,20 +1,3 @@
 {
-  "extends": ["@kiwi"],
-  "env": {
-    "browser": true,
-    "jest": true
-  },
-  "rules": {
-    "@typescript-eslint/no-explicit-any": "off"
-  },
-  "overrides": [
-    {
-      "files": ["test/**/*"],
-      "rules": {
-        "global-require": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/no-require-imports": "off"
-      }
-    }
-  ]
+  "extends": ["vtex"]
 }

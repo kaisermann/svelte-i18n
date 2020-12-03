@@ -1,9 +1,0 @@
-{
-  "form": {
-    "field_1_name": "Name",
-    "field_2_name": "Lastname"
-  },
-  "photos": "You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}",
-  "title": "Page title",
-  "sneakers": "sneakers"
-}
