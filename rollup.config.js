@@ -1,4 +1,3 @@
-import commonjs from 'rollup-plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 
@@ -13,6 +12,6 @@ export default [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
     ],
-    plugins: [commonjs(), ts(), PROD && terser()],
+    plugins: [ts(), PROD && terser()],
   },
 ]
