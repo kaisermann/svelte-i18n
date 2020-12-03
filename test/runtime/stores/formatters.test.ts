@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 
-import {
+import type {
   JSONGetter,
   MessageFormatter,
   TimeFormatter,

@@ -49,7 +49,7 @@ export type NumberFormatter = (
   options?: IntlFormatterOptions<Intl.NumberFormatOptions>,
 ) => string;
 
-export type JSONGetter = <T extends any>(id: string, locale?: string) => T;
+export type JSONGetter = <T>(id: string, locale?: string) => T;
 
 type IntlFormatterOptions<T> = T & {
   format?: string;

@@ -1,4 +1,4 @@
-import { MessagesLoader } from '../types';
+import type { MessagesLoader } from '../types';
 import {
   hasLocaleDictionary,
   $dictionary,

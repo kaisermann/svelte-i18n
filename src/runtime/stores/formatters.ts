@@ -1,6 +1,6 @@
 import { derived } from 'svelte/store';
 
-import {
+import type {
   MessageFormatter,
   MessageObject,
   TimeFormatter,

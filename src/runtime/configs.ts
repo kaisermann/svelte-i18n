@@ -1,4 +1,4 @@
-import { ConfigureOptions } from './types';
+import type { ConfigureOptions } from './types';
 import { $locale } from './stores/locale';
 
 interface Formats {

@@ -1,4 +1,4 @@
-import { MessageObject } from './types';
+import type { MessageObject } from './types';
 import { getCurrentLocale, $locale } from './stores/locale';
 import { getOptions, init } from './configs';
 import { flush, registerLocaleLoader } from './includes/loaderQueue';

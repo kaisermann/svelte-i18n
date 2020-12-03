@@ -30,7 +30,7 @@ test('gets a message from the fallback dictionary', () => {
   expect(lookup('field', 'en-US')).toBe('name');
 });
 
-test('gets an array ', () => {
+test('gets an array', () => {
   addMessages('en', {
     careers: [
       {

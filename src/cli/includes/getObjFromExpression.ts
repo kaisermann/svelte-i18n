@@ -1,6 +1,6 @@
-import { ObjectExpression, Property, Identifier } from 'estree';
+import type { ObjectExpression, Property, Identifier } from 'estree';
 
-import { Message } from '../types';
+import type { Message } from '../types';
 
 export function getObjFromExpression(exprNode: ObjectExpression) {
   return exprNode.properties.reduce<Message>((acc, prop: Property) => {

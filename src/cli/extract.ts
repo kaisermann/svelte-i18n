@@ -1,4 +1,4 @@
-import {
+import type {
   Node,
   ObjectExpression,
   ImportDeclaration,
@@ -8,13 +8,13 @@ import {
   Literal,
 } from 'estree';
 import { walk } from 'estree-walker';
-import { Ast } from 'svelte/types/compiler/interfaces';
+import type { Ast } from 'svelte/types/compiler/interfaces';
 import { parse } from 'svelte/compiler';
 import dlv from 'dlv';
 
 import { deepSet } from './includes/deepSet';
 import { getObjFromExpression } from './includes/getObjFromExpression';
-import { Message } from './types';
+import type { Message } from './types';
 
 const LIB_NAME = 'svelte-i18n';
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages';

@@ -2,7 +2,7 @@ import { writable, derived } from 'svelte/store';
 import deepmerge from 'deepmerge';
 import dlv from 'dlv';
 
-import { LocaleDictionary, LocalesDictionary } from '../types/index';
+import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 import { getFallbackOf } from './locale';
 
 let dictionary: LocalesDictionary;

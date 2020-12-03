@@ -1,6 +1,6 @@
 import IntlMessageFormat from 'intl-messageformat';
 
-import { MemoizedIntlFormatter } from '../types';
+import type { MemoizedIntlFormatter } from '../types';
 import { getCurrentLocale } from '../stores/locale';
 import { getOptions } from '../configs';
 import { monadicMemoize } from './memoize';
