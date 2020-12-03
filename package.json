@@ -1,6 +1,6 @@
 {
   "name": "@vtex/slugify",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
   "types": "types/index.d.ts",
