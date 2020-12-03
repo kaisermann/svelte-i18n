@@ -2,7 +2,8 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "../types/runtime"
+    "declarationDir": "../types"
   },
-  "include": ["."]
+  "include": ["**/*.ts"],
+  "exclude": ["*.test.ts"]
 }

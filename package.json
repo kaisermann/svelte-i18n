@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/main.cjs.js",
   "module": "dist/main.esm.js",
-  "types": "types/index.d.ts",
+  "types": "types/main.d.ts",
   "publishConfig": {
     "access": "public"
   },
