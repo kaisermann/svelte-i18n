@@ -195,4 +195,16 @@ describe('message formatter', () => {
       }),
     ).toBe('Number: 2M');
   });
+
+  it('formats an html message with interpolated values', () => {
+    expect(
+      getMessageFormatter(
+        'Page: <soan class="text-bold">{current,number}/{max,number}</soan>',
+        'en',
+      ).format({
+        current: 2,
+        max: 10,
+      }),
+    ).toBe('Page: <soan class="text-bold">2/10</soan>');
+  });
 });

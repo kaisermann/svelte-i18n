@@ -44,6 +44,7 @@ export const defaultOptions: ConfigureOptions = {
   loadingDelay: 200,
   formats: defaultFormats,
   warnOnMissingMessages: true,
+  ignoreTag: true,
 };
 
 const options: ConfigureOptions = defaultOptions;
