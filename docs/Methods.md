@@ -284,7 +284,7 @@ getNumberFormatter(
 ): Intl.NumberFormat
 ```
 
-Each of these methods return their respective [`Intl.xxxxFormatter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#Internationalization) variant. Click [here](/docs/formatting.md#accessing-formatters-directly) for an example of usage.
+Each of these methods return their respective [`Intl.xxxxFormatter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#Internationalization) variant. Click [here](/docs/Formatting.md#accessing-formatters-directly) for an example of usage.
 
 #### `getMessageFormatter`
 
