@@ -82,7 +82,7 @@ const formatNumber: NumberFormatter = (n, options) => {
   return getNumberFormatter(options).format(n);
 };
 
-const getJSON: JSONGetter = <T>(id: string, locale = getCurrentLocale()) => {
+const getJSON: JSONGetter = <T = any>(id: string, locale = getCurrentLocale()) => {
   return lookup(id, locale) as T;
 };
 

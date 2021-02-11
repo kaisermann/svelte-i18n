@@ -142,16 +142,6 @@ Returns the raw JSON value of the specified `messageId` for the current locale. 
 </ul>
 ```
 
-If you're using TypeScript, you can define the returned type as well:
-
-```html
-<ul>
-  {#each $json<Item[]>('list.items') as item}
-    <li>{item.name}</li>
-  {/each}
-</ul>
-```
-
 ### Formats
 
 `svelte-i18n` comes with a default set of `number`, `time` and `date` formats:
