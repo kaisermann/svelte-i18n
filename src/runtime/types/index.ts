@@ -70,4 +70,5 @@ export interface ConfigureOptions {
   initialLocale?: string;
   loadingDelay?: number;
   warnOnMissingMessages?: boolean;
+  ignoreTag?: boolean;
 }

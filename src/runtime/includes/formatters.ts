@@ -91,5 +91,7 @@ export const getTimeFormatter: MemoizedDateTimeFormatterFactory = ({
 
 export const getMessageFormatter = monadicMemoize(
   (message: string, locale: string = getCurrentLocale()) =>
-    new IntlMessageFormat(message, locale, getOptions().formats),
+    new IntlMessageFormat(message, locale, getOptions().formats, {
+      ignoreTag: getOptions().ignoreTag,
+    }),
 );
