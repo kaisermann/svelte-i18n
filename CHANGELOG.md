@@ -1,3 +1,12 @@
+## [3.3.2](https://github.com/kaisermann/svelte-i18n/compare/v3.3.1...v3.3.2) (2021-02-11)
+
+
+### Bug Fixes
+
+* expose intl-messageformat option `ignoreTag` and default to true for backwards compatibility. ([#121](https://github.com/kaisermann/svelte-i18n/issues/121)) ([341ed7f](https://github.com/kaisermann/svelte-i18n/commit/341ed7f3633447294919e4851c9db53b72bc94c3))
+
+
+
 ## [3.3.1](https://github.com/kaisermann/svelte-i18n/compare/v3.2.7...v3.3.1) (2021-02-11)
 
 
