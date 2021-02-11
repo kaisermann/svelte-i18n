@@ -1,3 +1,17 @@
+## [3.3.1](https://github.com/kaisermann/svelte-i18n/compare/v3.2.7...v3.3.1) (2021-02-11)
+
+
+### Bug Fixes
+
+* 🐛 default $json type to any ([41d8e4d](https://github.com/kaisermann/svelte-i18n/commit/41d8e4d28b68bb0ec61f2adf3152025086c1cc7c))
+
+
+### Features
+
+* 🎸 add $json method to get raw dictionary values ([9dd1a19](https://github.com/kaisermann/svelte-i18n/commit/9dd1a19aef3496ff693fc1327c6c67e45bf253b5)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109) [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
+
+
+
 # [3.3.0](https://github.com/kaisermann/svelte-i18n/compare/v3.2.7...v3.3.0) (2020-11-24)
 
 
