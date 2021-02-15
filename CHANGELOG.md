@@ -1,3 +1,12 @@
+## [3.3.4](https://github.com/kaisermann/svelte-i18n/compare/v3.3.2...v3.3.4) (2021-02-15)
+
+
+### Bug Fixes
+
+* crash if message has syntax error ([#128](https://github.com/kaisermann/svelte-i18n/issues/128)) ([0d623f9](https://github.com/kaisermann/svelte-i18n/commit/0d623f9884d831bc83b93eb01914628ca834ea1a))
+
+
+
 ## [3.3.3](https://github.com/kaisermann/svelte-i18n/compare/v3.3.2...v3.3.3) (2021-02-15)
 
 
