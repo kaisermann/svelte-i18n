@@ -72,10 +72,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
   try {
     result = getMessageFormatter(message, locale).format(values) as string;
   } catch (e) {
-    console.warn(
-      `[svelte-i18n] Message with "${id}" has syntax error:`,
-      e.message,
-    );
+    console.warn(`[svelte-i18n] Message "${id}" has syntax error:`, e.message);
   }
 
   return result;
@@ -93,7 +90,10 @@ const formatNumber: NumberFormatter = (n, options) => {
   return getNumberFormatter(options).format(n);
 };
 
-const getJSON: JSONGetter = <T = any>(id: string, locale = getCurrentLocale()) => {
+const getJSON: JSONGetter = <T = any>(
+  id: string,
+  locale = getCurrentLocale(),
+) => {
   return lookup(id, locale) as T;
 };
 
