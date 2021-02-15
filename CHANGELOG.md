@@ -1,3 +1,7 @@
+## [3.3.3](https://github.com/kaisermann/svelte-i18n/compare/v3.3.2...v3.3.3) (2021-02-15)
+
+
+
 ## [3.3.2](https://github.com/kaisermann/svelte-i18n/compare/v3.3.1...v3.3.2) (2021-02-11)
 
 
