@@ -67,7 +67,18 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
     return message;
   }
 
-  return getMessageFormatter(message, locale).format(values) as string;
+  let result = message;
+
+  try {
+    result = getMessageFormatter(message, locale).format(values) as string;
+  } catch (e) {
+    console.warn(
+      `[svelte-i18n] Message with "${id}" has syntax error:`,
+      e.message,
+    );
+  }
+
+  return result;
 };
 
 const formatTime: TimeFormatter = (t, options) => {

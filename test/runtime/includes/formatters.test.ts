@@ -7,6 +7,8 @@ import {
   locale,
 } from '../../../src/runtime';
 
+const formatsJson = require('../../fixtures/formats.json');
+
 beforeEach(() => {
   init({ fallbackLocale: undefined });
 });
@@ -35,7 +37,7 @@ describe('number formatter', () => {
   it('formats a number with a custom format', () => {
     init({
       fallbackLocale: 'en',
-      formats: require('../../fixtures/formats.json'),
+      formats: formatsJson,
     });
 
     expect(getNumberFormatter({ format: 'brl' }).format(number)).toBe(
@@ -81,7 +83,7 @@ describe('date formatter', () => {
   it('throws if passed a non-existing format', () => {
     init({
       fallbackLocale: 'en',
-      formats: require('../../fixtures/formats.json'),
+      formats: formatsJson,
     });
 
     expect(() =>
@@ -92,7 +94,7 @@ describe('date formatter', () => {
   it('formats a date with a custom format', () => {
     init({
       fallbackLocale: 'en',
-      formats: require('../../fixtures/formats.json'),
+      formats: formatsJson,
     });
 
     expect(getDateFormatter({ format: 'customDate' }).format(date)).toBe(
@@ -138,7 +140,7 @@ describe('time formatter', () => {
   it('formats a time with a custom format', () => {
     init({
       fallbackLocale: 'en',
-      formats: require('../../fixtures/formats.json'),
+      formats: formatsJson,
     });
 
     expect(getTimeFormatter({ format: 'customTime' }).format(time)).toBe(
@@ -149,7 +151,7 @@ describe('time formatter', () => {
   it('throws if passed a non-existing format', () => {
     init({
       fallbackLocale: 'en',
-      formats: require('../../fixtures/formats.json'),
+      formats: formatsJson,
     });
 
     expect(() =>
@@ -189,6 +191,7 @@ describe('message formatter', () => {
   });
 
   it('formats number with custom formats', () => {
+    locale.set('en');
     expect(
       getMessageFormatter('Number: {n, number, compactShort}', 'en').format({
         n: 2000000,
