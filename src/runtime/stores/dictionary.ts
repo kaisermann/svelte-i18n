@@ -52,7 +52,7 @@ export function addMessages(locale: string, ...partials: LocaleDictionary[]) {
   });
 }
 
-// eslint-disable-next-line no-shadow
+// eslint-disable-next-line @typescript-eslint/no-shadow
 const $locales = derived([$dictionary], ([dictionary]) =>
   Object.keys(dictionary),
 );

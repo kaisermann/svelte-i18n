@@ -48,8 +48,9 @@ const createDateFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
       throw new Error('[svelte-i18n] A "locale" must be set to format dates');
     }
 
-    if (format) options = getIntlFormatterOptions('date', format);
-    else if (Object.keys(options).length === 0) {
+    if (format) {
+      options = getIntlFormatterOptions('date', format);
+    } else if (Object.keys(options).length === 0) {
       options = getIntlFormatterOptions('date', 'short');
     }
 
@@ -65,8 +66,9 @@ const createTimeFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
       );
     }
 
-    if (format) options = getIntlFormatterOptions('time', format);
-    else if (Object.keys(options).length === 0) {
+    if (format) {
+      options = getIntlFormatterOptions('time', format);
+    } else if (Object.keys(options).length === 0) {
       options = getIntlFormatterOptions('time', 'short');
     }
 

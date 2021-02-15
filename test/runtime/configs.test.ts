@@ -1,3 +1,4 @@
+/* eslint-disable node/global-require */
 import { get } from 'svelte/store';
 
 import {
