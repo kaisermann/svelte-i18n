@@ -106,30 +106,43 @@ describe('format message', () => {
   });
 
   it('errors out when value found is not string', () => {
-    const { warn } = global.console;
-
-    jest.spyOn(global.console, 'warn').mockImplementation();
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation();
 
     expect(typeof formatMessage('form')).toBe('object');
-    expect(console.warn).toBeCalledWith(
+    expect(spy).toBeCalledWith(
       `[svelte-i18n] Message with id "form" must be of type "string", found: "object". Gettin its value through the "$format" method is deprecated; use the "json" method instead.`,
     );
 
-    global.console.warn = warn;
+    spy.mockRestore();
   });
 
   it('warn on missing messages', () => {
-    const { warn } = global.console;
-
-    jest.spyOn(global.console, 'warn').mockImplementation();
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation();
 
     formatMessage('missing');
 
-    expect(console.warn).toBeCalledWith(
+    expect(spy).toBeCalledWith(
       `[svelte-i18n] The message "missing" was not found in "en".`,
     );
 
-    global.console.warn = warn;
+    spy.mockRestore();
+  });
+
+  it('does not throw with invalid syntax', () => {
+    $locale.set('en');
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation();
+
+    // eslint-disable-next-line line-comment-position
+    formatMessage('with-syntax-error', { values: { name: 'John' } });
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        `[svelte-i18n] Message "with-syntax-error" has syntax error:`,
+      ),
+      expect.anything(),
+    );
+
+    spy.mockRestore();
   });
 });
 

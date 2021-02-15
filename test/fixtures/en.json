@@ -5,5 +5,6 @@
   },
   "photos": "You have {n, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}",
   "title": "Page title",
-  "sneakers": "sneakers"
+  "sneakers": "sneakers",
+  "with-syntax-error": "Hello {{name}}!"
 }
