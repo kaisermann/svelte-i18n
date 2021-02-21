@@ -1056,7 +1056,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@kiwi/eslint-config@^1.2.0":
+"@kiwi/eslint-config@^1.10.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@kiwi/eslint-config/-/eslint-config-1.10.1.tgz#be54e0b1ac93c42b020386485c904823b06b0a1b"
   integrity sha512-BrLQ1kWiBxFEMyLSNhHYhPx8bTDU9eaftTo9u00cwF/zFkR23i5T5gccL8OJSs5hnovzJn25eBESg+7UWv57Cw==
@@ -1075,7 +1075,7 @@
     eslint-plugin-react-hooks "^4.1.0"
     eslint-plugin-svelte3 "^2.7.3"
 
-"@kiwi/prettier-config@^1.1.0":
+"@kiwi/prettier-config@^1.10.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@kiwi/prettier-config/-/prettier-config-1.10.1.tgz#cc883b9b21f6f3e76a47818333147157a7ba51c3"
   integrity sha512-B/BTuqJINn9aO9Xp7oRaf1LumUkhoizuZ6XtDP7ZD85MAlQRYqHBNc/B/sxCpoMjJJ9b2JQopsh8MIpkV7m5CA==
