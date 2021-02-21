@@ -1,9 +1,9 @@
 import { writable, derived } from 'svelte/store';
 import deepmerge from 'deepmerge';
-import dlv from 'dlv';
 
 import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 import { getFallbackOf } from './locale';
+import { delve } from '../../shared/delve';
 
 let dictionary: LocalesDictionary;
 const $dictionary = writable<LocalesDictionary>({});
@@ -27,13 +27,7 @@ export function getMessageFromDictionary(locale: string, id: string) {
 
   const localeDictionary = getLocaleDictionary(locale);
 
-  // flat ids
-  if (id in localeDictionary) {
-    return localeDictionary[id];
-  }
-
-  // deep ids
-  const match = dlv(localeDictionary, id);
+  const match = delve(localeDictionary, id);
 
   return match;
 }

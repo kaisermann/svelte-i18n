@@ -1,3 +1,4 @@
+/* eslint-disable line-comment-position */
 import { get } from 'svelte/store';
 
 import type {

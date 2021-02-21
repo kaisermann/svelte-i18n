@@ -97,7 +97,7 @@ describe('getting messages', () => {
     expect(getMessageFromDictionary('en', 'messages.1')).toBe('Other message');
   });
 
-  it('accepts english in dictionary keys', () => {
+  it('gets a shallow message keyed with dots', () => {
     addMessages('pt', {
       'Hey man. How are you today?': 'E ai cara, como você vai hoje?',
     });
@@ -106,8 +106,34 @@ describe('getting messages', () => {
     );
   });
 
+  it('gets a deep message keyed with dots', () => {
+    addMessages('pt', {
+      WCAG: {
+        SUCCESS_CRITERION: {
+          '1.1.1': '1.1.1',
+          '1.2.1': '1.2.1',
+          '1.3.1': '1.3.1',
+          not: null,
+        },
+      },
+    });
+
+    expect(getMessageFromDictionary('pt', 'WCAG.SUCCESS_CRITERION.1.3.1')).toBe(
+      '1.3.1',
+    );
+    expect(
+      getMessageFromDictionary('pt', 'WCAG.SUCCESS_CRITERION.not'),
+    ).toBeNull();
+    expect(
+      getMessageFromDictionary(
+        'pt',
+        'WCAG.SUCCESS_CRITERION.1.3.1.not.existing',
+      ),
+    ).toBeUndefined();
+  });
+
   it('returns undefined for missing messages', () => {
     addMessages('en', {});
-    expect(getMessageFromDictionary('en', 'foo')).toBeUndefined();
+    expect(getMessageFromDictionary('en', 'foo.potato')).toBeUndefined();
   });
 });
