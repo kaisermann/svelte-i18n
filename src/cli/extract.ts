@@ -10,11 +10,11 @@ import type {
 import { walk } from 'estree-walker';
 import type { Ast } from 'svelte/types/compiler/interfaces';
 import { parse } from 'svelte/compiler';
-import dlv from 'dlv';
 
 import { deepSet } from './includes/deepSet';
 import { getObjFromExpression } from './includes/getObjFromExpression';
 import type { Message } from './types';
+import { delve } from '../shared/delve';
 
 const LIB_NAME = 'svelte-i18n';
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages';
@@ -189,7 +189,7 @@ export function extractMessages(
     } else {
       if (
         overwrite === false &&
-        typeof dlv(accumulator, messageObj.id) !== 'undefined'
+        typeof delve(accumulator, messageObj.id) !== 'undefined'
       ) {
         return;
       }
