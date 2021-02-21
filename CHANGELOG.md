@@ -1,3 +1,12 @@
+## [3.3.5](https://github.com/kaisermann/svelte-i18n/compare/v3.3.4...v3.3.5) (2021-02-21)
+
+
+### Bug Fixes
+
+* 🐛 support deep properties keyed with dots ([c13ed35](https://github.com/kaisermann/svelte-i18n/commit/c13ed35e5d735ef9a8dd9390c7646d9f5eda55f2)), closes [#129](https://github.com/kaisermann/svelte-i18n/issues/129)
+
+
+
 ## [3.3.4](https://github.com/kaisermann/svelte-i18n/compare/v3.3.2...v3.3.4) (2021-02-15)
 
 
