@@ -1,3 +1,13 @@
+## [3.3.6](https://github.com/kaisermann/svelte-i18n/compare/v3.3.4...v3.3.6) (2021-02-25)
+
+
+### Bug Fixes
+
+* 🐛 generated types directory ([396e181](https://github.com/kaisermann/svelte-i18n/commit/396e181e006819da11438f78a5c7f62cc415b5e0))
+* 🐛 support deep properties keyed with dots ([980bc18](https://github.com/kaisermann/svelte-i18n/commit/980bc18f291e550c0e4acabf7f38c2ef04843987)), closes [#129](https://github.com/kaisermann/svelte-i18n/issues/129)
+
+
+
 ## [3.3.5](https://github.com/kaisermann/svelte-i18n/compare/v3.3.4...v3.3.5) (2021-02-21)
 
 
