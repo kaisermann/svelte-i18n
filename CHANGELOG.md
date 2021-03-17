@@ -1,3 +1,12 @@
+## [3.3.7](https://github.com/kaisermann/svelte-i18n/compare/v3.3.6...v3.3.7) (2021-03-17)
+
+
+### Bug Fixes
+
+* clear locale lookup cache when new messages are added ([#130](https://github.com/kaisermann/svelte-i18n/issues/130)) ([88ad5b2](https://github.com/kaisermann/svelte-i18n/commit/88ad5b21801eb54cbbb6a8cc9a02bb9b76bc1fbe))
+
+
+
 ## [3.3.6](https://github.com/kaisermann/svelte-i18n/compare/v3.3.4...v3.3.6) (2021-02-25)
 
 
