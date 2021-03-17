@@ -83,3 +83,11 @@ test("doesn't cache falsy messages", () => {
     pt: { field_2: 'nome' },
   });
 });
+
+test('clears a locale lookup cache when new messages are added', () => {
+  addMessages('en', { field: 'name' });
+  expect(lookup('field', 'en')).toBe('name');
+
+  addMessages('en', { field: 'name2' });
+  expect(lookup('field', 'en')).toBe('name2');
+});

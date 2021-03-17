@@ -4,6 +4,7 @@ import deepmerge from 'deepmerge';
 import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 import { getFallbackOf } from './locale';
 import { delve } from '../../shared/delve';
+import { lookupCache } from '../includes/lookup';
 
 let dictionary: LocalesDictionary;
 const $dictionary = writable<LocalesDictionary>({});
@@ -39,6 +40,8 @@ export function getClosestAvailableLocale(locale: string): string | null {
 }
 
 export function addMessages(locale: string, ...partials: LocaleDictionary[]) {
+  delete lookupCache[locale];
+
   $dictionary.update((d) => {
     d[locale] = deepmerge.all<LocaleDictionary>([d[locale] || {}, ...partials]);
 
