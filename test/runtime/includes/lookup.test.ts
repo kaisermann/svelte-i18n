@@ -84,7 +84,7 @@ test("doesn't cache falsy messages", () => {
   });
 });
 
-test('updates message of a locale dictionary', () => {
+test('clears a locale lookup cache when new messages are added', () => {
   addMessages('en', { field: 'name' });
   expect(lookup('field', 'en')).toBe('name');
 
