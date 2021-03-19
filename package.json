@@ -78,6 +78,7 @@
     "@types/estree": "0.0.45",
     "@types/intl": "^1.2.0",
     "@types/jest": "^26.0.14",
+    "@types/node": "^14.14.35",
     "@types/sade": "^1.7.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^26.3.0",
