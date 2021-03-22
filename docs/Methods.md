@@ -88,7 +88,7 @@ init({
 
 #### `getLocaleFromHostname`
 
-> `import { getLocaleFromHostname } from 'svelte-i18n'
+> `import { getLocaleFromHostname } from 'svelte-i18n'`
 
 `getLocaleFromHostname(hostnamePattern: RegExp): string`
 Utility method to help getting a initial locale based on a pattern of the current `hostname`.
@@ -107,7 +107,7 @@ init({
 
 #### `getLocaleFromPathname`
 
-> `import { getLocaleFromPathname } from 'svelte-i18n'
+> `import { getLocaleFromPathname } from 'svelte-i18n'`
 
 `getLocaleFromPathname(pathnamePattern: RegExp): string`
 
@@ -127,7 +127,7 @@ init({
 
 #### `getLocaleFromNavigator`
 
-> `import { getLocaleFromNavigator } from 'svelte-i18n'
+> `import { getLocaleFromNavigator } from 'svelte-i18n'`
 
 `getLocaleFromNavigator(): string`
 
@@ -147,7 +147,7 @@ init({
 
 #### `getLocaleFromQueryString`
 
-> `import { getLocaleFromQueryString } from 'svelte-i18n'
+> `import { getLocaleFromQueryString } from 'svelte-i18n'`
 
 `getLocaleFromQueryString(queryKey: string): string`
 
@@ -165,7 +165,7 @@ init({
 
 #### `getLocaleFromHash`
 
-> `import { getLocaleFromHash } from 'svelte-i18n'
+> `import { getLocaleFromHash } from 'svelte-i18n'`
 
 `getLocaleFromHash(hashKey: string): string`
 
@@ -185,7 +185,7 @@ init({
 
 #### `addMessages`
 
-`import { addMessages } from 'svelte-i18n`
+> `import { addMessages } from 'svelte-i18n`
 
 `addMessages(locale: string, ...dicts: Dictionary[]): void`
 
