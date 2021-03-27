@@ -7,9 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
+        with:
+          node-version: 13.7.0
+
       - name: Install Dependencies
         uses: bahmutov/npm-install@v1
+
       - run: 'npm run lint'
 
   Tests:
@@ -17,17 +22,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [13.2.0]
+        node-version: [13.7.0]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-      - run: git config --global core.autocrlf false
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Install Dependencies
         uses: bahmutov/npm-install@v1
+
       - run: npm run test:ci
         env:
           CI: true
