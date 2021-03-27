@@ -2,11 +2,9 @@ import { get } from 'svelte/store';
 
 import { lookup } from '../../../src/runtime/includes/lookup';
 import {
-  isFallbackLocale,
   getPossibleLocales,
   getCurrentLocale,
   $locale,
-  isRelatedLocale,
 } from '../../../src/runtime/stores/locale';
 import { getOptions, init } from '../../../src/runtime/configs';
 import { register, isLoading } from '../../../src/runtime';
@@ -20,20 +18,6 @@ beforeEach(() => {
 test('sets and gets the fallback locale', () => {
   init({ fallbackLocale: 'en' });
   expect(getOptions().fallbackLocale).toBe('en');
-});
-
-test('checks if a locale is a fallback locale of another locale', () => {
-  expect(isFallbackLocale('en', 'en-US')).toBe(true);
-  expect(isFallbackLocale('en', 'en')).toBe(false);
-  expect(isFallbackLocale('it', 'en-US')).toBe(false);
-});
-
-test('checks if a locale is a related locale of another locale', () => {
-  expect(isRelatedLocale('en', 'en-US')).toBe(true);
-  expect(isRelatedLocale('pt-BR', 'pt')).toBe(true);
-  expect(isRelatedLocale('en', 'en')).toBe(true);
-  expect(isRelatedLocale('en', 'it-IT')).toBe(false);
-  expect(isRelatedLocale('en-US', 'it')).toBe(false);
 });
 
 test('gets all possible locales from a reference locale', () => {

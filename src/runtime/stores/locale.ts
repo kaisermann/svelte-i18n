@@ -8,18 +8,6 @@ import { $isLoading } from './loading';
 let current: string;
 const $locale = writable(null);
 
-export function isFallbackLocale(localeA: string, localeB: string) {
-  return localeB.indexOf(localeA) === 0 && localeA !== localeB;
-}
-
-export function isRelatedLocale(localeA: string, localeB: string) {
-  return (
-    localeA === localeB ||
-    isFallbackLocale(localeA, localeB) ||
-    isFallbackLocale(localeB, localeA)
-  );
-}
-
 function getSubLocales(refLocale: string) {
   return refLocale
     .split('-')

@@ -25,10 +25,18 @@ test('gets a deep message of a locale dictionary', () => {
   expect(lookup('deep.field', 'en')).toBe('lastname');
 });
 
-test('gets a message from the fallback dictionary', () => {
+test('gets a message from a generic fallback dictionary', () => {
   addMessages('en', { field: 'name' });
 
   expect(lookup('field', 'en-US')).toBe('name');
+});
+
+test('gets a message from a specific fallback dictionary', () => {
+  init({ fallbackLocale: 'en-GB' });
+
+  addMessages('en-GB', { field: 'name' });
+
+  expect(lookup('field', 'en-AU')).toBe('name');
 });
 
 test('gets an array', () => {
@@ -91,12 +99,4 @@ test('clears a locale lookup cache when new messages are added', () => {
 
   addMessages('en', { field: 'name2' });
   expect(lookup('field', 'en')).toBe('name2');
-});
-
-test('fallback to fallback locale', () => {
-  init({ fallbackLocale: 'en-GB', initialLocale: 'en-AU' });
-
-  addMessages('en-GB', { field: 'name' });
-
-  expect(lookup('field', 'en-AU')).toBe('name');
 });
