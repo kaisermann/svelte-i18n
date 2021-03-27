@@ -35,7 +35,7 @@ export function getCurrentLocale() {
 $locale.subscribe((newLocale: string) => {
   current = newLocale;
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && newLocale !== null) {
     document.documentElement.setAttribute('lang', newLocale);
   }
 });
