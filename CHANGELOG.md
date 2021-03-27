@@ -1,3 +1,12 @@
+## [3.3.8](https://github.com/kaisermann/svelte-i18n/compare/v3.3.7...v3.3.8) (2021-03-27)
+
+
+### Bug Fixes
+
+* 🐛 support more specific fallback locale (i.e en-GB vs en) ([5db1dbc](https://github.com/kaisermann/svelte-i18n/commit/5db1dbc3a40f9a19585f63dbacd42846e599d927)), closes [#137](https://github.com/kaisermann/svelte-i18n/issues/137)
+
+
+
 ## [3.3.7](https://github.com/kaisermann/svelte-i18n/compare/v3.3.6...v3.3.7) (2021-03-17)
 
 
