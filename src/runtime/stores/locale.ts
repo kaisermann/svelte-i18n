@@ -8,41 +8,33 @@ import { $isLoading } from './loading';
 let current: string;
 const $locale = writable(null);
 
-export function isFallbackLocaleOf(localeA: string, localeB: string) {
+export function isFallbackLocale(localeA: string, localeB: string) {
   return localeB.indexOf(localeA) === 0 && localeA !== localeB;
 }
 
 export function isRelatedLocale(localeA: string, localeB: string) {
   return (
     localeA === localeB ||
-    isFallbackLocaleOf(localeA, localeB) ||
-    isFallbackLocaleOf(localeB, localeA)
+    isFallbackLocale(localeA, localeB) ||
+    isFallbackLocale(localeB, localeA)
   );
 }
 
-export function getFallbackOf(locale: string) {
-  const index = locale.lastIndexOf('-');
-
-  if (index > 0) return locale.slice(0, index);
-
-  const { fallbackLocale } = getOptions();
-
-  if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
-    return fallbackLocale;
-  }
-
-  return null;
+function getSubLocales(refLocale: string) {
+  return refLocale
+    .split('-')
+    .map((_, i, arr) => arr.slice(0, i + 1).join('-'))
+    .reverse();
 }
 
-export function getRelatedLocalesOf(locale: string): string[] {
-  const locales = locale
-    .split('-')
-    .map((_, i, arr) => arr.slice(0, i + 1).join('-'));
+export function getPossibleLocales(
+  refLocale: string,
+  fallbackLocale = getOptions().fallbackLocale,
+): string[] {
+  const locales = getSubLocales(refLocale);
 
-  const { fallbackLocale } = getOptions();
-
-  if (fallbackLocale && !isRelatedLocale(locale, fallbackLocale)) {
-    return locales.concat(getRelatedLocalesOf(fallbackLocale));
+  if (fallbackLocale) {
+    return [...new Set([...locales, ...getSubLocales(fallbackLocale)])];
   }
 
   return locales;

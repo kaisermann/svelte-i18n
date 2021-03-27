@@ -1,5 +1,5 @@
 import { getMessageFromDictionary } from '../stores/dictionary';
-import { getFallbackOf } from '../stores/locale';
+import { getPossibleLocales } from '../stores/locale';
 
 export const lookupCache: {
   [locale: string]: {
@@ -15,25 +15,25 @@ const addToCache = (path: string, locale: string, message: string) => {
   return message;
 };
 
-const searchForMessage = (path: string, locale: string): any => {
-  if (locale == null) return undefined;
+export const lookup = (path: string, refLocale: string) => {
+  if (refLocale == null) return undefined;
 
-  const message = getMessageFromDictionary(locale, path);
-
-  if (message) return message;
-
-  return searchForMessage(path, getFallbackOf(locale));
-};
-
-export const lookup = (path: string, locale: string) => {
-  if (locale in lookupCache && path in lookupCache[locale]) {
-    return lookupCache[locale][path];
+  if (refLocale in lookupCache && path in lookupCache[refLocale]) {
+    return lookupCache[refLocale][path];
   }
 
-  const message = searchForMessage(path, locale);
+  const locales = getPossibleLocales(refLocale);
 
-  if (message) {
-    return addToCache(path, locale, message);
+  for (let i = 0; i < locales.length; i++) {
+    const locale = locales[i];
+    const message = getMessageFromDictionary(locale, path);
+
+    if (message) {
+      // Used the requested locale as the cache key
+      // Ex: { en: { title: "Title" }}
+      // lookup('title', 'en-GB') should cache with 'en-GB' instead of 'en'
+      return addToCache(path, refLocale, message);
+    }
   }
 
   return undefined;

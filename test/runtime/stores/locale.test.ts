@@ -2,9 +2,8 @@ import { get } from 'svelte/store';
 
 import { lookup } from '../../../src/runtime/includes/lookup';
 import {
-  isFallbackLocaleOf,
-  getFallbackOf,
-  getRelatedLocalesOf,
+  isFallbackLocale,
+  getPossibleLocales,
   getCurrentLocale,
   $locale,
   isRelatedLocale,
@@ -24,9 +23,9 @@ test('sets and gets the fallback locale', () => {
 });
 
 test('checks if a locale is a fallback locale of another locale', () => {
-  expect(isFallbackLocaleOf('en', 'en-US')).toBe(true);
-  expect(isFallbackLocaleOf('en', 'en')).toBe(false);
-  expect(isFallbackLocaleOf('it', 'en-US')).toBe(false);
+  expect(isFallbackLocale('en', 'en-US')).toBe(true);
+  expect(isFallbackLocale('en', 'en')).toBe(false);
+  expect(isFallbackLocale('it', 'en-US')).toBe(false);
 });
 
 test('checks if a locale is a related locale of another locale', () => {
@@ -37,65 +36,59 @@ test('checks if a locale is a related locale of another locale', () => {
   expect(isRelatedLocale('en-US', 'it')).toBe(false);
 });
 
-test('gets the next fallback locale of a locale', () => {
-  expect(getFallbackOf('az-Cyrl-AZ')).toBe('az-Cyrl');
-  expect(getFallbackOf('en-US')).toBe('en');
-  expect(getFallbackOf('en')).toBeNull();
-});
-
-test('gets the global fallback locale if set', () => {
-  init({ fallbackLocale: 'en' });
-  expect(getFallbackOf('it')).toBe('en');
-});
-
-test('should not get the global fallback as the fallback of itself', () => {
-  init({ fallbackLocale: 'en' });
-  expect(getFallbackOf('en')).toBeNull();
-});
-
-test('if global fallback locale has a fallback, it should return it', () => {
-  init({ fallbackLocale: 'en-US' });
-  expect(getFallbackOf('en-US')).toBe('en');
-});
-
-test('gets all fallback locales of a locale', () => {
-  expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US']);
-  expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US']);
-  expect(getRelatedLocalesOf('az-Cyrl-AZ')).toEqual([
-    'az',
-    'az-Cyrl',
+test('gets all possible locales from a reference locale', () => {
+  expect(getPossibleLocales('en-US')).toEqual(['en-US', 'en']);
+  expect(getPossibleLocales('az-Cyrl-AZ')).toEqual([
     'az-Cyrl-AZ',
+    'az-Cyrl',
+    'az',
   ]);
 });
 
 test('gets all fallback locales of a locale including the global fallback locale', () => {
   init({ fallbackLocale: 'pt' });
-  expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt']);
-  expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt']);
-  expect(getRelatedLocalesOf('az-Cyrl-AZ')).toEqual([
-    'az',
-    'az-Cyrl',
+  expect(getPossibleLocales('en-US')).toEqual(['en-US', 'en', 'pt']);
+  expect(getPossibleLocales('az-Cyrl-AZ')).toEqual([
     'az-Cyrl-AZ',
+    'az-Cyrl',
+    'az',
     'pt',
   ]);
 });
+
+test('remove duplicate fallback locales', () => {
+  expect(getPossibleLocales('en-AU', 'en-GB')).toEqual([
+    'en-AU',
+    'en',
+    'en-GB',
+  ]);
+});
+
 test('gets all fallback locales of a locale including the global fallback locale and its fallbacks', () => {
-  init({ fallbackLocale: 'pt-BR' });
-  expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt', 'pt-BR']);
-  expect(getRelatedLocalesOf('en-US')).toEqual(['en', 'en-US', 'pt', 'pt-BR']);
-  expect(getRelatedLocalesOf('az-Cyrl-AZ')).toEqual([
-    'az',
-    'az-Cyrl',
-    'az-Cyrl-AZ',
-    'pt',
+  expect(getPossibleLocales('en-US', 'pt-BR')).toEqual([
+    'en-US',
+    'en',
     'pt-BR',
+    'pt',
+  ]);
+  expect(getPossibleLocales('en-US', 'pt-BR')).toEqual([
+    'en-US',
+    'en',
+    'pt-BR',
+    'pt',
+  ]);
+  expect(getPossibleLocales('az-Cyrl-AZ', 'pt-BR')).toEqual([
+    'az-Cyrl-AZ',
+    'az-Cyrl',
+    'az',
+    'pt-BR',
+    'pt',
   ]);
 });
 
 test("don't list fallback locale twice", () => {
-  init({ fallbackLocale: 'pt-BR' });
-  expect(getRelatedLocalesOf('pt-BR')).toEqual(['pt', 'pt-BR']);
-  expect(getRelatedLocalesOf('pt')).toEqual(['pt']);
+  expect(getPossibleLocales('pt-BR', 'pt-BR')).toEqual(['pt-BR', 'pt']);
+  expect(getPossibleLocales('pt', 'pt-BR')).toEqual(['pt', 'pt-BR']);
 });
 
 test('gets the current locale', () => {

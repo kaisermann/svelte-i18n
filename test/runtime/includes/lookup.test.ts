@@ -1,3 +1,4 @@
+import { init } from '../../../src/runtime/configs';
 import { lookup, lookupCache } from '../../../src/runtime/includes/lookup';
 import {
   $dictionary,
@@ -90,4 +91,12 @@ test('clears a locale lookup cache when new messages are added', () => {
 
   addMessages('en', { field: 'name2' });
   expect(lookup('field', 'en')).toBe('name2');
+});
+
+test('fallback to fallback locale', () => {
+  init({ fallbackLocale: 'en-GB', initialLocale: 'en-AU' });
+
+  addMessages('en-GB', { field: 'name' });
+
+  expect(lookup('field', 'en-AU')).toBe('name');
 });
