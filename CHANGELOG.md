@@ -1,3 +1,12 @@
+## [3.3.9](https://github.com/kaisermann/svelte-i18n/compare/v3.3.8...v3.3.9) (2021-03-27)
+
+
+### Bug Fixes
+
+* 🐛 only set lang attr if lang is not nullish ([1c516c9](https://github.com/kaisermann/svelte-i18n/commit/1c516c9cda45e5a25dd466947804a5cc94734d22)), closes [#133](https://github.com/kaisermann/svelte-i18n/issues/133)
+
+
+
 ## [3.3.8](https://github.com/kaisermann/svelte-i18n/compare/v3.3.7...v3.3.8) (2021-03-27)
 
 
