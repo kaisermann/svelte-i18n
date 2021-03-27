@@ -68,7 +68,7 @@ test('gets the closest available locale', () => {
 
 test("returns null if there's no closest locale available", () => {
   addMessages('pt', { field_1: 'name' });
-  expect(getClosestAvailableLocale('it-IT')).toBeNull();
+  expect(getClosestAvailableLocale('it-IT')).toBeUndefined();
 });
 
 test('lists all locales in the dictionary', () => {

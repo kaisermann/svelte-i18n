@@ -18,7 +18,7 @@ import {
 } from '../includes/formatters';
 import { getOptions } from '../configs';
 import { $dictionary } from './dictionary';
-import { getCurrentLocale, getRelatedLocalesOf, $locale } from './locale';
+import { getCurrentLocale, getPossibleLocales, $locale } from './locale';
 
 const formatMessage: MessageFormatter = (id, options = {}) => {
   if (typeof id === 'object') {
@@ -44,7 +44,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
     if (getOptions().warnOnMissingMessages) {
       // istanbul ignore next
       console.warn(
-        `[svelte-i18n] The message "${id}" was not found in "${getRelatedLocalesOf(
+        `[svelte-i18n] The message "${id}" was not found in "${getPossibleLocales(
           locale,
         ).join('", "')}".${
           hasLocaleQueue(getCurrentLocale())

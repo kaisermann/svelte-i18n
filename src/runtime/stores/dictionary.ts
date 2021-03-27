@@ -2,9 +2,10 @@ import { writable, derived } from 'svelte/store';
 import deepmerge from 'deepmerge';
 
 import type { LocaleDictionary, LocalesDictionary } from '../types/index';
-import { getFallbackOf } from './locale';
+import { getPossibleLocales } from './locale';
 import { delve } from '../../shared/delve';
 import { lookupCache } from '../includes/lookup';
+import { locales } from '..';
 
 let dictionary: LocalesDictionary;
 const $dictionary = writable<LocalesDictionary>({});
@@ -33,10 +34,20 @@ export function getMessageFromDictionary(locale: string, id: string) {
   return match;
 }
 
-export function getClosestAvailableLocale(locale: string): string | null {
-  if (locale == null || hasLocaleDictionary(locale)) return locale;
+export function getClosestAvailableLocale(refLocale: string): string | null {
+  if (refLocale == null) return undefined;
 
-  return getClosestAvailableLocale(getFallbackOf(locale));
+  const relatedLocales = getPossibleLocales(refLocale);
+
+  for (let i = 0; i < relatedLocales.length; i++) {
+    const locale = relatedLocales[i];
+
+    if (hasLocaleDictionary(locale)) {
+      return locale;
+    }
+  }
+
+  return undefined;
 }
 
 export function addMessages(locale: string, ...partials: LocaleDictionary[]) {

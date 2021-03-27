@@ -4,7 +4,7 @@ import {
   $dictionary,
   addMessages,
 } from '../stores/dictionary';
-import { getRelatedLocalesOf } from '../stores/locale';
+import { getPossibleLocales } from '../stores/locale';
 
 type Queue = Set<MessagesLoader>;
 const queue: Record<string, Queue> = {};
@@ -32,8 +32,7 @@ function getLocaleQueue(locale: string) {
 }
 
 function getLocalesQueues(locale: string) {
-  return getRelatedLocalesOf(locale)
-    .reverse()
+  return getPossibleLocales(locale)
     .map<[string, MessagesLoader[]]>((localeItem) => {
       const localeQueue = getLocaleQueue(localeItem);
 
@@ -43,9 +42,9 @@ function getLocalesQueues(locale: string) {
 }
 
 export function hasLocaleQueue(locale: string) {
-  return getRelatedLocalesOf(locale)
-    .reverse()
-    .some((localeQueue) => getLocaleQueue(localeQueue)?.size);
+  return getPossibleLocales(locale).some(
+    (localeQueue) => getLocaleQueue(localeQueue)?.size,
+  );
 }
 
 function loadLocaleQueue(locale: string, localeQueue: MessagesLoader[]) {
