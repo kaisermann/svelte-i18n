@@ -292,4 +292,4 @@ Each of these methods return their respective [`Intl.xxxxFormatter`](https://dev
 
 `getMessageFormatter(messageId: string, locale: string): IntlMessageFormat`
 
-Returns an instance of a [`IntlMessageFormat`](https://github.com/formatjs/formatjs/blob/master/packages/intl-messageformat/README.md).
+Returns an instance of a [`IntlMessageFormat`](https://formatjs.io/docs/intl-messageformat/).
