@@ -1,7 +1,11 @@
 import type { FormatXMLElementFn, Formats } from 'intl-messageformat';
 
 export interface LocaleDictionary {
-  [key: string]: LocaleDictionary | string | Array<string | LocaleDictionary>;
+  [key: string]:
+    | LocaleDictionary
+    | string
+    | Array<string | LocaleDictionary>
+    | null;
 }
 
 export type LocalesDictionary = {
@@ -49,7 +53,7 @@ export type NumberFormatter = (
   options?: IntlFormatterOptions<Intl.NumberFormatOptions>,
 ) => string;
 
-export type JSONGetter = <T>(id: string, locale?: string) => T;
+export type JSONGetter = (id: string, locale?: string) => any;
 
 type IntlFormatterOptions<T> = T & {
   format?: string;
@@ -57,6 +61,10 @@ type IntlFormatterOptions<T> = T & {
 };
 
 export interface MemoizedIntlFormatter<T, U> {
+  (options: IntlFormatterOptions<U>): T;
+}
+
+export interface MemoizedIntlFormatterOptional<T, U> {
   (options?: IntlFormatterOptions<U>): T;
 }
 
@@ -65,10 +73,14 @@ export interface MessagesLoader {
 }
 
 export interface ConfigureOptions {
-  fallbackLocale: string;
-  formats?: Partial<Formats>;
-  initialLocale?: string;
-  loadingDelay?: number;
-  warnOnMissingMessages?: boolean;
-  ignoreTag?: boolean;
+  fallbackLocale: string | null | undefined;
+  formats: Formats;
+  initialLocale: string | null;
+  loadingDelay: number;
+  warnOnMissingMessages: boolean;
+  ignoreTag: boolean;
 }
+
+export type ConfigureOptionsInit = Pick<ConfigureOptions, 'fallbackLocale'> &
+  Partial<Record<'formats', Partial<ConfigureOptions['formats']>>> &
+  Partial<Omit<ConfigureOptions, 'fallbackLocale' | 'formats'>>;

@@ -31,7 +31,7 @@ export function defineMessages(i: Record<string, MessageObject>) {
 }
 
 export function waitLocale(locale?: string) {
-  return flush(locale || getCurrentLocale() || getOptions().initialLocale);
+  return flush(locale || getCurrentLocale() || getOptions().initialLocale!);
 }
 
 export {

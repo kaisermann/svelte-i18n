@@ -15,7 +15,7 @@ const addToCache = (path: string, locale: string, message: string) => {
   return message;
 };
 
-export const lookup = (path: string, refLocale: string) => {
+export const lookup = (path: string, refLocale: string | null | undefined) => {
   if (refLocale == null) return undefined;
 
   if (refLocale in lookupCache && path in lookupCache[refLocale]) {
