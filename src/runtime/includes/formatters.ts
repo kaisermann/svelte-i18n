@@ -1,6 +1,9 @@
 import IntlMessageFormat from 'intl-messageformat';
 
-import type { MemoizedIntlFormatter } from '../types';
+import type {
+  MemoizedIntlFormatter,
+  MemoizedIntlFormatterOptional,
+} from '../types';
 import { getCurrentLocale } from '../stores/locale';
 import { getOptions } from '../configs';
 import { monadicMemoize } from './memoize';
@@ -11,6 +14,16 @@ type MemoizedNumberFormatterFactory = MemoizedIntlFormatter<
 >;
 
 type MemoizedDateTimeFormatterFactory = MemoizedIntlFormatter<
+  Intl.DateTimeFormat,
+  Intl.DateTimeFormatOptions
+>;
+
+type MemoizedNumberFormatterFactoryOptional = MemoizedIntlFormatterOptional<
+  Intl.NumberFormat,
+  Intl.NumberFormatOptions
+>;
+
+type MemoizedDateTimeFormatterFactoryOptional = MemoizedIntlFormatterOptional<
   Intl.DateTimeFormat,
   Intl.DateTimeFormatOptions
 >;
@@ -76,17 +89,17 @@ const createTimeFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
   },
 );
 
-export const getNumberFormatter: MemoizedNumberFormatterFactory = ({
+export const getNumberFormatter: MemoizedNumberFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
   ...args
 } = {}) => createNumberFormatter({ locale, ...args });
 
-export const getDateFormatter: MemoizedDateTimeFormatterFactory = ({
+export const getDateFormatter: MemoizedDateTimeFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
   ...args
 } = {}) => createDateFormatter({ locale, ...args });
 
-export const getTimeFormatter: MemoizedDateTimeFormatterFactory = ({
+export const getTimeFormatter: MemoizedDateTimeFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
   ...args
 } = {}) => createTimeFormatter({ locale, ...args });

@@ -1,4 +1,4 @@
-import type { ConfigureOptions } from './types';
+import type { ConfigureOptions, ConfigureOptionsInit } from './types';
 import { $locale } from './stores/locale';
 
 interface Formats {
@@ -47,13 +47,13 @@ export const defaultOptions: ConfigureOptions = {
   ignoreTag: true,
 };
 
-const options: ConfigureOptions = defaultOptions;
+const options: ConfigureOptions = defaultOptions as any;
 
 export function getOptions() {
   return options;
 }
 
-export function init(opts: ConfigureOptions) {
+export function init(opts: ConfigureOptionsInit) {
   const { formats, ...rest } = opts;
   const initialLocale = opts.initialLocale || opts.fallbackLocale;
 

@@ -2,8 +2,10 @@ import type { ObjectExpression, Property, Identifier } from 'estree';
 
 import type { Message } from '../types';
 
-export function getObjFromExpression(exprNode: ObjectExpression) {
-  return exprNode.properties.reduce<Message>((acc, prop: Property) => {
+export function getObjFromExpression(
+  exprNode: ObjectExpression,
+): Partial<Message> {
+  return exprNode.properties.reduce<Partial<Message>>((acc, prop: Property) => {
     // we only want primitives
     if (
       prop.value.type === 'Literal' &&

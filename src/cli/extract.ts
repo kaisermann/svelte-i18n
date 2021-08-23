@@ -23,7 +23,7 @@ const FORMAT_METHOD_NAMES = new Set(['format', '_', 't']);
 function isFormatCall(node: Node, imports: Set<string>) {
   if (node.type !== 'CallExpression') return false;
 
-  let identifier: Identifier;
+  let identifier: Identifier | undefined;
 
   if (node.callee.type === 'Identifier') {
     identifier = node.callee;
@@ -125,7 +125,9 @@ export function collectMessageDefinitions(ast: Ast) {
     definitionDict.properties.map((propNode) => {
       if (propNode.type !== 'Property') {
         throw new Error(
-          `Found invalid '${propNode.type}' at L${propNode.loc.start.line}:${propNode.loc.start.column}`,
+          `Found invalid '${propNode.type}' at L${propNode.loc!.start.line}:${
+            propNode.loc!.start.column
+          }`,
         );
       }
 
@@ -143,7 +145,7 @@ export function collectMessages(markup: string): Message[] {
     ...definitions.map((definition) => getObjFromExpression(definition)),
     ...calls.map((call) => {
       const [pathNode, options] = call.arguments;
-      let messageObj;
+      let messageObj: Partial<Message>;
 
       if (pathNode.type === 'ObjectExpression') {
         // _({ ...opts })
@@ -166,7 +168,7 @@ export function collectMessages(markup: string): Message[] {
 
       return messageObj;
     }),
-  ].filter(Boolean);
+  ].filter((Boolean as unknown) as (x: Message | null) => x is Message);
 }
 
 export function extractMessages(

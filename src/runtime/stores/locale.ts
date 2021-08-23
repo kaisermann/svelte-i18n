@@ -6,7 +6,7 @@ import { getClosestAvailableLocale } from './dictionary';
 import { $isLoading } from './loading';
 
 let current: string;
-const $locale = writable(null);
+const $locale = writable<string | null | undefined>(null);
 
 function getSubLocales(refLocale: string) {
   return refLocale
@@ -77,7 +77,8 @@ $locale.set = (newLocale: string): void | Promise<void> => {
 };
 
 // istanbul ignore next
-$locale.update = (fn: (locale: string) => void | Promise<void>) =>
-  localeSet(fn(current));
+$locale.update = (
+  fn: (value: string | null | undefined) => string | null | undefined,
+) => localeSet(fn(current));
 
 export { $locale };

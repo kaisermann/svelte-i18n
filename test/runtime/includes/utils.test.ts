@@ -8,7 +8,7 @@ import {
 
 describe('getting client locale', () => {
   beforeEach(() => {
-    delete window.location;
+    delete (window as any).location;
     window.location = {
       pathname: '/',
       hostname: 'example.com',

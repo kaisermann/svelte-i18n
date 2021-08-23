@@ -23,8 +23,8 @@ test('checks if exist queues of locale and its fallbacks', () => {
   expect(hasLocaleQueue('en-US')).toBe(true);
 });
 
-test("does nothing if there's no queue for a locale", () => {
-  expect(flush('foo')).toBeUndefined();
+test("does nothing if there's no queue for a locale", async () => {
+  expect(await flush('foo')).toBeUndefined();
 });
 
 test('flushes the queue of a locale and its fallbacks and merge the result with the dictionary', async () => {

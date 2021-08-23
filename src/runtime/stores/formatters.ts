@@ -23,7 +23,7 @@ import { getCurrentLocale, getPossibleLocales, $locale } from './locale';
 const formatMessage: MessageFormatter = (id, options = {}) => {
   if (typeof id === 'object') {
     options = id as MessageObject;
-    id = options.id;
+    id = options.id!;
   }
 
   const {
@@ -90,11 +90,8 @@ const formatNumber: NumberFormatter = (n, options) => {
   return getNumberFormatter(options).format(n);
 };
 
-const getJSON: JSONGetter = <T = any>(
-  id: string,
-  locale = getCurrentLocale(),
-) => {
-  return lookup(id, locale) as T;
+const getJSON: JSONGetter = (id: string, locale = getCurrentLocale()): any => {
+  return lookup(id, locale);
 };
 
 export const $format = derived([$locale, $dictionary], () => formatMessage);
