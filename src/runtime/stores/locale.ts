@@ -5,8 +5,8 @@ import { getOptions } from '../configs';
 import { getClosestAvailableLocale } from './dictionary';
 import { $isLoading } from './loading';
 
-let current: string;
-const $locale = writable<string | null | undefined>(null);
+let current: string | null | undefined;
+const internalLocale = writable<string | null | undefined>(null);
 
 function getSubLocales(refLocale: string) {
   return refLocale
@@ -32,18 +32,21 @@ export function getCurrentLocale() {
   return current;
 }
 
-$locale.subscribe((newLocale: string) => {
+internalLocale.subscribe((newLocale: string | null | undefined) => {
   current = newLocale;
 
-  if (typeof window !== 'undefined' && newLocale !== null) {
+  if (typeof window !== 'undefined' && newLocale != null) {
     document.documentElement.setAttribute('lang', newLocale);
   }
 });
 
-const localeSet = $locale.set;
-
-$locale.set = (newLocale: string): void | Promise<void> => {
-  if (getClosestAvailableLocale(newLocale) && hasLocaleQueue(newLocale)) {
+const set = (newLocale: string | null | undefined): void | Promise<void> => {
+  if (
+    ((getClosestAvailableLocale as unknown) as (
+      refLocale: string | null | undefined,
+    ) => refLocale is string)(newLocale) &&
+    hasLocaleQueue(newLocale)
+  ) {
     const { loadingDelay } = getOptions();
 
     let loadingTimer: number;
@@ -65,7 +68,7 @@ $locale.set = (newLocale: string): void | Promise<void> => {
 
     return flush(newLocale)
       .then(() => {
-        localeSet(newLocale);
+        internalLocale.set(newLocale);
       })
       .finally(() => {
         clearTimeout(loadingTimer);
@@ -73,12 +76,12 @@ $locale.set = (newLocale: string): void | Promise<void> => {
       });
   }
 
-  return localeSet(newLocale);
+  return internalLocale.set(newLocale);
 };
 
-// istanbul ignore next
-$locale.update = (
-  fn: (value: string | null | undefined) => string | null | undefined,
-) => localeSet(fn(current));
+const $locale = {
+  ...internalLocale,
+  set,
+};
 
 export { $locale };

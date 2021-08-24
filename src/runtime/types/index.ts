@@ -1,4 +1,4 @@
-import type { FormatXMLElementFn, Formats } from 'intl-messageformat';
+import type { Formats, FormatXMLElementFn } from 'intl-messageformat';
 
 export interface LocaleDictionary {
   [key: string]:
@@ -27,7 +27,7 @@ export type InterpolationValues =
 
 export interface MessageObject {
   id?: string;
-  locale?: string;
+  locale?: string | null;
   format?: string;
   default?: string;
   values?: InterpolationValues;
@@ -53,11 +53,11 @@ export type NumberFormatter = (
   options?: IntlFormatterOptions<Intl.NumberFormatOptions>,
 ) => string;
 
-export type JSONGetter = (id: string, locale?: string) => any;
+export type JSONGetter = (id: string, locale?: string | null) => any;
 
 type IntlFormatterOptions<T> = T & {
   format?: string;
-  locale?: string;
+  locale?: string | null;
 };
 
 export interface MemoizedIntlFormatter<T, U> {
@@ -73,14 +73,13 @@ export interface MessagesLoader {
 }
 
 export interface ConfigureOptions {
-  fallbackLocale: string | null | undefined;
-  formats: Formats;
-  initialLocale: string | null;
+  fallbackLocale: string;
+  formats: Partial<Formats>;
+  initialLocale: string;
   loadingDelay: number;
   warnOnMissingMessages: boolean;
   ignoreTag: boolean;
 }
 
 export type ConfigureOptionsInit = Pick<ConfigureOptions, 'fallbackLocale'> &
-  Partial<Record<'formats', Partial<ConfigureOptions['formats']>>> &
-  Partial<Omit<ConfigureOptions, 'fallbackLocale' | 'formats'>>;
+  Partial<Omit<ConfigureOptions, 'fallbackLocale'>>;

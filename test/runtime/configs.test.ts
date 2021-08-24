@@ -10,7 +10,7 @@ import {
 import { $locale } from '../../src/runtime/stores/locale';
 
 beforeEach(() => {
-  init(defaultOptions);
+  init(defaultOptions as any);
 });
 
 test('inits the fallback locale', () => {

@@ -11,7 +11,7 @@ import { register, isLoading } from '../../../src/runtime';
 import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue';
 
 beforeEach(() => {
-  init({ fallbackLocale: undefined });
+  init({ fallbackLocale: undefined as any });
   $locale.set(undefined);
 });
 
@@ -90,7 +90,7 @@ test('if no initial locale is set, set the locale to the fallback', () => {
 test('if no initial locale was found, set to the fallback locale', () => {
   init({
     fallbackLocale: 'en',
-    initialLocale: null,
+    initialLocale: null as any,
   });
   expect(get($locale)).toBe('en');
   expect(getOptions().fallbackLocale).toBe('en');

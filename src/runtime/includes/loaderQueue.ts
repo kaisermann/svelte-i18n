@@ -62,13 +62,13 @@ function loadLocaleQueue(locale: string, localeQueue: MessagesLoader[]) {
 
 const activeFlushes: { [key: string]: Promise<void> } = {};
 
-export async function flush(locale: string): Promise<void> {
+export function flush(locale: string): Promise<void> {
   if (!hasLocaleQueue(locale)) {
     if (locale in activeFlushes) {
       return activeFlushes[locale];
     }
 
-    return;
+    return Promise.resolve();
   }
 
   // get queue of XX-YY and XX locales

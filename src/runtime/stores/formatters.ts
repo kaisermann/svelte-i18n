@@ -47,7 +47,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
         `[svelte-i18n] The message "${id}" was not found in "${getPossibleLocales(
           locale,
         ).join('", "')}".${
-          hasLocaleQueue(getCurrentLocale())
+          hasLocaleQueue(getCurrentLocale()!)
             ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
             : ''
         }`,

@@ -10,7 +10,7 @@ import {
 const formatsJson = require('../../fixtures/formats.json');
 
 beforeEach(() => {
-  init({ fallbackLocale: undefined });
+  init({ fallbackLocale: undefined as any });
 });
 
 describe('number formatter', () => {
