@@ -1,3 +1,12 @@
+## [3.3.10](https://github.com/kaisermann/svelte-i18n/compare/v3.3.9...v3.3.10) (2021-08-24)
+
+
+### Bug Fixes
+
+* enable typescript strictNullChecks ([bf4189a](https://github.com/kaisermann/svelte-i18n/commit/bf4189a862e36b16242aa2bb8c68c6d1b59dc486))
+
+
+
 ## [3.3.9](https://github.com/kaisermann/svelte-i18n/compare/v3.3.8...v3.3.9) (2021-03-27)
 
 
