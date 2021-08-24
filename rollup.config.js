@@ -1,5 +1,5 @@
-import commonjs from 'rollup-plugin-commonjs';
-import ts from 'rollup-plugin-typescript2';
+import commonjs from '@rollup/plugin-commonjs';
+import ts from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import autoExternal from 'rollup-plugin-auto-external';
 
@@ -23,11 +23,6 @@ export default [
   },
   {
     input: 'src/cli/index.ts',
-
-    // external: id => {
-    //   if (id.startsWith('/')) return false
-    //   return externals.has(id) || id.match(/svelte/gi)
-    // },
     output: [
       {
         file: pkg.bin['svelte-i18n'],
