@@ -29,11 +29,11 @@ export function getPossibleLocales(
 }
 
 export function getCurrentLocale() {
-  return current;
+  return current ?? undefined;
 }
 
 internalLocale.subscribe((newLocale: string | null | undefined) => {
-  current = newLocale;
+  current = newLocale ?? undefined;
 
   if (typeof window !== 'undefined' && newLocale != null) {
     document.documentElement.setAttribute('lang', newLocale);
@@ -42,9 +42,8 @@ internalLocale.subscribe((newLocale: string | null | undefined) => {
 
 const set = (newLocale: string | null | undefined): void | Promise<void> => {
   if (
-    ((getClosestAvailableLocale as unknown) as (
-      refLocale: string | null | undefined,
-    ) => refLocale is string)(newLocale) &&
+    newLocale &&
+    getClosestAvailableLocale(newLocale) &&
     hasLocaleQueue(newLocale)
   ) {
     const { loadingDelay } = getOptions();
@@ -66,7 +65,7 @@ const set = (newLocale: string | null | undefined): void | Promise<void> => {
       $isLoading.set(true);
     }
 
-    return flush(newLocale)
+    return flush(newLocale as string)
       .then(() => {
         internalLocale.set(newLocale);
       })

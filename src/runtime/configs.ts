@@ -38,13 +38,8 @@ export const defaultFormats: Formats = {
   },
 };
 
-export const defaultOptions: Omit<
-  ConfigureOptions,
-  'fallbackLocale' | 'initialLocale'
-> &
-  Record<'fallbackLocale' | 'initialLocale', null> = {
-  fallbackLocale: null,
-  initialLocale: null,
+export const defaultOptions: ConfigureOptions = {
+  fallbackLocale: null as any,
   loadingDelay: 200,
   formats: defaultFormats,
   warnOnMissingMessages: true,

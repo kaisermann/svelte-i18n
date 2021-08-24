@@ -1,5 +1,5 @@
 export interface Message {
   id: string;
-  default: string;
+  default?: string;
   [key: string]: any;
 }

@@ -5,7 +5,6 @@ import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 import { getPossibleLocales } from './locale';
 import { delve } from '../../shared/delve';
 import { lookupCache } from '../includes/lookup';
-import { locales } from '..';
 
 let dictionary: LocalesDictionary;
 const $dictionary = writable<LocalesDictionary>({});

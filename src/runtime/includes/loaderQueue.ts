@@ -41,7 +41,9 @@ function getLocalesQueues(locale: string) {
     .filter(([, localeQueue]) => localeQueue.length > 0);
 }
 
-export function hasLocaleQueue(locale: string) {
+export function hasLocaleQueue(locale?: string | null) {
+  if (locale == null) return false;
+
   return getPossibleLocales(locale).some(
     (localeQueue) => getLocaleQueue(localeQueue)?.size,
   );
