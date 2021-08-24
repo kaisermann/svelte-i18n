@@ -35,8 +35,8 @@ export function getMessageFromDictionary(locale: string, id: string) {
 }
 
 export function getClosestAvailableLocale(
-  refLocale: string,
-): string | null | undefined {
+  refLocale: string | null | undefined,
+): string | undefined {
   if (refLocale == null) return undefined;
 
   const relatedLocales = getPossibleLocales(refLocale);

@@ -1,3 +1,4 @@
+import type { Formats } from 'intl-messageformat';
 import IntlMessageFormat from 'intl-messageformat';
 
 import type {
@@ -34,8 +35,8 @@ const getIntlFormatterOptions = (
 ): any => {
   const { formats } = getOptions();
 
-  if (type in formats && name in formats[type]) {
-    return formats[type][name];
+  if (type in formats && name in (formats as Formats)[type]) {
+    return (formats as Formats)[type][name];
   }
 
   throw new Error(`[svelte-i18n] Unknown "${name}" ${type} format.`);
@@ -105,7 +106,7 @@ export const getTimeFormatter: MemoizedDateTimeFormatterFactoryOptional = ({
 } = {}) => createTimeFormatter({ locale, ...args });
 
 export const getMessageFormatter = monadicMemoize(
-  (message: string, locale: string = getCurrentLocale()) =>
+  (message: string, locale: string = getCurrentLocale()!) =>
     new IntlMessageFormat(message, locale, getOptions().formats, {
       ignoreTag: getOptions().ignoreTag,
     }),
