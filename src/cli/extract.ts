@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type {
   Node,
   ObjectExpression,
@@ -145,7 +146,7 @@ export function collectMessages(markup: string): Message[] {
     ...definitions.map((definition) => getObjFromExpression(definition)),
     ...calls.map((call) => {
       const [pathNode, options] = call.arguments;
-      let messageObj: Partial<Message>;
+      let messageObj: Message;
 
       if (pathNode.type === 'ObjectExpression') {
         // _({ ...opts })
@@ -168,7 +169,7 @@ export function collectMessages(markup: string): Message[] {
 
       return messageObj;
     }),
-  ].filter((Boolean as unknown) as (x: Message | null) => x is Message);
+  ].filter(Boolean) as Message[];
 }
 
 export function extractMessages(

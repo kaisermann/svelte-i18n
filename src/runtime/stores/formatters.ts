@@ -21,16 +21,18 @@ import { $dictionary } from './dictionary';
 import { getCurrentLocale, getPossibleLocales, $locale } from './locale';
 
 const formatMessage: MessageFormatter = (id, options = {}) => {
+  let messageObj = options as MessageObject;
+
   if (typeof id === 'object') {
-    options = id as MessageObject;
-    id = options.id!;
+    messageObj = id as MessageObject;
+    id = messageObj.id;
   }
 
   const {
     values,
     locale = getCurrentLocale(),
     default: defaultValue,
-  } = options;
+  } = messageObj;
 
   if (locale == null) {
     throw new Error(
@@ -47,7 +49,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
         `[svelte-i18n] The message "${id}" was not found in "${getPossibleLocales(
           locale,
         ).join('", "')}".${
-          hasLocaleQueue(getCurrentLocale()!)
+          hasLocaleQueue(getCurrentLocale())
             ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
             : ''
         }`,
@@ -90,8 +92,11 @@ const formatNumber: NumberFormatter = (n, options) => {
   return getNumberFormatter(options).format(n);
 };
 
-const getJSON: JSONGetter = (id: string, locale = getCurrentLocale()): any => {
-  return lookup(id, locale);
+const getJSON: JSONGetter = <T = any>(
+  id: string,
+  locale = getCurrentLocale(),
+) => {
+  return lookup(id, locale) as T;
 };
 
 export const $format = derived([$locale, $dictionary], () => formatMessage);

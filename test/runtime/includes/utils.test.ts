@@ -8,13 +8,16 @@ import {
 
 describe('getting client locale', () => {
   beforeEach(() => {
-    delete (window as any).location;
+    // @ts-expect-error - TS doesn't know this is a fake window object
+    delete window.location;
+
+    // @ts-expect-error - TS doesn't know this is a fake window object
     window.location = {
       pathname: '/',
       hostname: 'example.com',
       hash: '',
       search: '',
-    } as any;
+    };
   });
 
   it('gets the locale based on the passed hash parameter', () => {

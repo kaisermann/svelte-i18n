@@ -26,8 +26,8 @@ export type InterpolationValues =
   | undefined;
 
 export interface MessageObject {
-  id?: string;
-  locale?: string | null;
+  id: string;
+  locale?: string;
   format?: string;
   default?: string;
   values?: InterpolationValues;
@@ -35,7 +35,7 @@ export interface MessageObject {
 
 export type MessageFormatter = (
   id: string | MessageObject,
-  options?: MessageObject,
+  options?: Omit<MessageObject, 'id'>,
 ) => string;
 
 export type TimeFormatter = (
@@ -53,11 +53,11 @@ export type NumberFormatter = (
   options?: IntlFormatterOptions<Intl.NumberFormatOptions>,
 ) => string;
 
-export type JSONGetter = (id: string, locale?: string | null) => any;
+export type JSONGetter = <T>(id: string, locale?: string | null) => T;
 
 type IntlFormatterOptions<T> = T & {
   format?: string;
-  locale?: string | null;
+  locale?: string;
 };
 
 export interface MemoizedIntlFormatter<T, U> {
@@ -74,8 +74,8 @@ export interface MessagesLoader {
 
 export interface ConfigureOptions {
   fallbackLocale: string;
-  formats: Partial<Formats>;
-  initialLocale: string;
+  initialLocale?: string | null;
+  formats: Formats;
   loadingDelay: number;
   warnOnMissingMessages: boolean;
   ignoreTag: boolean;
