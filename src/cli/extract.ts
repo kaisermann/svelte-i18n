@@ -50,12 +50,14 @@ function isMessagesDefinitionCall(node: Node, methodName: string) {
 }
 
 function getLibImportDeclarations(ast: Ast) {
-  return (ast.instance
-    ? ast.instance.content.body.filter(
-        (node) =>
-          node.type === 'ImportDeclaration' && node.source.value === LIB_NAME,
-      )
-    : []) as ImportDeclaration[];
+  return (
+    ast.instance
+      ? ast.instance.content.body.filter(
+          (node) =>
+            node.type === 'ImportDeclaration' && node.source.value === LIB_NAME,
+        )
+      : []
+  ) as ImportDeclaration[];
 }
 
 function getDefineMessagesSpecifier(decl: ImportDeclaration) {
@@ -107,10 +109,10 @@ export function collectMessageDefinitions(ast: Ast) {
 
   if (defineImportDecl == null) return [];
 
-  const defineMethodName = getDefineMessagesSpecifier(defineImportDecl).local
-    .name;
+  const defineMethodName =
+    getDefineMessagesSpecifier(defineImportDecl).local.name;
 
-  walk(ast.instance as any, {
+  const nodeStepInstructions = {
     enter(node: Node) {
       if (isMessagesDefinitionCall(node, defineMethodName) === false) return;
       const [arg] = (node as CallExpression).arguments;
@@ -120,7 +122,10 @@ export function collectMessageDefinitions(ast: Ast) {
         this.skip();
       }
     },
-  });
+  };
+
+  walk(ast.instance as any, nodeStepInstructions);
+  walk(ast.module as any, nodeStepInstructions);
 
   return definitions.flatMap((definitionDict) =>
     definitionDict.properties.map((propNode) => {
