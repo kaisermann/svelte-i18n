@@ -85,7 +85,13 @@ describe('collecting message definitions', () => {
   });
 
   it('gets all message definition objects', () => {
-    const ast = parse(`<script>
+    const ast = parse(`
+    <script context="module">
+      import { defineMessages } from 'svelte-i18n';
+      defineMessages({ quux: { id: 'quux' }, quuz: { id: 'quuz' } })
+      defineMessages({ corge: { id: 'corge' }, grault: { id: 'grault' } })
+    </script>
+    <script>
       import { defineMessages } from 'svelte-i18n';
       defineMessages({ foo: { id: 'foo' }, bar: { id: 'bar' } })
       defineMessages({ baz: { id: 'baz' }, quix: { id: 'qux' } })
@@ -93,11 +99,10 @@ describe('collecting message definitions', () => {
 
     const definitions = collectMessageDefinitions(ast);
 
-    expect(definitions).toHaveLength(4);
-    expect(definitions[0]).toMatchObject({ type: 'ObjectExpression' });
-    expect(definitions[1]).toMatchObject({ type: 'ObjectExpression' });
-    expect(definitions[2]).toMatchObject({ type: 'ObjectExpression' });
-    expect(definitions[3]).toMatchObject({ type: 'ObjectExpression' });
+    expect(definitions).toHaveLength(8);
+    definitions.forEach((definition) => {
+      expect(definition).toMatchObject({ type: 'ObjectExpression' });
+    });
   });
 
   it('throws an error if an spread is found', () => {
