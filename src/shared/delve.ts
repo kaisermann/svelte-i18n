@@ -1,4 +1,6 @@
-export function delve(obj: Record<string, unknown>, fullKey: string) {
+export function delve(obj: Record<string, unknown>, fullKey?: string) {
+  if (fullKey == null) return undefined;
+
   if (fullKey in obj) {
     return obj[fullKey];
   }
