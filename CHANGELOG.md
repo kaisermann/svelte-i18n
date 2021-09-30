@@ -1,3 +1,12 @@
+## [3.3.11](https://github.com/kaisermann/svelte-i18n/compare/v3.3.10...v3.3.11) (2021-09-30)
+
+
+### Bug Fixes
+
+* fallback delve to undefined for an undefined key ([64e8ae2](https://github.com/kaisermann/svelte-i18n/commit/64e8ae2bd3f9f10e3f3bfed6ef9cb6d8616b0caa))
+
+
+
 ## [3.3.10](https://github.com/kaisermann/svelte-i18n/compare/v3.3.9...v3.3.10) (2021-08-24)
 
 
