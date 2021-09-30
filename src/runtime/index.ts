@@ -31,6 +31,7 @@ export function defineMessages(i: Record<string, MessageObject>) {
 }
 
 export function waitLocale(locale?: string) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/prefer-nullish-coalescing
   return flush(locale || getCurrentLocale() || getOptions().initialLocale!);
 }
 

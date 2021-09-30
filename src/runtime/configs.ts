@@ -54,6 +54,7 @@ export function getOptions() {
 
 export function init(opts: ConfigureOptionsInit) {
   const { formats, ...rest } = opts;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const initialLocale = opts.initialLocale || opts.fallbackLocale;
 
   Object.assign(options, rest, { initialLocale });
