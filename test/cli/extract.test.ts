@@ -105,6 +105,76 @@ describe('collecting message definitions', () => {
     });
   });
 
+  it('gets message definitions if in module only', () => {
+    const ast = parse(`
+    <script context="module">
+      import { defineMessages } from 'svelte-i18n';
+      defineMessages({ quux: { id: 'quux' }, quuz: { id: 'quuz' } })
+      defineMessages({ corge: { id: 'corge' }, grault: { id: 'grault' } })
+    </script>
+    <script>
+      const a = "a";
+    </script>`);
+
+    const definitions = collectMessageDefinitions(ast);
+
+    expect(definitions).toHaveLength(4);
+    definitions.forEach((definition) => {
+      expect(definition).toMatchObject({ type: 'ObjectExpression' });
+    });
+  });
+
+  it('gets message definitions if in script only', () => {
+    const ast = parse(`
+    <script context="module">
+      const a = "a";
+    </script>
+    <script>
+      import { defineMessages } from 'svelte-i18n';
+      defineMessages({ foo: { id: 'foo' }, bar: { id: 'bar' } })
+      defineMessages({ baz: { id: 'baz' }, quix: { id: 'qux' } })
+    </script>`);
+
+    const definitions = collectMessageDefinitions(ast);
+
+    expect(definitions).toHaveLength(4);
+    definitions.forEach((definition) => {
+      expect(definition).toMatchObject({ type: 'ObjectExpression' });
+    });
+  });
+
+  it('gets message definitions if script only', () => {
+    const ast = parse(`
+    <script>
+      import { defineMessages } from 'svelte-i18n';
+      defineMessages({ foo: { id: 'foo' }, bar: { id: 'bar' } })
+      defineMessages({ baz: { id: 'baz' }, quix: { id: 'qux' } })
+    </script>`);
+
+    const definitions = collectMessageDefinitions(ast);
+
+    expect(definitions).toHaveLength(4);
+    definitions.forEach((definition) => {
+      expect(definition).toMatchObject({ type: 'ObjectExpression' });
+    });
+  });
+
+  it('gets message definitions if module only', () => {
+    const ast = parse(`
+    <script context="module">
+      import { defineMessages } from 'svelte-i18n';
+      defineMessages({ foo: { id: 'foo' }, bar: { id: 'bar' } })
+      defineMessages({ baz: { id: 'baz' }, quix: { id: 'qux' } })
+    </script>`);
+
+    const definitions = collectMessageDefinitions(ast);
+
+    expect(definitions).toHaveLength(4);
+    definitions.forEach((definition) => {
+      expect(definition).toMatchObject({ type: 'ObjectExpression' });
+    });
+  });
+
   it('throws an error if an spread is found', () => {
     const ast = parse(`<script>
       import { defineMessages } from 'svelte-i18n';
