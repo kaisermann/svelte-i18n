@@ -1,3 +1,12 @@
+## [3.3.13](https://github.com/kaisermann/svelte-i18n/compare/v3.3.12...v3.3.13) (2021-10-11)
+
+
+### Bug Fixes
+
+* check modules for defineMessages imports ([#163](https://github.com/kaisermann/svelte-i18n/issues/163)) ([ec939ab](https://github.com/kaisermann/svelte-i18n/commit/ec939ab6c645995312e7f07195532f60165a3e5a))
+
+
+
 ## [3.3.12](https://github.com/kaisermann/svelte-i18n/compare/v3.3.10...v3.3.12) (2021-09-30)
 
 
