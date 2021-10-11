@@ -30,7 +30,7 @@ $locale.subscribe(() => {
   formatTime = get($formatTime);
   formatDate = get($formatDate);
   formatNumber = get($formatNumber);
-  getJSON = get($getJSON);
+  getJSON = get($getJSON) as JSONGetter;
 });
 
 addMessages('en', require('../../fixtures/en.json'));

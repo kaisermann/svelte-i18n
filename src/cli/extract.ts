@@ -49,14 +49,15 @@ function isMessagesDefinitionCall(node: Node, methodName: string) {
   );
 }
 
-function getLibImportDeclarations(ast: Ast) {
-  return (
-    ast.instance
-      ? ast.instance.content.body.filter(
-          (node) =>
-            node.type === 'ImportDeclaration' && node.source.value === LIB_NAME,
-        )
-      : []
+function getLibImportDeclarations(ast: Ast): ImportDeclaration[] {
+  const bodyElements = [
+    ...(ast.instance?.content.body || []),
+    ...(ast.module?.content.body || []),
+  ];
+
+  return bodyElements.filter(
+    (node) =>
+      node.type === 'ImportDeclaration' && node.source.value === LIB_NAME,
   ) as ImportDeclaration[];
 }
 
