@@ -72,12 +72,19 @@ export interface MessagesLoader {
   (): Promise<any>;
 }
 
+export type OnMissingMessageHandler = (
+  lngs: string[],
+  id: string,
+  defaultValue: string | undefined,
+) => void;
+
 export interface ConfigureOptions {
   fallbackLocale: string;
   initialLocale?: string | null;
   formats: Formats;
   loadingDelay: number;
   warnOnMissingMessages: boolean;
+  onMissingMessageHandler: OnMissingMessageHandler;
   ignoreTag: boolean;
 }
 

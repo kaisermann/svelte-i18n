@@ -7,6 +7,7 @@ import type {
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
+  OnMissingMessageHandler,
 } from '../../../src/runtime/types/index';
 import {
   $format,
@@ -39,8 +40,22 @@ addMessages('pt', require('../../fixtures/pt.json'));
 addMessages('pt-BR', require('../../fixtures/pt-BR.json'));
 addMessages('pt-PT', require('../../fixtures/pt-PT.json'));
 
+let onMissingMessageHandlerCalls: Array<{
+  lngs: string[];
+  id: string;
+  defaultValue: string | undefined;
+}> = [];
+
+const onMissingMessageHandler = (
+  lngs: string[],
+  id: string,
+  defaultValue?: string,
+) => {
+  onMissingMessageHandlerCalls.push({ lngs, id, defaultValue });
+};
+
 beforeEach(() => {
-  init({ fallbackLocale: 'en' });
+  init({ fallbackLocale: 'en', onMissingMessageHandler });
 });
 
 describe('format message', () => {
@@ -67,6 +82,7 @@ describe('format message', () => {
   });
 
   it('formats the default value with interpolated values', () => {
+    onMissingMessageHandlerCalls = [];
     expect(
       formatMessage({
         id: 'non-existent',
@@ -74,15 +90,33 @@ describe('format message', () => {
         values: { food: 'potato' },
       }),
     ).toBe('potato');
+    expect(onMissingMessageHandlerCalls).toHaveLength(1);
+    expect(onMissingMessageHandlerCalls[0]).toHaveProperty('lngs', ['en']);
+    expect(onMissingMessageHandlerCalls[0]).toHaveProperty(
+      'id',
+      'non-existent',
+    );
+    expect(onMissingMessageHandlerCalls[0]).toHaveProperty(
+      'defaultValue',
+      '{food}',
+    );
   });
 
   it('formats the key with interpolated values', () => {
+    onMissingMessageHandlerCalls = [];
     expect(
       formatMessage({
         id: '{food}',
         values: { food: 'potato' },
       }),
     ).toBe('potato');
+    expect(onMissingMessageHandlerCalls).toHaveLength(1);
+    expect(onMissingMessageHandlerCalls[0]).toHaveProperty('lngs', ['en']);
+    expect(onMissingMessageHandlerCalls[0]).toHaveProperty('id', '{food}');
+    expect(onMissingMessageHandlerCalls[0]).toHaveProperty(
+      'defaultValue',
+      undefined,
+    );
   });
 
   it('accepts a message id as first argument', () => {
