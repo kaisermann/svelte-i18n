@@ -43,7 +43,7 @@ export const defaultOptions: ConfigureOptions = {
   loadingDelay: 200,
   formats: defaultFormats,
   warnOnMissingMessages: true,
-  onMissingMessageHandler: undefined,
+  handleMissingKey: undefined,
   ignoreTag: true,
 };
 
