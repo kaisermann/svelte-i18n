@@ -7,7 +7,7 @@ import type {
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
-  OnMissingMessageHandler,
+  HandleMissingKey,
 } from '../../../src/runtime/types/index';
 import {
   $format,
@@ -40,22 +40,22 @@ addMessages('pt', require('../../fixtures/pt.json'));
 addMessages('pt-BR', require('../../fixtures/pt-BR.json'));
 addMessages('pt-PT', require('../../fixtures/pt-PT.json'));
 
-let onMissingMessageHandlerCalls: Array<{
-  langs: string[];
+let handleMissingKeyCalls: Array<{
+  locale: string;
   id: string;
   defaultValue: string | undefined;
 }> = [];
 
-const onMissingMessageHandler = (
-  langs: string[],
+const handleMissingKey = (
+  locale: string,
   id: string,
   defaultValue?: string,
 ) => {
-  onMissingMessageHandlerCalls.push({ lngs, id, defaultValue });
+  handleMissingKeyCalls.push({ locale, id, defaultValue });
 };
 
 beforeEach(() => {
-  init({ fallbackLocale: 'en', onMissingMessageHandler });
+  init({ fallbackLocale: 'en', handleMissingKey });
 });
 
 describe('format message', () => {
@@ -82,7 +82,7 @@ describe('format message', () => {
   });
 
   it('formats the default value with interpolated values', () => {
-    onMissingMessageHandlerCalls = [];
+    handleMissingKeyCalls = [];
     expect(
       formatMessage({
         id: 'non-existent',
@@ -90,33 +90,24 @@ describe('format message', () => {
         values: { food: 'potato' },
       }),
     ).toBe('potato');
-    expect(onMissingMessageHandlerCalls).toHaveLength(1);
-    expect(onMissingMessageHandlerCalls[0]).toHaveProperty('lngs', ['en']);
-    expect(onMissingMessageHandlerCalls[0]).toHaveProperty(
-      'id',
-      'non-existent',
-    );
-    expect(onMissingMessageHandlerCalls[0]).toHaveProperty(
-      'defaultValue',
-      '{food}',
-    );
+    expect(handleMissingKeyCalls).toHaveLength(1);
+    expect(handleMissingKeyCalls[0]).toHaveProperty('locale', 'en');
+    expect(handleMissingKeyCalls[0]).toHaveProperty('id', 'non-existent');
+    expect(handleMissingKeyCalls[0]).toHaveProperty('defaultValue', '{food}');
   });
 
   it('formats the key with interpolated values', () => {
-    onMissingMessageHandlerCalls = [];
+    handleMissingKeyCalls = [];
     expect(
       formatMessage({
         id: '{food}',
         values: { food: 'potato' },
       }),
     ).toBe('potato');
-    expect(onMissingMessageHandlerCalls).toHaveLength(1);
-    expect(onMissingMessageHandlerCalls[0]).toHaveProperty('lngs', ['en']);
-    expect(onMissingMessageHandlerCalls[0]).toHaveProperty('id', '{food}');
-    expect(onMissingMessageHandlerCalls[0]).toHaveProperty(
-      'defaultValue',
-      undefined,
-    );
+    expect(handleMissingKeyCalls).toHaveLength(1);
+    expect(handleMissingKeyCalls[0]).toHaveProperty('locale', 'en');
+    expect(handleMissingKeyCalls[0]).toHaveProperty('id', '{food}');
+    expect(handleMissingKeyCalls[0]).toHaveProperty('defaultValue', undefined);
   });
 
   it('accepts a message id as first argument', () => {

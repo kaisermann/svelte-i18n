@@ -72,8 +72,8 @@ export interface MessagesLoader {
   (): Promise<any>;
 }
 
-export type OnMissingMessageHandler = (
-  langs: string[],
+export type HandleMissingKey = (
+  locale: string,
   id: string,
   defaultValue: string | undefined,
 ) => void;
@@ -84,7 +84,7 @@ export interface ConfigureOptions {
   formats: Formats;
   loadingDelay: number;
   warnOnMissingMessages: boolean;
-  onMissingMessageHandler?: OnMissingMessageHandler;
+  handleMissingKey?: HandleMissingKey;
   ignoreTag: boolean;
 }
 

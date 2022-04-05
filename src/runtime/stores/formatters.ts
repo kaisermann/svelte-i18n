@@ -56,15 +56,10 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
       );
     }
 
-    message = defaultValue ?? id;
-
-    if (getOptions().onMissingMessageHandler) {
-      getOptions().onMissingMessageHandler(
-        locale,
-        id,
-        defaultValue,
-      );
-    }
+    message =
+      getOptions().handleMissingKey?.(locale, id, defaultValue) ??
+      defaultValue ??
+      id;
   } else if (typeof message !== 'string') {
     console.warn(
       `[svelte-i18n] Message with id "${id}" must be of type "string", found: "${typeof message}". Gettin its value through the "$format" method is deprecated; use the "json" method instead.`,
