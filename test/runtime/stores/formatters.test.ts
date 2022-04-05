@@ -47,7 +47,7 @@ let onMissingMessageHandlerCalls: Array<{
 }> = [];
 
 const onMissingMessageHandler = (
-  lngs: string[],
+  langs: string[],
   id: string,
   defaultValue?: string,
 ) => {
