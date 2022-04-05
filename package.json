@@ -3,7 +3,7 @@
   "version": "3.3.13",
   "main": "dist/runtime.cjs.js",
   "module": "dist/runtime.esm.js",
-  "types": "types/runtime/index.d.ts",
+  "types": "dist/runtime.d.ts",
   "bin": {
     "svelte-i18n": "dist/cli.js"
   },
@@ -22,9 +22,8 @@
     "node": ">= 11.15.0"
   },
   "scripts": {
-    "clean": "rm -rf dist/ types/",
+    "clean": "rm -rf dist/",
     "build": "rollup -c",
-    "build:types": "tsc -p src/runtime --emitDeclarationOnly",
     "dev": "rollup -c -w",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu jest",
     "test:ci": "npm run test -- --silent",
@@ -32,13 +31,11 @@
     "format": "prettier --loglevel silent --write \"{src,test}/**/*.ts\"",
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "prebuild": "yarn clean",
-    "postbuild": "yarn build:types",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
     "prepublishOnly": "npm run test && npm run build"
   },
   "files": [
-    "dist/",
-    "types/"
+    "dist/"
   ],
   "husky": {
     "hooks": {
@@ -95,6 +92,7 @@
     "rollup": "^2.27.1",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-dts": "^4.2.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
     "sass": "^1.26.11",

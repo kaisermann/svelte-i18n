@@ -2,12 +2,14 @@ import commonjs from '@rollup/plugin-commonjs';
 import ts from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import autoExternal from 'rollup-plugin-auto-external';
+import dts from 'rollup-plugin-dts';
 
 import pkg from './package.json';
 
 const PROD = !process.env.ROLLUP_WATCH;
 
 export default [
+  // bundle runtime
   {
     input: 'src/runtime/index.ts',
     external: [
@@ -21,6 +23,13 @@ export default [
     ],
     plugins: [commonjs(), autoExternal(), ts(), PROD && terser()],
   },
+  // bundle types for runtime
+  {
+    input: 'src/runtime/index.ts',
+    output: [{ file: pkg.types, format: 'es' }],
+    plugins: [dts()],
+  },
+  // build CLI
   {
     input: 'src/cli/index.ts',
     output: [

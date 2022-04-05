@@ -7,8 +7,7 @@ import type {
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
-  MissingKeyHandler,
-} from '../../../src/runtime/types/index';
+} from '../../../src/runtime/types';
 import {
   $format,
   $formatTime,
