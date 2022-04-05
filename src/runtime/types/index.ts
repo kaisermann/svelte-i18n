@@ -73,7 +73,7 @@ export interface MessagesLoader {
 }
 
 export type OnMissingMessageHandler = (
-  lngs: string[],
+  langs: string[],
   id: string,
   defaultValue: string | undefined,
 ) => void;
