@@ -72,12 +72,40 @@ export interface MessagesLoader {
   (): Promise<any>;
 }
 
+export type MissingKeyHandlerInput = {
+  locale: string;
+  id: string;
+  defaultValue: string | undefined;
+};
+
+export type MissingKeyHandlerOutput = string | void | undefined;
+
+export type MissingKeyHandler = (
+  input: MissingKeyHandlerInput,
+) => MissingKeyHandlerOutput;
+
 export interface ConfigureOptions {
+  /** The global fallback locale * */
   fallbackLocale: string;
+  /** The app initial locale * */
   initialLocale?: string | null;
+  /** Custom time/date/number formats * */
   formats: Formats;
+  /** Loading delay interval * */
   loadingDelay: number;
-  warnOnMissingMessages: boolean;
+  /**
+   * @deprecated Use `handleMissingMessage` instead.
+   * */
+  warnOnMissingMessages?: boolean;
+  /**
+   * Optional method that is executed whenever a message is missing.
+   * It may return a string to use as the fallback.
+   */
+  handleMissingMessage?: MissingKeyHandler;
+  /**
+   * Whether to treat HTML/XML tags as string literal instead of parsing them as tag token.
+   * When this is false we only allow simple tags without any attributes
+   * */
   ignoreTag: boolean;
 }
 

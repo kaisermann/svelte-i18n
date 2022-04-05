@@ -7,6 +7,7 @@ import type {
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
+  MissingKeyHandler,
 } from '../../../src/runtime/types/index';
 import {
   $format,
@@ -39,12 +40,10 @@ addMessages('pt', require('../../fixtures/pt.json'));
 addMessages('pt-BR', require('../../fixtures/pt-BR.json'));
 addMessages('pt-PT', require('../../fixtures/pt-PT.json'));
 
-beforeEach(() => {
-  init({ fallbackLocale: 'en' });
-});
-
 describe('format message', () => {
   it('formats a message by its id and the current locale', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(formatMessage({ id: 'form.field_1_name' })).toBe('Name');
   });
 
@@ -55,6 +54,8 @@ describe('format message', () => {
   });
 
   it('formats a message with interpolated values', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(formatMessage({ id: 'photos', values: { n: 0 } })).toBe(
       'You have no photos.',
     );
@@ -67,6 +68,8 @@ describe('format message', () => {
   });
 
   it('formats the default value with interpolated values', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(
       formatMessage({
         id: 'non-existent',
@@ -77,6 +80,8 @@ describe('format message', () => {
   });
 
   it('formats the key with interpolated values', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(
       formatMessage({
         id: '{food}',
@@ -86,27 +91,38 @@ describe('format message', () => {
   });
 
   it('accepts a message id as first argument', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(formatMessage('form.field_1_name')).toBe('Name');
   });
 
   it('accepts a message id as first argument and formatting options as second', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(formatMessage('form.field_1_name', { locale: 'pt' })).toBe('Nome');
   });
 
   it('throws if no locale is set', () => {
+    init({ fallbackLocale: 'en' });
+
     $locale.set(null);
+
     expect(() => formatMessage('form.field_1_name')).toThrow(
       '[svelte-i18n] Cannot format a message without first setting the initial locale.',
     );
   });
 
   it('uses a missing message default value', () => {
+    init({ fallbackLocale: 'en' });
+
     expect(formatMessage('missing', { default: 'Missing Default' })).toBe(
       'Missing Default',
     );
   });
 
   it('errors out when value found is not string', () => {
+    init({ fallbackLocale: 'en' });
+
     const spy = jest.spyOn(global.console, 'warn').mockImplementation();
 
     expect(typeof formatMessage('form')).toBe('object');
@@ -117,7 +133,12 @@ describe('format message', () => {
     spy.mockRestore();
   });
 
-  it('warn on missing messages', () => {
+  it('warn on missing messages if "warnOnMissingMessages" is true', () => {
+    init({
+      fallbackLocale: 'en',
+      warnOnMissingMessages: true,
+    });
+
     const spy = jest.spyOn(global.console, 'warn').mockImplementation();
 
     formatMessage('missing');
@@ -129,7 +150,18 @@ describe('format message', () => {
     spy.mockRestore();
   });
 
+  it('uses result of handleMissingMessage handler', () => {
+    init({
+      fallbackLocale: 'en',
+      handleMissingMessage: () => 'from handler',
+    });
+
+    expect(formatMessage('should-default')).toBe('from handler');
+  });
+
   it('does not throw with invalid syntax', () => {
+    init({ fallbackLocale: 'en' });
+
     $locale.set('en');
     const spy = jest.spyOn(global.console, 'warn').mockImplementation();
 

@@ -1,5 +1,10 @@
-import type { ConfigureOptions, ConfigureOptionsInit } from './types';
-import { $locale } from './stores/locale';
+import type {
+  ConfigureOptions,
+  ConfigureOptionsInit,
+  MissingKeyHandlerInput,
+} from './types';
+import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
+import { hasLocaleQueue } from './includes/loaderQueue';
 
 interface Formats {
   number: Record<string, any>;
@@ -38,11 +43,28 @@ export const defaultFormats: Formats = {
   },
 };
 
+/**
+ * Default missing key handler used in case "warnOnMissingMessages" is set to true.
+ */
+function defaultMissingKeyHandler({ locale, id }: MissingKeyHandlerInput) {
+  // istanbul ignore next
+  console.warn(
+    `[svelte-i18n] The message "${id}" was not found in "${getPossibleLocales(
+      locale,
+    ).join('", "')}".${
+      hasLocaleQueue(getCurrentLocale())
+        ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
+        : ''
+    }`,
+  );
+}
+
 export const defaultOptions: ConfigureOptions = {
   fallbackLocale: null as any,
   loadingDelay: 200,
   formats: defaultFormats,
   warnOnMissingMessages: true,
+  handleMissingMessage: undefined,
   ignoreTag: true,
 };
 
@@ -56,6 +78,18 @@ export function init(opts: ConfigureOptionsInit) {
   const { formats, ...rest } = opts;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const initialLocale = opts.initialLocale || opts.fallbackLocale;
+
+  if (rest.warnOnMissingMessages) {
+    delete rest.warnOnMissingMessages;
+
+    if (rest.handleMissingMessage == null) {
+      rest.handleMissingMessage = defaultMissingKeyHandler;
+    } else {
+      console.warn(
+        '[svelte-i18n] The "warnOnMissingMessages" option is deprecated. Please use the "handleMissingMessage" option instead.',
+      );
+    }
+  }
 
   Object.assign(options, rest, { initialLocale });
 

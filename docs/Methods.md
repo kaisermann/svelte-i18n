@@ -26,27 +26,41 @@ Method responsible for configuring some of the library behaviours such as the gl
 
 ```ts
 interface InitOptions {
-  // the global fallback locale
-  fallbackLocale: string
-  // the app initial locale
-  initialLocale?: string
-  // custom time/date/number formats
-  formats?: Formats
-  // loading delay interval
-  loadingDelay?: number
+  /** The global fallback locale **/
+  fallbackLocale: string;
+  /** The app initial locale **/
+  initialLocale?: string | null;
+  /** Custom time/date/number formats **/
+  formats?: Formats;
+  /** Loading delay interval **/
+  loadingDelay?: number;
+  /**
+   * @deprecated Use `handleMissingMessage` instead.
+   * */
+  warnOnMissingMessages?: boolean;
+  /**
+   * Optional method that is executed whenever a message is missing.
+   * It may return a string to use as the fallback.
+   */
+  handleMissingMessage?: MissingKeyHandler;
+  /**
+   * Whether to treat HTML/XML tags as string literal instead of parsing them as tag token.
+   * When this is false we only allow simple tags without any attributes
+   * */
+  ignoreTag: boolean;
 }
 ```
 
 **Example**:
 
 ```js
-import { init } from 'svelte-i18n'
+import { init } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
   initialLocale: 'pt-br',
-})
+});
 ```
 
 ##### Custom formats
@@ -55,9 +69,9 @@ It's possible to define custom format styles via the `formats` property if you w
 
 ```ts
 interface Formats {
-  number: Record<string, Intl.NumberFormatOptions>
-  date: Record<string, Intl.DateTimeFormatOptions>
-  time: Record<string, Intl.DateTimeFormatOptions>
+  number: Record<string, Intl.NumberFormatOptions>;
+  date: Record<string, Intl.DateTimeFormatOptions>;
+  time: Record<string, Intl.DateTimeFormatOptions>;
 }
 ```
 
@@ -66,7 +80,7 @@ Please refer to the [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs
 **Example**:
 
 ```js
-import { init } from 'svelte-i18n'
+import { init } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
@@ -76,13 +90,11 @@ init({
       EUR: { style: 'currency', currency: 'EUR' },
     },
   },
-})
+});
 ```
 
 ```html
-<div>
-  {$_.number(123456.789, { format: 'EUR' })}
-</div>
+<div>{$_.number(123456.789, { format: 'EUR' })}</div>
 <!-- 123.456,79 € -->
 ```
 
@@ -96,13 +108,13 @@ Utility method to help getting a initial locale based on a pattern of the curren
 **Example**:
 
 ```js
-import { init, getLocaleFromHostname } from 'svelte-i18n'
+import { init, getLocaleFromHostname } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
   initialLocale: getLocaleFromHostname(/^(.*?)\./),
-})
+});
 ```
 
 #### `getLocaleFromPathname`
@@ -116,13 +128,13 @@ Utility method to help getting a initial locale based on a pattern of the curren
 **Example**:
 
 ```js
-import { init, getLocaleFromPathname } from 'svelte-i18n'
+import { init, getLocaleFromPathname } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
   initialLocale: getLocaleFromPathname(/^\/(.*?)\//),
-})
+});
 ```
 
 #### `getLocaleFromNavigator`
@@ -136,13 +148,13 @@ Utility method to help getting a initial locale based on the browser's `navigato
 **Example**:
 
 ```js
-import { init, getLocaleFromNavigator } from 'svelte-i18n'
+import { init, getLocaleFromNavigator } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
   initialLocale: getLocaleFromNavigator(),
-})
+});
 ```
 
 #### `getLocaleFromQueryString`
@@ -154,13 +166,13 @@ init({
 Utility method to help getting a initial locale based on a query string value.
 
 ```js
-import { init, getLocaleFromQueryString } from 'svelte-i18n'
+import { init, getLocaleFromQueryString } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
   initialLocale: getLocaleFromQueryString('lang'),
-})
+});
 ```
 
 #### `getLocaleFromHash`
@@ -174,13 +186,13 @@ Utility method to help getting a initial locale based on a hash `{key}={value}` 
 **Example**:
 
 ```js
-import { init, getLocaleFromHash } from 'svelte-i18n'
+import { init, getLocaleFromHash } from 'svelte-i18n';
 
 init({
   // fallback to en if current locale is not in the dictionary
   fallbackLocale: 'en',
   initialLocale: getLocaleFromHash('lang'),
-})
+});
 ```
 
 #### `addMessages`
@@ -224,10 +236,10 @@ Registers an async message `loader` for the specified `locale`. The loader queue
 **Example**:
 
 ```js
-import { register } from 'svelte-i18n'
+import { register } from 'svelte-i18n';
 
-register('en', () => import('./_locales/en.json'))
-register('pt', () => import('./_locales/pt.json'))
+register('en', () => import('./_locales/en.json'));
+register('pt', () => import('./_locales/pt.json'));
 ```
 
 See [how to asynchronously load dictionaries](/svelte-i18n/blob/master/docs#22-asynchronous).

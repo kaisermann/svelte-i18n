@@ -9,7 +9,6 @@ import type {
   JSONGetter,
 } from '../types';
 import { lookup } from '../includes/lookup';
-import { hasLocaleQueue } from '../includes/loaderQueue';
 import {
   getMessageFormatter,
   getTimeFormatter,
@@ -18,7 +17,7 @@ import {
 } from '../includes/formatters';
 import { getOptions } from '../configs';
 import { $dictionary } from './dictionary';
-import { getCurrentLocale, getPossibleLocales, $locale } from './locale';
+import { getCurrentLocale, $locale } from './locale';
 
 const formatMessage: MessageFormatter = (id, options = {}) => {
   let messageObj = options as MessageObject;
@@ -43,20 +42,10 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
   let message = lookup(id, locale);
 
   if (!message) {
-    if (getOptions().warnOnMissingMessages) {
-      // istanbul ignore next
-      console.warn(
-        `[svelte-i18n] The message "${id}" was not found in "${getPossibleLocales(
-          locale,
-        ).join('", "')}".${
-          hasLocaleQueue(getCurrentLocale())
-            ? `\n\nNote: there are at least one loader still registered to this locale that wasn't executed.`
-            : ''
-        }`,
-      );
-    }
-
-    message = defaultValue ?? id;
+    message =
+      getOptions().handleMissingMessage?.({ locale, id, defaultValue }) ??
+      defaultValue ??
+      id;
   } else if (typeof message !== 'string') {
     console.warn(
       `[svelte-i18n] Message with id "${id}" must be of type "string", found: "${typeof message}". Gettin its value through the "$format" method is deprecated; use the "json" method instead.`,
