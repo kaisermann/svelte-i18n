@@ -52,6 +52,7 @@ const handleMissingKey = (
   defaultValue?: string,
 ) => {
   handleMissingKeyCalls.push({ locale, id, defaultValue });
+  if (id === 'should-default') return `add translation for ${id}`;
 };
 
 beforeEach(() => {
@@ -108,6 +109,23 @@ describe('format message', () => {
     expect(handleMissingKeyCalls[0]).toHaveProperty('locale', 'en');
     expect(handleMissingKeyCalls[0]).toHaveProperty('id', '{food}');
     expect(handleMissingKeyCalls[0]).toHaveProperty('defaultValue', undefined);
+  });
+
+  it('uses default of optional handleMissingKey result', () => {
+    handleMissingKeyCalls = [];
+    expect(
+      formatMessage({
+        id: 'should-default',
+        default: 'default in message',
+      }),
+    ).toBe('add translation for should-default');
+    expect(handleMissingKeyCalls).toHaveLength(1);
+    expect(handleMissingKeyCalls[0]).toHaveProperty('locale', 'en');
+    expect(handleMissingKeyCalls[0]).toHaveProperty('id', '{food}');
+    expect(handleMissingKeyCalls[0]).toHaveProperty(
+      'defaultValue',
+      'default in message',
+    );
   });
 
   it('accepts a message id as first argument', () => {
