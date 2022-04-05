@@ -60,7 +60,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
 
     if (getOptions().onMissingMessageHandler) {
       getOptions().onMissingMessageHandler(
-        getPossibleLocales(locale),
+        locale,
         id,
         defaultValue,
       );
