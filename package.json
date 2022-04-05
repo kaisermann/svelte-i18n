@@ -26,13 +26,13 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu jest",
-    "test:ci": "npm run test -- --silent",
+    "test:ci": "yarn test -- --silent",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "format": "prettier --loglevel silent --write \"{src,test}/**/*.ts\"",
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "prebuild": "yarn clean",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "yarn test && yarn build"
   },
   "files": [
     "dist/"
