@@ -1,3 +1,12 @@
+# [3.4.0](https://github.com/kaisermann/svelte-i18n/compare/v3.3.13...v3.4.0) (2022-04-05)
+
+
+### Features
+
+* introduce handleMissingMessage ([#175](https://github.com/kaisermann/svelte-i18n/issues/175)) ([a8b5df0](https://github.com/kaisermann/svelte-i18n/commit/a8b5df0442466ef1d805fbc48b704974b846f52c))
+
+
+
 ## [3.3.13](https://github.com/kaisermann/svelte-i18n/compare/v3.3.12...v3.3.13) (2021-10-11)
 
 
