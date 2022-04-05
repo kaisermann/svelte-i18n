@@ -84,7 +84,7 @@ export interface ConfigureOptions {
   formats: Formats;
   loadingDelay: number;
   warnOnMissingMessages: boolean;
-  onMissingMessageHandler: OnMissingMessageHandler;
+  onMissingMessageHandler?: OnMissingMessageHandler;
   ignoreTag: boolean;
 }
 
