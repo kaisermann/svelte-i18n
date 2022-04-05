@@ -41,7 +41,7 @@ addMessages('pt-BR', require('../../fixtures/pt-BR.json'));
 addMessages('pt-PT', require('../../fixtures/pt-PT.json'));
 
 let onMissingMessageHandlerCalls: Array<{
-  lngs: string[];
+  langs: string[];
   id: string;
   defaultValue: string | undefined;
 }> = [];
