@@ -38,6 +38,13 @@ export type MessageFormatter = (
   options?: Omit<MessageObject, 'id'>,
 ) => string;
 
+export type MessageFormatterExtended = (
+  id: string | MessageObject,
+  options: Omit<MessageObject, 'id'>,
+  fallbackLocale: string | undefined,
+  _options: ConfigureOptions,
+) => string;
+
 export type TimeFormatter = (
   d: Date | number,
   options?: IntlFormatterOptions<Intl.DateTimeFormatOptions>,
@@ -53,10 +60,11 @@ export type NumberFormatter = (
   options?: IntlFormatterOptions<Intl.NumberFormatOptions>,
 ) => string;
 
-export type JSONGetter = <T>(id: string, locale?: string | null) => T;
+export type JSONGetter = <T>(id: string, locale?: string | undefined) => T;
 
 type IntlFormatterOptions<T> = T & {
   format?: string;
+  formats?: Formats;
   locale?: string;
 };
 

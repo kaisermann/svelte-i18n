@@ -68,13 +68,19 @@ export const defaultOptions: ConfigureOptions = {
   ignoreTag: true,
 };
 
-const options: ConfigureOptions = defaultOptions as any;
+// Deep copy to options
+const options: ConfigureOptions = JSON.parse(JSON.stringify(defaultOptions)) as any;
 
 export function getOptions() {
   return options;
 }
 
-export function init(opts: ConfigureOptionsInit) {
+export function applyOptions(opts: ConfigureOptionsInit | undefined, target: ConfigureOptions) {
+  if (opts === undefined) {
+    return undefined;
+  }
+  // otherwise
+
   const { formats, ...rest } = opts;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const initialLocale = opts.initialLocale || opts.fallbackLocale;
@@ -91,21 +97,27 @@ export function init(opts: ConfigureOptionsInit) {
     }
   }
 
-  Object.assign(options, rest, { initialLocale });
+  Object.assign(target, rest, { initialLocale });
 
   if (formats) {
     if ('number' in formats) {
-      Object.assign(options.formats.number, formats.number);
+      Object.assign(target.formats.number, formats.number);
     }
 
     if ('date' in formats) {
-      Object.assign(options.formats.date, formats.date);
+      Object.assign(target.formats.date, formats.date);
     }
 
     if ('time' in formats) {
-      Object.assign(options.formats.time, formats.time);
+      Object.assign(target.formats.time, formats.time);
     }
   }
+
+  return initialLocale;
+}
+
+export function init(opts: ConfigureOptionsInit) {
+  const initialLocale = applyOptions(opts, getOptions());
 
   return $locale.set(initialLocale);
 }

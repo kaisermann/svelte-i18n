@@ -1,13 +1,22 @@
 /* eslint-disable node/global-require */
 import { get } from 'svelte/store';
 
-import { init, getOptions, defaultFormats } from '../../src/runtime/configs';
+import { init, getOptions, defaultFormats, applyOptions } from '../../src/runtime/configs';
 import { $locale } from '../../src/runtime/stores/locale';
 
 const warnSpy = jest.spyOn(global.console, 'warn').mockImplementation();
 
 beforeEach(() => {
   warnSpy.mockReset();
+});
+
+test('check that empty source configuration do nothing', () => {
+  const originalOptions = { ...getOptions() };
+  const options = { ...originalOptions };
+  const locale = applyOptions(undefined, options);
+
+  expect(locale).toBe(undefined);
+  expect(options).toEqual(originalOptions);
 });
 
 test('inits the fallback locale', () => {

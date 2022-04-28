@@ -1,4 +1,4 @@
-import IntlMessageFormat from 'intl-messageformat';
+import IntlMessageFormat, { Formats } from 'intl-messageformat';
 
 import type {
   MemoizedIntlFormatter,
@@ -31,9 +31,8 @@ type MemoizedDateTimeFormatterFactoryOptional = MemoizedIntlFormatterOptional<
 const getIntlFormatterOptions = (
   type: 'time' | 'number' | 'date',
   name: string,
+  formats: Formats,
 ): any => {
-  const { formats } = getOptions();
-
   if (type in formats && name in formats[type]) {
     return formats[type][name];
   }
@@ -42,13 +41,9 @@ const getIntlFormatterOptions = (
 };
 
 const createNumberFormatter: MemoizedNumberFormatterFactory = monadicMemoize(
-  ({ locale, format, ...options }) => {
-    if (locale == null) {
+  ({ locale, ...options }) => {
+    if (!locale) {
       throw new Error('[svelte-i18n] A "locale" must be set to format numbers');
-    }
-
-    if (format) {
-      options = getIntlFormatterOptions('number', format);
     }
 
     return new Intl.NumberFormat(locale, options);
@@ -56,15 +51,9 @@ const createNumberFormatter: MemoizedNumberFormatterFactory = monadicMemoize(
 );
 
 const createDateFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
-  ({ locale, format, ...options }) => {
-    if (locale == null) {
+  ({ locale, ...options }) => {
+    if (!locale) {
       throw new Error('[svelte-i18n] A "locale" must be set to format dates');
-    }
-
-    if (format) {
-      options = getIntlFormatterOptions('date', format);
-    } else if (Object.keys(options).length === 0) {
-      options = getIntlFormatterOptions('date', 'short');
     }
 
     return new Intl.DateTimeFormat(locale, options);
@@ -72,42 +61,68 @@ const createDateFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
 );
 
 const createTimeFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
-  ({ locale, format, ...options }) => {
-    if (locale == null) {
+  ({ locale, ...options }) => {
+    if (!locale) {
       throw new Error(
         '[svelte-i18n] A "locale" must be set to format time values',
       );
-    }
-
-    if (format) {
-      options = getIntlFormatterOptions('time', format);
-    } else if (Object.keys(options).length === 0) {
-      options = getIntlFormatterOptions('time', 'short');
     }
 
     return new Intl.DateTimeFormat(locale, options);
   },
 );
 
+const createMessageFormatter = monadicMemoize(
+  (message: string, locale = getCurrentLocale(), formats = getOptions().formats,
+    ignoreTag = getOptions().ignoreTag) => {
+    return new IntlMessageFormat(message, locale, formats, {
+      ignoreTag,
+    })
+  },
+);
+
 export const getNumberFormatter: MemoizedNumberFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
-  ...args
-} = {}) => createNumberFormatter({ locale, ...args });
+  format = undefined as (string | undefined),
+  formats = getOptions().formats,
+  ...options
+} = {}) => {
+  if (format) {
+    options = getIntlFormatterOptions('number', format, formats);
+  }
+
+  return createNumberFormatter({ locale, ...options });
+}
 
 export const getDateFormatter: MemoizedDateTimeFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
-  ...args
-} = {}) => createDateFormatter({ locale, ...args });
+  format = undefined as (string | undefined),
+  formats = getOptions().formats,
+  ...options
+} = {}) => {
+  if (format) {
+    options = getIntlFormatterOptions('date', format, formats);
+  } else if (Object.keys(options).length === 0) {
+    options = getIntlFormatterOptions('date', 'short', formats);
+  }
+
+  return createDateFormatter({ locale, ...options });
+}
 
 export const getTimeFormatter: MemoizedDateTimeFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
-  ...args
-} = {}) => createTimeFormatter({ locale, ...args });
+  format = undefined as (string | undefined),
+  formats = getOptions().formats,
+  ...options
+} = {}) => {
+  if (format) {
+    options = getIntlFormatterOptions('time', format, formats);
+  } else if (Object.keys(options).length === 0) {
+    options = getIntlFormatterOptions('time', 'short', formats);
+  }
 
-export const getMessageFormatter = monadicMemoize(
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  (message: string, locale: string = getCurrentLocale()!) =>
-    new IntlMessageFormat(message, locale, getOptions().formats, {
-      ignoreTag: getOptions().ignoreTag,
-    }),
-);
+  return createTimeFormatter({ locale, ...options });
+}
+
+export const getMessageFormatter = (message: string, locale: string = getCurrentLocale()!, options = getOptions()) =>
+  createMessageFormatter(message, locale, options.formats, options.ignoreTag);

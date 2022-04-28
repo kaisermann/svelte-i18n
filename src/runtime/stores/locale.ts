@@ -1,12 +1,9 @@
-import { writable } from 'svelte/store';
+import { writable, Writable } from 'svelte/store';
 
 import { flush, hasLocaleQueue } from '../includes/loaderQueue';
 import { getOptions } from '../configs';
 import { getClosestAvailableLocale } from './dictionary';
 import { $isLoading } from './loading';
-
-let current: string | null | undefined;
-const internalLocale = writable<string | null | undefined>(null);
 
 function getSubLocales(refLocale: string) {
   return refLocale
@@ -28,59 +25,72 @@ export function getPossibleLocales(
   return locales;
 }
 
-export function getCurrentLocale() {
-  return current ?? undefined;
-}
+export function createLocaleStore(isLoading: Writable<boolean>, loadingDelayInit?: number) : {
+  localeStore: Writable<string | null | undefined>,
+  getCurrentLocale: () => string | undefined
+} {
+  let current : string | null | undefined;
+  const internalLocale = writable<string | null | undefined>(null);
 
-internalLocale.subscribe((newLocale: string | null | undefined) => {
-  current = newLocale ?? undefined;
-
-  if (typeof window !== 'undefined' && newLocale != null) {
-    document.documentElement.setAttribute('lang', newLocale);
+  function getCurrentLocale() {
+    return current ?? undefined;
   }
-});
 
-const set = (newLocale: string | null | undefined): void | Promise<void> => {
-  if (
-    newLocale &&
-    getClosestAvailableLocale(newLocale) &&
-    hasLocaleQueue(newLocale)
-  ) {
-    const { loadingDelay } = getOptions();
+  internalLocale.subscribe((newLocale: string | null | undefined) => {
+    current = newLocale ?? undefined;
 
-    let loadingTimer: number;
+    if (typeof window !== 'undefined' && newLocale != null) {
+      document.documentElement.setAttribute('lang', newLocale);
+    }
+  });
 
-    // if there's no current locale, we don't wait to set isLoading to true
-    // because it would break pages when loading the initial locale
+  const set = (newLocale: string | null | undefined): void | Promise<void> => {
     if (
-      typeof window !== 'undefined' &&
-      getCurrentLocale() != null &&
-      loadingDelay
+      newLocale &&
+      getClosestAvailableLocale(newLocale) &&
+      hasLocaleQueue(newLocale)
     ) {
-      loadingTimer = window.setTimeout(
-        () => $isLoading.set(true),
-        loadingDelay,
-      );
-    } else {
-      $isLoading.set(true);
+      const loadingDelay = loadingDelayInit ?? getOptions().loadingDelay;
+
+      let loadingTimer: number;
+
+      // if there's no current locale, we don't wait to set isLoading to true
+      // because it would break pages when loading the initial locale
+      if (
+        typeof window !== 'undefined' &&
+        getCurrentLocale() != null &&
+        loadingDelay
+      ) {
+        loadingTimer = window.setTimeout(
+          () => isLoading.set(true),
+          loadingDelay,
+        );
+      } else {
+        isLoading.set(true);
+      }
+
+      return flush(newLocale as string)
+        .then(() => {
+          internalLocale.set(newLocale);
+        })
+        .finally(() => {
+          clearTimeout(loadingTimer);
+          isLoading.set(false);
+        });
     }
 
-    return flush(newLocale as string)
-      .then(() => {
-        internalLocale.set(newLocale);
-      })
-      .finally(() => {
-        clearTimeout(loadingTimer);
-        $isLoading.set(false);
-      });
-  }
+    return internalLocale.set(newLocale);
+  };
 
-  return internalLocale.set(newLocale);
-};
+  const store = {
+    ...internalLocale,
+    set,
+  };
 
-const $locale = {
-  ...internalLocale,
-  set,
-};
+  return { localeStore: store, getCurrentLocale };
+}
 
-export { $locale };
+const { getCurrentLocale, localeStore } = createLocaleStore($isLoading);
+
+export { getCurrentLocale };
+export const $locale = localeStore;

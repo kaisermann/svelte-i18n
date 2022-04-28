@@ -1,3 +1,7 @@
-import { writable } from 'svelte/store';
+import { writable, Writable } from 'svelte/store';
 
-export const $isLoading = writable(false);
+export function createLoadingStore() : Writable<boolean> {
+  return writable(false);
+}
+
+export const $isLoading = createLoadingStore();
