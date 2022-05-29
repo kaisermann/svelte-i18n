@@ -115,6 +115,15 @@ export interface ConfigureOptions {
    * When this is false we only allow simple tags without any attributes
    * */
   ignoreTag: boolean;
+  /**
+   * Whether to automatically set the document lang attribute to the locale value,
+   *   every time the locale value is set (on the client side).
+   * Notice that this doesn't set this attribute in server side rendering(SSR).
+   * A useful example for setting this option to false is when you use a nested i18n client
+   *   inside a component which uses another i18n client.
+   * Default: true
+   */
+  autoLangAttribute: boolean;
 }
 
 export type ConfigureOptionsInit = Pick<ConfigureOptions, 'fallbackLocale'> &

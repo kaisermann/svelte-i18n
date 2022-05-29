@@ -1,10 +1,11 @@
+import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
+import { hasLocaleQueue } from './includes/loaderQueue';
+
 import type {
   ConfigureOptions,
   ConfigureOptionsInit,
   MissingKeyHandlerInput,
 } from './types';
-import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
-import { hasLocaleQueue } from './includes/loaderQueue';
 
 interface Formats {
   number: Record<string, any>;
@@ -66,16 +67,22 @@ export const defaultOptions: ConfigureOptions = {
   warnOnMissingMessages: true,
   handleMissingMessage: undefined,
   ignoreTag: true,
+  autoLangAttribute: true,
 };
 
 // Deep copy to options
-const options: ConfigureOptions = JSON.parse(JSON.stringify(defaultOptions)) as any;
+const options: ConfigureOptions = JSON.parse(
+  JSON.stringify(defaultOptions),
+) as any;
 
 export function getOptions() {
   return options;
 }
 
-export function applyOptions(opts: ConfigureOptionsInit | undefined, target: ConfigureOptions) {
+export function applyOptions(
+  opts: ConfigureOptionsInit | undefined,
+  target: ConfigureOptions,
+) {
   if (opts === undefined) {
     return undefined;
   }

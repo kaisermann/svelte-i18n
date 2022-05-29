@@ -1,9 +1,12 @@
-import { writable, Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 import { flush, hasLocaleQueue } from '../includes/loaderQueue';
 import { getOptions } from '../configs';
 import { getClosestAvailableLocale } from './dictionary';
 import { $isLoading } from './loading';
+
+import type { Writable } from 'svelte/store';
+import type { ConfigureOptions } from '../types';
 
 function getSubLocales(refLocale: string) {
   return refLocale
@@ -25,11 +28,14 @@ export function getPossibleLocales(
   return locales;
 }
 
-export function createLocaleStore(isLoading: Writable<boolean>, loadingDelayInit?: number) : {
-  localeStore: Writable<string | null | undefined>,
-  getCurrentLocale: () => string | undefined
+export function createLocaleStore(
+  isLoading: Writable<boolean>,
+  options?: ConfigureOptions,
+): {
+  localeStore: Writable<string | null | undefined>;
+  getCurrentLocale: () => string | undefined;
 } {
-  let current : string | null | undefined;
+  let current: string | null | undefined;
   const internalLocale = writable<string | null | undefined>(null);
 
   function getCurrentLocale() {
@@ -39,7 +45,11 @@ export function createLocaleStore(isLoading: Writable<boolean>, loadingDelayInit
   internalLocale.subscribe((newLocale: string | null | undefined) => {
     current = newLocale ?? undefined;
 
-    if (typeof window !== 'undefined' && newLocale != null) {
+    if (
+      typeof window !== 'undefined' &&
+      newLocale != null &&
+      (options ?? getOptions()).autoLangAttribute
+    ) {
       document.documentElement.setAttribute('lang', newLocale);
     }
   });
@@ -50,7 +60,7 @@ export function createLocaleStore(isLoading: Writable<boolean>, loadingDelayInit
       getClosestAvailableLocale(newLocale) &&
       hasLocaleQueue(newLocale)
     ) {
-      const loadingDelay = loadingDelayInit ?? getOptions().loadingDelay;
+      const { loadingDelay } = options ?? getOptions();
 
       let loadingTimer: number;
 
