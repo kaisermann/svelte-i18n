@@ -1,3 +1,5 @@
+> :information_source: `svelte-i18n` is due to some reworking, like moving from a singleton to instances. This will be worked on when I find the time and priority :pray:
+
 [![npm version](https://badge.fury.io/js/svelte-i18n.svg)](https://badge.fury.io/js/svelte-i18n) ![](https://github.com/kaisermann/svelte-i18n/workflows/CI/badge.svg)
 
 # svelte-i18n
