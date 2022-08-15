@@ -1,12 +1,14 @@
-import { derived } from 'svelte/store';
+import { derived, Readable } from 'svelte/store';
 
 import type {
   MessageFormatter,
+  MessageFormatterExtended,
   MessageObject,
   TimeFormatter,
   DateFormatter,
   NumberFormatter,
   JSONGetter,
+  ConfigureOptions,
 } from '../types';
 import { lookup } from '../includes/lookup';
 import {
@@ -18,8 +20,9 @@ import {
 import { getOptions } from '../configs';
 import { $dictionary } from './dictionary';
 import { getCurrentLocale, $locale } from './locale';
+import type { Formats } from 'intl-messageformat';
 
-const formatMessage: MessageFormatter = (id, options = {}) => {
+const formatMessage: MessageFormatterExtended = (id, options, fallbackLocale, _options) => {
   let messageObj = options as MessageObject;
 
   if (typeof id === 'object') {
@@ -29,11 +32,11 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
 
   const {
     values,
-    locale = getCurrentLocale(),
+    locale = fallbackLocale,
     default: defaultValue,
   } = messageObj;
 
-  if (locale == null) {
+  if (!locale) {
     throw new Error(
       '[svelte-i18n] Cannot format a message without first setting the initial locale.',
     );
@@ -43,7 +46,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
 
   if (!message) {
     message =
-      getOptions().handleMissingMessage?.({ locale, id, defaultValue }) ??
+      _options.handleMissingMessage?.({ locale, id, defaultValue }) ??
       defaultValue ??
       id;
   } else if (typeof message !== 'string') {
@@ -61,7 +64,7 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
   let result = message;
 
   try {
-    result = getMessageFormatter(message, locale).format(values) as string;
+    result = getMessageFormatter(message, locale, _options).format(values) as string;
   } catch (e) {
     console.warn(`[svelte-i18n] Message "${id}" has syntax error:`, e.message);
   }
@@ -88,8 +91,44 @@ const getJSON: JSONGetter = <T = any>(
   return lookup(id, locale) as T;
 };
 
-export const $format = derived([$locale, $dictionary], () => formatMessage);
-export const $formatTime = derived([$locale], () => formatTime);
-export const $formatDate = derived([$locale], () => formatDate);
-export const $formatNumber = derived([$locale], () => formatNumber);
-export const $getJSON = derived([$locale, $dictionary], () => getJSON);
+function putInOptions<T1, T2 extends { locale?: string, formats?: Formats }, S>(
+  func: (first: T1, options?: T2) => S, _locale: string | undefined, _options: ConfigureOptions) :
+  (first: T1, options?: T2) => S {
+  return function (first, options) {
+    options = { ...options } as T2;
+
+    if (!options?.locale) {
+      options.locale = _locale;
+    }
+
+    if (!options?.formats) {
+      options.formats = _options.formats;
+    }
+
+    return func(first, options);
+  };
+}
+
+const normalizeLocale = (locale: string | null | undefined) => locale ?? undefined;
+
+export function createFormattingStores(localeStore: Readable<string | null | undefined>,
+  getOptions: () => ConfigureOptions) {
+  
+  return {
+    format: derived([localeStore, $dictionary], ([$locale, ]) => (id: any, options = {}) =>
+      formatMessage(id, options, normalizeLocale($locale), getOptions())),
+    formatTime: derived([localeStore], ([$locale, ]) => putInOptions(formatTime, normalizeLocale($locale), getOptions())),
+    formatDate: derived([localeStore], ([$locale, ]) => putInOptions(formatDate, normalizeLocale($locale), getOptions())),
+    formatNumber: derived([localeStore], ([$locale, ]) => putInOptions(formatNumber, normalizeLocale($locale), getOptions())),
+    getJSON: derived([localeStore, $dictionary], ([$locale, ]) => <T = any>(id: string, locale: string | undefined) =>
+      getJSON<T>(id, locale || normalizeLocale($locale))),
+  };
+}
+
+const singletonStores = createFormattingStores($locale, getOptions);
+
+export const $format: Readable<MessageFormatter> = singletonStores.format;
+export const $formatTime: Readable<TimeFormatter> = singletonStores.formatTime;
+export const $formatDate: Readable<DateFormatter> = singletonStores.formatDate;
+export const $formatNumber: Readable<NumberFormatter> = singletonStores.formatNumber;
+export const $getJSON: Readable<JSONGetter> = singletonStores.getJSON;

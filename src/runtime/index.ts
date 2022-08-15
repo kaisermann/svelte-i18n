@@ -24,6 +24,8 @@ import {
   getTimeFormatter,
   getMessageFormatter,
 } from './includes/formatters';
+import { createI18nClient, initLifecycleFuncs, setI18nClientInContext, clearI18nClientInContext,
+  setupI18nClientInComponentInit, getI18nClientInComponentInit } from './client';
 
 // defineMessages allow us to define and extract dynamic message ids
 export function defineMessages(i: Record<string, MessageObject>) {
@@ -64,4 +66,11 @@ export {
   getLocaleFromNavigator,
   getLocaleFromQueryString,
   getLocaleFromHash,
+  // Client
+  createI18nClient,
+  initLifecycleFuncs,
+  setI18nClientInContext,
+  clearI18nClientInContext,
+  setupI18nClientInComponentInit,
+  getI18nClientInComponentInit,
 };
