@@ -5,8 +5,9 @@ import { getOptions } from '../configs';
 import { getClosestAvailableLocale } from './dictionary';
 import { $isLoading } from './loading';
 
-let current: string | null | undefined;
-const internalLocale = writable<string | null | undefined>(null);
+type LocaleStoreValue = string | null | undefined;
+let current: LocaleStoreValue;
+const internalLocale = writable<LocaleStoreValue>(null);
 
 function getSubLocales(refLocale: string) {
   return refLocale
@@ -16,23 +17,25 @@ function getSubLocales(refLocale: string) {
 }
 
 export function getPossibleLocales(
-  refLocale: string,
+  referenceLocales: string | string[],
   fallbackLocale = getOptions().fallbackLocale,
 ): string[] {
-  const locales = getSubLocales(refLocale);
+  const allSubLocales = Array.isArray(referenceLocales)
+    ? referenceLocales.flatMap((locale) => getSubLocales(locale))
+    : getSubLocales(referenceLocales);
 
   if (fallbackLocale) {
-    return [...new Set([...locales, ...getSubLocales(fallbackLocale)])];
+    return [...new Set([...allSubLocales, ...getSubLocales(fallbackLocale)])];
   }
 
-  return locales;
+  return allSubLocales;
 }
 
 export function getCurrentLocale() {
   return current ?? undefined;
 }
 
-internalLocale.subscribe((newLocale: string | null | undefined) => {
+internalLocale.subscribe((newLocale: LocaleStoreValue) => {
   current = newLocale ?? undefined;
 
   if (typeof window !== 'undefined' && newLocale != null) {
@@ -40,46 +43,69 @@ internalLocale.subscribe((newLocale: string | null | undefined) => {
   }
 });
 
-const set = (newLocale: string | null | undefined): void | Promise<void> => {
-  if (
-    newLocale &&
-    getClosestAvailableLocale(newLocale) &&
-    hasLocaleQueue(newLocale)
-  ) {
-    const { loadingDelay } = getOptions();
+/**
+ * Sets the current locale and loads any pending messages
+ * for the specified locale.
+ *
+ * If an array of locales is passed, the first locale available
+ * in the dictionary will be used.
+ *
+ * Note: for a locale to be available, it must have been loaded
+ * or registered via (`addMessages` or `register`).
+ */
+const set = (
+  newLocale: string | string[] | null | undefined,
+): Promise<void> => {
+  const availableLocale = Array.isArray(newLocale)
+    ? /**
+       * if an array was passed, get the closest available locale
+       * i.e if the dictionary has 'en', 'de' and 'es' and the user requests
+       * 'it' and 'es', 'es' will be used
+       */
+      getClosestAvailableLocale(newLocale)
+    : newLocale;
 
-    let loadingTimer: number;
+  if (!hasLocaleQueue(availableLocale)) {
+    internalLocale.set(availableLocale);
 
-    // if there's no current locale, we don't wait to set isLoading to true
-    // because it would break pages when loading the initial locale
-    if (
-      typeof window !== 'undefined' &&
-      getCurrentLocale() != null &&
-      loadingDelay
-    ) {
-      loadingTimer = window.setTimeout(
-        () => $isLoading.set(true),
-        loadingDelay,
-      );
-    } else {
-      $isLoading.set(true);
-    }
-
-    return flush(newLocale as string)
-      .then(() => {
-        internalLocale.set(newLocale);
-      })
-      .finally(() => {
-        clearTimeout(loadingTimer);
-        $isLoading.set(false);
-      });
+    return Promise.resolve();
   }
 
-  return internalLocale.set(newLocale);
+  const { loadingDelay } = getOptions();
+
+  let loadingTimer: number;
+
+  // if there's no current locale, we don't wait to set isLoading to true
+  // because it would break pages when loading the initial locale
+  if (
+    typeof window !== 'undefined' &&
+    getCurrentLocale() != null &&
+    loadingDelay
+  ) {
+    loadingTimer = window.setTimeout(() => {
+      $isLoading.set(true);
+    }, loadingDelay);
+  } else {
+    $isLoading.set(true);
+  }
+
+  return flush(newLocale as string)
+    .then(() => {
+      internalLocale.set(availableLocale);
+    })
+    .finally(() => {
+      clearTimeout(loadingTimer);
+      $isLoading.set(false);
+    });
 };
 
 const $locale = {
-  ...internalLocale,
+  subscribe: internalLocale.subscribe,
+  update: (
+    fn: (value: LocaleStoreValue) => string | string[] | null | undefined,
+  ) => {
+    return set(fn(getCurrentLocale()));
+  },
   set,
 };
 

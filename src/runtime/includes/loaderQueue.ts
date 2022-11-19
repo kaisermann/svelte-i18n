@@ -101,6 +101,7 @@ export function registerLocaleLoader(locale: string, loader: MessagesLoader) {
   // istanbul ignore if
   if (getLocaleQueue(locale).has(loader)) return;
 
+  // Add an empty dictionary for this locale if it doesn't exist already
   if (!hasLocaleDictionary(locale)) {
     $dictionary.update((d) => {
       d[locale] = {};

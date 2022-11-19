@@ -4,7 +4,7 @@
     "allowJs": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "module": "es2020",
     "moduleResolution": "node",
     "skipLibCheck": true,
