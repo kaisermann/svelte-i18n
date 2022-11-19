@@ -1,7 +1,7 @@
 # Usage in Svelte Kit
 
 > The solution is *heavily* inspired by https://github.com/sveltekit-i18n/lib/issues/94#issuecomment-1247942697.
-> 
+>
 > All kudos to @jonsaw.
 > This is merely an adaptation to `svelte-i18n`.
 

@@ -47,6 +47,6 @@
 }
 ```
 
-- [Documentation](/docs/Getting%20Started.md)
-- [Sapper Template](https://github.com/kaisermann/sapper-template-i18n)
+- [Documentation / Getting Started](/docs/Getting%20Started.md)
+- [Usage with Svelte Kit](/docs/SvelteKit.md)
 - [i18n VSCode extension (3rd party)](https://github.com/antfu/i18n-ally)
