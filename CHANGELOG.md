@@ -1,3 +1,12 @@
+## [3.4.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.4.1) (2022-11-19)
+
+
+### Bug Fixes
+
+* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
+
+
+
 # [3.4.0](https://github.com/kaisermann/svelte-i18n/compare/v3.3.13...v3.4.0) (2022-04-05)
 
 
