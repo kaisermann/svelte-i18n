@@ -1,10 +1,11 @@
+import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
+import { hasLocaleQueue } from './includes/loaderQueue';
+
 import type {
   ConfigureOptions,
   ConfigureOptionsInit,
   MissingKeyHandlerInput,
 } from './types';
-import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
-import { hasLocaleQueue } from './includes/loaderQueue';
 
 interface Formats {
   number: Record<string, any>;

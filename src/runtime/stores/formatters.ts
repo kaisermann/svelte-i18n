@@ -1,13 +1,5 @@
 import { derived } from 'svelte/store';
 
-import type {
-  MessageFormatter,
-  MessageObject,
-  TimeFormatter,
-  DateFormatter,
-  NumberFormatter,
-  JSONGetter,
-} from '../types';
 import { lookup } from '../includes/lookup';
 import {
   getMessageFormatter,
@@ -18,6 +10,15 @@ import {
 import { getOptions } from '../configs';
 import { $dictionary } from './dictionary';
 import { getCurrentLocale, $locale } from './locale';
+
+import type {
+  MessageFormatter,
+  MessageObject,
+  TimeFormatter,
+  DateFormatter,
+  NumberFormatter,
+  JSONGetter,
+} from '../types';
 
 const formatMessage: MessageFormatter = (id, options = {}) => {
   let messageObj = options as MessageObject;

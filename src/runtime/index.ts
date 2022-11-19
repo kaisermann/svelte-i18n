@@ -1,4 +1,3 @@
-import type { MessageObject } from './types';
 import { getCurrentLocale, $locale } from './stores/locale';
 import { getOptions, init } from './configs';
 import { flush, registerLocaleLoader } from './includes/loaderQueue';
@@ -24,6 +23,8 @@ import {
   getTimeFormatter,
   getMessageFormatter,
 } from './includes/formatters';
+
+import type { MessageObject } from './types';
 
 // defineMessages allow us to define and extract dynamic message ids
 export function defineMessages(i: Record<string, MessageObject>) {

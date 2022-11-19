@@ -1,12 +1,13 @@
 import IntlMessageFormat from 'intl-messageformat';
 
+import { getCurrentLocale } from '../stores/locale';
+import { getOptions } from '../configs';
+import { monadicMemoize } from './memoize';
+
 import type {
   MemoizedIntlFormatter,
   MemoizedIntlFormatterOptional,
 } from '../types';
-import { getCurrentLocale } from '../stores/locale';
-import { getOptions } from '../configs';
-import { monadicMemoize } from './memoize';
 
 type MemoizedNumberFormatterFactory = MemoizedIntlFormatter<
   Intl.NumberFormat,

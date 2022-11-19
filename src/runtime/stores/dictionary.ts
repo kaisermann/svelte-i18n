@@ -1,10 +1,11 @@
 import { writable, derived } from 'svelte/store';
 import deepmerge from 'deepmerge';
 
-import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 import { getPossibleLocales } from './locale';
 import { delve } from '../../shared/delve';
 import { lookupCache } from '../includes/lookup';
+
+import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 
 let dictionary: LocalesDictionary;
 const $dictionary = writable<LocalesDictionary>({});

@@ -1,10 +1,11 @@
-import type { MessagesLoader } from '../types';
 import {
   hasLocaleDictionary,
   $dictionary,
   addMessages,
 } from '../stores/dictionary';
 import { getPossibleLocales } from '../stores/locale';
+
+import type { MessagesLoader } from '../types';
 
 type Queue = Set<MessagesLoader>;
 const queue: Record<string, Queue> = {};

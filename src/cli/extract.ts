@@ -1,4 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { walk } from 'estree-walker';
+import { parse } from 'svelte/compiler';
+
+import { deepSet } from './includes/deepSet';
+import { getObjFromExpression } from './includes/getObjFromExpression';
+import { delve } from '../shared/delve';
+
+import type { Message } from './types';
+import type { Ast } from 'svelte/types/compiler/interfaces';
 import type {
   Node,
   ObjectExpression,
@@ -8,14 +17,6 @@ import type {
   Identifier,
   Literal,
 } from 'estree';
-import { walk } from 'estree-walker';
-import type { Ast } from 'svelte/types/compiler/interfaces';
-import { parse } from 'svelte/compiler';
-
-import { deepSet } from './includes/deepSet';
-import { getObjFromExpression } from './includes/getObjFromExpression';
-import type { Message } from './types';
-import { delve } from '../shared/delve';
 
 const LIB_NAME = 'svelte-i18n';
 const DEFINE_MESSAGES_METHOD_NAME = 'defineMessages';
@@ -51,8 +52,8 @@ function isMessagesDefinitionCall(node: Node, methodName: string) {
 
 function getLibImportDeclarations(ast: Ast): ImportDeclaration[] {
   const bodyElements = [
-    ...(ast.instance?.content.body || []),
-    ...(ast.module?.content.body || []),
+    ...(ast.instance?.content.body ?? []),
+    ...(ast.module?.content.body ?? []),
   ];
 
   return bodyElements.filter(

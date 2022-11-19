@@ -1,13 +1,6 @@
 /* eslint-disable line-comment-position */
 import { get } from 'svelte/store';
 
-import type {
-  JSONGetter,
-  MessageFormatter,
-  TimeFormatter,
-  DateFormatter,
-  NumberFormatter,
-} from '../../../src/runtime/types';
 import {
   $format,
   $formatTime,
@@ -18,6 +11,14 @@ import {
 import { init } from '../../../src/runtime/configs';
 import { addMessages } from '../../../src/runtime/stores/dictionary';
 import { $locale } from '../../../src/runtime/stores/locale';
+
+import type {
+  JSONGetter,
+  MessageFormatter,
+  TimeFormatter,
+  DateFormatter,
+  NumberFormatter,
+} from '../../../src/runtime/types';
 
 let formatMessage: MessageFormatter;
 let formatTime: TimeFormatter;

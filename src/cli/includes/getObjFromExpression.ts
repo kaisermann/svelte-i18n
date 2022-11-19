@@ -1,5 +1,4 @@
 import type { ObjectExpression, Property, Identifier } from 'estree';
-
 import type { Message } from '../types';
 
 export function getObjFromExpression(exprNode: ObjectExpression): Message {
