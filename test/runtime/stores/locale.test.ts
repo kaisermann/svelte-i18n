@@ -9,70 +9,17 @@ import {
 import { getOptions, init } from '../../../src/runtime/configs';
 import { register, isLoading } from '../../../src/runtime';
 import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue';
+import { $dictionary } from '../../../src/runtime/stores/dictionary';
 
 beforeEach(() => {
   init({ fallbackLocale: undefined as any });
   $locale.set(undefined);
+  $dictionary.set({});
 });
 
 test('sets and gets the fallback locale', () => {
   init({ fallbackLocale: 'en' });
   expect(getOptions().fallbackLocale).toBe('en');
-});
-
-test('gets all possible locales from a reference locale', () => {
-  expect(getPossibleLocales('en-US')).toEqual(['en-US', 'en']);
-  expect(getPossibleLocales('az-Cyrl-AZ')).toEqual([
-    'az-Cyrl-AZ',
-    'az-Cyrl',
-    'az',
-  ]);
-});
-
-test('gets all fallback locales of a locale including the global fallback locale', () => {
-  init({ fallbackLocale: 'pt' });
-  expect(getPossibleLocales('en-US')).toEqual(['en-US', 'en', 'pt']);
-  expect(getPossibleLocales('az-Cyrl-AZ')).toEqual([
-    'az-Cyrl-AZ',
-    'az-Cyrl',
-    'az',
-    'pt',
-  ]);
-});
-
-test('remove duplicate fallback locales', () => {
-  expect(getPossibleLocales('en-AU', 'en-GB')).toEqual([
-    'en-AU',
-    'en',
-    'en-GB',
-  ]);
-});
-
-test('gets all fallback locales of a locale including the global fallback locale and its fallbacks', () => {
-  expect(getPossibleLocales('en-US', 'pt-BR')).toEqual([
-    'en-US',
-    'en',
-    'pt-BR',
-    'pt',
-  ]);
-  expect(getPossibleLocales('en-US', 'pt-BR')).toEqual([
-    'en-US',
-    'en',
-    'pt-BR',
-    'pt',
-  ]);
-  expect(getPossibleLocales('az-Cyrl-AZ', 'pt-BR')).toEqual([
-    'az-Cyrl-AZ',
-    'az-Cyrl',
-    'az',
-    'pt-BR',
-    'pt',
-  ]);
-});
-
-test("don't list fallback locale twice", () => {
-  expect(getPossibleLocales('pt-BR', 'pt-BR')).toEqual(['pt-BR', 'pt']);
-  expect(getPossibleLocales('pt', 'pt-BR')).toEqual(['pt', 'pt-BR']);
 });
 
 test('gets the current locale', () => {
@@ -142,4 +89,109 @@ test("if a locale is set, don't ignore the loading delay", async () => {
   await promise;
 
   expect(get(isLoading)).toBe(false);
+});
+
+describe('array input', () => {
+  it('sets the locale to the first available locale in the array', async () => {
+    init({ fallbackLocale: 'en' });
+
+    register('en', () => Promise.resolve({ foo: 'Foo' }));
+    register('de', () => Promise.resolve({ foo: 'Foo' }));
+    register('es', () => Promise.resolve({ foo: 'Foo' }));
+
+    expect(get($locale)).toBe('en');
+
+    await $locale.set(['it', 'es']);
+
+    expect(get($locale)).toBe('es');
+  });
+
+  it('sets the locale to the first closest available locale in the array', async () => {
+    init({ fallbackLocale: 'en' });
+
+    register('en', () => Promise.resolve({ foo: 'Foo' }));
+    register('es', () => Promise.resolve({ foo: 'Foo' }));
+
+    expect(get($locale)).toBe('en');
+
+    await $locale.set(['it', 'es-AR']);
+
+    expect(get($locale)).toBe('es');
+  });
+
+  it('sets the locale to undefined if no locale passed is available', async () => {
+    init({ fallbackLocale: 'en' });
+
+    expect(get($locale)).toBe('en');
+
+    await $locale.set(['it', 'es']);
+
+    expect(get($locale)).toBeUndefined();
+  });
+});
+
+describe('getPossibleLocales', () => {
+  it('gets all possible locales from a reference locale', () => {
+    expect(getPossibleLocales('en-US')).toEqual(['en-US', 'en']);
+    expect(getPossibleLocales('az-Cyrl-AZ')).toEqual([
+      'az-Cyrl-AZ',
+      'az-Cyrl',
+      'az',
+    ]);
+  });
+
+  it('gets all possible locales from a list of reference locales', () => {
+    expect(getPossibleLocales(['en-US', 'es-AR'])).toEqual([
+      'en-US',
+      'en',
+      'es-AR',
+      'es',
+    ]);
+  });
+
+  it('gets all fallback locales of a locale including the global fallback locale', () => {
+    init({ fallbackLocale: 'pt' });
+    expect(getPossibleLocales('en-US')).toEqual(['en-US', 'en', 'pt']);
+    expect(getPossibleLocales('az-Cyrl-AZ')).toEqual([
+      'az-Cyrl-AZ',
+      'az-Cyrl',
+      'az',
+      'pt',
+    ]);
+  });
+
+  it('remove duplicate fallback locales', () => {
+    expect(getPossibleLocales('en-AU', 'en-GB')).toEqual([
+      'en-AU',
+      'en',
+      'en-GB',
+    ]);
+  });
+
+  it('gets all fallback locales of a locale including the global fallback locale and its fallbacks', () => {
+    expect(getPossibleLocales('en-US', 'pt-BR')).toEqual([
+      'en-US',
+      'en',
+      'pt-BR',
+      'pt',
+    ]);
+    expect(getPossibleLocales('en-US', 'pt-BR')).toEqual([
+      'en-US',
+      'en',
+      'pt-BR',
+      'pt',
+    ]);
+    expect(getPossibleLocales('az-Cyrl-AZ', 'pt-BR')).toEqual([
+      'az-Cyrl-AZ',
+      'az-Cyrl',
+      'az',
+      'pt-BR',
+      'pt',
+    ]);
+  });
+
+  it("don't list fallback locale twice", () => {
+    expect(getPossibleLocales('pt-BR', 'pt-BR')).toEqual(['pt-BR', 'pt']);
+    expect(getPossibleLocales('pt', 'pt-BR')).toEqual(['pt', 'pt-BR']);
+  });
 });

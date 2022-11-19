@@ -1,3 +1,12 @@
+# [3.5.0-alpha.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.0-alpha.0) (2022-11-19)
+
+
+### Features
+
+* support using an array of locales for setting current locale ([280c5b4](https://github.com/kaisermann/svelte-i18n/commit/280c5b43fbc0a786ab8ee9e388db49d30af1a009))
+
+
+
 ## [3.4.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.4.1) (2022-11-19)
 
 

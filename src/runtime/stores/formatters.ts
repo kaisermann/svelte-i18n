@@ -34,6 +34,8 @@ const formatMessage: MessageFormatter = (id, options = {}) => {
     default: defaultValue,
   } = messageObj;
 
+  locale; //
+
   if (locale == null) {
     throw new Error(
       '[svelte-i18n] Cannot format a message without first setting the initial locale.',

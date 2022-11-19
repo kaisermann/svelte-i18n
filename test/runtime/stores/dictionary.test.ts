@@ -61,16 +61,6 @@ test('checks if a locale dictionary exists', () => {
   expect(hasLocaleDictionary('pt')).toBe(true);
 });
 
-test('gets the closest available locale', () => {
-  addMessages('pt', { field_1: 'name' });
-  expect(getClosestAvailableLocale('pt-BR')).toBe('pt');
-});
-
-test("returns null if there's no closest locale available", () => {
-  addMessages('pt', { field_1: 'name' });
-  expect(getClosestAvailableLocale('it-IT')).toBeUndefined();
-});
-
 test('lists all locales in the dictionary', () => {
   addMessages('en', {});
   addMessages('pt', {});
@@ -135,5 +125,25 @@ describe('getting messages', () => {
   it('returns undefined for missing messages', () => {
     addMessages('en', {});
     expect(getMessageFromDictionary('en', 'foo.potato')).toBeUndefined();
+  });
+});
+
+describe('getClosestAvailableLocale', () => {
+  it('gets the closest available locale', () => {
+    addMessages('pt', { field_1: 'name' });
+    expect(getClosestAvailableLocale('pt-BR')).toBe('pt');
+  });
+
+  it("returns undefined if there's no closest locale available", () => {
+    addMessages('pt', { field_1: 'name' });
+    expect(getClosestAvailableLocale('it-IT')).toBeUndefined();
+  });
+
+  it('gets the closest available locale of a list of locales', () => {
+    addMessages('pt', { field_1: 'name' });
+    addMessages('es', { field_1: 'name' });
+
+    expect(getClosestAvailableLocale(['pt-BR'])).toBe('pt');
+    expect(getClosestAvailableLocale(['es'])).toBe('es');
   });
 });
