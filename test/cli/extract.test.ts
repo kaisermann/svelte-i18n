@@ -320,7 +320,6 @@ describe('messages extraction', () => {
     `;
 
     const dict = extractMessages(markup, {
-      overwrite: false,
       accumulator: {
         home: {
           page: {
@@ -350,7 +349,6 @@ describe('messages extraction', () => {
     `;
 
     const dict = extractMessages(markup, {
-      overwrite: false,
       shallow: true,
       accumulator: {
         'home.page.title': 'Page title',

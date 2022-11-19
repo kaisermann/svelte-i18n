@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
+    "strict": true,
     "allowJs": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "sourceMap": false,
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "target": "es2017",
-    "lib": ["es2018", "dom", "esnext"],
+    "target": "es2018",
+    "lib": ["es2018", "es2020", "dom", "esnext"],
     "outDir": "dist",
     "types": ["svelte", "jest", "node"]
   }

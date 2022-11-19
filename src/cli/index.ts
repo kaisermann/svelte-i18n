@@ -66,7 +66,7 @@ program
         content = processed.code;
       }
 
-      extractMessages(content, { filePath, accumulator, shallow });
+      extractMessages(content, { accumulator, shallow });
     }
 
     const jsonDictionary = JSON.stringify(accumulator, null, '  ');

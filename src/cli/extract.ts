@@ -6,7 +6,7 @@ import { deepSet } from './includes/deepSet';
 import { getObjFromExpression } from './includes/getObjFromExpression';
 import { delve } from '../shared/delve';
 
-import type { Message } from './types';
+import type { Message, WalkerOperationThis } from './types';
 import type { Ast } from 'svelte/types/compiler/interfaces';
 import type {
   Node,
@@ -90,18 +90,27 @@ export function collectFormatCalls(ast: Ast) {
 
   const calls: CallExpression[] = [];
 
-  function enter(node: Node) {
+  function enter(this: WalkerOperationThis, node: Node) {
     if (isFormatCall(node, imports)) {
       calls.push(node as CallExpression);
       this.skip();
     }
   }
 
+  // @ts-expect-error - https://github.com/Rich-Harris/estree-walker/issues/28
   walk(ast.instance as any, { enter });
+  // @ts-expect-error - https://github.com/Rich-Harris/estree-walker/issues/28
   walk(ast.html as any, { enter });
 
   return calls;
 }
+
+// walk(ast: import("estree").BaseNode, { enter, leave }: {
+//   enter?: (this: {
+//       skip: () => void;
+//       remove: () => void;
+//       replace: (node: import("estree").BaseNode) => void;
+//   }, node: import("estree").BaseNode, parent: import("estree").BaseNode, key: string, index: number) => void;
 
 export function collectMessageDefinitions(ast: Ast) {
   const definitions: ObjectExpression[] = [];
@@ -115,7 +124,7 @@ export function collectMessageDefinitions(ast: Ast) {
     getDefineMessagesSpecifier(defineImportDecl).local.name;
 
   const nodeStepInstructions = {
-    enter(node: Node) {
+    enter(this: WalkerOperationThis, node: Node) {
       if (isMessagesDefinitionCall(node, defineMethodName) === false) return;
       const [arg] = (node as CallExpression).arguments;
 
@@ -126,7 +135,9 @@ export function collectMessageDefinitions(ast: Ast) {
     },
   };
 
+  // @ts-expect-error - https://github.com/Rich-Harris/estree-walker/issues/28
   walk(ast.instance as any, nodeStepInstructions);
+  // @ts-expect-error - https://github.com/Rich-Harris/estree-walker/issues/28
   walk(ast.module as any, nodeStepInstructions);
 
   return definitions.flatMap((definitionDict) =>
@@ -181,7 +192,13 @@ export function collectMessages(markup: string): Message[] {
 
 export function extractMessages(
   markup: string,
-  { accumulator = {}, shallow = false, overwrite = false } = {} as any,
+  {
+    accumulator = {},
+    shallow = false,
+  }: {
+    accumulator?: Record<string, any>;
+    shallow?: boolean;
+  } = {},
 ) {
   collectMessages(markup).forEach((messageObj) => {
     let defaultValue = messageObj.default;
@@ -191,18 +208,11 @@ export function extractMessages(
     }
 
     if (shallow) {
-      if (overwrite === false && messageObj.id in accumulator) {
-        return;
-      }
+      if (messageObj.id in accumulator) return;
 
       accumulator[messageObj.id] = defaultValue;
     } else {
-      if (
-        overwrite === false &&
-        typeof delve(accumulator, messageObj.id) !== 'undefined'
-      ) {
-        return;
-      }
+      if (typeof delve(accumulator, messageObj.id) !== 'undefined') return;
 
       deepSet(accumulator, messageObj.id, defaultValue);
     }
