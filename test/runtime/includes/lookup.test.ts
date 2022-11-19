@@ -54,12 +54,12 @@ test('gets an array', () => {
   });
 
   expect(lookup('careers', 'en-US')).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "description": "Description 1",
         "role": "Role 1",
       },
-      Object {
+      {
         "description": "Description 2",
         "role": "Role 2",
       },

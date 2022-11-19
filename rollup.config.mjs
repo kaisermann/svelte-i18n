@@ -1,12 +1,12 @@
+import { readFileSync } from 'fs';
+
 import commonjs from '@rollup/plugin-commonjs';
+import terser from '@rollup/plugin-terser';
 import ts from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
 import autoExternal from 'rollup-plugin-auto-external';
 import dts from 'rollup-plugin-dts';
 
-import pkg from './package.json';
-
-const PROD = !process.env.ROLLUP_WATCH;
+const pkg = JSON.parse(readFileSync('./package.json'));
 
 export default [
   // bundle runtime
@@ -21,7 +21,7 @@ export default [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
     ],
-    plugins: [commonjs(), autoExternal(), ts(), PROD && terser()],
+    plugins: [commonjs(), autoExternal(), ts(), terser()],
   },
   // bundle types for runtime
   {
