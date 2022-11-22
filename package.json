@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "3.4.1",
+  "version": "3.5.0",
   "main": "dist/runtime.cjs.js",
   "module": "dist/runtime.esm.js",
   "types": "dist/runtime.d.ts",
@@ -98,6 +98,6 @@
     "tiny-glob": "^0.2.9"
   },
   "volta": {
-    "node": "19.1.0"
+    "node": "17.5.0"
   }
 }
