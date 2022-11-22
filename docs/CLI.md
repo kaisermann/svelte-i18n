@@ -10,4 +10,4 @@ $ svelte-i18n extract [options] <glob-pattern> [output-file]
 
 - `--overwrite` - overwrite the content of the `output` file instead of just appending missing properties. Default: `false`.
 
-- `-c, --configDir` - define the directory of a [`svelte.config.js`](https://github.com/UnwrittenFun/svelte-vscode#generic-setup) in case your svelte components need to be preprocessed.
+- `-c, --config` - define the path of a `svelte.config.js` in case your svelte components need to be preprocessed.
