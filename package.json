@@ -21,6 +21,9 @@
   "engines": {
     "node": ">= 17.5.0"
   },
+  "volta": {
+    "node": "17.5.0"
+  },
   "scripts": {
     "clean": "rm -rf dist/",
     "build": "rollup -c",
@@ -96,8 +99,5 @@
     "intl-messageformat": "^9.13.0",
     "sade": "^1.8.1",
     "tiny-glob": "^0.2.9"
-  },
-  "volta": {
-    "node": "17.5.0"
   }
 }
