@@ -70,7 +70,9 @@ program
       );
     }
 
-    const svelteConfig = await import(resolvedConfigPath).catch(() => null);
+    const svelteConfig = await import(resolvedConfigPath)
+      .then((mod) => mod.default || mod)
+      .catch(() => null);
 
     let accumulator = {};
 
