@@ -19,10 +19,10 @@
     "translation"
   ],
   "engines": {
-    "node": ">= 17.5.0"
+    "node": ">= 16"
   },
   "volta": {
-    "node": "17.5.0"
+    "node": "16.0.0"
   },
   "scripts": {
     "clean": "rm -rf dist/",
