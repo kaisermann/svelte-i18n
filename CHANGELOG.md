@@ -1,3 +1,12 @@
+## [3.5.2](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.2) (2022-11-23)
+
+
+### Bug Fixes
+
+* require node 16 ([bf622da](https://github.com/kaisermann/svelte-i18n/commit/bf622da160c555180e5f48e407d64d8b6d8ef6d7))
+
+
+
 ## [3.5.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.1) (2022-11-22)
 
 
