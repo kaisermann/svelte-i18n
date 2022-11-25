@@ -1,308 +1,208 @@
 # [3.6.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.6.0) (2022-11-25)
 
-
-### Bug Fixes
-
-* better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
-* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
-* require node 16 ([bf622da](https://github.com/kaisermann/svelte-i18n/commit/bf622da160c555180e5f48e407d64d8b6d8ef6d7))
-* svelte.config not being loaded properly by CLI ([309896c](https://github.com/kaisermann/svelte-i18n/commit/309896cc7cca9018562eaa7f6845b64253900f54))
-
-
 ### Features
 
-* add unwrapFunctionStore utility ([fafa641](https://github.com/kaisermann/svelte-i18n/commit/fafa641c8151c4ceb21a1d9558b535f9eb56dbf9))
-
-
+- add unwrapFunctionStore utility ([fafa641](https://github.com/kaisermann/svelte-i18n/commit/fafa641c8151c4ceb21a1d9558b535f9eb56dbf9))
 
 ## [3.5.2](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.2) (2022-11-23)
 
-
 ### Bug Fixes
 
-* require node 16 ([bf622da](https://github.com/kaisermann/svelte-i18n/commit/bf622da160c555180e5f48e407d64d8b6d8ef6d7))
-
-
+- require node 16 ([bf622da](https://github.com/kaisermann/svelte-i18n/commit/bf622da160c555180e5f48e407d64d8b6d8ef6d7))
 
 ## [3.5.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.1) (2022-11-22)
 
-
 ### Bug Fixes
 
-* better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
-* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
-* svelte.config not being loaded properly by CLI ([309896c](https://github.com/kaisermann/svelte-i18n/commit/309896cc7cca9018562eaa7f6845b64253900f54))
-
-
+- better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
+- make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
+- svelte.config not being loaded properly by CLI ([309896c](https://github.com/kaisermann/svelte-i18n/commit/309896cc7cca9018562eaa7f6845b64253900f54))
 
 # [3.5.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.0) (2022-11-22)
 
-
 ### Bug Fixes
 
-* better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
-* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
-
-
+- better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
+- make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
 
 ## [3.4.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.4.1) (2022-11-19)
 
-
 ### Bug Fixes
 
-* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
-
-
+- make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
 
 # [3.4.0](https://github.com/kaisermann/svelte-i18n/compare/v3.3.13...v3.4.0) (2022-04-05)
 
-
 ### Features
 
-* introduce handleMissingMessage ([#175](https://github.com/kaisermann/svelte-i18n/issues/175)) ([a8b5df0](https://github.com/kaisermann/svelte-i18n/commit/a8b5df0442466ef1d805fbc48b704974b846f52c))
-
-
+- introduce handleMissingMessage ([#175](https://github.com/kaisermann/svelte-i18n/issues/175)) ([a8b5df0](https://github.com/kaisermann/svelte-i18n/commit/a8b5df0442466ef1d805fbc48b704974b846f52c))
 
 ## [3.3.13](https://github.com/kaisermann/svelte-i18n/compare/v3.3.12...v3.3.13) (2021-10-11)
 
-
 ### Bug Fixes
 
-* check modules for defineMessages imports ([#163](https://github.com/kaisermann/svelte-i18n/issues/163)) ([ec939ab](https://github.com/kaisermann/svelte-i18n/commit/ec939ab6c645995312e7f07195532f60165a3e5a))
-
-
+- check modules for defineMessages imports ([#163](https://github.com/kaisermann/svelte-i18n/issues/163)) ([ec939ab](https://github.com/kaisermann/svelte-i18n/commit/ec939ab6c645995312e7f07195532f60165a3e5a))
 
 ## [3.3.12](https://github.com/kaisermann/svelte-i18n/compare/v3.3.10...v3.3.12) (2021-09-30)
 
-
 ### Bug Fixes
 
-* fallback delve to undefined for an undefined key ([64e8ae2](https://github.com/kaisermann/svelte-i18n/commit/64e8ae2bd3f9f10e3f3bfed6ef9cb6d8616b0caa))
-
-
+- fallback delve to undefined for an undefined key ([64e8ae2](https://github.com/kaisermann/svelte-i18n/commit/64e8ae2bd3f9f10e3f3bfed6ef9cb6d8616b0caa))
 
 ## [3.3.11](https://github.com/kaisermann/svelte-i18n/compare/v3.3.10...v3.3.11) (2021-09-30)
 
-
 ### Bug Fixes
 
-* fallback delve to undefined for an undefined key ([64e8ae2](https://github.com/kaisermann/svelte-i18n/commit/64e8ae2bd3f9f10e3f3bfed6ef9cb6d8616b0caa))
-
-
+- fallback delve to undefined for an undefined key ([64e8ae2](https://github.com/kaisermann/svelte-i18n/commit/64e8ae2bd3f9f10e3f3bfed6ef9cb6d8616b0caa))
 
 ## [3.3.10](https://github.com/kaisermann/svelte-i18n/compare/v3.3.9...v3.3.10) (2021-08-24)
 
-
 ### Bug Fixes
 
-* enable typescript strictNullChecks ([bf4189a](https://github.com/kaisermann/svelte-i18n/commit/bf4189a862e36b16242aa2bb8c68c6d1b59dc486))
-
-
+- enable typescript strictNullChecks ([bf4189a](https://github.com/kaisermann/svelte-i18n/commit/bf4189a862e36b16242aa2bb8c68c6d1b59dc486))
 
 ## [3.3.9](https://github.com/kaisermann/svelte-i18n/compare/v3.3.8...v3.3.9) (2021-03-27)
 
-
 ### Bug Fixes
 
-* 🐛 only set lang attr if lang is not nullish ([1c516c9](https://github.com/kaisermann/svelte-i18n/commit/1c516c9cda45e5a25dd466947804a5cc94734d22)), closes [#133](https://github.com/kaisermann/svelte-i18n/issues/133)
-
-
+- 🐛 only set lang attr if lang is not nullish ([1c516c9](https://github.com/kaisermann/svelte-i18n/commit/1c516c9cda45e5a25dd466947804a5cc94734d22)), closes [#133](https://github.com/kaisermann/svelte-i18n/issues/133)
 
 ## [3.3.8](https://github.com/kaisermann/svelte-i18n/compare/v3.3.7...v3.3.8) (2021-03-27)
 
-
 ### Bug Fixes
 
-* 🐛 support more specific fallback locale (i.e en-GB vs en) ([5db1dbc](https://github.com/kaisermann/svelte-i18n/commit/5db1dbc3a40f9a19585f63dbacd42846e599d927)), closes [#137](https://github.com/kaisermann/svelte-i18n/issues/137)
-
-
+- 🐛 support more specific fallback locale (i.e en-GB vs en) ([5db1dbc](https://github.com/kaisermann/svelte-i18n/commit/5db1dbc3a40f9a19585f63dbacd42846e599d927)), closes [#137](https://github.com/kaisermann/svelte-i18n/issues/137)
 
 ## [3.3.7](https://github.com/kaisermann/svelte-i18n/compare/v3.3.6...v3.3.7) (2021-03-17)
 
-
 ### Bug Fixes
 
-* clear locale lookup cache when new messages are added ([#130](https://github.com/kaisermann/svelte-i18n/issues/130)) ([88ad5b2](https://github.com/kaisermann/svelte-i18n/commit/88ad5b21801eb54cbbb6a8cc9a02bb9b76bc1fbe))
-
-
+- clear locale lookup cache when new messages are added ([#130](https://github.com/kaisermann/svelte-i18n/issues/130)) ([88ad5b2](https://github.com/kaisermann/svelte-i18n/commit/88ad5b21801eb54cbbb6a8cc9a02bb9b76bc1fbe))
 
 ## [3.3.6](https://github.com/kaisermann/svelte-i18n/compare/v3.3.4...v3.3.6) (2021-02-25)
 
-
 ### Bug Fixes
 
-* 🐛 generated types directory ([396e181](https://github.com/kaisermann/svelte-i18n/commit/396e181e006819da11438f78a5c7f62cc415b5e0))
-* 🐛 support deep properties keyed with dots ([980bc18](https://github.com/kaisermann/svelte-i18n/commit/980bc18f291e550c0e4acabf7f38c2ef04843987)), closes [#129](https://github.com/kaisermann/svelte-i18n/issues/129)
-
-
+- 🐛 generated types directory ([396e181](https://github.com/kaisermann/svelte-i18n/commit/396e181e006819da11438f78a5c7f62cc415b5e0))
+- 🐛 support deep properties keyed with dots ([980bc18](https://github.com/kaisermann/svelte-i18n/commit/980bc18f291e550c0e4acabf7f38c2ef04843987)), closes [#129](https://github.com/kaisermann/svelte-i18n/issues/129)
 
 ## [3.3.5](https://github.com/kaisermann/svelte-i18n/compare/v3.3.4...v3.3.5) (2021-02-21)
 
-
 ### Bug Fixes
 
-* 🐛 support deep properties keyed with dots ([c13ed35](https://github.com/kaisermann/svelte-i18n/commit/c13ed35e5d735ef9a8dd9390c7646d9f5eda55f2)), closes [#129](https://github.com/kaisermann/svelte-i18n/issues/129)
-
-
+- 🐛 support deep properties keyed with dots ([c13ed35](https://github.com/kaisermann/svelte-i18n/commit/c13ed35e5d735ef9a8dd9390c7646d9f5eda55f2)), closes [#129](https://github.com/kaisermann/svelte-i18n/issues/129)
 
 ## [3.3.4](https://github.com/kaisermann/svelte-i18n/compare/v3.3.2...v3.3.4) (2021-02-15)
 
-
 ### Bug Fixes
 
-* crash if message has syntax error ([#128](https://github.com/kaisermann/svelte-i18n/issues/128)) ([0d623f9](https://github.com/kaisermann/svelte-i18n/commit/0d623f9884d831bc83b93eb01914628ca834ea1a))
-
-
+- crash if message has syntax error ([#128](https://github.com/kaisermann/svelte-i18n/issues/128)) ([0d623f9](https://github.com/kaisermann/svelte-i18n/commit/0d623f9884d831bc83b93eb01914628ca834ea1a))
 
 ## [3.3.3](https://github.com/kaisermann/svelte-i18n/compare/v3.3.2...v3.3.3) (2021-02-15)
 
-
-
 ## [3.3.2](https://github.com/kaisermann/svelte-i18n/compare/v3.3.1...v3.3.2) (2021-02-11)
-
 
 ### Bug Fixes
 
-* expose intl-messageformat option `ignoreTag` and default to true for backwards compatibility. ([#121](https://github.com/kaisermann/svelte-i18n/issues/121)) ([341ed7f](https://github.com/kaisermann/svelte-i18n/commit/341ed7f3633447294919e4851c9db53b72bc94c3))
-
-
+- expose intl-messageformat option `ignoreTag` and default to true for backwards compatibility. ([#121](https://github.com/kaisermann/svelte-i18n/issues/121)) ([341ed7f](https://github.com/kaisermann/svelte-i18n/commit/341ed7f3633447294919e4851c9db53b72bc94c3))
 
 ## [3.3.1](https://github.com/kaisermann/svelte-i18n/compare/v3.2.7...v3.3.1) (2021-02-11)
 
-
 ### Bug Fixes
 
-* 🐛 default $json type to any ([41d8e4d](https://github.com/kaisermann/svelte-i18n/commit/41d8e4d28b68bb0ec61f2adf3152025086c1cc7c))
-
+- 🐛 default $json type to any ([41d8e4d](https://github.com/kaisermann/svelte-i18n/commit/41d8e4d28b68bb0ec61f2adf3152025086c1cc7c))
 
 # [3.3.0](https://github.com/kaisermann/svelte-i18n/compare/v3.2.7...v3.3.0) (2020-11-24)
 
-
 ### Features
 
-* 🎸 add $json method to get raw dictionary values ([52400b5](https://github.com/kaisermann/svelte-i18n/commit/52400b5c51213b45270da101aab6e8ae2bda024c)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109) [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
-
-
+- 🎸 add $json method to get raw dictionary values ([52400b5](https://github.com/kaisermann/svelte-i18n/commit/52400b5c51213b45270da101aab6e8ae2bda024c)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109) [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
 
 ## [3.2.7](https://github.com/kaisermann/svelte-i18n/compare/v3.2.6...v3.2.7) (2020-11-23)
 
-
 ### Bug Fixes
 
-* 🐛 message formatter type ([40e6dbe](https://github.com/kaisermann/svelte-i18n/commit/40e6dbe8f7490c57b70dc96f525530f046abcda1)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109)
-
-
+- 🐛 message formatter type ([40e6dbe](https://github.com/kaisermann/svelte-i18n/commit/40e6dbe8f7490c57b70dc96f525530f046abcda1)), closes [#109](https://github.com/kaisermann/svelte-i18n/issues/109)
 
 ## [3.2.6](https://github.com/kaisermann/svelte-i18n/compare/v3.2.5...v3.2.6) (2020-11-20)
 
 ### Changed
+
 - Don't minify CLI for better debugging.
 
 ## [3.2.5](https://github.com/kaisermann/svelte-i18n/compare/v3.2.4...v3.2.5) (2020-11-08)
 
-
 ### Bug Fixes
 
-* 🐛 regression of flat keys separated by dot ([d87caef](https://github.com/kaisermann/svelte-i18n/commit/d87caef0600be10727222a2cfbe7ff391fb8ff4c))
-
-
+- 🐛 regression of flat keys separated by dot ([d87caef](https://github.com/kaisermann/svelte-i18n/commit/d87caef0600be10727222a2cfbe7ff391fb8ff4c))
 
 ## [3.2.4](https://github.com/kaisermann/svelte-i18n/compare/v3.2.3...v3.2.4) (2020-11-07)
 
-
 ### Bug Fixes
 
-* 🐛 possible interpolation value types ([0caaead](https://github.com/kaisermann/svelte-i18n/commit/0caaead4789a62daef4ea73361506a9f135b80e7))
-
-
+- 🐛 possible interpolation value types ([0caaead](https://github.com/kaisermann/svelte-i18n/commit/0caaead4789a62daef4ea73361506a9f135b80e7))
 
 ## [3.2.3](https://github.com/kaisermann/svelte-i18n/compare/v3.2.2...v3.2.3) (2020-11-06)
 
-
 ### Bug Fixes
 
-* 🐛 prevent extraction of non-deterministic message ids ([9b6adb6](https://github.com/kaisermann/svelte-i18n/commit/9b6adb6538329ecba1e32e2acdca2c4761c1d99c)), closes [#89](https://github.com/kaisermann/svelte-i18n/issues/89)
-
-
+- 🐛 prevent extraction of non-deterministic message ids ([9b6adb6](https://github.com/kaisermann/svelte-i18n/commit/9b6adb6538329ecba1e32e2acdca2c4761c1d99c)), closes [#89](https://github.com/kaisermann/svelte-i18n/issues/89)
 
 ## [3.2.2](https://github.com/kaisermann/svelte-i18n/compare/v3.2.1...v3.2.2) (2020-11-05)
 
-
 ### Bug Fixes
 
-* 🐛 update estree-walker and intl-messageformat ([44e71d7](https://github.com/kaisermann/svelte-i18n/commit/44e71d72aba1cb3263ea009932df27dd39d86cb3))
-
-
+- 🐛 update estree-walker and intl-messageformat ([44e71d7](https://github.com/kaisermann/svelte-i18n/commit/44e71d72aba1cb3263ea009932df27dd39d86cb3))
 
 ## [3.2.1](https://github.com/kaisermann/svelte-i18n/compare/v3.2.0...v3.2.1) (2020-11-05)
 
-
 ### Bug Fixes
 
-* 🐛 interpolate values for default values and missing keys ([330f20b](https://github.com/kaisermann/svelte-i18n/commit/330f20b7bd55af1e565de7ba0449a03cc24738aa)), closes [#101](https://github.com/kaisermann/svelte-i18n/issues/101)
-
-
+- 🐛 interpolate values for default values and missing keys ([330f20b](https://github.com/kaisermann/svelte-i18n/commit/330f20b7bd55af1e565de7ba0449a03cc24738aa)), closes [#101](https://github.com/kaisermann/svelte-i18n/issues/101)
 
 # [3.2.0](https://github.com/kaisermann/svelte-i18n/compare/v3.1.0...v3.2.0) (2020-11-05)
 
-
 ### Features
 
-* 🎸 Support getting deep localized objects/arrays ([ff54136](https://github.com/kaisermann/svelte-i18n/commit/ff541367f85a28ad69bb34beb145ce404b1a9240)), closes [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
-
-
+- 🎸 Support getting deep localized objects/arrays ([ff54136](https://github.com/kaisermann/svelte-i18n/commit/ff541367f85a28ad69bb34beb145ce404b1a9240)), closes [#83](https://github.com/kaisermann/svelte-i18n/issues/83)
 
 # [3.1.0](https://github.com/kaisermann/svelte-i18n/compare/v3.0.4...v3.1.0) (2020-09-20)
 
-
 ### Bug Fixes
 
-* export correct configuration type ([68e8c51](https://github.com/kaisermann/svelte-i18n/commit/68e8c51a636910bbe0619350b7d8ad6fabe13c7d))
-
-
+- export correct configuration type ([68e8c51](https://github.com/kaisermann/svelte-i18n/commit/68e8c51a636910bbe0619350b7d8ad6fabe13c7d))
 
 ## [3.0.4](https://github.com/kaisermann/svelte-i18n/compare/v3.0.3...v3.0.4) (2020-05-31)
 
-
 ### Bug Fixes
 
-* 🐛 also wait for loaders added while loading ([e560514](https://github.com/kaisermann/svelte-i18n/commit/e560514b1d957b2c4fc9b1a4f412ab93cf31d21a))
-
-
+- 🐛 also wait for loaders added while loading ([e560514](https://github.com/kaisermann/svelte-i18n/commit/e560514b1d957b2c4fc9b1a4f412ab93cf31d21a))
 
 ## [3.0.3](https://github.com/kaisermann/svelte-i18n/compare/v3.0.2...v3.0.3) (2020-03-29)
 
-
 ### Bug Fixes
 
-* 🐛 prevent server from breaking on locale.set ([07ef1da](https://github.com/kaisermann/svelte-i18n/commit/07ef1da6d5177854b4707d5f038f5a14562e6bf5)), closes [#55](https://github.com/kaisermann/svelte-i18n/issues/55)
-
-
+- 🐛 prevent server from breaking on locale.set ([07ef1da](https://github.com/kaisermann/svelte-i18n/commit/07ef1da6d5177854b4707d5f038f5a14562e6bf5)), closes [#55](https://github.com/kaisermann/svelte-i18n/issues/55)
 
 ## [3.0.2](https://github.com/kaisermann/svelte-i18n/compare/v3.0.1...v3.0.2) (2020-03-06)
 
-
 ### Bug Fixes
 
-* 🐛 ignore loadingDelay for the initialLocale ([9d82a98](https://github.com/kaisermann/svelte-i18n/commit/9d82a98e8d6ecf25dca12cce88183502e11133fe)), closes [#53](https://github.com/kaisermann/svelte-i18n/issues/53) [#53](https://github.com/kaisermann/svelte-i18n/issues/53)
-
-
+- 🐛 ignore loadingDelay for the initialLocale ([9d82a98](https://github.com/kaisermann/svelte-i18n/commit/9d82a98e8d6ecf25dca12cce88183502e11133fe)), closes [#53](https://github.com/kaisermann/svelte-i18n/issues/53) [#53](https://github.com/kaisermann/svelte-i18n/issues/53)
 
 ## [3.0.1](https://github.com/kaisermann/svelte-i18n/compare/v2.3.1...v3.0.1) (2020-02-03)
 
-
 ### Features
 
-* 🎸 add runtime typings ([7bf47d8](https://github.com/kaisermann/svelte-i18n/commit/7bf47d879006ffeec51ec112f20c74c72abe87ff)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
-* 🎸 make date,time and number formatters tree-shakeable ([6526245](https://github.com/kaisermann/svelte-i18n/commit/6526245bf9d40d25af14ec1e7acb34772a9f3f0e))
-* 🎸 make getClientLocale tree-shakeable ([31b556b](https://github.com/kaisermann/svelte-i18n/commit/31b556bc3f77bc5b581541976a82f898a398c01a))
-
+- 🎸 add runtime typings ([7bf47d8](https://github.com/kaisermann/svelte-i18n/commit/7bf47d879006ffeec51ec112f20c74c72abe87ff)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
+- 🎸 make date,time and number formatters tree-shakeable ([6526245](https://github.com/kaisermann/svelte-i18n/commit/6526245bf9d40d25af14ec1e7acb34772a9f3f0e))
+- 🎸 make getClientLocale tree-shakeable ([31b556b](https://github.com/kaisermann/svelte-i18n/commit/31b556bc3f77bc5b581541976a82f898a398c01a))
 
 ### BREAKING CHANGES
 
-* It's now needed to explicitly import the `getClientLocale` method to use
-its heuristics when setting the initial locale. This makes the method
-and its helpers to be tree-shakeable.
+- It's now needed to explicitly import the `getClientLocale` method to use
+  its heuristics when setting the initial locale. This makes the method
+  and its helpers to be tree-shakeable.
 
 ```js
 import { init, getClientLocale } from 'svelte-i18n'
@@ -311,28 +211,25 @@ init({
   initialLocale: getClientLocale({ ... })
 })
 ```
-* Changes completely the API. Now, to format a number, date or time, the
-developer must explicitly import the formatter store:
+
+- Changes completely the API. Now, to format a number, date or time, the
+  developer must explicitly import the formatter store:
 
 `import { time, date, number } from 'svelte-i18n'`
-
-
 
 # [3.0.0](https://github.com/kaisermann/svelte-i18n/compare/v2.3.1...v3.0.0) (2020-02-03)
 
-
 ### Features
 
-* 🎸 add runtime typings ([90bf171](https://github.com/kaisermann/svelte-i18n/commit/90bf171139ad6b55faa0e36b3d28d317de538985)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
-* 🎸 make date,time and number formatters tree-shakeable ([fb82a40](https://github.com/kaisermann/svelte-i18n/commit/fb82a400f349d8d997c1d14f8d16b1d5c8da7f3e))
-* 🎸 make getClientLocale tree-shakeable ([4881acb](https://github.com/kaisermann/svelte-i18n/commit/4881acb7b3a9aacd64b0f00f3b85fd736aa53316))
-
+- 🎸 add runtime typings ([90bf171](https://github.com/kaisermann/svelte-i18n/commit/90bf171139ad6b55faa0e36b3d28d317de538985)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
+- 🎸 make date,time and number formatters tree-shakeable ([fb82a40](https://github.com/kaisermann/svelte-i18n/commit/fb82a400f349d8d997c1d14f8d16b1d5c8da7f3e))
+- 🎸 make getClientLocale tree-shakeable ([4881acb](https://github.com/kaisermann/svelte-i18n/commit/4881acb7b3a9aacd64b0f00f3b85fd736aa53316))
 
 ### BREAKING CHANGES
 
-* It's now needed to explicitly import the `getClientLocale` method to use
-its heuristics when setting the initial locale. This makes the method
-and its helpers to be tree-shakeable.
+- It's now needed to explicitly import the `getClientLocale` method to use
+  its heuristics when setting the initial locale. This makes the method
+  and its helpers to be tree-shakeable.
 
 ```js
 import { init, getClientLocale } from 'svelte-i18n'
@@ -341,75 +238,55 @@ init({
   initialLocale: getClientLocale({ ... })
 })
 ```
-* Changes completely the API. Now, to format a number, date or time, the
-developer must explicitly import the formatter store:
+
+- Changes completely the API. Now, to format a number, date or time, the
+  developer must explicitly import the formatter store:
 
 `import { time, date, number } from 'svelte-i18n'`
 
-
-
 ## [2.3.1](https://github.com/kaisermann/svelte-i18n/compare/v2.3.0...v2.3.1) (2020-01-29)
-
 
 ### Bug Fixes
 
-* 🐛 types from v3 branch leaking to master branch :shrug: ([88f7762](https://github.com/kaisermann/svelte-i18n/commit/88f7762e96c4eae963722bdedf601afbce4b2f17))
-* memoizing of formatters when no locale is given. ([#47](https://github.com/kaisermann/svelte-i18n/issues/47)) ([27871f9](https://github.com/kaisermann/svelte-i18n/commit/27871f9775a96e0a2627a143635d4f4750b9f945))
-
-
+- 🐛 types from v3 branch leaking to master branch :shrug: ([88f7762](https://github.com/kaisermann/svelte-i18n/commit/88f7762e96c4eae963722bdedf601afbce4b2f17))
+- memoizing of formatters when no locale is given. ([#47](https://github.com/kaisermann/svelte-i18n/issues/47)) ([27871f9](https://github.com/kaisermann/svelte-i18n/commit/27871f9775a96e0a2627a143635d4f4750b9f945))
 
 # [2.3.0](https://github.com/kaisermann/svelte-i18n/compare/v2.2.4...v2.3.0) (2020-01-23)
 
-
 ### Features
 
-* 🎸 add runtime typings ([dadeaa2](https://github.com/kaisermann/svelte-i18n/commit/dadeaa2e7fa0d0447135f76a5c70273238fc1da0)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
-
-
+- 🎸 add runtime typings ([dadeaa2](https://github.com/kaisermann/svelte-i18n/commit/dadeaa2e7fa0d0447135f76a5c70273238fc1da0)), closes [#43](https://github.com/kaisermann/svelte-i18n/issues/43)
 
 ## [2.2.4](https://github.com/kaisermann/svelte-i18n/compare/v2.2.2...v2.2.4) (2020-01-21)
-
-
 
 ## [2.2.3](https://github.com/kaisermann/svelte-i18n/compare/v2.2.2...v2.2.3) (2020-01-15)
 
 ### Refactor
 
-* 💡 remove deepmerge and dlv dependencies ([270aefa](https://github.com/kaisermann/svelte-i18n/commit/270aefa1998d89215d8bdd1f813bdb9c690a5a2c))
-
+- 💡 remove deepmerge and dlv dependencies ([270aefa](https://github.com/kaisermann/svelte-i18n/commit/270aefa1998d89215d8bdd1f813bdb9c690a5a2c))
 
 ## [2.2.2](https://github.com/kaisermann/svelte-i18n/compare/v2.2.0...v2.2.2) (2020-01-14)
 
-
 ### Bug Fixes
 
-* 🐛 lookup message not caching correctly ([bb8c68f](https://github.com/kaisermann/svelte-i18n/commit/bb8c68f2eb7bbe658a40dc528b471ffadd5f92df))
-* 🐛 mjs causing an elusive bug in webpack module resolution ([b2dc782](https://github.com/kaisermann/svelte-i18n/commit/b2dc7828c55b23be05adb0791816cc7bc9910af2)), closes [#36](https://github.com/kaisermann/svelte-i18n/issues/36)
-
-
+- 🐛 lookup message not caching correctly ([bb8c68f](https://github.com/kaisermann/svelte-i18n/commit/bb8c68f2eb7bbe658a40dc528b471ffadd5f92df))
+- 🐛 mjs causing an elusive bug in webpack module resolution ([b2dc782](https://github.com/kaisermann/svelte-i18n/commit/b2dc7828c55b23be05adb0791816cc7bc9910af2)), closes [#36](https://github.com/kaisermann/svelte-i18n/issues/36)
 
 ## [2.2.1](https://github.com/kaisermann/svelte-i18n/compare/v2.2.0...v2.2.1) (2020-01-08)
 
-
 ### Bug Fixes
 
-* 🐛 lookup message not caching correctly ([b9b6fa4](https://github.com/kaisermann/svelte-i18n/commit/b9b6fa41ffd99b89fc117c44a5bc636335c63632))
-
-
+- 🐛 lookup message not caching correctly ([b9b6fa4](https://github.com/kaisermann/svelte-i18n/commit/b9b6fa41ffd99b89fc117c44a5bc636335c63632))
 
 # [2.2.0](https://github.com/kaisermann/svelte-i18n/compare/v2.1.1...v2.2.0) (2020-01-07)
 
-
 ### Bug Fixes
 
-* 🐛 make message formatter default to current locale ([0c57b9b](https://github.com/kaisermann/svelte-i18n/commit/0c57b9b568ba60216c4c96931da19dea97d998c4))
-
+- 🐛 make message formatter default to current locale ([0c57b9b](https://github.com/kaisermann/svelte-i18n/commit/0c57b9b568ba60216c4c96931da19dea97d998c4))
 
 ### Features
 
-* add low level API to get access to the formatters ([#31](https://github.com/kaisermann/svelte-i18n/issues/31)) ([86cca99](https://github.com/kaisermann/svelte-i18n/commit/86cca992515809b1767d648293d395562dc2946a))
-
-
+- add low level API to get access to the formatters ([#31](https://github.com/kaisermann/svelte-i18n/issues/31)) ([86cca99](https://github.com/kaisermann/svelte-i18n/commit/86cca992515809b1767d648293d395562dc2946a))
 
 ## [2.1.1](https://github.com/kaisermann/svelte-i18n/compare/v2.1.0...v2.1.1) (2019-12-02)
 
