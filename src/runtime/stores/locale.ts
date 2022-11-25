@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-import { flush, hasLocaleQueue } from '../includes/loaderQueue';
+import { flush, hasLocaleQueue } from '../modules/loaderQueue';
 import { getOptions } from '../configs';
 import { getClosestAvailableLocale } from './dictionary';
 import { $isLoading } from './loading';

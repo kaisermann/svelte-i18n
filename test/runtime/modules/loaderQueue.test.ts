@@ -3,7 +3,7 @@ import {
   flush,
   registerLocaleLoader,
   resetQueues,
-} from '../../../src/runtime/includes/loaderQueue';
+} from '../../../src/runtime/modules/loaderQueue';
 import { getMessageFromDictionary } from '../../../src/runtime/stores/dictionary';
 
 beforeEach(() => {

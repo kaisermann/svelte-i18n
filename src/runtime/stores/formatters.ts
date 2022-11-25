@@ -1,12 +1,12 @@
 import { derived } from 'svelte/store';
 
-import { lookup } from '../includes/lookup';
+import { lookup } from '../modules/lookup';
 import {
   getMessageFormatter,
   getTimeFormatter,
   getDateFormatter,
   getNumberFormatter,
-} from '../includes/formatters';
+} from '../modules/formatters';
 import { getOptions } from '../configs';
 import { $dictionary } from './dictionary';
 import { getCurrentLocale, $locale } from './locale';

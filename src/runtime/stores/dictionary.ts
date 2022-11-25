@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 
 import { getPossibleLocales } from './locale';
 import { delve } from '../../shared/delve';
-import { lookupCache } from '../includes/lookup';
+import { lookupCache } from '../modules/lookup';
 
 import type { LocaleDictionary, LocalesDictionary } from '../types/index';
 

@@ -1,5 +1,5 @@
 import { init } from '../../../src/runtime/configs';
-import { lookup, lookupCache } from '../../../src/runtime/includes/lookup';
+import { lookup, lookupCache } from '../../../src/runtime/modules/lookup';
 import {
   $dictionary,
   addMessages,

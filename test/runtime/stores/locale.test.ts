@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 
-import { lookup } from '../../../src/runtime/includes/lookup';
+import { lookup } from '../../../src/runtime/modules/lookup';
 import {
   getPossibleLocales,
   getCurrentLocale,
@@ -8,7 +8,7 @@ import {
 } from '../../../src/runtime/stores/locale';
 import { getOptions, init } from '../../../src/runtime/configs';
 import { register, isLoading } from '../../../src/runtime';
-import { hasLocaleQueue } from '../../../src/runtime/includes/loaderQueue';
+import { hasLocaleQueue } from '../../../src/runtime/modules/loaderQueue';
 
 beforeEach(() => {
   init({ fallbackLocale: undefined as any });

@@ -4,7 +4,7 @@ import {
   getLocaleFromNavigator,
   getLocaleFromPathname,
   getLocaleFromHostname,
-} from '../../../src/runtime/includes/localeGetters';
+} from '../../../src/runtime/modules/localeGetters';
 
 describe('getting client locale', () => {
   beforeEach(() => {
