@@ -1,3 +1,20 @@
+# [3.6.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.6.0) (2022-11-25)
+
+
+### Bug Fixes
+
+* better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
+* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
+* require node 16 ([bf622da](https://github.com/kaisermann/svelte-i18n/commit/bf622da160c555180e5f48e407d64d8b6d8ef6d7))
+* svelte.config not being loaded properly by CLI ([309896c](https://github.com/kaisermann/svelte-i18n/commit/309896cc7cca9018562eaa7f6845b64253900f54))
+
+
+### Features
+
+* add unwrapFunctionStore utility ([fafa641](https://github.com/kaisermann/svelte-i18n/commit/fafa641c8151c4ceb21a1d9558b535f9eb56dbf9))
+
+
+
 ## [3.5.2](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.5.2) (2022-11-23)
 
 
