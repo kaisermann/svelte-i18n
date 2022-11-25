@@ -35,7 +35,7 @@
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "prebuild": "pnpm clean",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
-    "prepublishOnly": "pnpm test && pnpm build"
+    "prepublishOnly": "pnpm test -- --no-cache && pnpm build"
   },
   "files": [
     "dist/"

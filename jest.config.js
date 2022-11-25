@@ -7,7 +7,7 @@ module.exports = {
   // [...]
   preset: 'ts-jest/presets/default-esm', // or other ESM presets
   transform: {
-    '^.+\\.tsx?$': [
+    '\\.ts$': [
       'ts-jest',
       {
         useESM: true,
