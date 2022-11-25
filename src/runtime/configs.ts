@@ -1,5 +1,5 @@
 import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
-import { hasLocaleQueue } from './includes/loaderQueue';
+import { hasLocaleQueue } from './modules/loaderQueue';
 
 import type {
   ConfigureOptions,

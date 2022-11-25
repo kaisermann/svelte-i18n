@@ -1,6 +1,6 @@
 import { defineMessages, waitLocale, register, init } from '../../src/runtime';
 import { $locale } from '../../src/runtime/stores/locale';
-import { hasLocaleQueue } from '../../src/runtime/includes/loaderQueue';
+import { hasLocaleQueue } from '../../src/runtime/modules/loaderQueue';
 import {
   getLocaleDictionary,
   $dictionary,

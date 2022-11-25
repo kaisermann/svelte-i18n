@@ -1,13 +1,13 @@
 import { getCurrentLocale, $locale } from './stores/locale';
 import { getOptions, init } from './configs';
-import { flush, registerLocaleLoader } from './includes/loaderQueue';
+import { flush, registerLocaleLoader } from './modules/loaderQueue';
 import {
   getLocaleFromHostname,
   getLocaleFromPathname,
   getLocaleFromNavigator,
   getLocaleFromQueryString,
   getLocaleFromHash,
-} from './includes/localeGetters';
+} from './modules/localeGetters';
 import { $dictionary, $locales, addMessages } from './stores/dictionary';
 import { $isLoading } from './stores/loading';
 import {
@@ -22,9 +22,10 @@ import {
   getNumberFormatter,
   getTimeFormatter,
   getMessageFormatter,
-} from './includes/formatters';
+} from './modules/formatters';
+import { unwrapFunctionStore } from './modules/unwrapFunctionStore';
 
-import type { MessageObject } from './types';
+import type { MessageObject } from './types/index';
 
 // defineMessages allow us to define and extract dynamic message ids
 export function defineMessages(i: Record<string, MessageObject>) {
@@ -60,6 +61,7 @@ export {
   getTimeFormatter,
   getMessageFormatter,
   // utils
+  unwrapFunctionStore,
   getLocaleFromHostname,
   getLocaleFromPathname,
   getLocaleFromNavigator,
