@@ -67,7 +67,7 @@ describe('format message', () => {
     );
   });
 
-  it.only('formats a message with interpolated values and invalid initial locale', () => {
+  it('formats a message with interpolated values and invalid initial locale', () => {
     init({ fallbackLocale: 'en', initialLocale: '()' });
 
     expect(formatMessage({ id: 'photos', values: { n: 0 } })).toBe(
