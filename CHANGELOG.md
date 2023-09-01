@@ -1,3 +1,12 @@
+# [3.7.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.0) (2023-07-04)
+
+
+### Features
+
+* add svelte@4 as peer dep ([c0b9fc0](https://github.com/kaisermann/svelte-i18n/commit/c0b9fc00c9f54412d78221be6050d6dcede22340))
+
+
+
 # [3.6.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.6.0) (2022-11-25)
 
 ### Features
