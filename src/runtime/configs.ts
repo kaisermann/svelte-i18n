@@ -1,3 +1,5 @@
+import { getCanonicalLocales } from '@formatjs/intl-getcanonicallocales'
+
 import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
 import { hasLocaleQueue } from './modules/loaderQueue';
 
@@ -78,7 +80,15 @@ export function getOptions() {
 export function init(opts: ConfigureOptionsInit) {
   const { formats, ...rest } = opts;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const initialLocale = opts.initialLocale || opts.fallbackLocale;
+  let initialLocale = opts.fallbackLocale;
+  if ( opts.initialLocale ) {
+    try {
+      const canonicalizedLocale = getCanonicalLocales(opts.initialLocale);
+      if ( canonicalizedLocale.length >= 1 ) {
+        initialLocale = canonicalizedLocale[0];
+      }
+    } catch {}
+  }
 
   if (rest.warnOnMissingMessages) {
     delete rest.warnOnMissingMessages;
