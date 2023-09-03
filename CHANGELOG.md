@@ -1,3 +1,12 @@
+## [3.7.3-0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.3-0) (2023-09-03)
+
+
+### Bug Fixes
+
+* use IntlMessageFormat.resolveLocale ([2e42e58](https://github.com/kaisermann/svelte-i18n/commit/2e42e58d2f9e30000d3f1eebd98498ec27203528))
+
+
+
 ## [3.7.2](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.2) (2023-09-03)
 
 
