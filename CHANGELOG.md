@@ -1,3 +1,22 @@
+## [3.7.3](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.3) (2023-09-03)
+
+
+### Bug Fixes
+
+* better handling of --config CLI parameter ([124d4b7](https://github.com/kaisermann/svelte-i18n/commit/124d4b7b58adb48292829258db393931306d3fd0))
+* make typescript strict and fix small issues ([7b49a74](https://github.com/kaisermann/svelte-i18n/commit/7b49a74f0fade6aaee42b4d137dc96d22ec55b2b))
+* require node 16 ([bf622da](https://github.com/kaisermann/svelte-i18n/commit/bf622da160c555180e5f48e407d64d8b6d8ef6d7))
+* svelte.config not being loaded properly by CLI ([309896c](https://github.com/kaisermann/svelte-i18n/commit/309896cc7cca9018562eaa7f6845b64253900f54))
+* use IntlMessageFormat.resolveLocale ([2e42e58](https://github.com/kaisermann/svelte-i18n/commit/2e42e58d2f9e30000d3f1eebd98498ec27203528))
+* validate `initialLocale` before using it ([#217](https://github.com/kaisermann/svelte-i18n/issues/217)) ([ebeec58](https://github.com/kaisermann/svelte-i18n/commit/ebeec58db57b01cd062cc215a14953fd63353e93))
+
+
+### Features
+
+* add svelte@4 as peer dep ([c0b9fc0](https://github.com/kaisermann/svelte-i18n/commit/c0b9fc00c9f54412d78221be6050d6dcede22340))
+
+
+
 ## [3.7.3-0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.3-0) (2023-09-03)
 
 
