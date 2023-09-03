@@ -79,13 +79,14 @@ export function getOptions() {
 
 export function init(opts: ConfigureOptionsInit) {
   const { formats, ...rest } = opts;
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+
   let initialLocale = opts.fallbackLocale;
 
   if (opts.initialLocale) {
     try {
       const canonicalizedLocale = getCanonicalLocales(opts.initialLocale);
 
+      // Ensure the passed locale is in the canonical form
       if (canonicalizedLocale.length >= 1) {
         initialLocale = canonicalizedLocale[0];
       }
