@@ -1,3 +1,10 @@
+## [3.7.2](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.2) (2023-09-03)
+
+
+### Chores
+
+* use esbuild for bundling.
+
 ## [3.7.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.1) (2023-09-03)
 
 
