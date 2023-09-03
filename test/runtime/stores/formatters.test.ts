@@ -67,6 +67,20 @@ describe('format message', () => {
     );
   });
 
+  it('formats a message with interpolated values and invalid initial locale', () => {
+    init({ fallbackLocale: 'en', initialLocale: '()' });
+
+    expect(formatMessage({ id: 'photos', values: { n: 0 } })).toBe(
+      'You have no photos.',
+    );
+    expect(formatMessage({ id: 'photos', values: { n: 1 } })).toBe(
+      'You have one photo.',
+    );
+    expect(formatMessage({ id: 'photos', values: { n: 21 } })).toBe(
+      'You have 21 photos.',
+    );
+  });
+
   it('formats the default value with interpolated values', () => {
     init({ fallbackLocale: 'en' });
 
