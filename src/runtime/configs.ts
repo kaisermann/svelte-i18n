@@ -1,4 +1,4 @@
-import { getCanonicalLocales } from '@formatjs/intl-getcanonicallocales';
+import IntlMessageFormat from 'intl-messageformat';
 
 import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
 import { hasLocaleQueue } from './modules/loaderQueue';
@@ -84,14 +84,14 @@ export function init(opts: ConfigureOptionsInit) {
 
   if (opts.initialLocale) {
     try {
-      const canonicalizedLocale = getCanonicalLocales(opts.initialLocale);
-
-      // Ensure the passed locale is in the canonical form
-      if (canonicalizedLocale.length >= 1) {
-        initialLocale = canonicalizedLocale[0];
+      if (IntlMessageFormat.resolveLocale(opts.initialLocale)) {
+        initialLocale = opts.initialLocale;
       }
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch {
+      console.warn(
+        `[svelte-i18n] The initial locale "${opts.initialLocale}" is not a valid locale.`,
+      );
+    }
   }
 
   if (rest.warnOnMissingMessages) {

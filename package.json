@@ -88,7 +88,6 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@formatjs/intl-getcanonicallocales": "^2.2.1",
     "cli-color": "^2.0.3",
     "deepmerge": "^4.2.2",
     "esbuild": "^0.19.2",

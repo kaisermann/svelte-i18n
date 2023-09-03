@@ -68,7 +68,7 @@ describe('format message', () => {
   });
 
   it('formats a message with interpolated values and invalid initial locale', () => {
-    init({ fallbackLocale: 'en', initialLocale: '()' });
+    init({ fallbackLocale: 'en', initialLocale: '(definitely-not-valid)' });
 
     expect(formatMessage({ id: 'photos', values: { n: 0 } })).toBe(
       'You have no photos.',
