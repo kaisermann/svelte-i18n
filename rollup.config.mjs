@@ -1,27 +1,29 @@
 import { readFileSync } from 'fs';
 
 import commonjs from '@rollup/plugin-commonjs';
-import terser from '@rollup/plugin-terser';
-import ts from '@rollup/plugin-typescript';
 import autoExternal from 'rollup-plugin-auto-external';
 import dts from 'rollup-plugin-dts';
+import esbuild from 'rollup-plugin-esbuild';
 
 const pkg = JSON.parse(readFileSync('./package.json'));
+
+const external = [
+  ...Object.keys(pkg.dependencies),
+  ...Object.keys(pkg.peerDependencies),
+  'svelte/compiler',
+  'svelte/store',
+];
 
 export default [
   // bundle runtime
   {
     input: 'src/runtime/index.ts',
-    external: [
-      ...Object.keys(pkg.dependencies),
-      ...Object.keys(pkg.peerDependencies),
-      'svelte/store',
-    ],
     output: [
       { file: pkg.module, format: 'es' },
       { file: pkg.main, format: 'cjs' },
     ],
-    plugins: [commonjs(), autoExternal(), ts(), terser()],
+    external,
+    plugins: [commonjs(), autoExternal(), esbuild()],
   },
   // bundle types for runtime
   {
@@ -40,6 +42,7 @@ export default [
         banner: `#!/usr/bin/env node`,
       },
     ],
-    plugins: [autoExternal(), commonjs(), ts()],
+    external,
+    plugins: [autoExternal(), commonjs(), esbuild()],
   },
 ];
