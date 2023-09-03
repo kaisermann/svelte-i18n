@@ -1,3 +1,12 @@
+## [3.7.1](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.1) (2023-09-03)
+
+
+### Bug Fixes
+
+* validate `initialLocale` before using it ([#217](https://github.com/kaisermann/svelte-i18n/issues/217)) ([ebeec58](https://github.com/kaisermann/svelte-i18n/commit/ebeec58db57b01cd062cc215a14953fd63353e93))
+
+
+
 # [3.7.0](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.0) (2023-07-04)
 
 
