@@ -1,4 +1,4 @@
-import { getCanonicalLocales } from '@formatjs/intl-getcanonicallocales'
+import { getCanonicalLocales } from '@formatjs/intl-getcanonicallocales';
 
 import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
 import { hasLocaleQueue } from './modules/loaderQueue';
@@ -81,13 +81,16 @@ export function init(opts: ConfigureOptionsInit) {
   const { formats, ...rest } = opts;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   let initialLocale = opts.fallbackLocale;
-  if ( opts.initialLocale ) {
+
+  if (opts.initialLocale) {
     try {
       const canonicalizedLocale = getCanonicalLocales(opts.initialLocale);
-      if ( canonicalizedLocale.length >= 1 ) {
+
+      if (canonicalizedLocale.length >= 1) {
         initialLocale = canonicalizedLocale[0];
       }
-    } catch {}
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   }
 
   if (rest.warnOnMissingMessages) {
