@@ -1,4 +1,4 @@
-import IntlMessageFormat from 'intl-messageformat';
+import { IntlMessageFormat } from 'intl-messageformat';
 
 import { $locale, getCurrentLocale, getPossibleLocales } from './stores/locale';
 import { hasLocaleQueue } from './modules/loaderQueue';

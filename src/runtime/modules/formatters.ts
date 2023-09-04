@@ -1,4 +1,4 @@
-import IntlMessageFormat from 'intl-messageformat';
+import { IntlMessageFormat } from 'intl-messageformat';
 
 import { getCurrentLocale } from '../stores/locale';
 import { getOptions } from '../configs';
