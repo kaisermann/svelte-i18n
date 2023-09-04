@@ -1,9 +1,6 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@formatjs/intl-getcanonicallocales':
-    specifier: ^2.2.1
-    version: 2.2.1
   cli-color:
     specifier: ^2.0.3
     version: 2.0.3
@@ -704,12 +701,6 @@ packages:
     resolution: {integrity: sha512-I96mOxvml/YLrwU2Txnd4klA7V8fRhb6JG/4hm3VMNmeJo1F03IpV2L3wWt7EweqNLES59SZ4d6hVOPCSf80Bg==}
     dependencies:
       '@formatjs/ecma402-abstract': 1.11.4
-      tslib: 2.4.1
-    dev: false
-
-  /@formatjs/intl-getcanonicallocales@2.2.1:
-    resolution: {integrity: sha512-KooqmyY+Mhq3ioASPzoU6p6Cy9Mx+cWSVQSP6lF+vEW2tiaN90ti08cp82p1dzFschenduOYgPKrNcBpsDi6+g==}
-    dependencies:
       tslib: 2.4.1
     dev: false
 
