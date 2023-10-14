@@ -19,8 +19,8 @@ export default [
   {
     input: 'src/runtime/index.ts',
     output: [
-      { file: pkg.module, format: 'es' },
-      { file: pkg.main, format: 'cjs' },
+      { file: pkg.main, format: 'es' },
+      { file: pkg.exports.require, format: 'cjs' },
     ],
     external,
     plugins: [commonjs(), autoExternal(), esbuild()],
