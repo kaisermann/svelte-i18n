@@ -18,10 +18,7 @@ export default [
   // bundle runtime
   {
     input: 'src/runtime/index.ts',
-    output: [
-      { file: pkg.main, format: 'es' },
-      { file: pkg.exports.require, format: 'cjs' },
-    ],
+    output: [{ file: pkg.main, format: 'es' }],
     external,
     plugins: [commonjs(), autoExternal(), esbuild()],
   },
