@@ -5,8 +5,7 @@
   "main": "dist/runtime.js",
   "exports": {
     "types": "./dist/runtime.d.ts",
-    "import": "./dist/runtime.js",
-    "require": "./dist/runtime.cjs"
+    "default": "./dist/runtime.js"
   },
   "types": "dist/runtime.d.ts",
   "bin": {
@@ -40,7 +39,7 @@
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "prebuild": "pnpm clean",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
-    "prepublishOnly": "pnpm test -- --no-cache && pnpm build"
+    "prepublishOnly": "pnpm test -- --no-cache && pnpm build && publint"
   },
   "files": [
     "dist/"
@@ -82,6 +81,7 @@
     "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.0.3",
     "prettier": "^3.0.3",
+    "publint": "^0.2.4",
     "rollup": "^3.28.1",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-dts": "^6.0.1",
