@@ -1,6 +1,6 @@
 {
   "name": "svelte-i18n",
-  "version": "3.7.4",
+  "version": "3.7.5-alpha.1",
   "main": "dist/runtime.cjs.js",
   "module": "dist/runtime.esm.js",
   "types": "dist/runtime.d.ts",
@@ -35,7 +35,7 @@
     "release": " git add package.json && git commit -m \"chore(release): v$npm_package_version :tada:\"",
     "prebuild": "pnpm clean",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1 && git add CHANGELOG.md",
-    "prepublishOnly": "pnpm test -- --no-cache && pnpm build"
+    "prepublishOnly": "pnpm test -- --no-cache && pnpm build && publint"
   },
   "files": [
     "dist/"
@@ -77,11 +77,11 @@
     "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.0.3",
     "prettier": "^3.0.3",
+    "publint": "^0.2.4",
     "rollup": "^3.28.1",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-dts": "^6.0.1",
     "rollup-plugin-esbuild": "^5.0.0",
-    "sass": "^1.56.1",
     "svelte": "^3.53.1",
     "svelte-preprocess": "^5.0.4",
     "ts-jest": "^29.0.3",
@@ -92,7 +92,7 @@
     "deepmerge": "^4.2.2",
     "esbuild": "^0.19.2",
     "estree-walker": "^2",
-    "intl-messageformat": "^9.13.0",
+    "intl-messageformat": "^10.5.3",
     "sade": "^1.8.1",
     "tiny-glob": "^0.2.9"
   }
