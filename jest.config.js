@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+export default {
   testEnvironment: 'jsdom',
   collectCoverage: true,
   testMatch: ['<rootDir>/test/**/*.test.ts'],
