@@ -38,7 +38,7 @@ export default [
       {
         file: pkg.bin['svelte-i18n'],
         name: 'cli.js',
-        format: 'cjs',
+        format: 'es',
         banner: `#!/usr/bin/env node`,
       },
     ],
