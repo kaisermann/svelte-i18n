@@ -18,7 +18,7 @@ To help us help you, if you've found a bug please consider the following:
 - Please create a small repo that illustrates the problem.
 - Reproductions should be small, self-contained, correct examples – http://sscce.org.
 
-Occasionally, this won't be possible, and that's fine – we still appreciate you raising the issue. But please understand that `svelte-preprocess` is run by unpaid volunteers in their free time, and issues that follow these instructions will get fixed faster.
+Occasionally, this won't be possible, and that's fine – we still appreciate you raising the issue. But please understand that `svelte-i18n` is run by unpaid volunteers in their free time, and issues that follow these instructions will get fixed faster.
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
