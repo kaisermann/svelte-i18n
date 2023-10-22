@@ -26,6 +26,30 @@ describe('collecting format calls', () => {
     expect(calls).toHaveLength(0);
   });
 
+  it('returns nothing if import from wrong lib', () => {
+    const ast = parse(`<script>
+      import { _ } from '../helpers/i18n'
+      let label = $_('bar')
+    </script>`);
+
+    const calls = collectFormatCalls(ast);
+
+    expect(calls).toHaveLength(0);
+  });
+
+  it('returns all format calls if import from wrong lib and import-check is disabled', () => {
+    const ast = parse(`<script>
+      import { _ } from '../helpers/i18n'
+      let label = $_('bar')
+    </script>`);
+
+    const ignoreLib = true;
+    const calls = collectFormatCalls(ast, ignoreLib);
+
+    expect(calls).toHaveLength(1);
+    expect(calls[0]).toMatchObject({ type: 'CallExpression' });
+  });
+
   it('returns nothing if there are no format imports', () => {
     const ast = parse(
       `<script>
