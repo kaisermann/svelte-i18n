@@ -150,3 +150,11 @@ After having the initial locale set, you're ready to start localizing your app. 
 ```
 
 See [Formatting](/docs/Formatting.md) to read about the supported message syntax and all the available formatters.
+
+You can switch the current locale in your app using `locale` –
+```svelte
+<script>
+  import { locale } from 'svelte-i18n';
+  locale.set('pt');
+</script>
+```
