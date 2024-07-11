@@ -210,4 +210,34 @@ describe('message formatter', () => {
       }),
     ).toBe('Page: <soan class="text-bold">2/10</soan>');
   });
+
+  it('formats a message with interpolated number according to the provided locale', () => {
+    expect(
+      getMessageFormatter('{count, number} pages', 'en').format({
+        count: 10_000,
+      }),
+    ).toBe('10,000 pages');
+
+    expect(
+      getMessageFormatter('{count, number} pages', 'nl').format({
+        count: 10_000,
+      }),
+    ).toBe('10.000 pages');
+  });
+
+  it('formats a message with interpolated number according to the currently set locale', () => {
+    locale.set('en');
+    expect(
+      getMessageFormatter('{count, number} pages').format({
+        count: 10_000,
+      }),
+    ).toBe('10,000 pages');
+
+    locale.set('nl');
+    expect(
+      getMessageFormatter('{count, number} pages').format({
+        count: 10_000,
+      }),
+    ).toBe('10.000 pages');
+  });
 });
