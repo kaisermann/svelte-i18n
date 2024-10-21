@@ -1,24 +1,27 @@
-# [4.0.0](https://github.com/kaisermann/svelte-i18n/compare/v3.7.4...v4.0.0) (2023-10-16)
+## [4.0.1](https://github.com/kaisermann/svelte-i18n/compare/v3.7.4...v4.0.1) (2024-10-21)
 
+### Features
+
+- allow svelte@5 as peer dep ([#253](https://github.com/kaisermann/svelte-i18n/issues/253)) ([79c5fbb](https://github.com/kaisermann/svelte-i18n/commit/79c5fbbaa9bf62ee15c43de2a10fd24530eab5a3))
+
+# [4.0.0](https://github.com/kaisermann/svelte-i18n/compare/v3.7.4...v4.0.0) (2023-10-16)
 
 ### Bug Fixes
 
-* make package esm-only ([d54ee67](https://github.com/kaisermann/svelte-i18n/commit/d54ee678e14c7fdffe7be9ecda65813742aac95e))
-* remove node 14 from tests ([458a759](https://github.com/kaisermann/svelte-i18n/commit/458a75901824a11d22a6917ffc41448f62cf7449))
-
+- make package esm-only ([d54ee67](https://github.com/kaisermann/svelte-i18n/commit/d54ee678e14c7fdffe7be9ecda65813742aac95e))
+- remove node 14 from tests ([458a759](https://github.com/kaisermann/svelte-i18n/commit/458a75901824a11d22a6917ffc41448f62cf7449))
 
 ### BREAKING CHANGES
 
-* package is now esm-only
+- package is now esm-only
 
-* chore(deps-dev): bump postcss from 8.4.29 to 8.4.31
+- chore(deps-dev): bump postcss from 8.4.29 to 8.4.31
 
 Bumps [postcss](https://github.com/postcss/postcss) from 8.4.29 to 8.4.31.
+
 - [Release notes](https://github.com/postcss/postcss/releases)
 - [Changelog](https://github.com/postcss/postcss/blob/main/CHANGELOG.md)
 - [Commits](https://github.com/postcss/postcss/compare/8.4.29...8.4.31)
-
-
 
 ## [3.7.4](https://github.com/kaisermann/svelte-i18n/compare/v3.4.0...v3.7.4) (2023-09-04)
 
