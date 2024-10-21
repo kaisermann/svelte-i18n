@@ -50,7 +50,10 @@ function isMessagesDefinitionCall(node: Node, methodName: string) {
   );
 }
 
-function getLibImportDeclarations(ast: Ast): ImportDeclaration[] {
+function getLibImportDeclarations(
+  ast: Ast,
+  ignoreImport: boolean,
+): ImportDeclaration[] {
   const bodyElements = [
     ...(ast.instance?.content.body ?? []),
     ...(ast.module?.content.body ?? []),
@@ -58,7 +61,8 @@ function getLibImportDeclarations(ast: Ast): ImportDeclaration[] {
 
   return bodyElements.filter(
     (node) =>
-      node.type === 'ImportDeclaration' && node.source.value === LIB_NAME,
+      node.type === 'ImportDeclaration' &&
+      (node.source.value === LIB_NAME || ignoreImport),
   ) as ImportDeclaration[];
 }
 
@@ -75,8 +79,8 @@ function getFormatSpecifiers(decl: ImportDeclaration) {
   ) as ImportSpecifier[];
 }
 
-export function collectFormatCalls(ast: Ast) {
-  const importDecls = getLibImportDeclarations(ast);
+export function collectFormatCalls(ast: Ast, ignoreLib = false) {
+  const importDecls = getLibImportDeclarations(ast, ignoreLib);
 
   if (importDecls.length === 0) return [];
 
@@ -112,9 +116,9 @@ export function collectFormatCalls(ast: Ast) {
 //       replace: (node: import("estree").BaseNode) => void;
 //   }, node: import("estree").BaseNode, parent: import("estree").BaseNode, key: string, index: number) => void;
 
-export function collectMessageDefinitions(ast: Ast) {
+export function collectMessageDefinitions(ast: Ast, ignoreImport = false) {
   const definitions: ObjectExpression[] = [];
-  const defineImportDecl = getLibImportDeclarations(ast).find(
+  const defineImportDecl = getLibImportDeclarations(ast, ignoreImport).find(
     getDefineMessagesSpecifier,
   );
 
@@ -155,10 +159,13 @@ export function collectMessageDefinitions(ast: Ast) {
   );
 }
 
-export function collectMessages(markup: string): Message[] {
+export function collectMessages(
+  markup: string,
+  ignoreImport = false,
+): Message[] {
   const ast = parse(markup);
-  const calls = collectFormatCalls(ast);
-  const definitions = collectMessageDefinitions(ast);
+  const calls = collectFormatCalls(ast, ignoreImport);
+  const definitions = collectMessageDefinitions(ast, ignoreImport);
 
   return [
     ...definitions.map((definition) => getObjFromExpression(definition)),
@@ -194,13 +201,15 @@ export function extractMessages(
   markup: string,
   {
     accumulator = {},
+    ignoreImport = false,
     shallow = false,
   }: {
     accumulator?: Record<string, any>;
+    ignoreImport?: boolean;
     shallow?: boolean;
   } = {},
 ) {
-  collectMessages(markup).forEach((messageObj) => {
+  collectMessages(markup, ignoreImport).forEach((messageObj) => {
     let defaultValue = messageObj.default;
 
     if (typeof defaultValue === 'undefined') {

@@ -51,11 +51,13 @@ program
     'path to the "svelte.config.js" file',
     `${process.cwd()}/svelte.config.js`,
   )
-  .action(async (globStr, output, { shallow, overwrite, config }) => {
+  .option('--unsave', 'disable the import-lib validation', false)
+  .action(async (globStr, output, { shallow, overwrite, config, unsave }) => {
     const filesToExtract = (await glob(globStr)).filter((file) =>
       file.match(/\.html|svelte$/i),
     );
 
+    const ignoreImport = unsave;
     const isConfigDir = await isDirectory(config);
     const resolvedConfigPath = resolve(
       config,
@@ -98,7 +100,7 @@ program
           content = processed.code;
         }
 
-        extractMessages(content, { accumulator, shallow });
+        extractMessages(content, { accumulator, shallow, ignoreImport });
       } catch (e: unknown) {
         if (
           isSvelteError(e, 'parse-error') &&
