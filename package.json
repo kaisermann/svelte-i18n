@@ -55,7 +55,7 @@
     ]
   },
   "peerDependencies": {
-    "svelte": "^3 || ^4"
+    "svelte": "^3 || ^4 || ^5"
   },
   "devDependencies": {
     "@kiwi/eslint-config": "^2.2.8",
