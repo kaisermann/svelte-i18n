@@ -29,6 +29,16 @@ type MemoizedDateTimeFormatterFactoryOptional = MemoizedIntlFormatterOptional<
   Intl.DateTimeFormatOptions
 >;
 
+type MemoizedMessageFormatterFactory = (options: {
+  message: string;
+  locale: string;
+}) => IntlMessageFormat;
+
+type MemoizedMessageFormatterFactoryOptional = (
+  message: string,
+  locale?: string,
+) => IntlMessageFormat;
+
 const getIntlFormatterOptions = (
   type: 'time' | 'number' | 'date',
   name: string,
@@ -90,6 +100,13 @@ const createTimeFormatter: MemoizedDateTimeFormatterFactory = monadicMemoize(
   },
 );
 
+const createMessageFormatter: MemoizedMessageFormatterFactory = monadicMemoize(
+  ({ message, locale }) =>
+    new IntlMessageFormat(message, locale, getOptions().formats, {
+      ignoreTag: getOptions().ignoreTag,
+    }),
+);
+
 export const getNumberFormatter: MemoizedNumberFormatterFactoryOptional = ({
   locale = getCurrentLocale(),
   ...args
@@ -105,10 +122,8 @@ export const getTimeFormatter: MemoizedDateTimeFormatterFactoryOptional = ({
   ...args
 } = {}) => createTimeFormatter({ locale, ...args });
 
-export const getMessageFormatter = monadicMemoize(
+export const getMessageFormatter: MemoizedMessageFormatterFactoryOptional = (
+  message,
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  (message: string, locale: string = getCurrentLocale()!) =>
-    new IntlMessageFormat(message, locale, getOptions().formats, {
-      ignoreTag: getOptions().ignoreTag,
-    }),
-);
+  locale = getCurrentLocale()!,
+) => createMessageFormatter({ message, locale });
